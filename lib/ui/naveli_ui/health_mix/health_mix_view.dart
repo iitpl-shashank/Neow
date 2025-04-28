@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
-import 'package:naveli_2023/utils/constant.dart';
 import 'package:provider/provider.dart';
-
 import '../../../generated/i18n.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widgets/scaffold_bg.dart';
@@ -72,78 +70,69 @@ class _HealthMixViewState extends State<HealthMixView>
 
   void getPostList() {
     if (selectedTabIndex == 0) {
-       if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 1,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 1,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 1, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 1, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 1,type: "popular");
-       }
+        mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
+      }
     } else if (selectedTabIndex == 1) {
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 2,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 2,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 2, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 2, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 2,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
       }
     } else if (selectedTabIndex == 2) {
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 3,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 3,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 3, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 3, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 3,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
       }
     } else if (selectedTabIndex == 3) {
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 4,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 4,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 4, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 4, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 4,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
       }
     } else if (selectedTabIndex == 4) {
-
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 5,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 5,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 5, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 5, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 5,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
       }
-
     } else if (selectedTabIndex == 5) {
-
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 6,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 6,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 6, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 6, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 6,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
       }
-
     } else if (selectedTabIndex == 6) {
-
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 7,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 7,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 7, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 7, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 7,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
       }
-
-
     } else if (selectedTabIndex == 7) {
-
-      if(selectedTabIndex2 == 1){
-        mViewModel.getHealthMixPostsApi(titleId: 8,type: "latest");
-      } else if(selectedTabIndex2 == 2){
-        mViewModel.getHealthMixPostsApi(titleId: 8,type: "saved");
+      if (selectedTabIndex2 == 1) {
+        mViewModel.getHealthMixPostsApi(titleId: 8, type: "latest");
+      } else if (selectedTabIndex2 == 2) {
+        mViewModel.getHealthMixPostsApi(titleId: 8, type: "saved");
       } else {
-        mViewModel.getHealthMixPostsApi(titleId: 8,type: "popular");
+        mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
       }
-
     }
   }
 
@@ -290,34 +279,44 @@ class _HealthMixViewState extends State<HealthMixView>
               //   );
               // }).toList()),
               // kCommonSpaceV20,
-                  Expanded(
-                    child: SingleChildScrollView(
-                       padding: EdgeInsets.only(left: 15),
-                      child: Wrap(
-                        spacing: 15.0, // space between items horizontally
-                        runSpacing: 0.0, // space between lines
-                        children: List.generate(
-                          mViewModel.healthPostsList.length,
-                              (index) {
-                            final item = mViewModel.healthPostsList[index];
-                            final isImage = item.mediaType == 'image';
-                            final mediaUrl = item.media ?? "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg";
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Wrap(
+                    spacing: 15.0, // space between items horizontally
+                    runSpacing: 0.0, // space between lines
+                    children: List.generate(
+                      mViewModel.healthPostsList.length,
+                      (index) {
+                        final item = mViewModel.healthPostsList[index];
+                        final isImage = item.mediaType == 'image';
+                        final mediaUrl = item.mediaType == "image"
+                            ? item.media
+                            : (item.thumbnail!.contains(".png")
+                                ? item.thumbnail
+                                : "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg");
 
-                            return GestureDetector(
-                              onTap: () {
-                                push(PostList(position: index, selectedTabIndex: selectedTabIndex));
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 2 - 20, // approx half-width with padding
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        return GestureDetector(
+                          onTap: () {
+                            push(PostList(
+                                position: index,
+                                selectedTabIndex: selectedTabIndex));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2 -
+                                20, // approx half-width with padding
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             blurRadius: 5,
                                             offset: const Offset(0, 2),
                                           ),
@@ -326,55 +325,81 @@ class _HealthMixViewState extends State<HealthMixView>
                                       height: 150,
                                       width: double.infinity,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: isImage
-                                            ? Image.network(mediaUrl, fit: BoxFit.cover)
-                                            : Align(
-                                          alignment: Alignment.center,
-                                          child: Image.network(
-                                            "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                                            height: 110,
+                                          padding: const EdgeInsets.all(8.0),
+                                          child:
+                                              // isImage
+                                              //     ?
+                                              Image.network(mediaUrl!,
+                                                  fit: BoxFit.cover, scale: 0.5,)
+                                          // : Align(
+                                          //     alignment: Alignment.center,
+                                          //     child: Image.network(
+                                          //       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png",
+                                          //       height: 110,
+                                          //     ),
+                                          //   ),
                                           ),
+                                    ),
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          isImage
+                                              ? Icons.image
+                                              : Icons.videocam,
+                                          color: Colors.white,
+                                          size: 14,
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Text(
-                                        item.description ?? '',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Text(
-                                        item.diffrenceTime ?? '',
-                                        style: TextStyle(
-                                          color: CommonColors.blackColor.withOpacity(0.6),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
                                   ],
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                                const SizedBox(height: 5),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text(
+                                    item.description ?? '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text(
+                                    item.diffrenceTime ?? '',
+                                    style: TextStyle(
+                                      color: CommonColors.blackColor
+                                          .withOpacity(0.6),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  )
+                  ),
+                ),
+              )
 
-                  /* GridView.builder(
+              /* GridView.builder(
                   scrollDirection:Axis.vertical,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

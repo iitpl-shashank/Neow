@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,10 +52,24 @@ Future<void> main() async {
   await NotificationService().initService();
   // await NotificationService.initializeNotification();
   // tz.initializeTimeZones();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
-
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Message received in background: ${message.notification?.title}, ${message.notification?.body}');
+  print(
+      'Message received in background: ${message.notification?.title}, ${message.notification?.body}');
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        print('Certificate: $cert');
+        print('Host: $host');
+        print('Port: $port');
+        return true; // Allow all certificates (for debugging only)
+      };
+  }
 }

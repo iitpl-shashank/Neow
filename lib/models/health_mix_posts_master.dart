@@ -64,8 +64,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (_healthMixPosts != null) {
-      data['HealthMixPosts'] =
-          _healthMixPosts!.map((v) => v.toJson()).toList();
+      data['HealthMixPosts'] = _healthMixPosts!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -78,18 +77,20 @@ class HealthMixPosts {
   String? _mediaType;
   String? _hashtags;
   String? _description;
+  String? _thumbnail;
   String? _createdAt;
   String? _diffrenceTime;
 
   HealthMixPosts(
       {int? id,
-        int? healthType,
-        String? media,
-        String? mediaType,
-        String? hashtags,
-        String? description,
-        String? createdAt,
-        String? diffrenceTime}) {
+      int? healthType,
+      String? media,
+      String? mediaType,
+      String? hashtags,
+      String? description,
+      String? createdAt,
+      String? diffrenceTime,
+      String? thumbnail}) {
     if (id != null) {
       _id = id;
     }
@@ -114,6 +115,9 @@ class HealthMixPosts {
     if (diffrenceTime != null) {
       _diffrenceTime = diffrenceTime;
     }
+    if (thumbnail != null) {
+      _thumbnail = thumbnail;
+    }
   }
 
   int? get id => _id;
@@ -132,6 +136,8 @@ class HealthMixPosts {
   set createdAt(String? createdAt) => _createdAt = createdAt;
   String? get diffrenceTime => _diffrenceTime;
   set diffrenceTime(String? diffrenceTime) => _diffrenceTime = diffrenceTime;
+  set thumbnail(String? thumbnail) => _thumbnail = thumbnail;
+  String? get thumbnail => _thumbnail;
 
   HealthMixPosts.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
@@ -142,6 +148,7 @@ class HealthMixPosts {
     _description = json['description'];
     _createdAt = json['created_at'];
     _diffrenceTime = json['diffrence_time'];
+    _thumbnail = json['thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -154,6 +161,7 @@ class HealthMixPosts {
     data['description'] = _description;
     data['created_at'] = _createdAt;
     data['diffrence_time'] = _diffrenceTime;
+    data['thumbnail'] = _thumbnail;
     return data;
   }
 }

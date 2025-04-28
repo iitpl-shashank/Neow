@@ -8,10 +8,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:naveli_2023/utils/date_utils.dart';
-
 import '../../../database/app_preferences.dart';
-import '../../../models/cycle_dates_master.dart';
 import '../../../models/period_phase_model.dart';
 import '../../../models/slider_video_master.dart';
 import '../../../services/api_para.dart';
@@ -106,17 +103,31 @@ class HomeViewModel with ChangeNotifier {
   }
 
   Future<void> getDialogBox(BuildContext context) async {
-    Map<String, dynamic> master = await _services.api!.getDialogBoxData();
-    showDysmenorrheaDialog(context, master);
-    // generateDaysList();
+    isLoading = true; // Start loading
+    notifyListeners();
+
+    try {
+      debugPrint("Fetching dialog box data...");
+      Map<String, dynamic> master = await _services.api!.getDialogBoxData();
+      debugPrint("Dialog box data fetched: $master");
+      showDysmenorrheaDialog(context, master);
+    } catch (e) {
+      debugPrint("Error in getDialogBox: $e");
+    } finally {
+      isLoading = false; // Stop loading
+      notifyListeners();
+      debugPrint("getDialogBox completed, isLoading: $isLoading");
+    }
   }
-  void showDysmenorrheaDialog(BuildContext context,Map<String,dynamic> data) {
-    debugPrint("showDysmenorrheaDialog");
+
+  void showDysmenorrheaDialog(BuildContext context, Map<String, dynamic> data) {
+    debugPrint("showDysmenorrheaDialog called");
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
             width: 340, // Custom dimensions, responsive if needed
             padding: const EdgeInsets.all(16),
@@ -212,6 +223,112 @@ class HomeViewModel with ChangeNotifier {
     );
   }
 
+  // Future<void> getDialogBox(BuildContext context) async {
+  //   Map<String, dynamic> master = await _services.api!.getDialogBoxData();
+  //   showDysmenorrheaDialog(context, master);
+  //   // generateDaysList();
+  // }
+  // void showDysmenorrheaDialog(BuildContext context,Map<String,dynamic> data) {
+  //   debugPrint("showDysmenorrheaDialog");
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Dialog(
+  //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  //         child: Container(
+  //           width: 340, // Custom dimensions, responsive if needed
+  //           padding: const EdgeInsets.all(16),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               /// Header row
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   const Text(
+  //                     "Dysmenorrhea",
+  //                     style: TextStyle(
+  //                       color: Colors.red,
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 18,
+  //                     ),
+  //                   ),
+  //                   GestureDetector(
+  //                     onTap: () => Navigator.pop(context),
+  //                     child: const Icon(Icons.close),
+  //                   ),
+  //                 ],
+  //               ),
+  //               const SizedBox(height: 4),
+  //               const Align(
+  //                 alignment: Alignment.centerLeft,
+  //                 child: Text(
+  //                   "(severe pain)",
+  //                   style: TextStyle(fontSize: 14, color: Colors.black87),
+  //                 ),
+  //               ),
+
+  //               const SizedBox(height: 16),
+
+  //               /// Image and speech bubble
+  //               Stack(
+  //                 alignment: Alignment.topRight,
+  //                 children: [
+  //                   Image.asset(
+  //                     'assets/images/ic_server_img.png',
+  //                     height: 160,
+  //                   ),
+  //                 ],
+  //               ),
+
+  //               const SizedBox(height: 20),
+
+  //               /// Description
+  //               const Align(
+  //                 alignment: Alignment.centerLeft,
+  //                 child: Text(
+  //                   "Possible cause may be:",
+  //                   style: TextStyle(
+  //                     fontWeight: FontWeight.w600,
+  //                     fontSize: 16,
+  //                   ),
+  //                 ),
+  //               ),
+
+  //               const SizedBox(height: 8),
+
+  //               /// Bulleted list
+  //               const Align(
+  //                 alignment: Alignment.centerLeft,
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text("• Fibroids"),
+  //                     Text("• Endometriosis"),
+  //                     Text("• Pelvic Infections"),
+  //                     Text("• Cyst"),
+  //                   ],
+  //                 ),
+  //               ),
+
+  //               const SizedBox(height: 20),
+
+  //               /// CTA
+  //               const Text(
+  //                 "Get examined today!",
+  //                 style: TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                   fontSize: 16,
+  //                   color: Colors.black87,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   List<DateTime> calculateCycleDatesInYear(
       DateTime previousDate, int cycleLength) {
@@ -805,7 +922,6 @@ class HomeViewModel with ChangeNotifier {
     selectedDate = modifiedDate;
     notifyListeners();
     getDateWiseText();
-
   }
 
   void startSlider() {
@@ -900,7 +1016,7 @@ class HomeViewModel with ChangeNotifier {
     //CommonUtils.hideProgressDialog();
     // var data = jsonDecode(master.data.toString());
     // debugPrint("data ====>$data");
-await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 1));
     if (master == null) {
       CommonUtils.oopsMSG();
       print(
@@ -930,7 +1046,6 @@ await Future.delayed(Duration(seconds: 1));
 
       //check period whithin 14 days
       if (peroidCustomeList.length > 1) {
-
         // DateTime firstPeriodLastDate =
         //     DateTime.parse(peroidCustomeList[0].period_end_date);
         // DateTime secondPeriodStartDate =
@@ -963,24 +1078,22 @@ await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
-
   Future<void> getDateWiseText() async {
-    //CommonUtils.showProgressDialog();
+    // CommonUtils.showProgressDialog();
     isLoading = true;
+    notifyListeners();
     dynamic body = {};
     body = {
       "clicked_date": DateFormat('yyyy-MM-dd').format(selectedDate).toString(),
     };
-    debugPrint("selectedDate ====>${DateFormat('yyyy-MM-dd').format(selectedDate)}");
+    debugPrint(
+        "selectedDate ====>${DateFormat('yyyy-MM-dd').format(selectedDate)}");
     debugPrint("selectedDate ====>${body}");
 
-
-      Map<String, dynamic> response =
-          await _services.api!.getDateWiseText(params: body);
-      debugPrint("response in main response====>${response}");
-      dateWiseTextList = ApiResponse.fromJson(response);
-
-
+    Map<String, dynamic> response =
+        await _services.api!.getDateWiseText(params: body);
+    debugPrint("response in main response====>${response}");
+    dateWiseTextList = ApiResponse.fromJson(response);
 
     debugPrint("dateWiseTextList ====>${dateWiseTextList}");
     isLoading = false;
@@ -989,7 +1102,10 @@ await Future.delayed(Duration(seconds: 1));
 
   DateTime previousDateLocal = DateTime.now();
 
-  ApiResponse dateWiseTextList = ApiResponse(status: 0, msg: Message(title: "", description: "", color: "", periodMsg: '', image: ''));
+  ApiResponse dateWiseTextList = ApiResponse(
+      status: 0,
+      msg: Message(
+          title: "", description: "", color: "", periodMsg: '', image: ''));
 
   bool isLoading = false;
   Future<void> handleSecondBloc(

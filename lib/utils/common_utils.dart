@@ -521,6 +521,7 @@ class CommonUtils {
       onTimeout: () {
         hideProgressDialog();
         oopsMSG();
+        isShowing = false;
         print(
             "................................process dialog oops.............................");
       },
@@ -529,6 +530,8 @@ class CommonUtils {
 
   static void hideProgressDialog() {
     if (isShowing) {
+      debugPrint("Hiding progress dialog...");
+      print("Hiding progress dialog...");
       Navigator.of(mainNavKey.currentContext!, rootNavigator: true)
           .pop('dialog');
       isShowing = false;

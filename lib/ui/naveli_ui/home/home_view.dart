@@ -1,7 +1,7 @@
 import 'dart:async';
 
 // import 'package:widgets_easier/widgets_easier.dart';
-import    'package:dotted_border/dotted_border.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -81,7 +81,8 @@ class _HomeViewState extends State<HomeView> {
 
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      mViewModel.getDialogBox(context);
+      // Loading Issue
+      // mViewModel.getDialogBox(context);
       mViewYourNaveliModel =
           Provider.of<YourNaveliViewModel>(context, listen: false);
       mViewHealthMixModel =
@@ -1452,8 +1453,13 @@ class _HomeViewState extends State<HomeView> {
                                               mViewModel.dateWiseTextList.msg
                                                   .periodMsg,
                                               style: TextStyle(
-                                                  color: mViewModel.dateWiseTextList.msg
-                                                      .color.contains("black")?Colors.black:Colors.white),
+                                                  color: mViewModel
+                                                          .dateWiseTextList
+                                                          .msg
+                                                          .color
+                                                          .contains("black")
+                                                      ? Colors.black
+                                                      : Colors.white),
                                             ),
                                           )),
                                     ),
@@ -1463,7 +1469,7 @@ class _HomeViewState extends State<HomeView> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        mViewModel
+                                          mViewModel
                                               .dateWiseTextList.msg.description,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
