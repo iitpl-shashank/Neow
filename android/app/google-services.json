@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "208696305866",
+    "project_id": "naveli-india-a7a83",
+    "storage_bucket": "naveli-india-a7a83.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208696305866:android:b8ac75ef6a6422005bac33",
+        "android_client_info": {
+          "package_name": "com.naveli.naveli_2023"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJp1mHMYoNRFvjSkeNWucmcKfxj1GflSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

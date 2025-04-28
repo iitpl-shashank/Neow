@@ -1,0 +1,1584 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/reminder/reminder_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/women_in_news/women_in_news_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/you_know/you_know_view.dart';
+import 'package:naveli_2023/utils/common_colors.dart';
+import 'package:naveli_2023/utils/common_utils.dart';
+import 'package:naveli_2023/utils/local_images.dart';
+import 'package:provider/provider.dart';
+
+import '../../../database/app_preferences.dart';
+import '../../../generated/i18n.dart';
+import '../../../utils/constant.dart';
+import '../../../utils/global_variables.dart';
+import '../../../widgets/common_daily_insight_container.dart';
+import '../../../widgets/common_rounded_container.dart';
+import '../../../widgets/primary_button.dart';
+import '../calendar/calendar_view.dart';
+import '../health_mix/health_mix_view_model.dart';
+import '../health_mix/video_particular.dart';
+import '../profile/your_naveli/your_naveli_view_model.dart';
+import 'all_about_periods/all_about_periods_view.dart';
+import 'ask_your_question/ask_your_question_view.dart';
+import 'de_stress/de_stress_view.dart';
+import 'edit_period_date/edit_cycle_length.dart';
+import 'edit_period_date/edit_period_date_view.dart';
+import 'edit_period_date/edit_period_length.dart';
+import 'home_view_model.dart';
+import 'know_your_body/know_your_body_view.dart';
+import 'log_your_symptoms/compulsory_symptoms/compulsory_symptoms_log_view.dart';
+import 'log_your_symptoms/log_your_symptoms_view.dart';
+import 'log_your_symptoms/log_your_symptoms_view_model.dart';
+import 'myth_vs_facts/myth_vs_facts_view.dart';
+import 'nutrition/nutrition_view.dart';
+
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  late HomeViewModel mViewModel;
+  LogYourSymptomsModel? mViewSymptomsModel;
+  late HealthMixViewModel mViewHealthMixModel;
+  late YourNaveliViewModel mViewYourNaveliModel;
+
+  // final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+  // DateTime previousDate = DateTime(int.parse(globalUserMaster?.previousPeriodsBegin ?? ''));
+
+  int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
+
+  String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
+
+  String daysToGo = "";
+
+  String? acceptedUniqueId;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+      mViewYourNaveliModel =
+          Provider.of<YourNaveliViewModel>(context, listen: false);
+      mViewHealthMixModel =
+          Provider.of<HealthMixViewModel>(context, listen: false);
+      mViewSymptomsModel =
+          Provider.of<LogYourSymptomsModel>(context, listen: false);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await handleFirstBloc();
+        await handleSecondBloc();
+        await handleThirdBloc();
+      });
+    });
+  }
+
+  Future<void> handleFirstBloc() async {
+    if (gUserType == AppConstants.BUDDY) {
+      await mViewYourNaveliModel.getBuddyAlreadySendRequestApi();
+      for (var buddyData
+          in mViewYourNaveliModel.buddyAlreadySendRequestDataList) {
+        if (buddyData.notificationStatus == "accepted") {
+          acceptedUniqueId = buddyData.uniqueId;
+          break;
+        }
+      }
+      if (acceptedUniqueId != null) {
+        AppPreferences.instance.setBuddyAccess(true);
+        await mViewYourNaveliModel.getDataFromUidApi(
+            uniqueId: acceptedUniqueId);
+      } else {
+        AppPreferences.instance.setBuddyAccess(false);
+      }
+    }
+  }
+
+  Future<void> handleSecondBloc() async {
+    if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
+      print("Cycle length :: ${globalUserMaster?.averageCycleLength}");
+      print("Period length :: ${globalUserMaster?.averagePeriodLength}");
+      mViewModel.dateParts = dateString.split(RegExp(r'[\s,]+'));
+      mViewModel.year = int.parse(mViewModel.dateParts[0]);
+      mViewModel.month = int.parse(mViewModel.dateParts[1]);
+      mViewModel.day = int.parse(mViewModel.dateParts[2]);
+      DateTime previousDate =
+          DateTime(mViewModel.year, mViewModel.month, mViewModel.day);
+      DateTime newDate = previousDate.add(Duration(days: -cycleLength));
+      print("Previous date is :::::::::: $newDate");
+      mViewModel.nextCycleDates =
+          mViewModel.calculateCycleDatesInYear(newDate, cycleLength);
+      mViewModel.generateDaysList();
+      print("Next date is :::::::::: ${mViewModel.nextCycleDates}");
+
+      DateTime today = DateTime.now();
+      DateTime? nextCycleDate = mViewModel.nextCycleDates.firstWhere(
+        (date) => date.isAfter(today),
+        orElse: () => mViewModel.nextCycleDates.last,
+      );
+
+      // Pass the next cycle date to the calculateDaysToGo method
+      daysToGo = mViewModel.calculateDaysToGo(nextCycleDate);
+
+      // daysToGo = mViewModel.calculateDaysToGo(mViewModel.nextCycleDates);
+    }
+  }
+
+  Future<void> handleThirdBloc() async {
+    DateTime currentDate = DateTime.now();
+    DateTime dateWithoutTime =
+        DateTime(currentDate.year, currentDate.month, currentDate.day);
+    // mViewModel.startSlider();
+    mViewModel.getSliderVideoApi().whenComplete(
+          () => mViewHealthMixModel
+              .getHealthMixPostsApi(titleId: 7)
+              .whenComplete(
+                () => mViewSymptomsModel
+                    ?.getUserSymptomsLogApi(
+                        date: globalUserMaster?.previousPeriodsBegin ?? '')
+                    .whenComplete(() {
+                  if (gUserType == AppConstants.NEOWME) {
+                    if (mViewModel.nextCycleDates.contains(dateWithoutTime)) {
+                      checkForCompulsorySymptoms();
+                    }
+                  }
+                }),
+              ),
+        );
+  }
+
+  void checkForCompulsorySymptoms() {
+    mViewModel.timerSymptoms = Timer.periodic(
+      const Duration(minutes: 3),
+      (timer) {
+        if (gUserType == AppConstants.NEOWME &&
+            (mViewSymptomsModel?.userSymptomsData?.staining == null ||
+                mViewSymptomsModel?.userSymptomsData?.clotSize == null ||
+                mViewSymptomsModel?.userSymptomsData?.collectionMethod ==
+                    null ||
+                mViewSymptomsModel?.userSymptomsData?.frequencyOfChangeDay ==
+                    null ||
+                mViewSymptomsModel?.userSymptomsData?.workingAbility == null ||
+                mViewSymptomsModel?.userSymptomsData?.location == null ||
+                mViewSymptomsModel?.userSymptomsData?.cramps == null ||
+                mViewSymptomsModel?.userSymptomsData?.days == null)) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              Future.delayed(const Duration(seconds: 3), () {
+                Navigator.of(context).pop();
+                mViewModel.timerSymptoms?.cancel();
+                push(const CompulsorySymptomsLogView()).then((value) =>
+                    mViewSymptomsModel
+                        ?.getUserSymptomsLogApi(
+                            date: globalUserMaster?.previousPeriodsBegin ?? '')
+                        .whenComplete(() => checkForCompulsorySymptoms()));
+              });
+              return AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    kCommonSpaceV20,
+                    Text(
+                      'Please log your\n Symptoms',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.piedra(
+                        color: CommonColors.primaryColor,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    kCommonSpaceV20,
+                    Image.asset(
+                      LocalImages.img_pl_log_symptoms,
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height / 3.5,
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        } else {
+          mViewModel.timerSymptoms?.cancel();
+          print(".....All is well.....");
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    mViewModel.timerSlider?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    mViewModel = Provider.of<HomeViewModel>(context);
+    mViewHealthMixModel = Provider.of<HealthMixViewModel>(context);
+    mViewSymptomsModel = Provider.of<LogYourSymptomsModel>(context);
+    mViewYourNaveliModel = Provider.of<YourNaveliViewModel>(context);
+    // var calender2 = Container(
+    //   height: 80.0,
+    //   // color: Colors.amberAccent,
+    //   child: SingleChildScrollView(
+    //     scrollDirection: Axis.horizontal,
+    //     child: Stack(
+    //       children: [
+    //         // Positioned(
+    //         //   bottom: 14.0,
+    //         //   child: Container(
+    //         //     height: 15.0,
+    //         //     width: 50 * (mViewModel.gradientColorsList().length - 1),
+    //         //     margin: EdgeInsets.only(left: 40.0),
+    //         //     decoration: BoxDecoration(
+    //         //       gradient: LinearGradient(
+    //         //         begin: Alignment.centerLeft,
+    //         //         end: Alignment.centerRight,
+    //         //         colors: mViewModel.gradientColorsList(),
+    //         //       ),
+    //         //     ),
+    //         //   ),
+    //         // ),
+    //         ListView.separated(
+    //           itemCount: mViewModel.daysList.length,
+    //           shrinkWrap: true,
+    //           padding: EdgeInsets.only(left: 5.0),
+    //           physics: ClampingScrollPhysics(),
+    //           scrollDirection: Axis.horizontal,
+    //           separatorBuilder: (context, index) {
+    //             return Column(
+    //               mainAxisAlignment: MainAxisAlignment.end,
+    //               children: [
+    //                 Container(
+    //                   color: Colors.transparent,
+    //                   width: 10.00,
+    //                   height: 20.0,
+    //                 ),
+    //                 SizedBox(
+    //                   height: 12.0,
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //           itemBuilder: (context, index) {
+    //             DateTime currentDate = mViewModel.daysList[index];
+    //             String weekDay = mViewModel.getWeekDay(currentDate);
+    //             String formattedDate = '${currentDate.day}';
+    //             bool isCycleDate = mViewModel.nextCycleDates.any((date) =>
+    //                 date.year == currentDate.year &&
+    //                 date.month == currentDate.month &&
+    //                 date.day == currentDate.day);
+    //             return Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               crossAxisAlignment: CrossAxisAlignment.center,
+    //               children: [
+    //                 Text(
+    //                   weekDay,
+    //                   style: getAppStyle(
+    //                     fontWeight: FontWeight.w500,
+    //                     fontSize: 18.0,
+    //                     color: isCycleDate
+    //                         ? CommonColors.primaryColor.withOpacity(0.9)
+    //                         : CommonColors.color_8b8b8b,
+    //                   ),
+    //                 ),
+    //                 GestureDetector(
+    //                   onTap: () {
+    //                     print("ala ayyyyyy haaaaaaaaaaa......");
+    //                   },
+    //                   child: Container(
+    //                     height: 45.0,
+    //                     width: 42.0,
+    //                     decoration: BoxDecoration(
+    //                       image: DecorationImage(
+    //                         image: AssetImage(
+    //                           isCycleDate ? LocalImages.img_drop_blood : "",
+    //                         ),
+    //                       ),
+    //                       // color: isCycleDate ? null : Colors.transparent,
+    //                       // gradient: isCycleDate ? mViewModel.getGradient() : null,
+    //                       // shape: BoxShape.circle,
+    //                     ),
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.only(top: 12),
+    //                       child: Center(
+    //                         child: Text(
+    //                           formattedDate,
+    //                           style: TextStyle(
+    //                             color: isCycleDate
+    //                                 ? CommonColors.mWhite
+    //                                 : CommonColors.blackColor,
+    //                             fontWeight: FontWeight.w500,
+    //                             fontSize: 15.0,
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     // Center(
+    //                     //   child: Text(
+    //                     //     formattedDate,
+    //                     //     style: getAppStyle(
+    //                     //       fontWeight: FontWeight.w500,
+    //                     //       fontSize: 18.0,
+    //                     //       color: isCycleDate
+    //                     //           ? CommonColors.mWhite
+    //                     //           : CommonColors.blackColor,
+    //                     //     ),
+    //                     //   ),
+    //                     // ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
+
+    var calender2 = SizedBox(
+      height: 80.0,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: ListView.separated(
+          itemCount: mViewModel.daysList.length,
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(left: 5.0),
+          physics: const ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          separatorBuilder: (context, index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  color: Colors.transparent,
+                  width: 10.00,
+                  height: 20.0,
+                ),
+                const SizedBox(height: 12.0),
+              ],
+            );
+          },
+          itemBuilder: (context, index) {
+            DateTime currentDate = mViewModel.daysList[index];
+            String weekDay = mViewModel.getWeekDay(currentDate);
+            String formattedDate = '${currentDate.day}';
+            bool isCycleDate = mViewModel.nextCycleDates.any((date) =>
+                date.year == currentDate.year &&
+                date.month == currentDate.month &&
+                date.day == currentDate.day);
+
+            bool isSelectedDate =
+                currentDate.year == mViewModel.selectedDate.year &&
+                    currentDate.month == mViewModel.selectedDate.month &&
+                    currentDate.day == mViewModel.selectedDate.day;
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  weekDay,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18.0,
+                    color: isCycleDate
+                        ? CommonColors.primaryColor.withOpacity(0.9)
+                        : CommonColors.color_8b8b8b,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    mViewModel.updateSelectedDate(currentDate);
+                  },
+                  child: Container(
+                    height: 45.0,
+                    width: 42.0,
+                    decoration: BoxDecoration(
+                      image: isCycleDate
+                          ? const DecorationImage(
+                              image: AssetImage(LocalImages.img_drop_blood),
+                            )
+                          : isSelectedDate
+                              ? const DecorationImage(
+                                  image: AssetImage(LocalImages.img_light_drop),
+                                )
+                              : null,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Center(
+                        child: Text(
+                          formattedDate,
+                          style: TextStyle(
+                            color: isSelectedDate
+                                ? Colors.white
+                                : isCycleDate
+                                    ? CommonColors.mWhite
+                                    : CommonColors.blackColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+
+    ///
+
+    // var calender2 = Container(
+    //   // height: kDeviceHeight / 8.5,
+    //   height: 88.0,
+    //   child: SingleChildScrollView(
+    //     scrollDirection: Axis.horizontal,
+    //     child: Stack(
+    //       children: [
+    //         Positioned(
+    //           bottom: 14.0,
+    //           child: Container(
+    //             height: 15.0,
+    //             width: 50 * (mViewModel.gradientColorsList().length - 1),
+    //             margin: EdgeInsets.only(left: 40.0),
+    //             decoration: BoxDecoration(
+    //                 gradient: LinearGradient(
+    //                     begin: Alignment.centerLeft,
+    //                     end: Alignment.centerRight,
+    //                     colors: mViewModel.gradientColorsList())),
+    //           ),
+    //         ),
+    //         ListView.separated(
+    //           itemCount: tempData.length,
+    //           shrinkWrap: true,
+    //           padding: EdgeInsets.only(left: 5.0),
+    //           physics: ClampingScrollPhysics(),
+    //           scrollDirection: Axis.horizontal,
+    //           separatorBuilder: (context, index) {
+    //             return Column(
+    //               mainAxisAlignment: MainAxisAlignment.end,
+    //               children: [
+    //                 Container(
+    //                   color: Colors.transparent,
+    //                   width: 10.0,
+    //                   height: 20.0,
+    //                 ),
+    //                 SizedBox(
+    //                   height: 12.0,
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //           itemBuilder: (context, index) {
+    //             return Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               crossAxisAlignment: CrossAxisAlignment.center,
+    //               children: [
+    //                 Text(
+    //                   weekDay[index],
+    //                   style: getAppStyle(
+    //                       fontWeight: FontWeight.w500,
+    //                       fontSize: 18.0,
+    //                       color:
+    //                           index > mViewModel.gradientColorsList().length - 1
+    //                               ? CommonColors.color_8b8b8b
+    //                               : CommonColors.primaryColor),
+    //                 ),
+    //                 SizedBox(
+    //                   height: 13.0,
+    //                 ),
+    //                 Container(
+    //                   height: 42.0,
+    //                   width: 42.0,
+    //                   decoration: BoxDecoration(
+    //                     color:
+    //                         index > mViewModel.gradientColorsList().length - 1
+    //                             ? Colors.transparent
+    //                             : mViewModel.gradientColorsList()[index],
+    //                     shape: BoxShape.circle,
+    //                   ),
+    //                   child: Center(
+    //                     child: Text(
+    //                       tempData[index].toString(),
+    //                       style: getAppStyle(
+    //                           fontWeight: FontWeight.w500,
+    //                           fontSize: 18.0,
+    //                           color: index >
+    //                                   mViewModel.gradientColorsList().length - 1
+    //                               ? CommonColors.blackColor
+    //                               : CommonColors.mWhite),
+    //                     ),
+    //                   ),
+    //                 )
+    //               ],
+    //             );
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(LocalImages.img_background),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 12, right: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (gUserType == AppConstants.NEOWME ||
+                    gUserType == AppConstants.BUDDY) ...[
+                  kCommonSpaceV20,
+                  calender2,
+                ],
+                // Container(
+                //   height: 60,
+                //   decoration: BoxDecoration(
+                //     image: DecorationImage(
+                //       image: AssetImage(
+                //         LocalImages.img_drop_blood,
+                //       ),
+                //     ),
+                //   ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 10),
+                //     child: Center(
+                //       child: Text(
+                //         "30",
+                //         style: TextStyle(
+                //           color: CommonColors.mWhite,
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 18.0,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                kCommonSpaceV10,
+                SizedBox(
+                  height: kDeviceHeight / 7,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(children: <Widget>[
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const YouKnowView());
+                        },
+                        text: S.of(context)!.doYouKnow,
+                        image: LocalImages.img_you_know,
+                      ),
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const MythVsFactsView());
+                        },
+                        text: S.of(context)!.mythVsFacts,
+                        image: LocalImages.img_myth,
+                      ),
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const AllAboutPeriodsView());
+                        },
+                        text: S.of(context)!.allAboutPeriods,
+                        image: LocalImages.img_about_period,
+                      ),
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const NutritionView());
+                        },
+                        text: S.of(context)!.nutrition,
+                        image: LocalImages.img_nutrition,
+                      ),
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const WomenInNewsView());
+                        },
+                        text: S.of(context)!.neowInNews,
+                        image: LocalImages.img_women_news,
+                      ),
+                      CommonRoundedContainer(
+                        onTap: () {
+                          push(const AskYourQuestionView());
+                        },
+                        text: S.of(context)!.askYourQuestion,
+                        image: LocalImages.img_quiz,
+                      ),
+                    ]),
+                  ),
+                ),
+                kCommonSpaceV20,
+                // SizedBox(
+                //   height: kDeviceHeight / 3,
+                //   child: PageView(
+                //     controller: mViewModel.pageController,
+                //     onPageChanged: (value) {
+                //       setState(() {
+                //         mViewModel.currentPage = value;
+                //       });
+                //     },
+                //     children: [
+                //       Stack(
+                //         children: [
+                //           Align(
+                //             alignment: Alignment.topLeft,
+                //             child: InkWell(
+                //               onTap: () {
+                //                 push(ReminderView());
+                //                 // TimeOfDay? picked = await showTimePicker(
+                //                 //   barrierDismissible: false,
+                //                 //   context: context,
+                //                 //   initialTime: TimeOfDay.now(),
+                //                 //   initialEntryMode:
+                //                 //       TimePickerEntryMode.inputOnly,
+                //                 //   builder:
+                //                 //       (BuildContext? context, Widget? child) {
+                //                 //     return MediaQuery(
+                //                 //       data: MediaQuery.of(context!).copyWith(
+                //                 //           alwaysUse24HourFormat: false),
+                //                 //       child: child!,
+                //                 //     );
+                //                 //   },
+                //                 // ).then(
+                //                 //   (value) => showDialog(
+                //                 //     barrierDismissible: false,
+                //                 //     context: context,
+                //                 //     builder: (BuildContext context) {
+                //                 //       Future.delayed(Duration(seconds: 3), () {
+                //                 //         Navigator.of(context).pop();
+                //                 //       });
+                //                 //       return AlertDialog(
+                //                 //         content: Column(
+                //                 //           mainAxisSize: MainAxisSize.min,
+                //                 //           mainAxisAlignment:
+                //                 //               MainAxisAlignment.center,
+                //                 //           children: [
+                //                 //             kCommonSpaceV50,
+                //                 //             Text(
+                //                 //               'Main Wapas Aunga!\nMain Wapas Aunga!',
+                //                 //               textAlign: TextAlign.center,
+                //                 //               style: GoogleFonts.piedra(
+                //                 //                 color:
+                //                 //                     CommonColors.primaryColor,
+                //                 //                 fontSize: 30,
+                //                 //                 fontWeight: FontWeight.bold,
+                //                 //               ),
+                //                 //             ),
+                //                 //             kCommonSpaceV30,
+                //                 //             Image.asset(
+                //                 //               LocalImages.img_vapas_aaunga,
+                //                 //               fit: BoxFit.cover,
+                //                 //               height: MediaQuery.of(context)
+                //                 //                       .size
+                //                 //                       .height /
+                //                 //                   2.5,
+                //                 //             ),
+                //                 //           ],
+                //                 //         ),
+                //                 //       );
+                //                 //     },
+                //                 //   ),
+                //                 // );
+                //               },
+                //               child: Image.asset(
+                //                 LocalImages.img_clock,
+                //                 fit: BoxFit.cover,
+                //               ),
+                //             ),
+                //           ),
+                //           Align(
+                //             alignment: Alignment.center,
+                //             child: Image.asset(
+                //               LocalImages.img_naveli_heart,
+                //               fit: BoxFit.cover,
+                //             ),
+                //           ),
+                //           Align(
+                //             alignment: Alignment.topRight,
+                //             child: InkWell(
+                //               onTap: () {
+                //                 push(CalendarView());
+                //               },
+                //               child: Image.asset(
+                //                 LocalImages.img_calendar,
+                //                 fit: BoxFit.cover,
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //       Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           Text(
+                //             'Video title...',
+                //             style: getAppStyle(fontSize: 22),
+                //           ),
+                //           Expanded(
+                //             child: Container(
+                //               color: CommonColors.bglightPinkColor,
+                //               child: Center(
+                //                 child: Text(
+                //                   'Video...',
+                //                   style: getAppStyle(fontSize: 25),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                if (gUserType == AppConstants.NEOWME ||
+                    gUserType == AppConstants.BUDDY) ...[
+                  SizedBox(
+                    height: kDeviceHeight / 3,
+                    child: Stack(
+                      children: [
+                        PageView.builder(
+                          controller: mViewModel.pageController,
+                          onPageChanged: (value) {
+                            setState(() {
+                              mViewModel.currentPage = value;
+                            });
+                          },
+                          itemCount: 2,
+                          itemBuilder: (context, index) {
+                            return index == 0
+                                ? Stack(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: InkWell(
+                                          onTap: () {
+                                            push(const ReminderView());
+                                          },
+                                          child: Image.asset(
+                                            LocalImages.img_clock,
+                                            fit: BoxFit.cover,
+                                            height: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          // width:300,
+                                          LocalImages.banner4,
+                                          // Replace with your image path
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            if (mViewModel
+                                                    .getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) ==
+                                                "Period day")
+                                              Text(
+                                                mViewModel
+                                                    .getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate),
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  height: 1,
+                                                  
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CommonColors.mRed,
+                                                ),
+                                              ),
+                                            if (mViewModel.getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) ==
+                                                    "Ovulation in - 13 Days\n" ||
+                                                mViewModel.getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) ==
+                                                    "Ovulation in 15 Days\n")
+                                              const Text(
+                                                "Ovulation phase",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CommonColors
+                                                      .darkPrimaryColor,
+                                                ),
+                                              ),
+                                            if (mViewModel
+                                                    .getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) ==
+                                                "Ovulation in - 14 Days\n")
+                                              const Text(
+                                                "Ovulation day",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CommonColors
+                                                      .darkPrimaryColor,
+                                                ),
+                                              ),
+                                            if (mViewModel.getCycleDayOrDaysToGo(mViewModel.selectedDate) != "Ovulation in - 13 Days\n" &&
+                                                mViewModel.getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) !=
+                                                    "Ovulation in - 14 Days\n" &&
+                                                mViewModel.getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) !=
+                                                    "Ovulation in - 15 Days\n" &&
+                                                mViewModel.getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate) !=
+                                                    "Period day")
+                                              Text(
+                                                mViewModel
+                                                    .getCycleDayOrDaysToGo(
+                                                        mViewModel
+                                                            .selectedDate),
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: CommonColors
+                                                      .darkPrimaryColor,
+                                                ),
+                                              ),
+                                            InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  // barrierDismissible: false,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      // backgroundColor: CommonColors.mTransparent,
+                                                      content: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text(
+                                                            "What you want to Edit?",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: getAppStyle(
+                                                                color: CommonColors
+                                                                    .primaryColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 22),
+                                                          ),
+                                                          kCommonSpaceV20,
+                                                          PrimaryButton(
+                                                            buttonColor:
+                                                                CommonColors
+                                                                    .primaryColor,
+                                                            height: 40,
+                                                            onPress: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              push(
+                                                                  const EditPeriodDateView());
+                                                            },
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            label: S
+                                                                .of(context)!
+                                                                .periodDate,
+                                                            labelColor:
+                                                                CommonColors
+                                                                    .mWhite,
+                                                            lblSize: 15,
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          PrimaryButton(
+                                                            buttonColor:
+                                                                CommonColors
+                                                                    .primaryColor,
+                                                            height: 40,
+                                                            onPress: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              push(
+                                                                  const EditCycleLengthView());
+                                                            },
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            label: S
+                                                                .of(context)!
+                                                                .cycleLength,
+                                                            lblSize: 15,
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          PrimaryButton(
+                                                            buttonColor:
+                                                                CommonColors
+                                                                    .primaryColor,
+                                                            height: 40,
+                                                            onPress: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              push(
+                                                                  const EditPeriodLengthView());
+                                                            },
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            label: S
+                                                                .of(context)!
+                                                                .periodLength,
+                                                            lblSize: 15,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Text(
+                                                "Edit",
+                                                style: TextStyle(
+                                                    color:
+                                                        CommonColors.darkPink,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      // Align(
+                                      //   alignment: Alignment.bottomCenter,
+                                      //   child: Column(
+                                      //     mainAxisAlignment:
+                                      //         MainAxisAlignment.center,
+                                      //     children: [
+                                      //       kCommonSpaceV50,
+                                      //       kCommonSpaceV50,
+                                      //       kCommonSpaceV20,
+                                      //       if (daysToGo == "14 days")
+                                      //         Text(
+                                      //           "Ovulation Day",
+                                      //           textAlign: TextAlign.center,
+                                      //           style: TextStyle(
+                                      //               fontSize: 20,
+                                      //               height: 1,
+                                      //               fontWeight: FontWeight.bold,
+                                      //               color: CommonColors
+                                      //                   .darkPrimaryColor),
+                                      //         ),
+                                      //       if (daysToGo != "Period day" &&
+                                      //           daysToGo != "14 days") ...[
+                                      //         Text(
+                                      //           "Periods starts in",
+                                      //           textAlign: TextAlign.center,
+                                      //           style: TextStyle(
+                                      //               fontSize: 15,
+                                      //               height: 1.5,
+                                      //               fontWeight: FontWeight.w500,
+                                      //               color: CommonColors
+                                      //                   .darkPrimaryColor),
+                                      //         ),
+                                      //         Text(
+                                      //           daysToGo,
+                                      //           textAlign: TextAlign.center,
+                                      //           style: TextStyle(
+                                      //               fontSize: 20,
+                                      //               height: 1,
+                                      //               fontWeight: FontWeight.bold,
+                                      //               color: CommonColors
+                                      //                   .darkPrimaryColor),
+                                      //         ),
+                                      //       ],
+                                      //       if (daysToGo == "Period day")
+                                      //         Text(
+                                      //           daysToGo,
+                                      //           textAlign: TextAlign.center,
+                                      //           style: TextStyle(
+                                      //               fontSize: 20,
+                                      //               height: 1,
+                                      //               fontWeight: FontWeight.bold,
+                                      //               color: CommonColors.mRed),
+                                      //         ),
+                                      //       kCommonSpaceV5,
+                                      //       InkWell(
+                                      //         onTap: () {
+                                      //           push(EditPeriodDateView());
+                                      //         },
+                                      //         child: Text(
+                                      //           "Edit",
+                                      //           style: TextStyle(
+                                      //               color:
+                                      //                   CommonColors.darkPink),
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            push(const CalendarView());
+                                          },
+                                          child: Image.asset(
+                                            LocalImages.img_calendar,
+                                            // Replace with your image path
+                                            fit: BoxFit.cover,
+                                            height: 50,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        mViewModel.sliderVideo.first.title ??
+                                            '',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: getAppStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500),
+                                        // Replace with your style
+                                      ),
+                                      kCommonSpaceV10,
+                                      Expanded(
+                                        child: VideoPlayerScreen(
+                                            link: mViewModel
+                                                    .sliderVideo.first.link ??
+                                                ''),
+                                      ),
+                                    ],
+                                  );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  kCommonSpaceV10,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: buildIndicator(),
+                    ),
+                  ),
+                ],
+                if (gUserType == AppConstants.CYCLE_EXPLORER) ...[
+                  const VideoPlayerScreen(
+                      link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
+                  kCommonSpaceV20
+                ],
+                kCommonSpaceV10,
+                SizedBox(
+                  height: kDeviceHeight / 7,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      // scrollDirection: Axis.horizontal,
+                      // shrinkWrap: true,
+                      children: <Widget>[
+                        if (gUserType == AppConstants.NEOWME)
+                          CommonDailyInsightContainer(
+                            onTap: () {
+                              push(const LogYourSymptoms()).then((value) =>
+                                  mViewSymptomsModel?.getUserSymptomsLogApi(
+                                      date: globalUserMaster
+                                              ?.previousPeriodsBegin ??
+                                          ''));
+                            },
+                            text: S.of(context)!.logYourSymptoms,
+                            image: LocalImages.img_log_symptoms,
+                            gradientColors: const [
+                              Color(0xFF9ECCD6),
+                              // Color(0xFFB7D9E1),
+                              // Color(0xFFBCDAE3),
+                              // Color(0xFFD7E7EB),
+                              Color(0xFFDBE7EB),
+                            ],
+                            borderColor: const Color(0xFF73CFE3),
+                          ),
+                        CommonDailyInsightContainer(
+                          onTap: () {
+                            push(const TrackView());
+                          },
+                          text: S.of(context)!.track,
+                          image: LocalImages.img_track,
+                          gradientColors: const [
+                            Color(0xFFFAA4A8),
+                            // Color(0xFFF9B3B7),
+                            // Color(0xFFF8C1C3),
+                            // Color(0xFFF7CbCD),
+                            Color(0xFFF7D5D5),
+                          ],
+                          borderColor: const Color(0xFFF97867),
+                        ),
+                        if (gUserType == AppConstants.NEOWME ||
+                            gUserType == AppConstants.CYCLE_EXPLORER)
+                          CommonDailyInsightContainer(
+                            onTap: () {
+                              // showPopusDialog();
+                              // showSymptomsDialog(context);
+                              push(const QuizView());
+                            },
+                            text: S.of(context)!.quickQuestion,
+                            image: LocalImages.img_quick_question,
+                            gradientColors: const [
+                              Color(0xFFE7C778),
+                              // Color(0xFFEDD292),
+                              // Color(0xFFF0DBA7),
+                              // Color(0xFFF3E1BB),
+                              Color(0xFFF5E5C5),
+                            ],
+                            borderColor: const Color(0xFFFABA14),
+                          ),
+                        CommonDailyInsightContainer(
+                          onTap: () {
+                            // showPopusDialog();
+                            push(const DeStressView());
+                          },
+                          text: S.of(context)!.deStress,
+                          image: LocalImages.img_de_stress,
+                          gradientColors: const [
+                            Color(0xFFFBA8BC),
+                            // Color(0xFFF7B8C7),
+                            // Color(0xFFF2C5D0),
+                            // Color(0xFFF0D0D7),
+                            Color(0xFFEfD3DA),
+                          ],
+                          borderColor: const Color(0xFFF685A0),
+                        ),
+                        CommonDailyInsightContainer(
+                          onTap: () {
+                            push(const KnowYourBodyView());
+                          },
+                          text: S.of(context)!.knowYourBody,
+                          image: LocalImages.img_know_your_body,
+                          gradientColors: const [
+                            Color(0xFFEFB6E6),
+                            // Color(0xFFF1C0E9),
+                            // Color(0xFFF4CDED),
+                            // Color(0xFFF5D5F0),
+                            Color(0xFFF7D9F1),
+                          ],
+                          borderColor: const Color(0xFFF28DA2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                kCommonSpaceV50,
+                kCommonSpaceV50,
+                Text(
+                  S.of(context)!.healthMixLatest,
+                  style: getAppStyle(fontSize: 18),
+                ),
+                kCommonSpaceV10,
+                ListView.builder(
+                  itemCount: mViewHealthMixModel.healthPostsList.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          right: 3, left: 3, top: 3, bottom: 8),
+                      child: Container(
+                        // width: kDeviceWidth / 1,
+                        // height: kDeviceHeight / 2.2,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color: CommonColors.mWhite,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 5,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const CircleAvatar(
+                                    backgroundColor: CommonColors.mTransparent,
+                                    backgroundImage: AssetImage(
+                                      LocalImages.img_app_logo,
+                                    ),
+                                    radius: 25,
+                                  ),
+                                  kCommonSpaceH10,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Neow',
+                                        style: getAppStyle(
+                                          color: CommonColors.blackColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        mViewHealthMixModel
+                                                .healthPostsList[index]
+                                                .diffrenceTime ??
+                                            '',
+                                        style: getAppStyle(
+                                          color: CommonColors.mGrey,
+                                          fontSize: 14,
+                                          height: 0.5,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (mViewHealthMixModel
+                                    .healthPostsList[index].mediaType ==
+                                'image')
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute<void>(
+                                    fullscreenDialog: true,
+                                    builder: (BuildContext context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Image.network(
+                                          height: kDeviceHeight / 1,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          mViewHealthMixModel
+                                                  .healthPostsList[index]
+                                                  .media ??
+                                              "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                                          fit: BoxFit.contain,
+                                        ),
+                                      );
+                                    },
+                                  ));
+                                },
+                                child: Container(
+                                  height: kDeviceHeight / 3.5,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(mViewHealthMixModel
+                                              .healthPostsList[index].media ??
+                                          "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg"),
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (mViewHealthMixModel
+                                    .healthPostsList[index].mediaType ==
+                                'link')
+                              SizedBox(
+                                height: kDeviceHeight / 4,
+                                child: VideoPlayerScreen(
+                                  link: mViewHealthMixModel
+                                          .healthPostsList[index].media ??
+                                      "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                                  // isFillAvailableSpace: false,
+                                  // isLoop: true,
+                                  // isMute: false,
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Wrap(
+                                children: (mViewHealthMixModel
+                                            .healthPostsList[index].hashtags ??
+                                        '')
+                                    .split(',')
+                                    .map((tag) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          tag,
+                                          style: getAppStyle(
+                                              color:
+                                                  CommonColors.secondaryColor,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1.5),
+                                        ),
+                                        kCommonSpaceH5,
+                                        Container(
+                                          width: 1,
+                                          height: 15,
+                                          color: CommonColors.mGrey,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                mViewHealthMixModel
+                                        .healthPostsList[index].description ??
+                                    '',
+                                style: getAppStyle(
+                                  color: CommonColors.mGrey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    mViewHealthMixModel.likeHealthMixPostApi(
+                                        healthMixId: mViewHealthMixModel
+                                            .healthPostsList[index].id,
+                                        isLike: mViewHealthMixModel
+                                                .isLikedList[index]
+                                            ? 0
+                                            : 1);
+                                    setState(() {
+                                      mViewHealthMixModel.isLikedList[index] =
+                                          !mViewHealthMixModel
+                                              .isLikedList[index];
+                                    });
+                                  },
+                                  icon: Icon(
+                                      mViewHealthMixModel.isLikedList[index]
+                                          ? Icons.thumb_up
+                                          : Icons.thumb_up_off_alt_outlined,
+                                      color: CommonColors.primaryColor),
+                                ),
+                                // kCommonSpaceH3,
+                                // IconButton(
+                                //     onPressed: () {},
+                                //     icon: Icon(Icons.thumb_down_alt_rounded,
+                                //         color: CommonColors.primaryColor)),
+                                kCommonSpaceH3,
+                                IconButton(
+                                    onPressed: () {
+                                      if (mViewHealthMixModel
+                                              .healthPostsList[index]
+                                              .mediaType ==
+                                          "image") {
+                                        // print("File type image");
+                                        shareNetworkImage(
+                                          mViewHealthMixModel
+                                              .healthPostsList[index].media,
+                                          text: mViewHealthMixModel
+                                              .healthPostsList[index]
+                                              .description,
+                                        );
+                                      } else if (mViewHealthMixModel
+                                              .healthPostsList[index]
+                                              .mediaType ==
+                                          "link") {
+                                        // print("File type link");
+                                        share(
+                                            mViewHealthMixModel
+                                                .healthPostsList[index].media,
+                                            text: mViewHealthMixModel
+                                                .healthPostsList[index]
+                                                .description);
+                                      }
+                                    },
+                                    icon: const Icon(Icons.share_rounded,
+                                        color: CommonColors.primaryColor)),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                kCommonSpaceV20,
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        2,
+        (index) => Container(
+          width: 8.0,
+          height: 8.0,
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: mViewModel.currentPage == index
+                ? CommonColors.primaryColor
+                : CommonColors.mGrey,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> showSymptomsScoreDialog() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            insetPadding: const EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Container(
+              decoration: ShapeDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment(0.76, 0.65),
+                  end: Alignment(-0.76, -0.65),
+                  colors: [Color(0xFFA43886), Color(0xFF6A41A5)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.cancel_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Text(
+                      'As a later pop up, if the user scores more than 100',
+                      style: getAppStyle(
+                        color: CommonColors.mWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    kCommonSpaceV10,
+                    Text(
+                      'You might have heavy Menstrual Bleeding. Get Yourself Examine For',
+                      textAlign: TextAlign.center,
+                      style: getAppStyle(
+                        color: CommonColors.mWhite,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    kCommonSpaceV10,
+                    Text(
+                      'FIBROIDS CYST ENDOMETRIAL POLYP CANCER',
+                      style: getAppStyle(
+                        color: CommonColors.mWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          backgroundColor: CommonColors.mWhite,
+                          side: const BorderSide(
+                            width: 1.0,
+                            color: CommonColors.blackColor,
+                          ),
+                        ),
+                        child: Text(
+                          'OK',
+                          style: getAppStyle(color: CommonColors.blackColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+}
