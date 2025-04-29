@@ -482,16 +482,16 @@ class _WelcomeViewState extends State<WelcomeView> {
                           text: S.of(context)!.female,
                           imagePath: LocalImages.img_female,
                           isSelected: selectedGender == 2),
-                      CommonGenderSelectBox(
-                          onTap: () {
-                            setState(() {
-                              selectedGender = 3;
-                              mOtherController.clear();
-                            });
-                          },
-                          text: S.of(context)!.transgender,
-                          imagePath: LocalImages.img_transgender,
-                          isSelected: selectedGender == 3),
+                      // CommonGenderSelectBox(
+                      //     onTap: () {
+                      //       setState(() {
+                      //         selectedGender = 3;
+                      //         mOtherController.clear();
+                      //       });
+                      //     },
+                      //     text: S.of(context)!.transgender,
+                      //     imagePath: LocalImages.img_transgender,
+                      //     isSelected: selectedGender == 3),
                       // kCommonSpaceV30,
                       CommonGenderSelectBox(
                           onTap: () {
