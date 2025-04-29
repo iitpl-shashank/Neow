@@ -252,7 +252,8 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                           ]),
                           child: VideoPlayerScreen(
                             link: mViewModel.healthPostsList[index].media ??
-                                "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                                "https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2021/06/youtube-logo-0628211.jpg",
+                            // "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
                             // isFillAvailableSpace: false,
                             // isLoop: true,
                             // isMute: false,

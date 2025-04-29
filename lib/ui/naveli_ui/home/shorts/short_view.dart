@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/ui/naveli_ui/health_mix/health_mix_view_model.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../utils/common_colors.dart';
 
 // class ShortsView extends StatefulWidget {

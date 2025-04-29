@@ -92,8 +92,8 @@ class HealthMixViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getHealthMixPostsApi({required int titleId,required String type}) async {
-
+  Future<void> getHealthMixPostsApi(
+      {required int titleId, required String type}) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.title_id: titleId,
@@ -104,6 +104,7 @@ class HealthMixViewModel with ChangeNotifier {
     HealthMixPostMaster? master =
         await _services.api!.getHealthMixPosts(params: params);
     CommonUtils.hideProgressDialog();
+    notifyListeners();
     if (master == null) {
       CommonUtils.oopsMSG();
       print(
@@ -123,6 +124,16 @@ class HealthMixViewModel with ChangeNotifier {
       // isLikedList = List.generate(healthPostsList.length, (_) => false);
       await getLikedPostApi();
     }
+    CommonUtils.hideProgressDialog();
+    notifyListeners();
+  }
+
+  bool _isFullScreen = false;
+
+  bool get isFullScreen => _isFullScreen;
+
+  void setFullScreen(bool value) {
+    _isFullScreen = value;
     notifyListeners();
   }
 }

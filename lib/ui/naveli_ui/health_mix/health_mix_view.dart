@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widgets/scaffold_bg.dart';
+import '../home/home_view_model.dart';
 import 'health_mix_view_model.dart';
 import 'post_list.dart';
 
@@ -26,25 +28,28 @@ class _HealthMixViewState extends State<HealthMixView>
   int selectedTabIndex = 0;
   int selectedTabIndex2 = 0;
   final bool _isLiked = false;
+  late HomeViewModel mHomeViewModel;
 
-  final List<String> text = [
-    'Nutrition',
-    S.of(mainNavKey.currentContext!)!.expertAdvice,
-    S.of(mainNavKey.currentContext!)!.cycleWisdom,
-    // S.of(mainNavKey.currentContext!)!.grooveWithNeow,
-    S.of(mainNavKey.currentContext!)!.testimonials,
-    /* S.of(mainNavKey.currentContext!)!.funCorner,
-    S.of(mainNavKey.currentContext!)!.calebSpeaks,
-    S.of(mainNavKey.currentContext!)!.empowHer, */
-  ];
+  // final List<String> text = [
+  //   'Nutrition',
+  //   S.of(mainNavKey.currentContext!)!.expertAdvice,
+  //   S.of(mainNavKey.currentContext!)!.cycleWisdom,
+  //   // S.of(mainNavKey.currentContext!)!.grooveWithNeow,
+  //   S.of(mainNavKey.currentContext!)!.testimonials,
+  //   /* S.of(mainNavKey.currentContext!)!.funCorner,
+  //   S.of(mainNavKey.currentContext!)!.calebSpeaks,
+  //   S.of(mainNavKey.currentContext!)!.empowHer, */
+  // ];
   final List<String> subHeadings = ['Popular', "Latest", "Saved"];
 
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      tabController = TabController(length: text.length, vsync: this);
+      tabController = TabController(
+          length: mHomeViewModel.healthMixCategoryList.length, vsync: this);
       tabController2 = TabController(length: subHeadings.length, vsync: this);
       getPostList();
     });
@@ -69,71 +74,82 @@ class _HealthMixViewState extends State<HealthMixView>
   }
 
   void getPostList() {
-    if (selectedTabIndex == 0) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 1, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 1, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
-      }
-    } else if (selectedTabIndex == 1) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 2, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 2, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
-      }
-    } else if (selectedTabIndex == 2) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 3, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 3, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
-      }
-    } else if (selectedTabIndex == 3) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 4, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 4, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
-      }
-    } else if (selectedTabIndex == 4) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 5, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 5, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
-      }
-    } else if (selectedTabIndex == 5) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 6, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 6, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
-      }
-    } else if (selectedTabIndex == 6) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 7, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 7, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
-      }
-    } else if (selectedTabIndex == 7) {
-      if (selectedTabIndex2 == 1) {
-        mViewModel.getHealthMixPostsApi(titleId: 8, type: "latest");
-      } else if (selectedTabIndex2 == 2) {
-        mViewModel.getHealthMixPostsApi(titleId: 8, type: "saved");
-      } else {
-        mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
-      }
+    // if (selectedTabIndex == 0) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 1, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 1, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 1) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 2, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 2, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 2) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 3, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 3, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 3) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 4, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 4, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 4) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 5, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 5, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 5) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 6, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 6, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 6) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 7, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 7, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
+    //   }
+    // } else if (selectedTabIndex == 7) {
+    //   if (selectedTabIndex2 == 1) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 8, type: "latest");
+    //   } else if (selectedTabIndex2 == 2) {
+    //     mViewModel.getHealthMixPostsApi(titleId: 8, type: "saved");
+    //   } else {
+    //     mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
+    //   }
+    // } else {
+    if (selectedTabIndex2 == 1) {
+      mViewModel.getHealthMixPostsApi(
+          titleId: selectedTabIndex + 1, type: "latest");
+    } else if (selectedTabIndex2 == 2) {
+      mViewModel.getHealthMixPostsApi(
+          titleId: selectedTabIndex + 1, type: "saved");
+    } else {
+      mViewModel.getHealthMixPostsApi(
+          titleId: selectedTabIndex + 1, type: "popular");
     }
+    // }
   }
 
   @override
@@ -145,8 +161,10 @@ class _HealthMixViewState extends State<HealthMixView>
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<HealthMixViewModel>(context);
+    mHomeViewModel = Provider.of<HomeViewModel>(context);
+
     return DefaultTabController(
-      length: text.length,
+      length: mHomeViewModel.healthMixCategoryList.length,
       initialIndex: selectedTabIndex,
       child: ScaffoldBG(
         child: Scaffold(
@@ -173,7 +191,8 @@ class _HealthMixViewState extends State<HealthMixView>
                   height: 40,
                   child: Container(
                       child: ListView.builder(
-                          itemCount: text.length,
+                          itemCount:
+                              mHomeViewModel.healthMixCategoryList.length,
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
@@ -201,7 +220,11 @@ class _HealthMixViewState extends State<HealthMixView>
                                       border: Border.all(
                                           color: CommonColors.mWhite, width: 1),
                                     ),
-                                    child: Text(text[index],
+                                    child: Text(
+                                        mHomeViewModel
+                                                .healthMixCategoryList[index]
+                                                .name ??
+                                            "",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold,
@@ -280,129 +303,141 @@ class _HealthMixViewState extends State<HealthMixView>
               // }).toList()),
               // kCommonSpaceV20,
               Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Wrap(
-                    spacing: 15.0, // space between items horizontally
-                    runSpacing: 0.0, // space between lines
-                    children: List.generate(
-                      mViewModel.healthPostsList.length,
-                      (index) {
-                        final item = mViewModel.healthPostsList[index];
-                        final isImage = item.mediaType == 'image';
-                        final mediaUrl = item.mediaType == "image"
-                            ? item.media
-                            : (item.thumbnail!.contains(".png")
-                                ? item.thumbnail
-                                : "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg");
+                child: mViewModel.healthPostsList.length != 0
+                    ? SingleChildScrollView(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Wrap(
+                          spacing: 15.0, // space between items horizontally
+                          runSpacing: 0.0, // space between lines
+                          children: List.generate(
+                            mViewModel.healthPostsList.length,
+                            (index) {
+                              final item = mViewModel.healthPostsList[index];
+                              final isImage = item.mediaType == 'image';
+                              final mediaUrl = item.mediaType == "image"
+                                  ? item.media
+                                  : (item.thumbnail!.contains(".png")
+                                      ? item.thumbnail
+                                      : "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png");
 
-                        return GestureDetector(
-                          onTap: () {
-                            //TODO : onTap required
-                            push(PostList(
-                              position: index,
-                              selectedTabIndex: selectedTabIndex,
-                              postTitle: "HealthMix View",
-                            ));
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 2 -
-                                20, // approx half-width with padding
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                            blurRadius: 5,
-                                            offset: const Offset(0, 2),
+                              return GestureDetector(
+                                onTap: () {
+                                  push(HealthmixDetailView(
+                                    post: mViewModel.healthPostsList[index],
+                                  ));
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20, // approx half-width with padding
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 5,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            height: 150,
+                                            width: double.infinity,
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    // isImage
+                                                    //     ?
+                                                    Image.network(
+                                                  mediaUrl!,
+                                                  fit: BoxFit.cover,
+                                                  scale: 0.5,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return Icon(
+                                                        Icons.broken_image,
+                                                        size: 50,
+                                                        color: Colors.grey);
+                                                  },
+                                                )
+                                                // : Align(
+                                                //     alignment: Alignment.center,
+                                                //     child: Image.network(
+                                                //       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png",
+                                                //       height: 110,
+                                                //     ),
+                                                //   ),
+                                                ),
+                                          ),
+                                          Positioned(
+                                            top: 8,
+                                            right: 8,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              padding: const EdgeInsets.all(4),
+                                              child: Icon(
+                                                isImage
+                                                    ? Icons.image
+                                                    : Icons.videocam,
+                                                color: Colors.white,
+                                                size: 14,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      height: 150,
-                                      width: double.infinity,
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child:
-                                              // isImage
-                                              //     ?
-                                              Image.network(
-                                            mediaUrl!,
-                                            fit: BoxFit.cover,
-                                            scale: 0.5,
-                                          )
-                                          // : Align(
-                                          //     alignment: Alignment.center,
-                                          //     child: Image.network(
-                                          //       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png",
-                                          //       height: 110,
-                                          //     ),
-                                          //   ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          item.description ?? '',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                    ),
-                                    Positioned(
-                                      top: 8,
-                                      right: 8,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.6),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        padding: const EdgeInsets.all(4),
-                                        child: Icon(
-                                          isImage
-                                              ? Icons.image
-                                              : Icons.videocam,
-                                          color: Colors.white,
-                                          size: 14,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    item.description ?? '',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          item.diffrenceTime ?? '',
+                                          style: TextStyle(
+                                            color: CommonColors.blackColor
+                                                .withOpacity(0.6),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 5),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    item.diffrenceTime ?? '',
-                                    style: TextStyle(
-                                      color: CommonColors.blackColor
-                                          .withOpacity(0.6),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                        ))
+                    : Center(
+                        child: Text(
+                          "No content uploaded in this category.",
+                        ),
+                      ),
               )
 
               /* GridView.builder(

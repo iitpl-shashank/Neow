@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 import '../../../utils/common_colors.dart';
-import '../../../utils/constant.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String link;

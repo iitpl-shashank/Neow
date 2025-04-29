@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
@@ -25,6 +26,7 @@ import '../../../utils/global_variables.dart';
 import '../../../widgets/common_daily_insight_container.dart';
 import '../../../widgets/healthmix_category_card.dart';
 import '../../../widgets/horiozntal.dart';
+import '../../../widgets/latest_videos_card.dart';
 import '../calendar/calendar_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
@@ -58,7 +60,8 @@ class _HomeViewState extends State<HomeView> {
 
   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
 
-  String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
+//Shifted to bottom view
+  // String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
 
   //String daysToGo = "";
 
@@ -81,29 +84,38 @@ class _HomeViewState extends State<HomeView> {
         setState(() {});
       });
 
-    Future.delayed(Duration.zero, () {
-      mViewModel.attachedContext(context);
-      mViewModel.fetchHealthMixCategoryList();
-      // Loading Issue
-      // mViewModel.getDialogBox(context);
-      mViewYourNaveliModel =
-          Provider.of<YourNaveliViewModel>(context, listen: false);
-      mViewHealthMixModel =
-          Provider.of<HealthMixViewModel>(context, listen: false);
-      mViewSymptomsModel =
-          Provider.of<LogYourSymptomsModel>(context, listen: false);
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        mViewModel.getPeriodInfoList();
+    Future.delayed(
+      Duration.zero,
+      () {
+        mViewModel.attachedContext(context);
+        //Shifted to bottom view
+        // mViewModel.fetchHealthMixCategoryList();
 
-        await handleFirstBloc();
-        // await mViewModel.handleSecondBloc(dateString);
-        await handleThirdBloc();
-        print("diipppka1");
-        //mViewModel.fetchData();
-        _setTimeout();
-        mViewModel.updateSelectedDate(DateTime.now());
-      });
-    });
+        // Loading Issue
+        // mViewModel.getDialogBox(context);
+
+        mViewYourNaveliModel =
+            Provider.of<YourNaveliViewModel>(context, listen: false);
+        mViewHealthMixModel =
+            Provider.of<HealthMixViewModel>(context, listen: false);
+        mViewSymptomsModel =
+            Provider.of<LogYourSymptomsModel>(context, listen: false);
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          //Shifted to bottom view
+          // mViewModel.getPeriodInfoList();
+
+          await handleFirstBloc();
+          //Shifted to bottom view
+          // await mViewModel.handleSecondBloc(dateString);
+          await handleThirdBloc();
+          print("diipppka1");
+          //mViewModel.fetchData();
+          _setTimeout();
+          //Shifted to bottom view
+          // mViewModel.updateSelectedDate(DateTime.now());
+        });
+      },
+    );
 
     // handleFirstBloc();
     // handleSecondBloc();
@@ -222,7 +234,7 @@ class _HomeViewState extends State<HomeView> {
     DateTime dateWithoutTime =
         DateTime(currentDate.year, currentDate.month, currentDate.day);
     // mViewModel.startSlider();
-    mViewHealthMixModel.getHealthMixPostsApi(titleId: 7, type: "Popular");
+    mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "Popular");
     /* mViewModel.getSliderVideoApi().whenComplete(
           () => mViewHealthMixModel
               .getHealthMixPostsApi(titleId: 7)
@@ -2742,578 +2754,91 @@ class _HomeViewState extends State<HomeView> {
 
                 kCommonSpaceV15,
                 Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Stack(children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Latest Videos",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Latest Videos",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
                       ),
+
                       // ShortsView
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            // Define the action when the text is clicked
-                            push(ShortsView(
-                                healthPostsList:
-                                    mViewHealthMixModel.healthPostsList));
-                          },
-                          child: Text(
-                            "Shorts",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: CommonColors.primaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          // Define the action when the text is clicked
+                          push(ShortsView(
+                              healthPostsList:
+                                  mViewHealthMixModel.healthPostsList));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: CommonColors
+                                .bglightPinkColor, // Replace with your custom color
+                            borderRadius:
+                                BorderRadius.circular(10), // Rounded corners
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x3F000000), // Shadow color
+                                blurRadius: 5, // Blur radius
+                                offset: Offset(0, 2), // Shadow offset
+                                spreadRadius: 0, // Spread radius
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/images/ic_short.png',
+                                ),
+                                const SizedBox(
+                                    width: 8), // Space between image and text
+                                Text(
+                                  "Shorts",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: CommonColors.primaryColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      )
-                    ])),
+                      ),
+                    ],
+                  ),
+                ),
                 kCommonSpaceV10,
                 ListView.builder(
                   itemCount: mViewHealthMixModel.healthPostsList.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          right: 12, left: 12, top: 3, bottom: 8),
-                      child: Container(
-                          // width: kDeviceWidth / 1,
-                          // height: kDeviceHeight / 2.2,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: ShapeDecoration(
-                            color: CommonColors.mWhite,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 5,
-                                offset: Offset(0, 2),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                /* const CircleAvatar(
-                                    backgroundColor: CommonColors.mTransparent,
-                                    backgroundImage: AssetImage(
-                                      LocalImages.img_app_logo,
-                                    ),
-                                    radius: 25,
-                                  ), */
-                                GestureDetector(
-                                  onTap: () {
-                                    //TODO : onTap required
-                                    push(PostList(
-                                      position: 0,
-                                      selectedTabIndex: 0,
-                                      postTitle: "Unknown nOw",
-                                    ));
-                                  },
-                                  child: Container(
-                                    height: 90,
-                                    width: kDeviceWidth / 3,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg"),
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                kCommonSpaceH10,
-                                Container(
-                                  /* decoration:BoxDecoration(
-                                      border:Border.all(width: 1, color: CommonColors.mGrey),
-                                    ), */
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Monarch population soars\n 4,900',
-                                        style: getAppStyle(
-                                          color: CommonColors.blackColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      kCommonSpaceV10,
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Nutrition',
-                                              style: getAppStyle(
-                                                color: CommonColors.blackColor,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            kCommonSpaceH10,
-                                            SizedBox(
-                                                height: 20,
-                                                child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 5,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: CommonColors.mGrey,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Text(' ',
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                        )))),
-                                            kCommonSpaceH10,
-                                            Text(
-                                              mViewHealthMixModel
-                                                      .healthPostsList[index]
-                                                      .diffrenceTime ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: CommonColors.mGrey,
-                                                fontSize: 13,
-                                                // height: 0.5,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ]),
-
-                                      /* Text(
-                                            mViewHealthMixModel
-                                                    .healthPostsList[index]
-                                                    .diffrenceTime ??
-                                                '',
-                                            style: getAppStyle(
-                                              color: CommonColors.mGrey,
-                                              fontSize: 14,
-                                              height: 0.5,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ) */
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                          /*Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ,
-                             if (mViewHealthMixModel
-                                    .healthPostsList[index].mediaType ==
-                                'image')
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute<void>(
-                                    fullscreenDialog: true,
-                                    builder: (BuildContext context) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Image.network(
-                                          height: kDeviceHeight / 1,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          mViewHealthMixModel
-                                                  .healthPostsList[index]
-                                                  .media ??
-                                              "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                                          fit: BoxFit.contain,
-                                        ),
-                                      );
-                                    },
+                    final post = mViewHealthMixModel.healthPostsList[index];
+                    return LatestVideoCard(
+                      imageUrl: post.media!.contains("youtube")
+                          ? "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png"
+                          : post.media ??
+                              "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                      title: post.description ?? "Unknown Description",
+                      category: post.id.toString(),
+                      timeDifference: post.diffrenceTime,
+                      onTap: () {
+                          push(HealthmixDetailView(
+                                    post: post,
                                   ));
-                                },
-                                child: Container(
-                                  height: kDeviceHeight / 3.5,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(mViewHealthMixModel
-                                              .healthPostsList[index].media ??
-                                          "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg"),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            if (mViewHealthMixModel
-                                    .healthPostsList[index].mediaType ==
-                                'link')
-                              SizedBox(
-                                height: kDeviceHeight / 4,
-                                child: VideoPlayerScreen(
-                                  link: mViewHealthMixModel
-                                          .healthPostsList[index].media ??
-                                      "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                                  // isFillAvailableSpace: false,
-                                  // isLoop: true,
-                                  // isMute: false,
-                                ),
-                              ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Wrap(
-                                children: (mViewHealthMixModel
-                                            .healthPostsList[index].hashtags ??
-                                        '')
-                                    .split(',')
-                                    .map((tag) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          tag,
-                                          style: getAppStyle(
-                                              color:
-                                                  CommonColors.secondaryColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.5),
-                                        ),
-                                        kCommonSpaceH5,
-                                        Container(
-                                          width: 1,
-                                          height: 15,
-                                          color: CommonColors.mGrey,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                mViewHealthMixModel
-                                        .healthPostsList[index].description ??
-                                    '',
-                                style: getAppStyle(
-                                  color: CommonColors.mGrey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    mViewHealthMixModel.likeHealthMixPostApi(
-                                        healthMixId: mViewHealthMixModel
-                                            .healthPostsList[index].id,
-                                        isLike: mViewHealthMixModel
-                                                .isLikedList[index]
-                                            ? 0
-                                            : 1);
-                                    setState(() {
-                                      mViewHealthMixModel.isLikedList[index] =
-                                          !mViewHealthMixModel
-                                              .isLikedList[index];
-                                    });
-                                  },
-                                  icon: Icon(
-                                      mViewHealthMixModel.isLikedList[index]
-                                          ? Icons.thumb_up
-                                          : Icons.thumb_up_off_alt_outlined,
-                                      color: CommonColors.primaryColor),
-                                ),
-                                // kCommonSpaceH3,
-                                // IconButton(
-                                //     onPressed: () {},
-                                //     icon: Icon(Icons.thumb_down_alt_rounded,
-                                //         color: CommonColors.primaryColor)),
-                                kCommonSpaceH3,
-                                IconButton(
-                                    onPressed: () {
-                                      if (mViewHealthMixModel
-                                              .healthPostsList[index]
-                                              .mediaType ==
-                                          "image") {
-                                        // print("File type image");
-                                        shareNetworkImage(
-                                          mViewHealthMixModel
-                                              .healthPostsList[index].media,
-                                          text: mViewHealthMixModel
-                                              .healthPostsList[index]
-                                              .description,
-                                        );
-                                      } else if (mViewHealthMixModel
-                                              .healthPostsList[index]
-                                              .mediaType ==
-                                          "link") {
-                                        // print("File type link");
-                                        share(
-                                            mViewHealthMixModel
-                                                .healthPostsList[index].media,
-                                            text: mViewHealthMixModel
-                                                .healthPostsList[index]
-                                                .description);
-                                      }
-                                    },
-                                    icon: const Icon(Icons.share_rounded,
-                                        color: CommonColors.primaryColor)),
-                              ],
-                            )
-                          ],
-                        ),*/
-                          ),
+                      },
                     );
                   },
                 ),
-                /* Padding(
-                  padding:const EdgeInsets.only(left:12,right:12),
-                  child:Container(
-                    padding:const EdgeInsets.only(left:10,right:10,top:15,bottom:15,),
-                    clipBehavior: Clip.antiAlias,
-                        decoration: ShapeDecoration(
-                          color: CommonColors.mWhite,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 5,
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child:Stack(
-                          children:[
-
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text('Previous cycle length',
-
-                                style:TextStyle(
-
-                                  fontSize:16,
-                                )
-                              ),
-                            ),
-
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Text('28 Days  >',
-                                style:TextStyle(
-                                  fontWeight:FontWeight.bold,
-                                  fontSize:16,
-                                )
-                              ),
-                            ),
-
-
-
-                          ]
-                        )
-                  ),
-                ),
-                kCommonSpaceV20,
-                Padding(
-                  padding:const EdgeInsets.only(left:12,right:12),
-                  child:Container(
-                    padding:const EdgeInsets.only(left:10,right:10,top:15,bottom:15,),
-                    clipBehavior: Clip.antiAlias,
-                        decoration: ShapeDecoration(
-                          color: CommonColors.mWhite,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 5,
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child:Stack(
-                          children:[
-
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                children:[
-                                  Text('Previous period length',
-
-                                    style:TextStyle(
-
-                                      fontSize:16,
-                                    )
-                                  ),
-                                  Text('July 17 - July 22',
-
-                                    style:TextStyle(
-
-                                      fontSize:12,
-                                    )
-                                  ),
-                                ]
-                              ),
-
-                            ),
-
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Column(
-                                mainAxisAlignment:MainAxisAlignment.end,
-                                children:[
-                                  Text('06 Days  >',
-                                  textAlign:TextAlign.right,
-                                  style:TextStyle(
-                                    fontWeight:FontWeight.bold,
-                                    fontSize:16,
-                                  ),
-                                  ),
-                                  Container(
-                                    // height:50,
-                                    width:100,
-                                    child:Row(
-                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                    children:[
-
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:Colors.red,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:CommonColors.mGrey,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height:20,
-                                        child:Container(
-                                          padding:const EdgeInsets.only(left:5,),
-                                          child:Text(' ',style:TextStyle(fontSize:10,)),
-                                          decoration:BoxDecoration(
-                                            color:CommonColors.mGrey,
-                                            shape:BoxShape.circle,
-                                          )
-                                        )
-                                      ),
-
-                                    ]
-                                    )
-                                  )
-
-                                ]
-                              )
-                            ),
-
-                            /* Align(
-                              alignment: Alignment.centerRight,
-                              child:
-                            ), */
-
-
-
-                          ]
-                        )
-                  ),
-                ), */
-
                 kCommonSpaceV20,
               ],
             ),
