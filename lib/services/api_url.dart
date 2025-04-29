@@ -100,4 +100,5 @@ class ApiUrl {
   static const String ADD_PERIOD_INFO = "${BASE_URL}savePeriodsInfo";
   static const String GET_ABOUT_YOUR_CYCLE = "${BASE_URL}aboutYourCycle";
   static const String notification = "${BASE_URL}notification";
+  static const String getHealthMixCategoryList = "${BASE_URL}healthMixCategoryList";
 }

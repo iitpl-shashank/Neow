@@ -20,6 +20,7 @@ import '../models/forum_comment_master.dart';
 import '../models/forum_post_master.dart';
 import '../models/health_mix_liked_post_master.dart';
 import '../models/health_mix_posts_master.dart';
+import '../models/healthmix_category_model.dart';
 import '../models/login_master.dart';
 import '../models/madication_master.dart';
 import '../models/monthly_mission_master.dart';
@@ -50,7 +51,8 @@ abstract class BaseServices {
 
   Future<CommonMaster?> verifyMobile({required Map<String, dynamic> params});
 
-  Future<Map<String,dynamic>> getDateWiseText({required Map<String, dynamic> params});
+  Future<Map<String, dynamic>> getDateWiseText(
+      {required Map<String, dynamic> params});
 
   Future<UserDetailMaster?> getUserDetails();
 
@@ -217,15 +219,20 @@ abstract class BaseServices {
   Future<UserSymptomsScoreMaster?> getSymptomsScore(
       {required Map<String, dynamic> params});
 
-  Future<MonthlyReminderMaster?> addMonthlyReminder({required Map<String, dynamic> params});
+  Future<MonthlyReminderMaster?> addMonthlyReminder(
+      {required Map<String, dynamic> params});
 
   Future<PeriodInfoListResponse?> getPeriodInfoList();
 
-  Future<PeriodInfoListResponse?> savePeriodsInfo({required Map<String, dynamic> params});
+  Future<PeriodInfoListResponse?> savePeriodsInfo(
+      {required Map<String, dynamic> params});
 
   Future<AboutYourCycleReponse?> getAboutYourCycle();
 
-  Future<Map<String,dynamic>> postUserSymptoms({required Map<String, dynamic> body});
+  Future<Map<String, dynamic>> postUserSymptoms(
+      {required Map<String, dynamic> body});
 
-  Future<Map<String,dynamic>> getDialogBoxData();
+  Future<Map<String, dynamic>> getDialogBoxData();
+
+  Future<HealthMixCategoryModel?> getHealthMixCategoryList();
 }

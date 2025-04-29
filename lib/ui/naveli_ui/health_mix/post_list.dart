@@ -5,20 +5,22 @@ import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:provider/provider.dart';
-
 import '../../../generated/i18n.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widgets/common_appbar.dart';
-import '../../../utils/local_images.dart';
 import '../../../widgets/scaffold_bg.dart';
 import 'health_mix_view_model.dart';
 
 class PostList extends StatefulWidget {
   final int position;
   final int selectedTabIndex;
+  final String postTitle;
 
   const PostList(
-      {super.key, required this.position, required this.selectedTabIndex});
+      {super.key,
+      required this.position,
+      required this.selectedTabIndex,
+      required this.postTitle});
 
   @override
   State<PostList> createState() => _PostList(position, selectedTabIndex);
@@ -58,21 +60,24 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
 
   void getPostList() {
     if (selectedTabIndex == 0) {
-      mViewModel.getHealthMixPostsApi(titleId: 7,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
     } else if (selectedTabIndex == 1) {
-      mViewModel.getHealthMixPostsApi(titleId: 1,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
     } else if (selectedTabIndex == 2) {
-      mViewModel.getHealthMixPostsApi(titleId: 2,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
     } else if (selectedTabIndex == 3) {
-      mViewModel.getHealthMixPostsApi(titleId: 3,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
     } else if (selectedTabIndex == 4) {
-      mViewModel.getHealthMixPostsApi(titleId: 4,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
     } else if (selectedTabIndex == 5) {
-      mViewModel.getHealthMixPostsApi(titleId: 5,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
     } else if (selectedTabIndex == 6) {
-      mViewModel.getHealthMixPostsApi(titleId: 6,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
     } else if (selectedTabIndex == 7) {
-      mViewModel.getHealthMixPostsApi(titleId: 8,type: "popular");
+      mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
+    } else {
+      mViewModel.getHealthMixPostsApi(
+          titleId: selectedTabIndex, type: "popular");
     }
   }
 
@@ -84,7 +89,7 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
       child: Scaffold(
           backgroundColor: CommonColors.mTransparent,
           appBar: CommonAppBar(
-            title: text[selectedTabIndex],
+            title: widget.postTitle,
             bgColor: CommonColors.mTransparent,
             iconColor: CommonColors.blackColor,
             style: TextStyle(
@@ -106,75 +111,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /* Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundColor: CommonColors.mTransparent,
-                                  backgroundImage: AssetImage(
-                                    LocalImages.img_app_logo,
-                                  ),
-                                  radius: 25,
-                                ),
-                                kCommonSpaceH10,
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Neow',
-                                      style: getAppStyle(
-                                        color: CommonColors.blackColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Text(
-                                      mViewModel.healthPostsList[index]
-                                              .diffrenceTime ??
-                                          '',
-                                      style: getAppStyle(
-                                        color: CommonColors.mGrey,
-                                        fontSize: 14,
-                                        height: 0.5,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                // Expanded(
-                                //   child: Align(
-                                //     alignment: Alignment.topRight,
-                                //     child: PopupMenuButton<SampleItem>(
-                                //       initialValue: selectedMenu,
-                                //       onSelected: (SampleItem item) {
-                                //         setState(() {
-                                //           selectedMenu = item;
-                                //         });
-                                //       },
-                                //       itemBuilder: (BuildContext
-                                //               context) =>
-                                //           <PopupMenuEntry<SampleItem>>[
-                                //         const PopupMenuItem<SampleItem>(
-                                //           value: SampleItem.itemOne,
-                                //           child: Text('Block User'),
-                                //         ),
-                                //         const PopupMenuItem<SampleItem>(
-                                //           value: SampleItem.itemTwo,
-                                //           child: Text('Report Post'),
-                                //         ),
-                                //         const PopupMenuItem<SampleItem>(
-                                //           value: SampleItem.itemThree,
-                                //           child: Text('Report User'),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ), */
                       if (mViewModel.healthPostsList[index].mediaType ==
                           'image')
                         GestureDetector(
@@ -187,11 +123,31 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                                     Navigator.pop(context);
                                   },
                                   child: Image.network(
-                                    height: kDeviceHeight / 1,
-                                    width: MediaQuery.of(context).size.width,
                                     mViewModel.healthPostsList[index].media ??
                                         "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                                    height: kDeviceHeight / 1,
+                                    width: MediaQuery.of(context).size.width,
                                     fit: BoxFit.fill,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child; // Image is fully loaded
+                                      }
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 );
                               },
@@ -201,31 +157,87 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                             height: 314,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                  mViewModel.healthPostsList[index].media ??
-                                      "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: CommonColors.mGrey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
                                 ),
-                                    fit: BoxFit.fill
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: CommonColors.mGrey.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 3,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ]),
-                            // child: Image.network(
-                            //     mViewModel
-                            //     .healthPostsList[index].media ??
-                            //     "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                            //    fit: BoxFit.fill,
-                            //
-                            // ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                mViewModel.healthPostsList[index].media ??
+                                    "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                                fit: BoxFit.fill,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image is fully loaded
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.of(context).push(MaterialPageRoute<void>(
+                      //       fullscreenDialog: true,
+                      //       builder: (BuildContext context) {
+                      //         return GestureDetector(
+                      //           onTap: () {
+                      //             Navigator.pop(context);
+                      //           },
+                      //           child: Image.network(
+                      //             height: kDeviceHeight / 1,
+                      //             width: MediaQuery.of(context).size.width,
+                      //             mViewModel.healthPostsList[index].media ??
+                      //                 "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                      //             fit: BoxFit.fill,
+                      //           ),
+                      //         );
+                      //       },
+                      //     ));
+                      //   },
+                      //   child: Container(
+                      //     height: 314,
+                      //     width: double.infinity,
+                      //     decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //         image: DecorationImage(
+                      //             image: NetworkImage(
+                      //               mViewModel.healthPostsList[index].media ??
+                      //                   "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                      //             ),
+                      //             fit: BoxFit.fill),
+                      //         boxShadow: [
+                      //           BoxShadow(
+                      //             color: CommonColors.mGrey.withOpacity(0.5),
+                      //             spreadRadius: 1,
+                      //             blurRadius: 3,
+                      //             offset: const Offset(0, 3),
+                      //           ),
+                      //         ]),
+                      //   ),
+                      // ),
                       if (mViewModel.healthPostsList[index].mediaType == 'link')
                         Container(
                           height: 314,

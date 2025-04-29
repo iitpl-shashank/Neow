@@ -23,6 +23,7 @@ import '../../../generated/i18n.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widgets/common_daily_insight_container.dart';
+import '../../../widgets/healthmix_category_card.dart';
 import '../../../widgets/horiozntal.dart';
 import '../calendar/calendar_view.dart';
 import '../health_mix/health_mix_view_model.dart';
@@ -32,6 +33,7 @@ import '../profile/your_naveli/your_naveli_view_model.dart';
 import '../symptom_bot/symptom_bot_view.dart';
 import 'all_about_periods/all_about_periods_view.dart';
 import 'de_stress/de_stress_view.dart';
+import 'health_mix_category/health_mix_category_all.dart';
 import 'home_view_model.dart';
 import 'log_your_symptoms/compulsory_symptoms/compulsory_symptoms_log_view.dart';
 import 'log_your_symptoms/log_your_symptoms_view.dart';
@@ -81,6 +83,7 @@ class _HomeViewState extends State<HomeView> {
 
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      mViewModel.fetchHealthMixCategoryList();
       // Loading Issue
       // mViewModel.getDialogBox(context);
       mViewYourNaveliModel =
@@ -2333,10 +2336,13 @@ class _HomeViewState extends State<HomeView> {
                                                         kCommonSpaceV10,
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            //TODO : Slider onTap required
                                                             push(PostList(
-                                                                position: 0,
-                                                                selectedTabIndex:
-                                                                    0));
+                                                              position: 0,
+                                                              selectedTabIndex:
+                                                                  0,
+                                                              postTitle: "",
+                                                            ));
                                                           },
                                                           style: ButtonStyle(
                                                             fixedSize:
@@ -2444,10 +2450,14 @@ class _HomeViewState extends State<HomeView> {
                                                         kCommonSpaceV10,
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            //TODO : Slider onTap required
                                                             push(PostList(
-                                                                position: 0,
-                                                                selectedTabIndex:
-                                                                    0));
+                                                              position: 0,
+                                                              selectedTabIndex:
+                                                                  0,
+                                                              postTitle:
+                                                                  "Slider",
+                                                            ));
                                                           },
                                                           style: ButtonStyle(
                                                             fixedSize:
@@ -2648,183 +2658,87 @@ class _HomeViewState extends State<HomeView> {
                 kCommonSpaceV20,
                 // kCommonSpaceV30,
                 Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Stack(children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Explore",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Stack(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Explore",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
+                          InkWell(
+                            onTap: () {
+                              push(HealthMixCategoryAll());
+                            },
+                            child: Text(
+                              "View all",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Color(0xFF6F4085)),
+                            ),
+                          ),
+                        ],
                       ),
-                      /* Align(
-                        alignment:Alignment.topRight,
-                        child:Text(
-                          "View All",
-                          style: TextStyle(
-                            fontWeight:FontWeight.bold,
-                            fontSize:14,
-                            color:CommonColors.primaryColor,
-                          ),
-                        ),
-                      ), */
-                    ])),
+                    ],
+                  ),
+                ),
 
                 kCommonSpaceV10,
                 Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // kCommonSpaceH10,
-                          InkWell(
-                              onTap: () {
-                                push(
-                                    PostList(position: 0, selectedTabIndex: 0));
-                              },
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: kDeviceWidth / 2.2,
-                                        padding: const EdgeInsets.all(
-                                          10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFFE6D7),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                              LocalImages.img_nutrition_img,
-                                              // width:kDeviceWidth/1.4,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ))),
-                                    kCommonSpaceV5,
-                                    Text(" Nutrition",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ])),
-
-                          InkWell(
-                              onTap: () {
-                                push(
-                                    PostList(position: 0, selectedTabIndex: 1));
-                              },
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: kDeviceWidth / 2.2,
-                                        padding: const EdgeInsets.all(
-                                          10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFFEDED),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                              LocalImages.img_expert,
-                                              // width:kDeviceWidth/1.4,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ))),
-                                    kCommonSpaceV5,
-                                    Text(" Expert Advice",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ])),
-                        ])),
-
-                kCommonSpaceV15,
-
-                Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // kCommonSpaceH10,
-                          InkWell(
-                              onTap: () {
-                                push(
-                                    PostList(position: 0, selectedTabIndex: 2));
-                              },
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: kDeviceWidth / 2.2,
-                                        padding: const EdgeInsets.all(
-                                          10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFE9F4FF),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                              LocalImages.img_cycle_wisdom,
-                                              // width:kDeviceWidth/1.4,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ))),
-                                    kCommonSpaceV5,
-                                    Text(" Cycle Wisdom",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ])),
-
-                          InkWell(
-                              onTap: () {
-                                push(
-                                    PostList(position: 0, selectedTabIndex: 4));
-                              },
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: kDeviceWidth / 2.2,
-                                        padding: const EdgeInsets.all(
-                                          10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFFFFE5),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                              LocalImages.img_testimonial,
-                                              // width:kDeviceWidth/1.4,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ))),
-                                    kCommonSpaceV5,
-                                    Text(" Testimonials",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ]))
-                        ])),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      final firstCard =
+                          mViewModel.healthMixCategoryList[index * 2];
+                      final secondCard = index * 2 + 1 <
+                              mViewModel.healthMixCategoryList.length
+                          ? mViewModel.healthMixCategoryList[index * 2 + 1]
+                          : null;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            HealthmixCategoryCard(
+                              title: firstCard.name ?? "",
+                              imagePath: firstCard.iconUrl ?? "",
+                              backgroundColor: CommonColors.mWhite,
+                              onTap: () => push(PostList(
+                                position: 0,
+                                selectedTabIndex: firstCard.id ?? 0,
+                                postTitle: firstCard.name ?? "",
+                              )),
+                            ),
+                            if (secondCard != null)
+                              HealthmixCategoryCard(
+                                title: secondCard.name ?? "",
+                                imagePath: secondCard.iconUrl ?? "",
+                                backgroundColor: CommonColors.mWhite,
+                                onTap: () => push(PostList(
+                                  position: 0,
+                                  selectedTabIndex: secondCard.id ?? 0,
+                                  postTitle: secondCard.name ?? "",
+                                )),
+                              )
+                            else
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
                 kCommonSpaceV15,
                 Padding(
@@ -2902,8 +2816,12 @@ class _HomeViewState extends State<HomeView> {
                                   ), */
                                 GestureDetector(
                                   onTap: () {
+                                    //TODO : onTap required
                                     push(PostList(
-                                        position: 0, selectedTabIndex: 0));
+                                      position: 0,
+                                      selectedTabIndex: 0,
+                                      postTitle: "Unknown nOw",
+                                    ));
                                   },
                                   child: Container(
                                     height: 90,

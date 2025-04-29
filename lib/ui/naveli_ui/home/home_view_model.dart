@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../database/app_preferences.dart';
+import '../../../models/healthmix_category_model.dart';
 import '../../../models/period_phase_model.dart';
 import '../../../models/slider_video_master.dart';
 import '../../../services/api_para.dart';
@@ -35,6 +36,7 @@ class HomeViewModel with ChangeNotifier {
   List<DateTime> firtileDates = [];
   List<DateTime> daysList = [];
   DateTime selectedDate = DateTime.now();
+  List<Record> healthMixCategoryList = [];
 
   List<Color> gradientColorsList() => [
         Colors.red,
@@ -1197,6 +1199,33 @@ class HomeViewModel with ChangeNotifier {
     //
     //   // daysToGo = mViewModel.calculateDaysToGo(mViewModel.nextCycleDates);
     // }
+  }
+
+  Future<void> fetchHealthMixCategoryList() async {
+    try {
+      HealthMixCategoryModel? response =
+          await _services.api!.getHealthMixCategoryList();
+
+      if (response != null && response.success == true) {
+        healthMixCategoryList = response.data?.records ?? [];
+        debugPrint(
+            "HealthMixCategoryList fetched successfully: $healthMixCategoryList");
+      } else if (response != null && response.success == false) {
+        CommonUtils.showSnackBar(
+          response.message ?? "Failed to fetch Health Mix Category List",
+          color: CommonColors.mRed,
+        );
+      } else {
+        debugPrint("HealthMixCategoryList Response is null");
+      }
+    } catch (e) {
+      // Log the exception and show an error message
+      log("Exception in fetchHealthMixCategoryList: $e");
+    } finally {
+      // Notify listeners to update the UI
+
+      notifyListeners();
+    }
   }
 }
 

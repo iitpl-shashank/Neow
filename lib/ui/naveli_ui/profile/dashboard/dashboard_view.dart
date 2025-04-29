@@ -258,7 +258,7 @@ class _DashboardViewState extends State<DashboardView> {
       mViewModelWeight.attachedContext(context);
       mViewModelSleep.attachedContext(context);
       mViewModelSleep.fetchSleepData();
-
+      
       // setBarData();
       mViewModelWeight.fetchWeightData();
       mAilmentsViewModel.getStoredAilmentsListApi(false);

@@ -27,6 +27,7 @@ import '../models/forum_comment_master.dart';
 import '../models/forum_post_master.dart';
 import '../models/health_mix_liked_post_master.dart';
 import '../models/health_mix_posts_master.dart';
+import '../models/healthmix_category_model.dart';
 import '../models/madication_master.dart';
 import '../models/monthly_mission_master.dart';
 import '../models/question_answer_master.dart';
@@ -76,25 +77,25 @@ class ApiServices extends BaseServices {
     }
   }
 
-
   @override
-  Future<Map<String,dynamic>> getDateWiseText({required Map<String, dynamic> params}) async {
+  Future<Map<String, dynamic>> getDateWiseText(
+      {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.DynamicText, postParams: params);
     debugPrint("response in overriding $response");
 
-  return response;
+    return response;
   }
 
   @override
-  Future<Map<String,dynamic>> postUserSymptoms({required Map<String, dynamic> body}) async {
+  Future<Map<String, dynamic>> postUserSymptoms(
+      {required Map<String, dynamic> body}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.logSymptoms, postParams: body);
     debugPrint("response in overriding $response");
 
-  return response;
+    return response;
   }
-
 
   @override
   Future<LoginMaster?> login({required Map<String, dynamic> params}) async {
@@ -1128,7 +1129,8 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<MonthlyReminderMaster?> addMonthlyReminder({required Map<String, dynamic> params}) async {
+  Future<MonthlyReminderMaster?> addMonthlyReminder(
+      {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.ADD_MONTHLY_REMINDERS, postParams: params);
     if (response != null) {
@@ -1230,9 +1232,9 @@ class ApiServices extends BaseServices {
 
   @override
   Future<PeriodInfoListResponse?> getPeriodInfoList() async {
-    dynamic response = await appBaseClient. getApiWithTokenCall(url: ApiUrl.GET_PERIOD_INFO);
+    dynamic response =
+        await appBaseClient.getApiWithTokenCall(url: ApiUrl.GET_PERIOD_INFO);
     if (response != null) {
-
       debugPrint("PeriodInfoListResponse: $response");
       try {
         return PeriodInfoListResponse.fromJson(response);
@@ -1246,8 +1248,8 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<PeriodInfoListResponse?> savePeriodsInfo({required Map<String, dynamic> params}) async {
-    
+  Future<PeriodInfoListResponse?> savePeriodsInfo(
+      {required Map<String, dynamic> params}) async {
     // log("AddPerido: $params",name: ApiUrl.ADD_PERIOD_INFO);
     try {
       dynamic response = await appBaseClient.postApiWithTokenCall(
@@ -1272,7 +1274,8 @@ class ApiServices extends BaseServices {
 
   @override
   Future<AboutYourCycleReponse?> getAboutYourCycle() async {
-    dynamic response = await appBaseClient.getApiWithTokenCall(url: ApiUrl.GET_ABOUT_YOUR_CYCLE);
+    dynamic response = await appBaseClient.getApiWithTokenCall(
+        url: ApiUrl.GET_ABOUT_YOUR_CYCLE);
     debugPrint("response in overriding ${response}");
     if (response != null) {
       try {
@@ -1288,7 +1291,8 @@ class ApiServices extends BaseServices {
 
   @override
   Future<Map<String, dynamic>> getDialogBoxData() async {
-    dynamic response = await appBaseClient.getApiWithTokenCall(url: ApiUrl.notification);
+    dynamic response =
+        await appBaseClient.getApiWithTokenCall(url: ApiUrl.notification);
     debugPrint("response in overriding ${response}");
     if (response != null) {
       try {
@@ -1302,4 +1306,22 @@ class ApiServices extends BaseServices {
     }
   }
 
+  @override
+  Future<HealthMixCategoryModel?> getHealthMixCategoryList() async {
+    try {
+      dynamic response = await appBaseClient.getApiWithTokenCall(
+        url: ApiUrl.getHealthMixCategoryList,
+      );
+      if (response != null) {
+        debugPrint("HealthMixCategoryList Response: $response");
+        return HealthMixCategoryModel.fromJson(response);
+      } else {
+        debugPrint("HealthMixCategoryList Response is null");
+        return null;
+      }
+    } catch (e) {
+      log("Exception in getHealthMixCategoryList: $e");
+      return null;
+    }
+  }
 }

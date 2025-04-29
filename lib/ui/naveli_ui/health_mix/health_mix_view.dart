@@ -298,9 +298,12 @@ class _HealthMixViewState extends State<HealthMixView>
 
                         return GestureDetector(
                           onTap: () {
+                            //TODO : onTap required
                             push(PostList(
-                                position: index,
-                                selectedTabIndex: selectedTabIndex));
+                              position: index,
+                              selectedTabIndex: selectedTabIndex,
+                              postTitle: "HealthMix View",
+                            ));
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 2 -
@@ -329,8 +332,11 @@ class _HealthMixViewState extends State<HealthMixView>
                                           child:
                                               // isImage
                                               //     ?
-                                              Image.network(mediaUrl!,
-                                                  fit: BoxFit.cover, scale: 0.5,)
+                                              Image.network(
+                                            mediaUrl!,
+                                            fit: BoxFit.cover,
+                                            scale: 0.5,
+                                          )
                                           // : Align(
                                           //     alignment: Alignment.center,
                                           //     child: Image.network(
