@@ -31,14 +31,6 @@ class LatestVideoCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            // shadows: const [
-            //   BoxShadow(
-            //     color: Color(0x3F000000),
-            //     blurRadius: 5,
-            //     offset: Offset(0, 2),
-            //     spreadRadius: 0,
-            //   )
-            // ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(0.0),
@@ -79,12 +71,12 @@ class LatestVideoCard extends StatelessWidget {
                             style: getAppStyle(
                               color: CommonColors.blackColor,
                               fontSize: 13,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                           kCommonSpaceH10,
                           SizedBox(
-                            height: 20,
+                            height: 15,
                             child: Container(
                               padding: const EdgeInsets.only(left: 5),
                               decoration: BoxDecoration(
@@ -102,8 +94,8 @@ class LatestVideoCard extends StatelessWidget {
                             timeDifference ?? '',
                             style: getAppStyle(
                               color: CommonColors.mGrey,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ],

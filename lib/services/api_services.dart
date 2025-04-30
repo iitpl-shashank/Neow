@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:naveli_2023/models/about_us_master.dart';
 import 'package:naveli_2023/models/buddy_request_master.dart';
+import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
 import 'package:naveli_2023/services/api_url.dart';
@@ -1323,5 +1324,28 @@ class ApiServices extends BaseServices {
       log("Exception in getHealthMixCategoryList: $e");
       return null;
     }
+  }
+
+  @override
+  Future<HealthMixLatestPost?> getHealthMixLatestPostList(
+      {required Map<String, dynamic> params}) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.getHealthMixLatestVideoList,
+        postParams: params,
+      );
+      if (response != null) {
+        debugPrint("HealthMixLatestPost Response: $response");
+        return HealthMixLatestPost.fromJson(response);
+      } else {
+        debugPrint("HealthMixLatestPost Response is null");
+        return null;
+      }
+    } on Exception catch (e) {
+    } catch (e) {
+      log("Exception in getHealthMixCategoryList: $e");
+      return null;
+    }
+    ;
   }
 }

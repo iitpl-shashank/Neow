@@ -111,6 +111,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/global_variables.dart';
 import '../../naveli_ui/forum/forum_view.dart';
 import '../../naveli_ui/health_mix/health_mix_view.dart';
+import '../../naveli_ui/health_mix/health_mix_view_model.dart';
 import '../../naveli_ui/home/home_view.dart';
 import '../../naveli_ui/home/home_view_model.dart';
 import '../../naveli_ui/profile/profile_view.dart';
@@ -155,8 +156,11 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
       () {
         final mHomeViewModel =
             Provider.of<HomeViewModel>(context, listen: false);
+        final mHealthMixViewModel =
+            Provider.of<HealthMixViewModel>(context, listen: false);
         // mViewModel.attachedContext(context);
         mHomeViewModel.fetchHealthMixCategoryList();
+        mHealthMixViewModel.getHealthMixLatestPosts();
         // Loading Issue
         // mViewModel.getDialogBox(context);
 

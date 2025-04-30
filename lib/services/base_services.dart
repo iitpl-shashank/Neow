@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/signup_master.dart';
 
 import '../models/about_us_master.dart';
@@ -101,6 +102,9 @@ abstract class BaseServices {
   Future<AllPostsMaster?> getAllPosts({required Map<String, dynamic> params});
 
   Future<HealthMixPostMaster?> getHealthMixPosts(
+      {required Map<String, dynamic> params});
+
+  Future<HealthMixLatestPost?> getHealthMixLatestPostList(
       {required Map<String, dynamic> params});
 
   Future<CheckDeviceTokenMaster?> checkDeviceToken(

@@ -1,8 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/common_master.dart';
 import '../../../models/health_mix_liked_post_master.dart';
@@ -16,7 +15,7 @@ class HealthMixViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
   List<HealthMixPosts> healthPostsList = [];
-
+  List<HealthMixPost> healthLatestPostsList = [];
   List<bool> isLikedList = [];
 
   void attachedContext(BuildContext context) {
@@ -125,6 +124,34 @@ class HealthMixViewModel with ChangeNotifier {
       await getLikedPostApi();
     }
     CommonUtils.hideProgressDialog();
+    notifyListeners();
+  }
+
+  Future<void> getHealthMixLatestPosts() async {
+    // CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    debugPrint("params: $params");
+    HealthMixLatestPost? posts =
+        await _services.api!.getHealthMixLatestPostList(params: params);
+    // CommonUtils.hideProgressDialog();
+    notifyListeners();
+
+    if (posts == null) {
+      CommonUtils.oopsMSG();
+      print(
+          "................................health mix latest oops.............................");
+    } else if (posts.success == false) {
+      CommonUtils.showSnackBar(
+        posts.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (posts.success == true) {
+      healthLatestPostsList = posts.data?.healthMixPosts ?? [];
+      debugPrint("healthLatestPostsList: $healthLatestPostsList");
+    }
+    // CommonUtils.hideProgressDialog();
     notifyListeners();
   }
 

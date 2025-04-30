@@ -95,10 +95,13 @@ class ApiUrl {
   static const String GET_WATER_DETAIL =
       "${BASE_URL}track/getStoredUserWaterReminders";
   static const String GET_MONTHLY_REMINDERS = "${BASE_URL}getMonthlyReminder";
-  static const String ADD_MONTHLY_REMINDERS = "${BASE_URL}storeUserMonthlyReminder";
+  static const String ADD_MONTHLY_REMINDERS =
+      "${BASE_URL}storeUserMonthlyReminder";
   static const String GET_PERIOD_INFO = "${BASE_URL}getPeriodInfo";
   static const String ADD_PERIOD_INFO = "${BASE_URL}savePeriodsInfo";
   static const String GET_ABOUT_YOUR_CYCLE = "${BASE_URL}aboutYourCycle";
   static const String notification = "${BASE_URL}notification";
-  static const String getHealthMixCategoryList = "${BASE_URL}healthMixCategoryList";
+  static const String getHealthMixCategoryList =
+      "${BASE_URL}healthMixCategoryList";
+  static const String getHealthMixLatestVideoList = "${BASE_URL}healthMixList";
 }

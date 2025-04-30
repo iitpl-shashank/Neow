@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
@@ -2818,23 +2819,31 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 kCommonSpaceV10,
                 ListView.builder(
-                  itemCount: mViewHealthMixModel.healthPostsList.length,
+                  itemCount: mViewHealthMixModel.healthLatestPostsList.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final post = mViewHealthMixModel.healthPostsList[index];
+                    final post =
+                        mViewHealthMixModel.healthLatestPostsList[index];
                     return LatestVideoCard(
                       imageUrl: post.media!.contains("youtube")
                           ? "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png"
                           : post.media ??
                               "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
                       title: post.description ?? "Unknown Description",
-                      category: post.id.toString(),
+                      category: post.category?.title ?? "Category",
                       timeDifference: post.diffrenceTime,
                       onTap: () {
-                          push(HealthmixDetailView(
-                                    post: post,
-                                  ));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HealthmixLatestDetailView(
+                              key: ValueKey(
+                                  post.id), // Use a unique key for each post
+                              post: post,
+                            ),
+                          ),
+                        );
                       },
                     );
                   },
