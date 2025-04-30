@@ -30,6 +30,7 @@ class CommonColors {
   static const darkYellow = Color(0xFFF8A520);
   static const blackArrow = Color(0xFF060606);
   static const blueShade = Color(0xFFFAEEFF);
+  static const purple = Color(0xFFF6F4085);
 
   static const pastalGreen = Color.fromRGBO(187, 236, 175, 0.812);
 }

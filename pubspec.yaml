@@ -36,7 +36,7 @@ dependencies:
   shared_preferences: ^2.2.2
   http: ^1.0.0
   connectivity_plus: ^5.0.1
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.12
   url_launcher: ^6.2.2
   provider: ^6.1.1
   device_info_plus: ^10.1.2
@@ -137,6 +137,7 @@ flutter:
     - assets/images/
     - assets/audio/
     - assets/video/
+    - assets/svgs/
 
 
 

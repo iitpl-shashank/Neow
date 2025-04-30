@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:naveli_2023/ui/app/app_view.dart';
 import 'package:provider/provider.dart';
-
 import 'database/app_preferences.dart';
 import 'firebase_options.dart';
 import 'notification_service/notification_service.dart';

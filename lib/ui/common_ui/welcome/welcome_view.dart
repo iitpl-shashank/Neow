@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gif_view/gif_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:naveli_2023/ui/common_ui/welcome/widgets/custom_alert_dialog.dart';
+import 'package:naveli_2023/ui/common_ui/welcome/widgets/menopause_alert_dialog.dart';
+import 'package:naveli_2023/utils/images_route.dart';
 import 'package:provider/provider.dart';
 import 'package:zodiac/zodiac.dart';
 
@@ -43,7 +46,7 @@ class _WelcomeViewState extends State<WelcomeView> {
   final mAapkeKonController = TextEditingController();
   final mUniqueIdController = TextEditingController();
 
-  late SignInViewModel singInViewModel =  SignInViewModel();
+  late SignInViewModel singInViewModel = SignInViewModel();
 
   final PageController pageController = PageController(
     initialPage: 0,
@@ -71,7 +74,6 @@ class _WelcomeViewState extends State<WelcomeView> {
   //
   //   return age;
   // }
-
 
   @override
   void initState() {
@@ -116,10 +118,10 @@ class _WelcomeViewState extends State<WelcomeView> {
     }
   }
 
-
   Future<void> selectDate() async {
     DateTime today = DateTime.now();
-    DateTime minimumAllowedDate = today.subtract(const Duration(days: 365 * 15)); // 15 years ago
+    DateTime minimumAllowedDate =
+        today.subtract(const Duration(days: 365 * 15)); // 15 years ago
 
     DateTime? picked = await showDatePicker(
       context: mainNavKey.currentContext!,
@@ -131,27 +133,272 @@ class _WelcomeViewState extends State<WelcomeView> {
     );
 
     if (picked != null) {
-      setState(() {
-        mDateController.text = CommonUtils.dateFormatyyyyMMDD(picked.toString());
+      setState(() async {
+        mDateController.text =
+            CommonUtils.dateFormatyyyyMMDD(picked.toString());
         int age = calculateAge(mDateController.text);
         debugPrint("Age===>: $age");
 
-        if (age >= 55) {
-          // Automatically pop the date picker and show the dialog
-          Future.delayed(Duration.zero, () {
-            askMenstrualStatus();
-          });
-        } else {
-          // Set default user role for younger users
+        if (age >= 9 && age <= 25) {
+          await handle9To25Dialogs(context);
           singInViewModel.userRoleId = "2";
           gUserType = AppConstants.NEOWME;
+        } else if (age > 25 && age <= 45) {
+          await handle25To45Dialogs(context);
+          //TODO : user role id is for what ?
+          singInViewModel.userRoleId = "2";
+          gUserType = AppConstants.NEOWME;
+        } else if (age > 45 && age <= 50) {
+          await handle45To50Dialogs(context);
+          singInViewModel.userRoleId = "2";
+          gUserType = AppConstants.NEOWME;
+        } else if (age > 50) {
+          await handle50PlusDialogs(context);
+          // Automatically pop the date picker and show the dialog
+          // Future.delayed(Duration.zero, () {
+          //   askMenstrualStatus();
+          // });
         }
+        // else {
+        //   // Set default user role for younger users
+        //   singInViewModel.userRoleId = "2";
+        //   gUserType = AppConstants.NEOWME;
+        // }
       });
     } else {
       print("Date selection canceled");
     }
   }
 
+//Handle 9 to 25 age group dialogs
+  Future<void> handle9To25Dialogs(BuildContext context) async {
+    final vaccinated = await showCustomDialog(
+      context: context,
+      title: "Have you gotten yourself vaccinated against cervical cancer?",
+      options: [
+        DialogOption("Yes", "yes"),
+        DialogOption("No", "no"),
+      ],
+    );
+
+    if (vaccinated == "yes") {
+      final doses = await showCustomDialog(
+        context: context,
+        title: "How many doses have you\ntaken?",
+        isHorizontal: true,
+        options: [
+          DialogOption("Dose 1", "1"),
+          DialogOption("Dose 2", "2"),
+        ],
+      );
+
+      if (doses == "1") {
+        await showCustomDialog(
+            context: context,
+            title: "Dose 2 Is Pending!",
+            description: "Take it 6 months after your first dose.",
+            icon: Images.pendingClock,
+            showCloseIcon: true);
+      } else {
+        await showCustomDialog(
+            context: context,
+            title: "Very Good!",
+            description: "Your vaccination is complete.",
+            icon: Images.thumpsUp,
+            showCloseIcon: true);
+      }
+    } else {
+      await showCustomDialog(
+        context: context,
+        title: "Uh-oh!",
+        description:
+            "Get yourself vaccinated today. You need 2 doses at an interval of 6 months.",
+        icon: Images.dangerSign,
+        showCloseIcon: true,
+      );
+    }
+  }
+
+//Handle 25 to 45 age group dialogs
+  Future<void> handle25To45Dialogs(BuildContext context) async {
+    final trying = await showCustomDialog(
+      context: context,
+      title: "Have you been trying to get pregnant?",
+      options: [
+        DialogOption("Yes", "yes"),
+        DialogOption("No", "no"),
+      ],
+    );
+
+    if (trying == "yes") {
+      final tryingDuration = await showCustomDialog(
+        context: context,
+        title: "Have you been trying since 12 months or more than that?",
+        isHorizontal: true,
+        options: [
+          DialogOption("Yes", "yes"),
+          DialogOption("No", "no"),
+        ],
+      );
+
+      if (tryingDuration == "yes") {
+        await showCustomDialog(
+          context: context,
+          title: "You need a fertility work up to find out the cause.",
+          showCloseIcon: true,
+          icon: Images.briefcase,
+        );
+      }
+    } else {
+      await showCustomDialog(
+        context: context,
+        icon: Images.dangerSign,
+        showCloseIcon: true,
+        showPurpleButton: true,
+        title:
+            "Keep trying for at least 6 months - To know more about your fertile period",
+        options: [DialogOption("Click Here", "click")],
+      );
+    }
+  }
+
+  //Handle 45 to 50 age group dialogs
+  Future<void> handle45To50Dialogs(BuildContext context) async {
+    final bleeding = await showCustomDialog(
+      context: context,
+      title: "Do you experience heavy/\nirregular bleeding?",
+      options: [
+        DialogOption("Yes", "yes"),
+        DialogOption("No", "no"),
+      ],
+    );
+
+    if (bleeding == "yes") {
+      await showCustomDialog(
+        context: context,
+        title: "Get yourself an\nUltrasound and a Pap Smear today.",
+        description:
+            "Possible cause may be:\n• Fibroids\n• Endometriosis\n• Cancer\n• Cyst",
+        options: [
+          DialogOption("Get exam check today!", "check"),
+        ],
+        showPurpleButton: true,
+        icon: Images.dangerSign,
+      );
+    } else {
+      final gotAnyPapSmearBefore = await showCustomDialog(
+        context: context,
+        title: "Have you got any Pap Smear in the past?",
+        options: [
+          DialogOption("Yes", "yes"),
+          DialogOption("No", "no"),
+        ],
+      );
+
+      if (gotAnyPapSmearBefore == "no") {
+        await showCustomDialog(
+          context: context,
+          title:
+              "Get one today. It is a very important test to diagnose Cervical Cancer and its early stages.",
+          icon: Images.dangerSign,
+          showCloseIcon: true,
+        );
+      } else {
+        final lastPapSmear = await showCustomDialog(
+          context: context,
+          title: "When was your last Pap Smear?",
+          options: [
+            DialogOption("3 Years Back", "3"),
+            DialogOption("Less Than 3 Years", "<3"),
+          ],
+        );
+
+        if (lastPapSmear == "3") {
+          await showCustomDialog(
+            context: context,
+            title: "Repeat a Pap smear today!",
+            icon: Images.pendingClock,
+            showPurpleButton: true,
+            options: [
+              DialogOption("Okay", "okay"),
+            ],
+          );
+        } else {
+          await showCustomDialog(
+            context: context,
+            title: "Get another one at an interval of 3 years!",
+            icon: Images.pendingClock,
+            showPurpleButton: true,
+            options: [
+              DialogOption("Okay", "okay"),
+            ],
+          );
+        }
+      }
+    }
+  }
+
+  //Handle 50+ age group dialogs
+  Future<void> handle50PlusDialogs(BuildContext context) async {
+    final hadPeriods = await showCustomDialog(
+      context: context,
+      title: "Have you had any periods\nin the last one year?",
+      options: [
+        DialogOption("Yes", "yes"),
+        DialogOption("No", "no"),
+      ],
+    );
+
+    if (hadPeriods == "no") {
+      final selected = await showMenopauseDialog(context);
+      if (selected != null && selected.isNotEmpty) {
+        print('Selected symptoms: $selected');
+      }
+
+      await showCustomDialog(
+        context: context,
+        title: "Do Not Worry!",
+        description:
+            "These are Postmenopausal symptoms due to estrogen deficiency, "
+            "consult a gynecologist to start HRT (Hormone Replacement Therapy) "
+            "to relieve these symptoms.",
+        options: [DialogOption("Okay", "ok")],
+        showPurpleButton: true,
+        showCloseIcon: true,
+      );
+    } else {
+      final postmenopausalSymptoms = await showCustomDialog(
+        context: context,
+        title:
+            "Have you experienced\npostmenopausal spotting or\nor bleeding after 1 Year of\nstoppage?",
+        options: [
+          DialogOption("Yes", "yes"),
+          DialogOption("No", "no"),
+        ],
+      );
+
+      if (postmenopausalSymptoms == "yes") {
+        await showCustomDialog(
+          context: context,
+          icon: Images.dangerSign,
+          title: "Get yourselfan\nUltrasound and a Pap\nSmear today.",
+          description:
+              "Possible causes may be :\n• Estrogen Deficiency\n• Vaginal Dryness\n• Cancer",
+          options: [DialogOption("Okay", "ok")],
+          showPurpleButton: true,
+        );
+      } else {
+        await showCustomDialog(
+          context: context,
+          title: "You are not Menopausal yet!",
+          options: [DialogOption("Okay", "ok")],
+          showPurpleButton: true,
+        );
+      }
+    }
+  }
+
+//TODO : Old 50+ function
   void askMenstrualStatus() {
     showDialog(
       context: mainNavKey.currentContext!,
@@ -165,18 +412,15 @@ class _WelcomeViewState extends State<WelcomeView> {
               onPressed: () {
                 Navigator.pop(context);
                 setState(() {
-
-
                   singInViewModel.userRoleId = "4"; // Assign role for menopause
                   gUserType = AppConstants.CYCLE_EXPLORER;
-                  globalUserMaster = AppPreferences.instance
-                      .getUserDetails();
+                  globalUserMaster = AppPreferences.instance.getUserDetails();
 
                   UserMaster userMaster = UserMaster(
                       id: globalUserMaster!.id,
                       name: globalUserMaster!.name,
                       email: globalUserMaster!.email,
-                      roleId : 4,
+                      roleId: 4,
                       uuId: globalUserMaster!.uuId,
                       birthdate: globalUserMaster!.birthdate,
                       age: globalUserMaster!.age,
@@ -197,15 +441,14 @@ class _WelcomeViewState extends State<WelcomeView> {
                       humApkeHeKon: globalUserMaster!.humApkeHeKon,
                       status: globalUserMaster!.status,
                       state: globalUserMaster!.state,
-                      city: globalUserMaster!.city
-                  );
+                      city: globalUserMaster!.city);
 
-                  AppPreferences.instance.setUserDetails(
-                      jsonEncode(userMaster));
+                  AppPreferences.instance
+                      .setUserDetails(jsonEncode(userMaster));
                   gUserType = singInViewModel.userRoleId.toString();
 
-
                   debugPrint("Role ID: ${singInViewModel.userRoleId}");
+                  debugPrint("Role ID: ${userMaster.toJson()}");
                 });
               },
               child: const Text("No"),
@@ -226,8 +469,6 @@ class _WelcomeViewState extends State<WelcomeView> {
       },
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -413,7 +654,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       Align(
                         alignment: Alignment.topLeft,
                         child: InkWell(
@@ -457,9 +697,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       kCommonSpaceV30,
                       if (gUserType == AppConstants.BUDDY ||
                           gUserType == AppConstants.CYCLE_EXPLORER) ...[
-
                         kCommonSpaceV30,
-
                         CommonGenderSelectBox(
                             onTap: () {
                               setState(() {
@@ -581,36 +819,37 @@ class _WelcomeViewState extends State<WelcomeView> {
                         ),
                       ),
                       kCommonSpaceV50,
-                      Row(mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        CommonRelationSelectBox(
-                          onTap: () {
-                            setState(() {
-                              selectedRelation = 1;
-                            });
-                          },
-                          text: S.of(context)!.solo,
-                          imagePath: LocalImages.img_solo,
-                          // isBoxFit: true,
-                          isShowDefaultBorder: true,
-                          isSelected: selectedRelation == 1,
-                        ),
-                        kCommonSpaceH10,
-                        kCommonSpaceH10,
-                        CommonRelationSelectBox(
-                          onTap: () {
-                            setState(() {
-                              selectedRelation = 2;
-                            });
-                          },
-                          text: S.of(context)!.tied,
-                          imagePath: LocalImages.img_naveli_heart,
-                          // isBoxFit: true,
-                          isShowDefaultBorder: true,
-                
-                          isSelected: selectedRelation == 2,
-                        ),
-                      ]),
+                            CommonRelationSelectBox(
+                              onTap: () {
+                                setState(() {
+                                  selectedRelation = 1;
+                                });
+                              },
+                              text: S.of(context)!.solo,
+                              imagePath: LocalImages.img_solo,
+                              // isBoxFit: true,
+                              isShowDefaultBorder: true,
+                              isSelected: selectedRelation == 1,
+                            ),
+                            kCommonSpaceH10,
+                            kCommonSpaceH10,
+                            CommonRelationSelectBox(
+                              onTap: () {
+                                setState(() {
+                                  selectedRelation = 2;
+                                });
+                              },
+                              text: S.of(context)!.tied,
+                              imagePath: LocalImages.img_naveli_heart,
+                              // isBoxFit: true,
+                              isShowDefaultBorder: true,
+
+                              isSelected: selectedRelation == 2,
+                            ),
+                          ]),
                       CommonRelationSelectBox(
                         onTap: () {
                           setState(() {
@@ -620,7 +859,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                         text: 'Open for surprises',
                         imagePath: LocalImages.img_open_for_surprises,
                         isShowDefaultBorder: true,
-                
+
                         // isBoxFit: true,
                         isSelected: selectedRelation == 3,
                       ),
@@ -1118,8 +1357,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                           Future.delayed(const Duration(seconds: 3), () {
                             Navigator.of(context).pop();
                           });
-                        }
-                        else if (currentIndex == 3 && selectedRelation == 2) {
+                        } else if (currentIndex == 3 && selectedRelation == 2) {
                           showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -1144,11 +1382,11 @@ class _WelcomeViewState extends State<WelcomeView> {
                                         alignment: Alignment.topLeft,
                                         child: Container(
                                           color: CommonColors.mTransparent,
-                                          *//*padding: const EdgeInsets.only(
+                                          */ /*padding: const EdgeInsets.only(
                                               left: 15,
                                               right: 15,
                                               top: 10,
-                                              bottom: 10),*//*
+                                              bottom: 10),*/ /*
                                           child: Text(
                                             '',
                                             textAlign: TextAlign.center,
@@ -1176,8 +1414,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                           Future.delayed(const Duration(seconds: 3), () {
                             Navigator.of(context).pop();
                           });
-                        }
-                        else if (currentIndex == 3 && selectedRelation == 3) {
+                        } else if (currentIndex == 3 && selectedRelation == 3) {
                           showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -1247,7 +1484,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                           allData['relation'] = selectedRelation.toString();
                           allData['birthdate'] = mDateController.text.trim();
                           if (currentIndex == 5 &&
-                              gUserType == AppConstants.NEOWME ) {
+                              gUserType == AppConstants.NEOWME) {
                             push(CycleInfoView(welcomeData: allData));
                           } else if (currentIndex == 4 &&
                               gUserType == AppConstants.CYCLE_EXPLORER) {
@@ -1292,7 +1529,8 @@ class _WelcomeViewState extends State<WelcomeView> {
                               genderType: allData['otherGender'],
                               relationshipStatus: allData['relation'],
                               humAapkeHeKon: allData['humAapkeKon'],
-                            ).whenComplete(() {
+                            )
+                                .whenComplete(() {
                               mViewModel.verifyUniqueIdApi(
                                   uniqueId: mUniqueIdController.text.trim(),
                                   isFromCycle: true);
@@ -1349,5 +1587,3 @@ class _WelcomeViewState extends State<WelcomeView> {
     }
   }
 }
-
-
