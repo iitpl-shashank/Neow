@@ -33,8 +33,10 @@ Future<void> main() async {
     ],
   );
   Provider.debugCheckInvalidValueType = null;
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await AppPreferences.initPref();
   await Future.delayed(const Duration(milliseconds: 300));
   await Firebase.initializeApp(

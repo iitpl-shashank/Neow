@@ -2578,13 +2578,20 @@ class _HomeViewState extends State<HomeView> {
                       // shrinkWrap: true,
                       children: <Widget>[
                         if (gUserType == AppConstants.NEOWME)
+                          // TODO : Show toast if not a period day
                           CommonDailyInsightContainer(
                             onTap: () {
-                              push(const LogYourSymptoms()).then((value) =>
-                                  mViewSymptomsModel?.getUserSymptomsLogApi(
-                                      date: globalUserMaster
-                                              ?.previousPeriodsBegin ??
-                                          ''));
+                              if (mViewModel.dateWiseTextList.msg.periodMsg
+                                  .contains("Period Day")) {
+                                push(const LogYourSymptoms()).then((value) =>
+                                    mViewSymptomsModel?.getUserSymptomsLogApi(
+                                        date: globalUserMaster
+                                                ?.previousPeriodsBegin ??
+                                            ''));
+                              } else {
+                                CommonUtils.showToastMessage(
+                                    "You can log your Symptoms only on Period Days.");
+                              }
                               // if (getLogSymtopmActive() == true) {
                               //   push(const LogYourSymptoms()).then((value) =>
                               //       mViewSymptomsModel?.getUserSymptomsLogApi(
