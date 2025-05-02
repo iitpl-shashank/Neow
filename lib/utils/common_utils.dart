@@ -520,7 +520,8 @@ class CommonUtils {
       const Duration(seconds: 60),
       onTimeout: () {
         hideProgressDialog();
-        oopsMSG();
+        // Unneccessary network error toast here
+        // oopsMSG();
         isShowing = false;
         print(
             "................................process dialog oops.............................");

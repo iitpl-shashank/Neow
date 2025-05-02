@@ -10,7 +10,6 @@ import 'package:naveli_2023/ui/common_ui/welcome/widgets/menopause_alert_dialog.
 import 'package:naveli_2023/utils/images_route.dart';
 import 'package:provider/provider.dart';
 import 'package:zodiac/zodiac.dart';
-
 import '../../../database/app_preferences.dart';
 import '../../../generated/i18n.dart';
 import '../../../models/login_master.dart';
@@ -133,40 +132,47 @@ class _WelcomeViewState extends State<WelcomeView> {
     );
 
     if (picked != null) {
-      setState(() async {
-        mDateController.text =
-            CommonUtils.dateFormatyyyyMMDD(picked.toString());
-        int age = calculateAge(mDateController.text);
-        debugPrint("Age===>: $age");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          mDateController.text =
+              CommonUtils.dateFormatyyyyMMDD(picked.toString());
+          int age = calculateAge(mDateController.text);
+          debugPrint("Age===>: $age");
 
-        if (age >= 9 && age <= 25) {
-          await handle9To25Dialogs(context);
-          singInViewModel.userRoleId = "2";
-          gUserType = AppConstants.NEOWME;
-        } else if (age > 25 && age <= 45) {
-          await handle25To45Dialogs(context);
-          //TODO : user role id is for what ?
-          singInViewModel.userRoleId = "2";
-          gUserType = AppConstants.NEOWME;
-        } else if (age > 45 && age <= 50) {
-          await handle45To50Dialogs(context);
-          singInViewModel.userRoleId = "2";
-          gUserType = AppConstants.NEOWME;
-        } else if (age > 50) {
-          await handle50PlusDialogs(context);
-          // Automatically pop the date picker and show the dialog
-          // Future.delayed(Duration.zero, () {
-          //   askMenstrualStatus();
-          // });
-        }
-        // else {
-        //   // Set default user role for younger users
-        //   singInViewModel.userRoleId = "2";
-        //   gUserType = AppConstants.NEOWME;
-        // }
+          if (age >= 9 && age <= 25) {
+            handle9To25Dialogs(context);
+            singInViewModel.userRoleId = "2";
+            gUserType = AppConstants.NEOWME;
+          } else if (age > 25 && age <= 45) {
+            handle25To45Dialogs(context);
+            //TODO : user role id is for what ?
+            singInViewModel.userRoleId = "2";
+            gUserType = AppConstants.NEOWME;
+          } else if (age > 45 && age <= 50) {
+            handle45To50Dialogs(context);
+            singInViewModel.userRoleId = "2";
+            gUserType = AppConstants.NEOWME;
+          } else if (age > 50) {
+            // await handle50PlusDialogs(context);
+
+            handle50PlusDialogs(context);
+
+            // Automatically pop the date picker and show the dialog
+            // Future.delayed(Duration.zero, () {
+            //   askMenstrualStatus();
+            // });
+          }
+          // else {
+          //   // Set default user role for younger users
+          //   singInViewModel.userRoleId = "2";
+          //   gUserType = AppConstants.NEOWME;
+          // }
+        });
       });
     } else {
       print("Date selection canceled");
+      singInViewModel.userRoleId = "2";
+      gUserType = AppConstants.NEOWME;
     }
   }
 
@@ -340,12 +346,19 @@ class _WelcomeViewState extends State<WelcomeView> {
 
   //Handle 50+ age group dialogs
   Future<void> handle50PlusDialogs(BuildContext context) async {
+    debugPrint("Inside 50+");
     final hadPeriods = await showCustomDialog(
       context: context,
       title: "Have you had any periods\nin the last one year?",
       options: [
-        DialogOption("Yes", "yes"),
-        DialogOption("No", "no"),
+        DialogOption(
+          "Yes",
+          "yes",
+        ),
+        DialogOption(
+          "No",
+          "no",
+        ),
       ],
     );
 
@@ -355,7 +368,7 @@ class _WelcomeViewState extends State<WelcomeView> {
         print('Selected symptoms: $selected');
       }
 
-      await showCustomDialog(
+      final isOkay = await showCustomDialog(
         context: context,
         title: "Do Not Worry!",
         description:
@@ -366,35 +379,134 @@ class _WelcomeViewState extends State<WelcomeView> {
         showPurpleButton: true,
         showCloseIcon: true,
       );
-    } else {
-      final postmenopausalSymptoms = await showCustomDialog(
-        context: context,
-        title:
-            "Have you experienced\npostmenopausal spotting or\nor bleeding after 1 Year of\nstoppage?",
-        options: [
-          DialogOption("Yes", "yes"),
-          DialogOption("No", "no"),
-        ],
-      );
+      print('Scallback 2');
 
-      if (postmenopausalSymptoms == "yes") {
-        await showCustomDialog(
+      if (isOkay == "ok") {
+        print('Scallback 3 ok');
+        final postmenopausalSymptoms = await showCustomDialog(
           context: context,
-          icon: Images.dangerSign,
-          title: "Get yourselfan\nUltrasound and a Pap\nSmear today.",
-          description:
-              "Possible causes may be :\n• Estrogen Deficiency\n• Vaginal Dryness\n• Cancer",
-          options: [DialogOption("Okay", "ok")],
-          showPurpleButton: true,
+          title:
+              "Have you experienced\npostmenopausal spotting or\nor bleeding after 1 Year of\nstoppage?",
+          options: [
+            DialogOption("Yes", "yes"),
+            DialogOption("No", "no", onClick: () async {
+              print('Scallback 4 onClick');
+              setState(() {
+                print('Scallback 5 setState');
+                singInViewModel.userRoleId = "4"; // Assign role for menopause
+                gUserType = AppConstants.CYCLE_EXPLORER;
+                globalUserMaster = AppPreferences.instance.getUserDetails();
+
+                UserMaster userMaster = UserMaster(
+                    id: globalUserMaster!.id,
+                    name: globalUserMaster!.name,
+                    email: globalUserMaster!.email,
+                    roleId: 4,
+                    uuId: globalUserMaster!.uuId,
+                    birthdate: globalUserMaster!.birthdate,
+                    age: globalUserMaster!.age,
+                    height: globalUserMaster!.height,
+                    weight: globalUserMaster!.weight,
+                    bmiScore: globalUserMaster!.bmiScore,
+                    bmiType: globalUserMaster!.bmiType,
+                    badTime: globalUserMaster!.badTime,
+                    wakeUpTime: globalUserMaster!.wakeUpTime,
+                    totalSleepTime: globalUserMaster!.totalSleepTime,
+                    waterMl: globalUserMaster!.waterMl,
+                    gender: globalUserMaster!.gender,
+                    genderType: globalUserMaster!.genderType,
+                    mobile: globalUserMaster!.mobile,
+                    deviceToken: globalUserMaster!.deviceToken,
+                    image: globalUserMaster!.image,
+                    relationshipStatus: globalUserMaster!.relationshipStatus,
+                    humApkeHeKon: globalUserMaster!.humApkeHeKon,
+                    status: globalUserMaster!.status,
+                    state: globalUserMaster!.state,
+                    city: globalUserMaster!.city);
+
+                AppPreferences.instance.setUserDetails(jsonEncode(userMaster));
+                gUserType = singInViewModel.userRoleId.toString();
+
+                debugPrint("Role ID: ${singInViewModel.userRoleId}");
+                debugPrint("Role ID: ${userMaster.toJson()}");
+              });
+
+              CommonUtils.showToastMessage("Role : Explorer");
+            }),
+          ],
         );
-      } else {
-        await showCustomDialog(
-          context: context,
-          title: "You are not Menopausal yet!",
-          options: [DialogOption("Okay", "ok")],
-          showPurpleButton: true,
-        );
+
+        if (postmenopausalSymptoms == "yes") {
+          await showCustomDialog(
+            context: context,
+            icon: Images.dangerSign,
+            title: "Get yourselfan\nUltrasound and a Pap\nSmear today.",
+            description:
+                "Possible causes may be :\n• Estrogen Deficiency\n• Vaginal Dryness\n• Cancer",
+            options: [
+              DialogOption("Okay", "ok", onClick: () async {
+                setState(() {
+                  singInViewModel.userRoleId = "4"; // Assign role for menopause
+                  gUserType = AppConstants.CYCLE_EXPLORER;
+                  globalUserMaster = AppPreferences.instance.getUserDetails();
+
+                  UserMaster userMaster = UserMaster(
+                      id: globalUserMaster!.id,
+                      name: globalUserMaster!.name,
+                      email: globalUserMaster!.email,
+                      roleId: 4,
+                      uuId: globalUserMaster!.uuId,
+                      birthdate: globalUserMaster!.birthdate,
+                      age: globalUserMaster!.age,
+                      height: globalUserMaster!.height,
+                      weight: globalUserMaster!.weight,
+                      bmiScore: globalUserMaster!.bmiScore,
+                      bmiType: globalUserMaster!.bmiType,
+                      badTime: globalUserMaster!.badTime,
+                      wakeUpTime: globalUserMaster!.wakeUpTime,
+                      totalSleepTime: globalUserMaster!.totalSleepTime,
+                      waterMl: globalUserMaster!.waterMl,
+                      gender: globalUserMaster!.gender,
+                      genderType: globalUserMaster!.genderType,
+                      mobile: globalUserMaster!.mobile,
+                      deviceToken: globalUserMaster!.deviceToken,
+                      image: globalUserMaster!.image,
+                      relationshipStatus: globalUserMaster!.relationshipStatus,
+                      humApkeHeKon: globalUserMaster!.humApkeHeKon,
+                      status: globalUserMaster!.status,
+                      state: globalUserMaster!.state,
+                      city: globalUserMaster!.city);
+
+                  AppPreferences.instance
+                      .setUserDetails(jsonEncode(userMaster));
+                  gUserType = singInViewModel.userRoleId.toString();
+
+                  debugPrint("Role ID: ${singInViewModel.userRoleId}");
+                  debugPrint("Role ID: ${userMaster.toJson()}");
+                });
+                CommonUtils.showToastMessage("Role : Explorer");
+              })
+            ],
+            showPurpleButton: true,
+          );
+        }
       }
+    } else {
+      await showCustomDialog(
+        context: context,
+        title: "You are not Menopausal yet!",
+        options: [
+          DialogOption("Okay", "ok", onClick: () async {
+            setState(() {
+              singInViewModel.userRoleId = "2"; // Default role
+              gUserType = AppConstants.NEOWME;
+              debugPrint("Role ID: ${singInViewModel.userRoleId}");
+            });
+            CommonUtils.showToastMessage("Role : Neow");
+          })
+        ],
+        showPurpleButton: true,
+      );
     }
   }
 

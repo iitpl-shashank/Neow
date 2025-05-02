@@ -36,6 +36,7 @@ class HealthmixCategoryCard extends StatelessWidget {
                       imagePath ?? "",
                       height: 100,
                       fit: BoxFit.cover,
+                      
                     )
                   : Image.asset(
                       LocalImages.img_nutrition,

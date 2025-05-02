@@ -50,7 +50,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                       CircularProgressIndicator() /* Text("Please Wait loading...",
            style: const TextStyle(
                       color: CommonColors.primaryColor,
-                      fontSize: 35,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
           ) */
@@ -65,7 +65,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                               height: 170,
                               width: 200,
                               padding: const EdgeInsets.only(
-                                top: 20,
+                                top: 30,
                               ),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -132,7 +132,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                           'Welcome ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : "back"}',
                                           style: const TextStyle(
                                             color: CommonColors.primaryColor,
-                                            fontSize: 35,
+                                            fontSize: 25,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -150,7 +150,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                                 : '${globalUserMaster?.name ?? ''} for ',
                                             style: const TextStyle(
                                               color: CommonColors.primaryColor,
-                                              fontSize: 35,
+                                              fontSize: 25,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -161,7 +161,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                                 : 'NeoW',
                                             style: getGoogleFontStyle(
                                               color: CommonColors.color_FF3C69,
-                                              fontSize: 35,
+                                              fontSize: 25,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -173,10 +173,10 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                       Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Welcome ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : "back ${globalUserMaster?.name}"}',
+                                          'Welcome ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : "back \n${globalUserMaster?.name}"}',
                                           style: const TextStyle(
                                             color: CommonColors.primaryColor,
-                                            fontSize: 35,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -184,12 +184,12 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                     ],
                                     if (globalUserMaster == null) ...[
                                       const Align(
-                                        alignment: Alignment.centerLeft,
+                                        alignment: Alignment.center,
                                         child: Text(
                                           'Welcome back',
                                           style: TextStyle(
                                             color: CommonColors.primaryColor,
-                                            fontSize: 35,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -204,7 +204,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                             'NeoW',
                                             style: getGoogleFontStyle(
                                               color: CommonColors.color_FF3C69,
-                                              fontSize: 35,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -217,7 +217,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                               style: const TextStyle(
                                                 color:
                                                     CommonColors.primaryColor,
-                                                fontSize: 35,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),

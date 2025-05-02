@@ -284,8 +284,10 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
             label: 'Health Mix',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_outlined),
-            label: 'Secret Diary',
+            // icon: Icon(Icons.menu_book_outlined),
+            icon: Icon(Icons.group),
+            // label: 'Secret Diary',
+            label: 'Forum',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),

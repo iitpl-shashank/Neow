@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 // import 'package:widgets_easier/widgets_easier.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
@@ -31,7 +33,7 @@ import '../../../widgets/latest_videos_card.dart';
 import '../calendar/calendar_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
-import '../health_mix/video_particular.dart';
+
 import '../profile/your_naveli/your_naveli_view_model.dart';
 import '../symptom_bot/symptom_bot_view.dart';
 import 'all_about_periods/all_about_periods_view.dart';
@@ -1181,11 +1183,24 @@ class _HomeViewState extends State<HomeView> {
 
             actions: <Widget>[
               IconButton(
-                  icon: Icon(Icons.calendar_month),
-                  onPressed: () {
-                    isLogEdit = false;
-                    push(CalendarView());
-                  }),
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                 
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.calendar_month,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  isLogEdit = false;
+                  push(CalendarView());
+                },
+              ),
             ],
             backgroundColor: Color(bgColor),
           ),
@@ -2068,13 +2083,16 @@ class _HomeViewState extends State<HomeView> {
                   ), */
                 ],
                 if (gUserType == AppConstants.CYCLE_EXPLORER) ...[
-                  const VideoPlayerScreen(
-                      link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
-                  kCommonSpaceV20
+                  SizedBox(
+                    height: 200,
+                    child: const VideoPlayerScreen(
+                        link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
+                  ),
+                  kCommonSpaceV20,
                 ],
                 kCommonSpaceV10,
                 SizedBox(
-                    height: 180,
+                    height: 170,
                     child: Stack(children: [
                       PageView.builder(
                         controller: mViewModel.pageController,
@@ -2116,14 +2134,6 @@ class _HomeViewState extends State<HomeView> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                /*Text(
-                                                  'You may experience cramps today',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xFF8B8B8B),
-                                                  ),
-                                                ),
-                                                kCommonSpaceV10,*/
                                                 Text(
                                                   'Let\'s take a dive\ninto your day!',
                                                   style: TextStyle(
@@ -2385,17 +2395,6 @@ class _HomeViewState extends State<HomeView> {
                                                         ),
                                                       ]),
                                                 ),
-
-                                                /* Align(
-                                              alignment: Alignment.topLeft,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  push(const ReminderView());
-                                                },
-                                                child:
-                                              ),
-                                            ), */
-
                                                 Align(
                                                   alignment:
                                                       Alignment.bottomRight,
@@ -2549,9 +2548,9 @@ class _HomeViewState extends State<HomeView> {
                           child: Text(
                             "View All",
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Color(0xFF6F4085)),
                           ),
                         ),
                       )
@@ -2826,7 +2825,10 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 kCommonSpaceV10,
                 ListView.builder(
-                  itemCount: mViewHealthMixModel.healthLatestPostsList.length,
+                  itemCount: min(
+                    5,
+                    mViewHealthMixModel.healthLatestPostsList.length,
+                  ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
