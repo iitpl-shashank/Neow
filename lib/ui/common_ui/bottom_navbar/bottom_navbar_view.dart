@@ -134,7 +134,8 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
   final pages = [
     const HomeView(),
     const HealthMixView(),
-    const Page1(),
+    // const Page1(),
+    const ForumView(),
     const ProfileView(),
     const ForumView(),
   ];

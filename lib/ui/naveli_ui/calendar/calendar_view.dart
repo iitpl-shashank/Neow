@@ -728,178 +728,172 @@ var params = {
       ),
     );
 
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        /* image: DecorationImage(
-          image: AssetImage(LocalImages.img_background),
-          fit: BoxFit.cover,
-        ), */
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: const CommonAppBar(title: ''),
-        body: Column(
-          children: [
-            buttons,
-            selectedIndex == 1
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Column(
-                      children: [
-                        /* Text(
-                          S.of(context)!.unlockTheSecrets,
-                          style: getAppStyle(
-                            color: CommonColors.black87,
-                            fontSize: 18,
-                            height: 1,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ), */
-                        kCommonSpaceV10,
-                        if (AppPreferences.instance.getLanguageCode() == "en" &&
-                            selectedIndex == 1)
-                          Image.asset(
-                            height: kDeviceHeight / 3.5,
-                            LocalImages.img_tarikh_pe_tarikh,
-                            fit: BoxFit.cover,
-                          ),
-                        if (AppPreferences.instance.getLanguageCode() == "hi" &&
-                            selectedIndex == 1)
-                          Image.asset(
-                            height: kDeviceHeight / 3.5,
-                            LocalImages.img_tarikh_pe_tarikh_hindi,
-                            fit: BoxFit.cover,
-                          ),
-                      ],
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Year',
-                          style: TextStyle(
-                              color: CommonColors.blackColor,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        /* Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            S.of(context)!.rakhnaHaiKhyaal,
-                            style: GoogleFonts.piedra(
-                                color: CommonColors.primaryColor,
+    return SafeArea(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          /* image: DecorationImage(
+            image: AssetImage(LocalImages.img_background),
+            fit: BoxFit.cover,
+          ), */
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: const CommonAppBar(title: ''),
+          body: Column(
+            children: [
+              buttons,
+              selectedIndex == 1
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Column(
+                        children: [
+                        
+                          kCommonSpaceV10,
+                          if (AppPreferences.instance.getLanguageCode() == "en" &&
+                              selectedIndex == 1)
+                            Image.asset(
+                              height: kDeviceHeight / 3.5,
+                              LocalImages.img_tarikh_pe_tarikh,
+                              fit: BoxFit.cover,
+                            ),
+                          if (AppPreferences.instance.getLanguageCode() == "hi" &&
+                              selectedIndex == 1)
+                            Image.asset(
+                              height: kDeviceHeight / 3.5,
+                              LocalImages.img_tarikh_pe_tarikh_hindi,
+                              fit: BoxFit.cover,
+                            ),
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Year',
+                            style: TextStyle(
+                                color: CommonColors.blackColor,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w400),
                           ),
-                        ),
-                        Image.asset(
-                          LocalImages.img_ye_din_ye_mahine,
-                          fit: BoxFit.cover,
-                        ), */
-                      ],
+                          /* Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              S.of(context)!.rakhnaHaiKhyaal,
+                              style: GoogleFonts.piedra(
+                                  color: CommonColors.primaryColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          Image.asset(
+                            LocalImages.img_ye_din_ye_mahine,
+                            fit: BoxFit.cover,
+                          ), */
+                        ],
+                      ),
                     ),
-                  ),
-            selectedIndex == 1 ? kCommonSpaceV20 : kCommonSpaceV3,
-            kCommonSpaceV20,
-            Expanded(
-                child: selectedIndex == 1
-                    ? PagedVerticalCalendar(
-                        minDate: DateTime(DateTime.now().year, 1, 1),
-                        maxDate: DateTime(DateTime.now().year + 1, 12, 31),
-                        initialDate:
-                            DateTime.now().add(const Duration(days: 0)),
-                        invisibleMonthsThreshold: 1,
-                        isChecked: _isChecked,
-                        dateList: dateList,
-                        onDayPressed: onDayPressed
-                        // startWeekWithSunday: true,
-                        )
-                    : selectedIndex == 2
-                        // ScrollingYearsCalendar(
-                        // context: context,
-                        // initialDate: DateTime.now(),
-                        // firstDate: DateTime.now(),
-                        // lastDate: DateTime.now(),
-                        // highlightedDateColor: CommonColors.primaryColor,
-                        // highlightedDates: mViewModel.nextCycleDates,
-                        // currentDateColor: CommonColors.secondaryColor,
-                        // )
-                        ? const YearCalendarView()
-                        : Container()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (isLogEdit && selectedIndex == 1 && _isChecked)
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isChecked = false;
-                      });
-
-                      // Add your onPressed code here!
-                    },
-                    child: Text('Cancel'),
-                  ),
-                if (isLogEdit && selectedIndex == 1 && _isChecked)
-                  kCommonSpaceH15,
-                if (isLogEdit && selectedIndex == 1)
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_isChecked) {
-                        _updateButtonText();
-                      } else {
-                        // for (var dateRange in peroidCustomeList) {
-                        //   DateTime start = DateTime.parse(dateRange.period_start_date);
-                        //   DateTime end = DateTime.parse(dateRange.period_end_date);
-                        //
-                        //   DateTime now = DateTime.now(); // Get current date
-                        //
-                        //   for(DateTime i = start; i.isBefore(end) || i.isAtSameMomentAs(end); i = i.add(Duration(days: 1))) {
-                        //     if(dateList.isEmpty) {
-                        //       forParentUseDateList.add(i);
-                        //       dateList.add(i);
-                        //     }
-                        //     if(forParentUseDateList.contains(i)) {
-                        //       forParentUseDateList.remove(i);
-                        //       dateList.remove(i);
-                        //     } else {
-                        //       forParentUseDateList.add(i);
-                        //       dateList.add(i);
-                        //     }
-                        //     // forParentUseDateList.add(i);
-                        //     // dateList.add(i);
-                        //   }
-                        // }
-
-                        //
-                        // setState(() {
-                        //   dateList = forParentUseDateList;
-                        //
-                        //   debugPrint("dateList: $dateList");
-                        // });
-                        // List<DateTime> dates = formattedDates
-                        //     .map((dateString) => DateTime.parse(dateString))
-                        //     .toList()
-                        //   ..sort();
-                        // debugPrint("start: $forParentUseDateList");
-                        // debugPrint("end: $dateList");
-                        _updateButtonText();
-                      }
-
-                      // Add your onPressed code here!
-                    },
-                    child: _isChecked ? Text('Update') : Text('Edit'),
-                  ),
-              ],
-            )
-          ],
+              selectedIndex == 1 ? kCommonSpaceV20 : kCommonSpaceV3,
+              kCommonSpaceV20,
+              Expanded(
+                  child: selectedIndex == 1
+                      ? PagedVerticalCalendar(
+                          minDate: DateTime(DateTime.now().year, 1, 1),
+                          maxDate: DateTime(DateTime.now().year + 1, 12, 31),
+                          initialDate:
+                              DateTime.now().add(const Duration(days: 0)),
+                          invisibleMonthsThreshold: 1,
+                          isChecked: _isChecked,
+                          dateList: dateList,
+                          onDayPressed: onDayPressed
+                          // startWeekWithSunday: true,
+                          )
+                      : selectedIndex == 2
+                          // ScrollingYearsCalendar(
+                          // context: context,
+                          // initialDate: DateTime.now(),
+                          // firstDate: DateTime.now(),
+                          // lastDate: DateTime.now(),
+                          // highlightedDateColor: CommonColors.primaryColor,
+                          // highlightedDates: mViewModel.nextCycleDates,
+                          // currentDateColor: CommonColors.secondaryColor,
+                          // )
+                          ? const YearCalendarView()
+                          : Container()),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isLogEdit && selectedIndex == 1 && _isChecked)
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _isChecked = false;
+                        });
+      
+                        // Add your onPressed code here!
+                      },
+                      child: Text('Cancel'),
+                    ),
+                  if (isLogEdit && selectedIndex == 1 && _isChecked)
+                    kCommonSpaceH15,
+                  if (isLogEdit && selectedIndex == 1)
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_isChecked) {
+                          _updateButtonText();
+                        } else {
+                          // for (var dateRange in peroidCustomeList) {
+                          //   DateTime start = DateTime.parse(dateRange.period_start_date);
+                          //   DateTime end = DateTime.parse(dateRange.period_end_date);
+                          //
+                          //   DateTime now = DateTime.now(); // Get current date
+                          //
+                          //   for(DateTime i = start; i.isBefore(end) || i.isAtSameMomentAs(end); i = i.add(Duration(days: 1))) {
+                          //     if(dateList.isEmpty) {
+                          //       forParentUseDateList.add(i);
+                          //       dateList.add(i);
+                          //     }
+                          //     if(forParentUseDateList.contains(i)) {
+                          //       forParentUseDateList.remove(i);
+                          //       dateList.remove(i);
+                          //     } else {
+                          //       forParentUseDateList.add(i);
+                          //       dateList.add(i);
+                          //     }
+                          //     // forParentUseDateList.add(i);
+                          //     // dateList.add(i);
+                          //   }
+                          // }
+      
+                          //
+                          // setState(() {
+                          //   dateList = forParentUseDateList;
+                          //
+                          //   debugPrint("dateList: $dateList");
+                          // });
+                          // List<DateTime> dates = formattedDates
+                          //     .map((dateString) => DateTime.parse(dateString))
+                          //     .toList()
+                          //   ..sort();
+                          // debugPrint("start: $forParentUseDateList");
+                          // debugPrint("end: $dateList");
+                          _updateButtonText();
+                        }
+      
+                        // Add your onPressed code here!
+                      },
+                      child: _isChecked ? Text('Update') : Text('Edit'),
+                    ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

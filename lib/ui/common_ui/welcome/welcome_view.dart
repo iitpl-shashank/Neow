@@ -431,7 +431,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                 debugPrint("Role ID: ${userMaster.toJson()}");
               });
 
-              CommonUtils.showToastMessage("Role : Explorer");
+        
             }),
           ],
         );
@@ -484,7 +484,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   debugPrint("Role ID: ${singInViewModel.userRoleId}");
                   debugPrint("Role ID: ${userMaster.toJson()}");
                 });
-                CommonUtils.showToastMessage("Role : Explorer");
+               
               })
             ],
             showPurpleButton: true,
@@ -1478,7 +1478,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                                 backgroundColor: CommonColors.mTransparent,
                                 content: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: kDeviceHeight / 1.5,
+                                  // height: kDeviceHeight / 1.5,
                                   // padding:const EdgeInsets.all(0.0),
                                   /* decoration:BoxDecoration(
                                     border:Border.all(
@@ -1510,10 +1510,11 @@ class _WelcomeViewState extends State<WelcomeView> {
                                           ),
                                         )),*/
                                     Align(
-                                      alignment: Alignment.center,
+                                      
                                       child: Image.asset(
                                         LocalImages.heartHands,
-                                        height: 240,
+                                        height: double.infinity,
+                                        width:double.infinity,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
