@@ -836,6 +836,30 @@ class S implements WidgetsLocalizations {
   @override
   // TODO: implement reorderItemUp
   String get reorderItemUp => throw UnimplementedError();
+
+  String get optionNeow => "NEOW";
+
+  String get optionNeowSubtitle => "Understand my body and health";
+
+  String get optionBuddy => "BUDDY";
+
+  String get optionBuddySubtitle => "Monitor my NeoW's health";
+
+  String get optionFitness => "FITNESS ENTHUSIAST";
+
+  String get optionFitnessSubtitle => "Learn about periods & wellness";
+
+  String get enterPhoneNumber => 'Enter your phone number';
+
+  String get continueText => 'Continue';
+
+  String get tcTitle =>
+      "By clicking the box below, you agree to our Terms and Conditions and Privacy Policy.";
+
+  String get tcSubtitle =>
+      "In case you are younger than 16 years, please ask your parent/guardian to help you set up your NeoW account. Their permission is mandatory for you to use the NeoW app.";
+
+  String get whereAreYouFrom => "Where are you from?";
 }
 
 class $en extends S {
@@ -846,6 +870,39 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get whereAreYouFrom => "आप कहाँ से हैं?";
+
+  @override
+  String get tcSubtitle =>
+      "यदि आपकी आयु 16 वर्ष से कम है, तो कृपया अपने माता-पिता/अभिभावक से अपना NeoW खाता सेट करने में सहायता लेने का अनुरोध करें। NeoW ऐप का उपयोग करने के लिए उनकी अनुमति आवश्यक है।";
+
+  @override
+  String get tcTitle =>
+      "नीचे दिए गए बॉक्स पर क्लिक करके, आप हमारी शर्तों और प्राइवेसी पॉलिसी स्वीकार करते हैं।";
+
+  @override
+  String get continueText => 'जारी रखें';
+  @override
+  String get enterPhoneNumber => 'अपना फ़ोन नंबर दर्ज करें';
+
+  @override
+  String get optionFitness => "फिटनेसप्रेमी";
+
+  @override
+  String get optionFitnessSubtitle => "स्वास्थ्य के बारे में जानने के लिए";
+
+  @override
+  String get optionBuddy => "बडी";
+
+  @override
+  String get optionBuddySubtitle => "NeoW के स्वास्थ्य की निगरानी के लिए";
+
+  @override
+  String get optionNeowSubtitle => "मेरे स्वास्थ्य को समझने के लिए";
+
+  @override
+  String get optionNeow => "नियो/NeoW";
 
   @override
   String get appName => "नवेली";
@@ -944,7 +1001,7 @@ class $mr extends S {
   String get plEnterAge => "कृपया आयु चुनें";
 
   @override
-  String get selectOption => "कृपया नीचे दिए गए विकल्प का चयन करें।";
+  String get selectOption => "( सही विकल्प चुनें।)";
 
   @override
   String get like => "पसंद";
@@ -1174,7 +1231,7 @@ class $mr extends S {
   String get selectAny => "नीचे से कोई भी एक चुनें";
 
   @override
-  String get whoAreYou => "आप कौन हैं?";
+  String get whoAreYou => "आप इनमें से कौन है?";
 
   @override
   String get neowMe => "Neow";
@@ -1192,7 +1249,7 @@ class $mr extends S {
   String get password => "पासवर्ड";
 
   @override
-  String get welcomeToNewYou => "New You! में आपका स्वागत है";
+  String get welcomeToNewYou => "आपके नए रूप में आपका स्वागत है!";
 
   @override
   String get welcome =>
@@ -1228,7 +1285,7 @@ class $mr extends S {
       " हम आपसे कुछ सवाल पूछेंगे ताकि हम आपके अनुभव को व्यक्तिगत बना सकें।";
 
   @override
-  String get resendOtp => "ओटीपी फिर से भेजेंं";
+  String get resendOtp => "नए ओ टी पी के लिए अनुरोध करें";
 
   @override
   String get requestOtp => "नया ओटीपी का अनुरोध करें";
@@ -1237,13 +1294,13 @@ class $mr extends S {
   String get seconds => "सेकंड";
 
   @override
-  String get enterYourOtp => "अपना ओटीपी दर्ज करें";
+  String get enterYourOtp => "मोबाइल पर प्राप्त ओ टी पी भरे";
 
   @override
   String get beforeWeGet => "शुरुआत करने से पहले";
 
   @override
-  String get yatriGanDhyanDe => "यात्रीगण कृपया ध्यान दें";
+  String get yatriGanDhyanDe => "नियम और शर्तें, यात्रीगण कृपया ध्यान दें";
 
   @override
   String get pleaseAsk =>
@@ -1264,7 +1321,7 @@ class $mr extends S {
   String get accept => "स्वीकार करें";
 
   @override
-  String get next => "अगला";
+  String get next => "आगे बढ़ें";
 
   @override
   String get sleepNow => "अब सो जाएँ";

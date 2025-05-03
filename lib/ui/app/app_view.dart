@@ -75,9 +75,13 @@ class AppState extends State<App> {
   void initState() {
     super.initState();
     initConnectivity();
-    _app.attachedContext(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final appModel = Provider.of<AppModel>(context, listen: false);
+      appModel.attachedContext(context);
+      appModel.changeLanguage(); // Ensure language is applied
+    });
+
     Services().configAPI();
-    _app.changeLanguage();
   }
 
   Future<void> initConnectivity() async {

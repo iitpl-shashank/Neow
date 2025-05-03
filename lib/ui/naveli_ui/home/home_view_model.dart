@@ -1074,7 +1074,7 @@ class HomeViewModel with ChangeNotifier {
           predicated_period_start_date:
               master.data!.predicated_period_start_date));*/
       updateSelectedDate(DateTime.now());
-      print("daaa =>${peroidCustomeList[0].predictions!.length}");
+      print("daaa =>${peroidCustomeList[0].predictions.length}");
       notifyListeners();
     }
     notifyListeners();

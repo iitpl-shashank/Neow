@@ -51,7 +51,7 @@ class _CommonUserSelectState extends State<CommonUserSelect> {
       },
       child: Container(
           padding: const EdgeInsets.only(
-            left: 10,
+            left: 2,
             right: 10,
             top: 15,
             bottom: 15,
@@ -102,7 +102,7 @@ class _CommonUserSelectState extends State<CommonUserSelect> {
                       children: [
                         Text('${widget.text}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               color: CommonColors.primaryColor,
                               fontWeight: FontWeight.bold,
                             )),

@@ -85,7 +85,7 @@ class _SignupViewState extends State<SignupView> {
                               S.of(context)!.welcomeToNewYou,
                               style: GoogleFonts.piedra(
                                 color: CommonColors.primaryColor,
-                                fontSize: 30,
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

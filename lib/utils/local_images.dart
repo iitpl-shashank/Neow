@@ -266,6 +266,8 @@ class LocalImages {
   static const String img_instagram = 'assets/images/img_instagram.png';
   static const String img_twitter = 'assets/images/img_twitter.png';
   static const String login_background = 'assets/images/ic_login_back.png';
+  static const String login_background_hindi =
+      'assets/images/ic_login_back_hindi.png';
   static const String img_gratitude = 'assets/images/img_gratitude.png';
   static const String img_naveli_nurse = 'assets/images/img_naveli_nurse.png';
   static const String welcome_bubble = 'assets/images/welcome_bubble.png';
@@ -440,8 +442,10 @@ class LocalImages {
   static const String feelsSoNice = 'assets/images/feelsSoNice.png';
   static const String thanAdvide = 'assets/images/thanAdvide.png';
   static const String urinTest = 'assets/images/urinTest.png';
-  static const String imgAboutYourCycle = 'assets/images/ic_about_your_cicle.png';
-  static const String imgPersonalInformation = 'assets/images/personal_information.png';
+  static const String imgAboutYourCycle =
+      'assets/images/ic_about_your_cicle.png';
+  static const String imgPersonalInformation =
+      'assets/images/personal_information.png';
   static const String imgSymptons = 'assets/images/ic_symptons.png';
   static const String imgTrack = 'assets/images/ic_track.png';
   static const String imgBodyQuiz = 'assets/images/ic_body_quiz.png';

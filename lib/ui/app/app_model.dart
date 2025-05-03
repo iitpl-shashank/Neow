@@ -11,6 +11,20 @@ class AppModel with ChangeNotifier {
   String locale = AppConstants.LANGUAGE_ENGLISH;
   ConnectivityResult connectionStatus = ConnectivityResult.none;
 
+  AppModel() {
+    // Load saved language preference on initialization
+    _loadLanguagePreference();
+  }
+
+  void _loadLanguagePreference() async {
+    String savedLocale = AppPreferences.instance.getLanguageCode();
+    if (savedLocale.isNotEmpty) {
+      locale = savedLocale;
+      CommonUtils.languageCode = locale;
+      notifyListeners();
+    }
+  }
+
   void attachedContext(BuildContext context) {
     this.context = context;
     notifyListeners();
@@ -27,9 +41,4 @@ class AppModel with ChangeNotifier {
     CommonUtils.languageCode = locale;
     notifyListeners();
   }
-
-  /*void updateTheme(bool theme) {
-    darkTheme = theme;
-    notifyListeners();
-  }*/
 }
