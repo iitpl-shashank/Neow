@@ -1250,13 +1250,6 @@ bool isCurrentDateAfterOvulationRange({
   DateTime fertileEndDate =
       ovulationDate.add(Duration(days: 1)); // Ovulation day included
 
-  // Debugging Prints
-  // debugPrint("Cycle Start Date: $currentCycleStartDate");
-  // debugPrint("Next Cycle Start Date: $nextCycleStartDate");
-  // debugPrint("Ovulation Date: $ovulationDate");
-  // debugPrint("Fertile Window Start: $fertileStartDate");
-  // debugPrint("Fertile Window End: $fertileEndDate");
-
   // Step 5: Check if current date is after ovulation window
   return currentDate.isAfter(fertileEndDate);
 }

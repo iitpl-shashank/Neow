@@ -14,6 +14,7 @@ import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track_helath_view_all/track_health_view_all_view.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/user_notifications/notification_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/local_images.dart';
@@ -1188,7 +1189,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                 
+                  push(const NotificationScreen());
                 },
               ),
               IconButton(
