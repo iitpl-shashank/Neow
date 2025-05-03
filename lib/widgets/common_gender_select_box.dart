@@ -80,7 +80,7 @@ class _CommonGenderSelectBoxState extends State<CommonGenderSelectBox> {
                 widget.text ?? '',
                 style: getAppStyle(
                     fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w200,
                     color: widget.isSelected
                         ? CommonColors.primaryColor
                         : CommonColors.darkPrimaryColor),

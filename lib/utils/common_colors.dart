@@ -16,6 +16,7 @@ class CommonColors {
   static const darkGreenColor = Color(0xFF027F25);
   static const mWhite = Colors.white;
   static const mGrey = Colors.grey;
+  static const greyText = const Color(0xFF575757);
   static final mGrey200 = const Color(0xFFEEEEEE);
   static final mGrey201 = const Color.fromRGBO(153, 153, 153, 1);
   static final mGrey300 = Colors.grey.shade300;

@@ -78,6 +78,8 @@ class LocalImages {
   static const String img_quiz = 'assets/images/img_quiz.png';
   static const String img_you_know = 'assets/images/img_you_know.png';
   static const String img_saval_javab = 'assets/images/img_saval_javab.png';
+  static const String img_saval_javab_hindi =
+      'assets/images/img_saval_javab_hindi.png';
   static const String img_de_stress = 'assets/images/img_de_stress.png';
   static const String img_pill = 'assets/images/img_pill.png';
   static const String img_know_your_body = 'assets/images/know.png';

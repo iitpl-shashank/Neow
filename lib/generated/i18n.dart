@@ -216,7 +216,7 @@ class S implements WidgetsLocalizations {
   String get forgotPassword => "Forgot password";
 
   String get wesupport =>
-      "We support all forms of gender expression. However, we need this to calculate your body metrics";
+      "We support all forms of gender expression. However, we need this to calculate your body metrics.";
 
   String get yourgender => "Whats your gender vibe? fam?";
 
@@ -394,6 +394,8 @@ class S implements WidgetsLocalizations {
   String get solo => "Solo";
 
   String get tied => "Tied";
+
+  String get openForSurprises => "Open for surprises";
 
   String get sendRequest => "Send request";
 
@@ -860,6 +862,46 @@ class S implements WidgetsLocalizations {
       "In case you are younger than 16 years, please ask your parent/guardian to help you set up your NeoW account. Their permission is mandatory for you to use the NeoW app.";
 
   String get whereAreYouFrom => "Where are you from?";
+
+  String get letUsknowYouBetter => "Let us know you better!";
+
+  String get helpUsPersonaliseyourExp =>
+      "Answer a few questions to help personalise your experience.";
+
+  String get getStarted => "Get Started";
+
+  String get neowNaamSunaHoga => "Neow, Naam to suna hi hoga";
+
+  String get typeHere => "Type here";
+
+  String get yourJourneyInCandles => "Your journey in candles";
+
+  String get yourJourneyDescription =>
+      "Your birth date helps us tailor the app for you!";
+
+  String get wohHaiKahan => "Woh hai kahan?";
+
+  String get akeleHaiTohKya => "Akele hai toh\nkya gham hai";
+
+  String get quickSurveyTime => "Yo, Quick Survey Time";
+
+  String get helpUsLevelUp => "Help us level up.";
+
+  String get cycleLengthDiff => "Average Cycle Length (Days)";
+
+  String get periodLengthDiff => "Average Period Length (Days)";
+
+  String get unusualCycle => "Unusual Cycle";
+
+  String get unusualPeriod => "Unusual Period Length";
+
+  String get unusualPeriodDescription =>
+      "It seems your period length may be a bit unusual. Typically, periods last between 2-7 days. If your period consistently falls outside this range, we suggest reaching out to a healthcare provider for guidance.";
+
+  String get unusualCycleDescription =>
+      "We noticed that your cycle appears to be unusual. The typical range is between 21-35 days. If your cycle is consistently outside this range, we recommend consulting a healthcare provider for further advice.";
+
+  String get lastPeriodDay => "Your Last Period Date";
 }
 
 class $en extends S {
@@ -870,6 +912,66 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get lastPeriodDay => "आपकी पिछली पीरियड की तारीख";
+
+  @override
+  String get unusualPeriodDescription =>
+      "आपकी पीरियड् अवधि असामान्य प्रतीत हो रही है। आमतौर पर, पीरियड्स 2 से 7 दिनों तक रहते हैं। यदि आपकी अवधि लगातार इस सीमा से बाहर रहती है, तो हम सुझाव देते हैं कि आप किसी डाॅक्टर संपर्क करें।";
+
+  @override
+  String get unusualPeriod => "असमान्य मासिक अवधि";
+
+  @override
+  String get periodLengthDiff => "औसत पीरियड की अवधि (दिन)";
+
+  @override
+  String get unusualCycleDescription =>
+      "हमने देखा कि आपका मासिक चक्र असामान्य लग रहा है। सामान्य अवधि 21 से 35 दिनों के बीच होती है। यदि आपका चक्र लगातार इस सीमा के बाहर है, तो हम आपको सलाह देते हैं कि डॉक्टर से संपर्क करें।";
+  @override
+  String get unusualCycle => "असमान्य पीरियड अवधि";
+
+  @override
+  String get cycleLengthDiff => "दो पीरियडस के बीच का अंतर";
+
+  @override
+  String get helpUsLevelUp => "आपके हैल्थ को बेहतर समझने में मदद करें।";
+
+  @override
+  String get quickSurveyTime => "यो! फ़ास्ट सर्वे करें।";
+
+  @override
+  String get akeleHaiTohKya => "अकेले हैं तो क्या ग़म है?";
+
+  @override
+  String get wohHaiKahan => "वो है कहाँ";
+
+  @override
+  String get yourJourneyInCandles => "आपका जन्मदिन?";
+
+  @override
+  String get yourJourneyDescription =>
+      "आपकी जन्म तिथि के आधार पर हम आपके लिए ऐप को बेहतर बना सकते हैं!";
+
+  @override
+  String get openForSurprises => "अन्य";
+
+  @override
+  String get typeHere => "यहाँ टाइप करें";
+
+  @override
+  String get neowNaamSunaHoga => "NeoW, नाम तो सुना ही होगा";
+
+  @override
+  String get getStarted => "शुरू करें";
+
+  @override
+  String get helpUsPersonaliseyourExp =>
+      "आपके अनुभव को व्यक्तिगत बनाने में मदद करने के लिए कुछ प्रश्नों का उत्तर दें";
+
+  @override
+  String get letUsknowYouBetter => "हमें आपको और बेहतर जानने दे";
+
   @override
   String get whereAreYouFrom => "आप कहाँ से हैं?";
 
@@ -1204,7 +1306,7 @@ class $mr extends S {
   String get whatsYourGender => "आपका लिंग क्या है?";
 
   @override
-  String get relationshipStatus => "रिश्ते की स्थिति";
+  String get relationshipStatus => "आपकी संबंध स्थिति";
 
   @override
   String get yourJourney => "मोमबत्ती में आपका सफ़र?";
@@ -1263,7 +1365,7 @@ class $mr extends S {
   String get myDailyInsights => "मेरे दैनिक अंतर्दृष्टि - आज";
 
   @override
-  String get yourFabulousName => "कृपया अपना नाम दर्ज करें";
+  String get yourFabulousName => "आपका शुभ नाम";
 
   @override
   String get neowmeName => "Neow नाम तो सुना ही होगा";
@@ -1400,7 +1502,7 @@ class $mr extends S {
   String get letsSprinkle => "आइए मिलकर कुछ जादू बिखेरें";
 
   @override
-  String get iDontRemember => "मुझे याद नहीं है";
+  String get iDontRemember => "भूल गई सब कुछ, याद नहीं अब कुछ।";
 
   @override
   String get date => "तारीख";
@@ -1455,10 +1557,10 @@ class $mr extends S {
   String get otherPlSpec => "अन्य, कृपया निर्दिष्ट करें";
 
   @override
-  String get solo => "अकेला";
+  String get solo => "सिंगल";
 
   @override
-  String get tied => "विवाहित";
+  String get tied => "संबंध में";
 
   @override
   String get sendRequest => "रिक्वेस्ट भेजे";
@@ -1471,12 +1573,10 @@ class $mr extends S {
       "(आपकी जन्मतिथि हमें आपके लिए ऐप तैयार करने में मदद करती है!)";
 
   @override
-  String get numberOfDays =>
-      "पीरियड की औसत अवधि- दो पीरियड के बीच की दिनों की संख्या";
+  String get numberOfDays => "दो पीरियड्स के बीच दिनों की संख्या";
 
   @override
-  String get howLongDosePeriod =>
-      "औसर्त पीररयड्स अवधि - आपके पीरयड्स कितने समय तक चलती है?";
+  String get howLongDosePeriod => "तुम्हारा पीरियड कितने दिनों तक रहता है?";
 
   @override
   String get neowInNews => "ख़बरों में NeoW";
@@ -1827,9 +1927,9 @@ class $mr extends S {
 
   @override
   String get wesupport =>
-      "हम लैंगिक अभिव्यक्ति के सभी रूपों का समर्थन करते हैं। हालाँकि, हमें आपके बॉडी मेट्रिक्स की गणना करने के लिए इसकी आवश्यकता है";
+      "हम सभी प्रकार की अभिव्यक्ति का समर्थन करते हैं। हालांकि, आपके बेहतर स्वास्थ्य के लिए हमें यह जानकारी चाहिए।";
   @override
-  String get yourgender => "आपका लिंग  क्या है?";
+  String get yourgender => "आपका जेंडर क्या है?";
   @override
   // TODO: implement reorderItemDown
   String get reorderItemDown => throw UnimplementedError();

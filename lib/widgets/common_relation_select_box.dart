@@ -28,7 +28,8 @@ class CommonRelationSelectBox extends StatefulWidget {
   });
 
   @override
-  State<CommonRelationSelectBox> createState() => _CommonRelationSelectBoxState();
+  State<CommonRelationSelectBox> createState() =>
+      _CommonRelationSelectBoxState();
 }
 
 class _CommonRelationSelectBoxState extends State<CommonRelationSelectBox> {
@@ -41,27 +42,26 @@ class _CommonRelationSelectBoxState extends State<CommonRelationSelectBox> {
         GestureDetector(
           onTap: widget.onTap,
           child: Container(
-             width: 150,
+            width: 150,
             height: 180,
-            /*height: widget.height ?? 120, */
-            padding:const EdgeInsets.only(left:5,right:5,top:5,bottom:5,),
+            padding: const EdgeInsets.all(5),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              // shape: BoxShape.circle,
-              color: widget.isSelected ? Color(0xFFFAEEFF) : CommonColors.mWhite,
+              color: widget.isSelected
+                  ? const Color(0xFFFAEEFF)
+                  : CommonColors.mWhite,
               boxShadow: [
-                widget.isSelected ? const BoxShadow(
-                  color: CommonColors.primaryColor,
-                  blurRadius: 20.0,
-                ) : const BoxShadow(
-                  color: CommonColors.mTransparent,
-                  blurRadius: 20.0,
-                )
+                widget.isSelected
+                    ? const BoxShadow(
+                        color: CommonColors.primaryColor,
+                        blurRadius: 20.0,
+                      )
+                    : const BoxShadow(
+                        color: CommonColors.mTransparent,
+                        blurRadius: 20.0,
+                      )
               ],
-              borderRadius:BorderRadius.only(topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0),),
+              borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
                 width: 1,
                 color: widget.isSelected
@@ -72,37 +72,44 @@ class _CommonRelationSelectBoxState extends State<CommonRelationSelectBox> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Image
                 Image.asset(
-                    widget.imagePath,
-                    width: 130.0,
-                    height: 130.0,
-                    fit: widget.isBoxFit ? BoxFit.cover : null,
+                  widget.imagePath,
+                  width: 130.0,
+                  height: 130.0,
+                  fit: widget.isBoxFit ? BoxFit.cover : BoxFit.contain,
                 ),
-                kCommonSpaceV10,
-              ]
+                const Spacer(), // Pushes the text to the bottom
+                // Text at the bottom center
+                Text(
+                  widget.text ?? '',
+                  textAlign: TextAlign.center,
+                  style: getAppStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: widget.isSelected
+                        ? CommonColors.primaryColor
+                        : CommonColors.mGrey,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        kCommonSpaceV10,
-        Text(
-          widget.text ?? '',
-          textAlign:TextAlign.center,
-          style: getAppStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w500,
-              color:
-              widget.isSelected ? CommonColors.primaryColor : CommonColors.mGrey),
-        ),
         kCommonSpaceV5,
-        widget.isTitle ?
-        Text(
-          '',
-          style: getAppStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color:
-                  widget.isSelected ? CommonColors.primaryColor : CommonColors.darkPrimaryColor),
-        ) : Container(height: 1,),
+        widget.isTitle
+            ? Text(
+                '',
+                style: getAppStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: widget.isSelected
+                        ? CommonColors.primaryColor
+                        : CommonColors.darkPrimaryColor),
+              )
+            : Container(
+                height: 1,
+              ),
       ],
     );
   }

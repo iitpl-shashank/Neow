@@ -47,7 +47,7 @@ class _EditCycleLengthViewState extends State<EditCycleLengthView> {
             SizedBox(
               child: Image.asset(
                 LocalImages.img_naveli_with_calendar,
-                height:190,
+                height: 190,
               ),
             ),
             kCommonSpaceV10,
