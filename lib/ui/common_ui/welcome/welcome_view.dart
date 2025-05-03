@@ -127,7 +127,6 @@ class _WelcomeViewState extends State<WelcomeView> {
             gUserType = AppConstants.NEOWME;
           } else if (age > 50) {
             // await handle50PlusDialogs(context);
-
             handle50PlusDialogs(context);
           }
         });
@@ -143,45 +142,44 @@ class _WelcomeViewState extends State<WelcomeView> {
   Future<void> handle9To25Dialogs(BuildContext context) async {
     final vaccinated = await showCustomDialog(
       context: context,
-      title: "Have you gotten yourself vaccinated against cervical cancer?",
+      title: S.of(context)!.gottonYourselfVaccinated,
       options: [
-        DialogOption("Yes", "yes"),
-        DialogOption("No", "no"),
+        DialogOption(S.of(context)!.yes, "yes"),
+        DialogOption(S.of(context)!.no, "no"),
       ],
     );
 
     if (vaccinated == "yes") {
       final doses = await showCustomDialog(
         context: context,
-        title: "How many doses have you\ntaken?",
+        title: S.of(context)!.howManyDoseTaken,
         isHorizontal: true,
         options: [
-          DialogOption("Dose 1", "1"),
-          DialogOption("Dose 2", "2"),
+          DialogOption(S.of(context)!.dose1, "1"),
+          DialogOption(S.of(context)!.dose2, "2"),
         ],
       );
 
       if (doses == "1") {
         await showCustomDialog(
             context: context,
-            title: "Dose 2 Is Pending!",
-            description: "Take it 6 months after your first dose.",
+            title: S.of(context)!.dose2Pending,
+            description: S.of(context)!.dose2Timing,
             icon: Images.pendingClock,
             showCloseIcon: true);
       } else {
         await showCustomDialog(
             context: context,
-            title: "Very Good!",
-            description: "Your vaccination is complete.",
+            title: S.of(context)!.veryGood,
+            description: S.of(context)!.vaccinationComplete,
             icon: Images.thumpsUp,
             showCloseIcon: true);
       }
     } else {
       await showCustomDialog(
         context: context,
-        title: "Uh-oh!",
-        description:
-            "Get yourself vaccinated today. You need 2 doses at an interval of 6 months.",
+        title: S.of(context)!.uhoh,
+        description: S.of(context)!.getVaccinatedToday,
         icon: Images.dangerSign,
         showCloseIcon: true,
       );
@@ -192,28 +190,28 @@ class _WelcomeViewState extends State<WelcomeView> {
   Future<void> handle25To45Dialogs(BuildContext context) async {
     final trying = await showCustomDialog(
       context: context,
-      title: "Have you been trying to get pregnant?",
+      title: S.of(context)!.tryingToGetPregnant,
       options: [
-        DialogOption("Yes", "yes"),
-        DialogOption("No", "no"),
+        DialogOption(S.of(context)!.yes, "yes"),
+        DialogOption(S.of(context)!.no, "no"),
       ],
     );
 
     if (trying == "yes") {
       final tryingDuration = await showCustomDialog(
         context: context,
-        title: "Have you been trying since 12 months or more than that?",
+        title: S.of(context)!.tryingSince12Months,
         isHorizontal: true,
         options: [
-          DialogOption("Yes", "yes"),
-          DialogOption("No", "no"),
+          DialogOption(S.of(context)!.yes, "yes"),
+          DialogOption(S.of(context)!.no, "no"),
         ],
       );
 
       if (tryingDuration == "yes") {
         await showCustomDialog(
           context: context,
-          title: "You need a fertility work up to find out the cause.",
+          title: S.of(context)!.youNeedFertilityWork,
           showCloseIcon: true,
           icon: Images.briefcase,
         );
@@ -224,9 +222,8 @@ class _WelcomeViewState extends State<WelcomeView> {
         icon: Images.dangerSign,
         showCloseIcon: true,
         showPurpleButton: true,
-        title:
-            "Keep trying for at least 6 months - To know more about your fertile period",
-        options: [DialogOption("Click Here", "click")],
+        title: S.of(context)!.keepTrying,
+        options: [DialogOption(S.of(context)!.clickHere, "click")],
       );
     }
   }
@@ -235,71 +232,70 @@ class _WelcomeViewState extends State<WelcomeView> {
   Future<void> handle45To50Dialogs(BuildContext context) async {
     final bleeding = await showCustomDialog(
       context: context,
-      title: "Do you experience heavy/\nirregular bleeding?",
+      title: S.of(context)!.irregularBleeding,
       options: [
-        DialogOption("Yes", "yes"),
-        DialogOption("No", "no"),
+        DialogOption(S.of(context)!.yes, "yes"),
+        DialogOption(S.of(context)!.no, "no"),
       ],
     );
-
+    var isClicked;
     if (bleeding == "yes") {
-      await showCustomDialog(
+      isClicked = await showCustomDialog(
         context: context,
-        title: "Get yourself an\nUltrasound and a Pap Smear today.",
-        description:
-            "Possible cause may be:\n• Fibroids\n• Endometriosis\n• Cancer\n• Cyst",
+        title: S.of(context)!.getUltrasound,
+        description: S.of(context)!.possiblecause,
         options: [
-          DialogOption("Get exam check today!", "check"),
+          DialogOption(S.of(context)!.getExamined, "check"),
         ],
         showPurpleButton: true,
         icon: Images.dangerSign,
       );
-    } else {
+    }
+    if (bleeding == "no" || (bleeding == "yes" && isClicked == "check")) {
       final gotAnyPapSmearBefore = await showCustomDialog(
         context: context,
-        title: "Have you got any Pap Smear in the past?",
+        title: S.of(context)!.haveYouGotPapSmear,
         options: [
-          DialogOption("Yes", "yes"),
-          DialogOption("No", "no"),
+          DialogOption(S.of(context)!.yes, "yes"),
+          DialogOption(S.of(context)!.no, "no"),
         ],
       );
 
       if (gotAnyPapSmearBefore == "no") {
         await showCustomDialog(
           context: context,
-          title:
-              "Get one today. It is a very important test to diagnose Cervical Cancer and its early stages.",
+          title: S.of(context)!.getOneToday,
           icon: Images.dangerSign,
           showCloseIcon: true,
         );
       } else {
         final lastPapSmear = await showCustomDialog(
           context: context,
-          title: "When was your last Pap Smear?",
+          title: S.of(context)!.lastpapSmear,
           options: [
-            DialogOption("3 Years Back", "3"),
-            DialogOption("Less Than 3 Years", "<3"),
+            DialogOption(S.of(context)!.threeYearsBack, "3"),
+            DialogOption(S.of(context)!.lessThanThreeYears, "<3"),
           ],
         );
 
         if (lastPapSmear == "3") {
           await showCustomDialog(
             context: context,
-            title: "Repeat a Pap smear today!",
+            title: S.of(context)!.repeatPapSmear,
             icon: Images.pendingClock,
             showPurpleButton: true,
             options: [
-              DialogOption("Okay", "okay"),
+              DialogOption(S.of(context)!.okay, "okay"),
             ],
           );
         } else {
           await showCustomDialog(
             context: context,
-            title: "Get another one at an interval of 3 years!",
+            title: S.of(context)!.getOneAfter3Years,
             icon: Images.pendingClock,
             showPurpleButton: true,
             options: [
-              DialogOption("Okay", "okay"),
+              DialogOption(S.of(context)!.okay, "okay"),
             ],
           );
         }
@@ -312,14 +308,14 @@ class _WelcomeViewState extends State<WelcomeView> {
     debugPrint("Inside 50+");
     final hadPeriods = await showCustomDialog(
       context: context,
-      title: "Have you had any periods\nin the last one year?",
+      title: S.of(context)!.hadPeriodLasyYear,
       options: [
         DialogOption(
-          "Yes",
+          S.of(context)!.yes,
           "yes",
         ),
         DialogOption(
-          "No",
+          S.of(context)!.no,
           "no",
         ),
       ],
@@ -333,12 +329,9 @@ class _WelcomeViewState extends State<WelcomeView> {
 
       final isOkay = await showCustomDialog(
         context: context,
-        title: "Do Not Worry!",
-        description:
-            "These are Postmenopausal symptoms due to estrogen deficiency, "
-            "consult a gynecologist to start HRT (Hormone Replacement Therapy) "
-            "to relieve these symptoms.",
-        options: [DialogOption("Okay", "ok")],
+        title: S.of(context)!.doNotWorry,
+        description: S.of(context)!.postmenopausalSymptoms,
+        options: [DialogOption(S.of(context)!.okay, "ok")],
         showPurpleButton: true,
         showCloseIcon: true,
       );
@@ -348,11 +341,10 @@ class _WelcomeViewState extends State<WelcomeView> {
         print('Scallback 3 ok');
         final postmenopausalSymptoms = await showCustomDialog(
           context: context,
-          title:
-              "Have you experienced\npostmenopausal spotting or\nor bleeding after 1 Year of\nstoppage?",
+          title: S.of(context)!.experiencedPostmenopausalSpotting,
           options: [
-            DialogOption("Yes", "yes"),
-            DialogOption("No", "no", onClick: () async {
+            DialogOption(S.of(context)!.yes, "yes"),
+            DialogOption(S.of(context)!.no, "no", onClick: () async {
               print('Scallback 4 onClick');
               setState(() {
                 print('Scallback 5 setState');
@@ -401,11 +393,10 @@ class _WelcomeViewState extends State<WelcomeView> {
           await showCustomDialog(
             context: context,
             icon: Images.dangerSign,
-            title: "Get yourselfan\nUltrasound and a Pap\nSmear today.",
-            description:
-                "Possible causes may be :\n• Estrogen Deficiency\n• Vaginal Dryness\n• Cancer",
+            title: S.of(context)!.getUltrasoundAndPapSmear,
+            description: S.of(context)!.possibleCauses,
             options: [
-              DialogOption("Okay", "ok", onClick: () async {
+              DialogOption(S.of(context)!.okay, "ok", onClick: () async {
                 setState(() {
                   singInViewModel.userRoleId = "4"; // Assign role for menopause
                   gUserType = AppConstants.CYCLE_EXPLORER;
@@ -454,15 +445,14 @@ class _WelcomeViewState extends State<WelcomeView> {
     } else {
       await showCustomDialog(
         context: context,
-        title: "You are not Menopausal yet!",
+        title: S.of(context)!.youAreNotMenopausal,
         options: [
-          DialogOption("Okay", "ok", onClick: () async {
+          DialogOption(S.of(context)!.okay, "ok", onClick: () async {
             setState(() {
               singInViewModel.userRoleId = "2"; // Default role
               gUserType = AppConstants.NEOWME;
               debugPrint("Role ID: ${singInViewModel.userRoleId}");
             });
-            CommonUtils.showToastMessage("Role : Neow");
           })
         ],
         showPurpleButton: true,

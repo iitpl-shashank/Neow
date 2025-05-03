@@ -403,7 +403,7 @@ class CustomAlertDialog extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
             ),
             if (description != null) ...[
               const SizedBox(height: 8),

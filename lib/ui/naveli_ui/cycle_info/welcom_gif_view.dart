@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
@@ -36,8 +37,6 @@ class _WelComeGifViewState extends State<WelComeGifView> {
 
   @override
   Widget build(BuildContext context) {
-    // log("Form Splash value is :: ${widget.isFromSplash}");
-    // log("Global User value is :: ${globalUserMaster?.name}");
     return ScaffoldBG(
       bgColor: CommonColors.bglightPinkColor,
       child: Scaffold(
@@ -45,16 +44,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
         body: SingleChildScrollView(
           padding: kCommonAllTopBottomPadding,
           child: globalUserMaster == null
-              ? Center(
-                  child:
-                      CircularProgressIndicator() /* Text("Please Wait loading...",
-           style: const TextStyle(
-                      color: CommonColors.primaryColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-          ) */
-                  )
+              ? Center(child: CircularProgressIndicator())
               : Column(
                   children: [
                     kCommonSpaceV50,
@@ -81,7 +71,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                       Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Welcome! ${globalUserMaster == null || !widget.isFromSplash ? "" : ""}',
+                                          '${S.of(context)!.welcomeViewText} ${globalUserMaster == null || !widget.isFromSplash ? "" : ""}',
                                           style: const TextStyle(
                                             color: CommonColors.primaryColor,
                                             fontSize: 16,
@@ -116,10 +106,10 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: const TextStyle(
-                                                color: CommonColors.primaryColor,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold
-                                              ),
+                                                  color:
+                                                      CommonColors.primaryColor,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ],
@@ -129,7 +119,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'Welcome ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : "back"}',
+                                          '${S.of(context)!.welcomeViewText} ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : ""}',
                                           style: const TextStyle(
                                             color: CommonColors.primaryColor,
                                             fontSize: 25,
@@ -173,7 +163,7 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                       Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Welcome ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : "back \n${globalUserMaster?.name}"}',
+                                          '${S.of(context)!.welcomeViewText} ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : " \n${globalUserMaster?.name}"}',
                                           style: const TextStyle(
                                             color: CommonColors.primaryColor,
                                             fontSize: 20,
@@ -183,10 +173,10 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                       ),
                                     ],
                                     if (globalUserMaster == null) ...[
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Welcome back',
+                                          S.of(context)!.welcomeViewText,
                                           style: TextStyle(
                                             color: CommonColors.primaryColor,
                                             fontSize: 15,

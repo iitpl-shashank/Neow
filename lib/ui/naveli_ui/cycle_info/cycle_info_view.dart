@@ -860,7 +860,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                           ), */
                         kCommonSpaceV20,
                         Text(
-                          'Personalising your experience',
+                          S.of(context)!.personalisingExp,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: CommonColors.blackColor,

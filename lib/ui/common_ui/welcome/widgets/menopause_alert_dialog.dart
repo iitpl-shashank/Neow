@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:naveli_2023/utils/common_colors.dart'; // Add this import for toast functionality
+import 'package:naveli_2023/utils/common_colors.dart';
+
+import '../../../../generated/i18n.dart'; // Add this import for toast functionality
 
 Future<List<String>?> showMenopauseDialog(BuildContext context) {
   return showDialog<List<String>>(
@@ -16,19 +18,21 @@ class _MenopauseDialog extends StatefulWidget {
 }
 
 class _MenopauseDialogState extends State<_MenopauseDialog> {
-  final List<String> symptoms = [
-    'Hot Flushes',
-    'Tiredness',
-    'Mood Swings',
-    'Vaginal Dryness',
-    'Decreased Sex Drive',
-    'Joint Pain'
-  ];
-
   final Set<String> selectedSymptoms = {};
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> symptomsMap = {
+      S.of(context)!.hotFlushes: "Hot Flushes",
+      S.of(context)!.tiredness: "Tiredness",
+      S.of(context)!.moodSwings: "Mood Swings",
+      S.of(context)!.vaginalDryness: "Vaginal Dryness",
+      S.of(context)!.decreasedSexDrive: "Decreased Sex Drive",
+      S.of(context)!.jointPain: "Joint Pain",
+    };
+
+    final List<String> symptoms = symptomsMap.keys.toList();
+
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       contentPadding: EdgeInsets.all(20),
@@ -36,27 +40,32 @@ class _MenopauseDialogState extends State<_MenopauseDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'You have reached\nMenopause!',
+            S.of(context)!.reachedMenopause,
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           ),
           SizedBox(height: 16),
           Text(
-            'Do you experience:',
+            S.of(context)!.doYouExp,
             style: TextStyle(fontSize: 16),
           ),
           Text(
-            '(Select Multiple)',
-            style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+            S.of(context)!.selectMultiple,
+            style: TextStyle(
+              fontSize: 12,
+              fontStyle: FontStyle.italic,
+            ),
           ),
           SizedBox(height: 16),
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: symptoms.map((symptom) {
-              final isSelected = selectedSymptoms.contains(symptom);
+            children: symptoms.map((localizedSymptom) {
+              final englishSymptom = symptomsMap[localizedSymptom]!;
+              final isSelected = selectedSymptoms.contains(englishSymptom);
+
               return ChoiceChip(
-                label: Text(symptom),
+                label: Text(localizedSymptom),
                 selected: isSelected,
                 selectedColor: Colors.deepPurple.shade100,
                 labelStyle: TextStyle(
@@ -70,13 +79,13 @@ class _MenopauseDialogState extends State<_MenopauseDialog> {
                 ),
                 onSelected: (_) {
                   setState(() {
-                    isSelected
-                        ? selectedSymptoms.remove(symptom)
-                        : selectedSymptoms.add(symptom);
+                    if (isSelected) {
+                      selectedSymptoms.remove(englishSymptom);
+                    } else {
+                      selectedSymptoms.add(englishSymptom);
+                    }
                   });
                 },
-                // Remove the default checkmark
-                avatar: null,
               );
             }).toList(),
           ),
@@ -91,7 +100,7 @@ class _MenopauseDialogState extends State<_MenopauseDialog> {
               if (selectedSymptoms.isEmpty) {
                 // Show toast if no symptoms are selected
                 Fluttertoast.showToast(
-                  msg: "Please select at least one symptom",
+                  msg: S.of(context)!.pleaseSelectAtleastOne,
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   backgroundColor: Colors.black,
@@ -103,7 +112,7 @@ class _MenopauseDialogState extends State<_MenopauseDialog> {
               }
             },
             child: Text(
-              'Continue',
+              S.of(context)!.continueText,
               style:
                   TextStyle(color: Colors.white), // Ensure text color is white
             ),

@@ -902,6 +902,112 @@ class S implements WidgetsLocalizations {
       "We noticed that your cycle appears to be unusual. The typical range is between 21-35 days. If your cycle is consistently outside this range, we recommend consulting a healthcare provider for further advice.";
 
   String get lastPeriodDay => "Your Last Period Date";
+
+  String get gottonYourselfVaccinated =>
+      "Have you gotten yourself vaccinated against cervical cancer?";
+
+  String get howManyDoseTaken => "How many doses have you\ntaken?";
+
+  String get dose1 => "Dose 1";
+
+  String get dose2 => "Dose 2";
+
+  String get dose2Pending => "Dose 2 Is Pending!";
+
+  String get dose2Timing => "Take it 6 months after your first dose.";
+
+  String get veryGood => "Very Good!";
+
+  String get vaccinationComplete => "Your vaccination is complete.";
+
+  String get uhoh => "Uh-oh!";
+
+  String get getVaccinatedToday =>
+      "Get yourself vaccinated today. You need 2 doses at an interval of 6 months.";
+
+  String get tryingToGetPregnant => "Have you been trying to get pregnant?";
+
+  String get tryingSince12Months =>
+      "Have you been trying since 12 months or more than that?";
+
+  String get youNeedFertilityWork =>
+      "You need a fertility work up to find out the cause.";
+
+  String get clickHere => "Click Here";
+
+  String get keepTrying =>
+      "Keep trying for at least 6 months - To know more about your fertile period";
+
+  String get irregularBleeding =>
+      "Do you experience heavy/\nirregular bleeding?";
+
+  String get getUltrasound =>
+      "Get yourself an\nUltrasound and a Pap Smear today.";
+
+  String get possiblecause =>
+      "Possible cause may be:\n• Fibroids\n• Endometriosis\n• Cancer\n• Cyst";
+
+  String get getExamined => "Get examined today!";
+
+  String get haveYouGotPapSmear => "Have you got any Pap Smear in the past?";
+
+  String get getOneToday =>
+      "Get one today. It is a very important test to diagnose Cervical Cancer and its early stages.";
+
+  String get lastpapSmear => "When was your last Pap Smear?";
+
+  String get threeYearsBack => "3 Years Back";
+
+  String get lessThanThreeYears => "Less Than 3 Years";
+
+  String get repeatPapSmear => "Repeat a Pap smear today!";
+
+  String get okay => "Okay";
+
+  String get getOneAfter3Years => "Get another one at an interval of 3 years!";
+
+  String get hadPeriodLasyYear =>
+      "Have you had any periods\nin the last one year?";
+
+  String get doNotWorry => "Do Not Worry!";
+
+  String get postmenopausalSymptoms =>
+      "These are Postmenopausal symptoms due to estrogen deficiency, consult a gynecologist to start HRT (Hormone Replacement Therapy) to relieve these symptoms.";
+
+  String get experiencedPostmenopausalSpotting =>
+      "Have you experienced\npostmenopausal spotting or\nor bleeding after 1 Year of\nstoppage?";
+
+  String get getUltrasoundAndPapSmear =>
+      "Get yourself an\nUltrasound and a Pap\nSmear today.";
+
+  String get possibleCauses =>
+      "Possible causes may be :\n• Estrogen Deficiency\n• Vaginal Dryness\n• Cancer";
+
+  String get youAreNotMenopausal => "You are not Menopausal yet!";
+
+  String get reachedMenopause => 'You have reached\nMenopause!';
+
+  String get doYouExp => 'Do you experience:';
+
+  String get selectMultiple => '(Select Multiple)';
+
+  String get pleaseSelectAtleastOne => "Please select at least one symptom";
+
+  String get hotFlushes => 'Hot Flushes';
+
+  String get tiredness => 'Tiredness';
+
+  String get moodSwings => "Mood Swings";
+
+  String get vaginalDryness => 'Vaginal Dryness';
+
+  String get decreasedSexDrive => 'Decreased Sex Drive';
+
+  String get jointPain => 'Joint Pain';
+
+  String get personalisingExp => 'Personalising your experience';
+
+  String get welcomeViewText => "Welcome!";
 }
 
 class $en extends S {
@@ -912,6 +1018,165 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get welcomeViewText => "आपका  स्वागत है ।";
+
+  @override
+  String get personalisingExp => 'आपके अनुभव को व्यक्तिगत बनाना';
+
+  @override
+  String get hotFlushes => 'गर्मी का आभास';
+
+  @override
+  String get tiredness => 'थकान';
+
+  @override
+  String get moodSwings => "मूड में बदलाव";
+
+  @override
+  String get vaginalDryness => 'योनि में सूखापन';
+
+  @override
+  String get decreasedSexDrive => 'यौन इच्छा में कमी';
+
+  @override
+  String get jointPain => 'जोड़ों में दर्द';
+
+  @override
+  String get pleaseSelectAtleastOne => "कृपया कम से कम एक लक्षण चुनें";
+
+  @override
+  String get reachedMenopause => 'आप रजोनिवृत्ति तक पहुंच चुकी है (मेनोपॉज़)';
+
+  @override
+  String get doYouExp => '(क्या आपको इनमें से कोई लक्षण महसूस होते हैं?)';
+
+  @override
+  String get selectMultiple => '';
+
+  @override
+  String get youAreNotMenopausal => "आप अभी रजोनिवृत्त/मेनोपॉज़ नहीं हुई हैं!";
+
+  @override
+  String get getUltrasoundAndPapSmear =>
+      "आज ही अपना अल्ट्रासाउंड और पैप स्मियर टेस्ट कराएं";
+
+  @override
+  String get possibleCauses =>
+      "संभावित कारण:\n• एस्ट्रोजन की कमी\n• योनि में सूखापन\n• कैंसर";
+
+  @override
+  String get experiencedPostmenopausalSpotting =>
+      "क्या आपको मासिक धर्म बंद होने के 1 साल बाद भी धब्बेदार रक्तस्राव (स्पॉटिंग) या ब्लीडिंग हुआ है?";
+
+  @override
+  String get doNotWorry => "चिंता न करें!";
+
+  @override
+  String get postmenopausalSymptoms =>
+      "ये रजोनिवृत्ति के बाद के लक्षण हैं और एस्ट्रोजन की कमी के कारण होते हैं। इन लक्षणों से राहत के लिए गाइनोकॉलजिस्ट से संपर्क करें और एचआरटी (हार्मोन रिप्लेसमेंट थेरेपी) शुरू करवाएं।";
+
+  @override
+  String get hadPeriodLasyYear =>
+      "क्या आपको पिछले एक साल में मासिक धर्म नहीं हुआ है?";
+
+  @override
+  String get getOneAfter3Years => "अगला टेस्ट 3 साल के अंतराल पर कराएं";
+
+  @override
+  String get repeatPapSmear => "आज ही पैप स्मियर दोहराएं।";
+
+  @override
+  String get okay => "ठीक है";
+
+  @override
+  String get threeYearsBack => "3 साल से पहले हुआ था";
+
+  @override
+  String get lessThanThreeYears => "3 साल से  कम";
+
+  @override
+  String get lastpapSmear => "आपका पैप स्मियर कब हुआ था?";
+
+  @override
+  String get getOneToday =>
+      "नहीं – आज ही यह टेस्ट कराएं। यह सर्वाइकल कैंसर और इसके शुरुआती चरणों का पता लगाने के लिए एक बहुत महत्वपूर्ण टेस्ट है।";
+
+  @override
+  String get haveYouGotPapSmear => "क्या आपने पहले कभी पैप स्मियर कराया है?";
+
+  @override
+  String get getExamined => "जारी रखें";
+
+  @override
+  String get possiblecause =>
+      "इसके संभावित कारण हो सकते हैं:\n• फाइब्रॉइड\n• सिस्ट\n• एंडोमेट्रियोसिस\n• कैंसर";
+
+  @override
+  String get getUltrasound =>
+      "आज ही अपना अल्ट्रासाउंड और पैप स्मियर टेस्ट कराएं";
+
+  @override
+  String get irregularBleeding =>
+      "क्या आपको बहुत ज्य़ादा ब्लीडिंग या अनियमित ब्लीडिंग हो रहा है?";
+
+  @override
+  String get keepTrying =>
+      "कम से कम 6 महीने तक कोशिश करते रहें। अपनी उपजाऊ अवधि के बारे में जानने के लिए [यहां क्लिक करें] (कैलेंडर पर जाएं)।";
+
+  @override
+  String get clickHere => "क्लिक करें।";
+
+  @override
+  String get youNeedFertilityWork =>
+      "आपको बांझपन के कारण का पता लगाने के लिए एक जांच (इंफर्टिलिटी वर्कअप) की जरूरत है।";
+
+  @override
+  String get tryingSince12Months =>
+      "क्या आप 6 महीने या उससे अधिक समय से कोशिश कर रही हैं?";
+
+  @override
+  String get tryingToGetPregnant =>
+      "क्या आप गर्भधारण करने की कोशिश कर रही हैं?";
+
+  @override
+  String get getVaccinatedToday =>
+      "आज ही टीका लगवाएं। आपको यह 6 महीने के अंतराल पर लगवाना चाहिए।";
+
+  @override
+  String get uhoh => "ओह!";
+
+  @override
+  String get vaccinationComplete => "आपका टीकाकरण पूरा हो चुका है।";
+
+  @override
+  String get veryGood => "बहुत बढ़िया!";
+
+  @override
+  String get dose2Timing => "इसे अपनी पहली डोज़ के 6 महीने बाद लगवाएं।";
+
+  @override
+  String get dose2Pending => "एक डोज़ बाकी है";
+
+  @override
+  String get dose1 => "डोज़ 1";
+
+  @override
+  String get dose2 => "डोज़ 2";
+
+  @override
+  String get howManyDoseTaken => "आपने कितने डोज़ लिए हैं?";
+
+  @override
+  String get yes => "हाँ";
+
+  @override
+  String get no => "नहीं";
+
+  @override
+  String get gottonYourselfVaccinated =>
+      "क्या आपने सर्वाइकल कैंसर से बचाव के लिए टीका लगवाया है";
+
   @override
   String get lastPeriodDay => "आपकी पिछली पीरियड की तारीख";
 

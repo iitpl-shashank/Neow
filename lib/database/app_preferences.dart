@@ -115,7 +115,7 @@ class AppPreferences {
 
   // Method to get Language code
   String getLanguageCode() {
-    return _pref!.getString(keyLanguageCode) ?? "";
+    return _pref!.getString(keyLanguageCode) ?? "en";
   }
 
   // Method to set device token
