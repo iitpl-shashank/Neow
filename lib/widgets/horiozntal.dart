@@ -27,22 +27,18 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
   void initState() {
     super.initState();
     dates = _generateDates();
-    // Scroll to the current date position
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _scrollToCurrentDate();
-    // });
   }
 
   List<DateTime> _generateDates() {
     DateTime startDate =
-    DateTime(DateTime.now().year, 1, 1); // Jan 1st of current year
+        DateTime(DateTime.now().year, 1, 1); // Jan 1st of current year
     DateTime endDate =
-    DateTime(DateTime.now().year + 2, 12, 31); // Dec 31st of current year
+        DateTime(DateTime.now().year + 2, 12, 31); // Dec 31st of current year
 
     List<DateTime> dates = [];
     for (DateTime date = startDate;
-    date.isBefore(endDate.add(Duration(days: 1)));
-    date = date.add(Duration(days: 1))) {
+        date.isBefore(endDate.add(Duration(days: 1)));
+        date = date.add(Duration(days: 1))) {
       dates.add(date);
     }
     return dates;
@@ -50,7 +46,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
   void _scrollToCurrentDate() {
     int currentIndex = dates.indexWhere((date) =>
-    date.year == widget.mViewModel.selectedDate.year &&
+        date.year == widget.mViewModel.selectedDate.year &&
         date.month == widget.mViewModel.selectedDate.month &&
         date.day == widget.mViewModel.selectedDate.day);
 
@@ -81,7 +77,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
               bool PriodDates = false;
               // widget.mViewModel.nextCycleDates.contains(date);
               bool isOvulation =
-              false; //widget.mViewModel.ovulationDates.contains(date);
+                  false; //widget.mViewModel.ovulationDates.contains(date);
               bool isFirtile = false;
 
               DateTime now = DateTime.now();
@@ -95,28 +91,23 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
               peroidCustomeList.forEach((element) {
                 element.predictions!.forEach((predictions) {
                   for (DateTime start =
-                  DateTime.parse(predictions.predictedStart);
-                  start.isSameDayOrBefore(
-                      DateTime.parse(predictions.predictedEnd));
-                  start = start.add(Duration(days: 1))) {
+                          DateTime.parse(predictions.predictedStart);
+                      start.isSameDayOrBefore(
+                          DateTime.parse(predictions.predictedEnd));
+                      start = start.add(Duration(days: 1))) {
                     predictedPeriodDates.add(start);
-
                   }
                   for (DateTime start =
-                  DateTime.parse(predictions.fertileWindowStart);
-                  start.isSameDayOrBefore(
-                      DateTime.parse(predictions.fertileWindowEnd));
-                  start = start.add(Duration(days: 1))) {
+                          DateTime.parse(predictions.fertileWindowStart);
+                      start.isSameDayOrBefore(
+                          DateTime.parse(predictions.fertileWindowEnd));
+                      start = start.add(Duration(days: 1))) {
                     fertileDates.add(start);
-
                   }
 
                   ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-
                 });
-
               });
-
 
               if (loggedPeriodDates.contains(date)) {
                 PriodDates = true;
@@ -162,13 +153,13 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal:
-                            (isFirtile || isPredictedDate) ? 10.0 : 0),
+                                (isFirtile || isPredictedDate) ? 10.0 : 0),
                         child: DottedBorder(
                           color: isFirtile
                               ? Colors.green
                               : isPredictedDate
-                              ? Colors.red
-                              : Colors.transparent,
+                                  ? Colors.red
+                                  : Colors.transparent,
                           // Border color
                           strokeWidth: 2,
                           // Border width
@@ -188,10 +179,10 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                                 color: isSelected
                                     ? Colors.grey
                                     : PriodDates
-                                    ? Color(0xFFFF9D93)
-                                    : isOvulation
-                                    ? Colors.green
-                                    : Colors.transparent,
+                                        ? Color(0xFFFF9D93)
+                                        : isOvulation
+                                            ? Colors.green
+                                            : Colors.transparent,
                               ),
                               child: Center(
                                 child: Text(
@@ -200,9 +191,9 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    isSelected || PriodDates || isOvulation
-                                        ? Colors.white
-                                        : Colors.black,
+                                        isSelected || PriodDates || isOvulation
+                                            ? Colors.white
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
@@ -210,58 +201,6 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                           ),
                         ),
                       ),
-                      //
-                      // DateContainer(
-                      //   date: date,
-                      //   isSelected: isSelected,
-                      //   isPeriodDate: PriodDates,
-                      //   isOvulation: isOvulation,
-                      //   showDottedBorder: isFirtile,
-                      //   isPredictedDate: isPredictedDate,
-                      // )
-                      // Container(
-                      //   width: 50,
-                      //   margin: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                      //   decoration: BoxDecoration(
-                      //     shape: BoxShape.circle,
-                      //     color: isSelected ? Colors.grey : PriodDates? Color(0xFFFF9D93) : isOvulation ? Colors.green: Colors.transparent,
-                      //
-                      //   ),
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(10.0),
-                      //     child: Column(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Text(
-                      //           DateFormat.MMM().format(date), // Month
-                      //           style: TextStyle(
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold,
-                      //             color: isSelected || PriodDates || isOvulation ? Colors.white : Colors.black,
-                      //           ),
-                      //         ),
-                      //         // SizedBox(height: 5),
-                      //         Text(
-                      //           date.day.toString(), // Day
-                      //           style: TextStyle(
-                      //             fontSize: 20,
-                      //             fontWeight: FontWeight.bold,
-                      //             color: isSelected || PriodDates || isOvulation ? Colors.white : Colors.black,
-                      //           ),
-                      //         ),
-                      //         // SizedBox(height: 5),
-                      //         // Text(
-                      //         //   DateFormat.E().format(date), // Weekday
-                      //         //   style: TextStyle(
-                      //         //     fontSize: 14,
-                      //         //     fontWeight: FontWeight.bold,
-                      //         //     color: isSelected ? Colors.white : Colors.black,
-                      //         //   ),
-                      //         // ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                   ],
                 ),
@@ -310,12 +249,12 @@ class DateContainer extends StatelessWidget {
             color: isSelected
                 ? Colors.grey
                 : isPeriodDate
-                ? Color(0xFFFF9D93)
-                : isOvulation
-                ? Colors.green
-                : isPredictedDate
-                ? Colors.orange
-                : Colors.transparent,
+                    ? Color(0xFFFF9D93)
+                    : isOvulation
+                        ? Colors.green
+                        : isPredictedDate
+                            ? Colors.orange
+                            : Colors.transparent,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
