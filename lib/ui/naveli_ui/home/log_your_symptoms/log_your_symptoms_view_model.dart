@@ -22,7 +22,7 @@ class LogYourSymptomsModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
   final PageController pageController = PageController(initialPage: 0);
-  SymptomsData? userSymptomsData;
+  Log? userSymptomsData;
   final now = DateTime.now();
   int? selectedStaining;
   int? selectedClotSize;
@@ -214,42 +214,84 @@ class LogYourSymptomsModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserSymptomsLogApi({required String date}) async {
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.period_start_date: date
-    };
-    print("Get user data : Before API}");
-    UserSymptomsMaster? master =
-        await _services.api!.getUserSymptomsDetails(params: params);
-    print("Get user data : After API}");
-    if (master == null) {
-      print("Get user data : null it is");
-      CommonUtils.oopsMSG();
-      print(
-          "................................symptoms oops.............................");
-    } else if (master != null && master.success! && master.data != null) {
-      ;
-      userSymptomsData = master.data;
-      print("Get user data : ${(userSymptomsData?.toJson())}");
-      selectedStaining = userSymptomsData?.staining;
-      selectedClotSize = userSymptomsData?.clotSize;
-      selectedWorkingAbility = userSymptomsData?.workingAbility;
-      selectedLocation = userSymptomsData?.location;
-      selectedLocationArray?.add(userSymptomsData?.location);
-      selectedCramps = userSymptomsData?.cramps;
-      selectedDays = userSymptomsData?.days;
-      selectedCollection = userSymptomsData?.collectionMethod;
-      selectedFrequency = userSymptomsData?.frequencyOfChangeDay;
-      selectedMood = userSymptomsData?.mood;
-      selectedEnergy = userSymptomsData?.energy;
-      selectedStress = userSymptomsData?.stress;
-      selectedAcne = userSymptomsData?.acne;
+Future<void> getUserSymptomsLogApi({required String date}) async {
+  Map<String, dynamic> params = {
+    ApiParams.period_start_date: date,
+  };
 
-      print("Get user data : staining${selectedStaining}");
-      print("Get user data : clot${selectedClotSize}");
-    } else if (!master.success!) {}
-    notifyListeners();
+  print("Get user data : Before API");
+  UserSymptomsMaster? master = await _services.api!.getUserSymptomsDetails(params: params);
+  print("Get user data : After API");
+
+  if (master == null) {
+    print("Get user data : null it is");
+    CommonUtils.oopsMSG();
+    print("................................symptoms oops.............................");
+  } else if (master.success == true && master.data?.logs != null && master.data!.logs!.isNotEmpty) {
+    final log = master.data!.logs!.first;
+
+    // Set values from log
+    selectedStaining = log.staining;
+    selectedClotSize = log.clotSize;
+    selectedWorkingAbility = log.workingAbility;
+    // selectedLocation = log.location;
+    selectedLocationArray = log.location != null ? [log.location!] : [];
+    selectedCramps = log.cramps;
+    selectedDays = log.days;
+    selectedCollection = log.collectionMethod;
+    selectedFrequency = log.frequencyOfChangeDay;
+    selectedMood = log.mood;
+    selectedEnergy = log.energy;
+    selectedStress = log.stress;
+    selectedAcne = log.acne;
+
+    print("Get user data : staining $selectedStaining");
+    print("Get user data : clot $selectedClotSize");
+  } else {
+    print("Get user data : success false or empty logs");
+    CommonUtils.oopsMSG();
   }
+
+  notifyListeners();
+}
+
+
+  // Future<void> getUserSymptomsLogApi({required String date}) async {
+  //   Map<String, dynamic> params = <String, dynamic>{
+  //     ApiParams.period_start_date: date
+  //   };
+  //   print("Get user data : Before API}");
+  //   UserSymptomsMaster? master =
+  //       await _services.api!.getUserSymptomsDetails(params: params);
+  //   print("Get user data : After API}");
+  //   if (master == null) {
+  //     print("Get user data : null it is");
+  //     CommonUtils.oopsMSG();
+  //     print(
+  //         "................................symptoms oops.............................");
+  //   } else if (master != null && master.success! && master.data != null) {
+  //     ;
+  //     userSymptomsData = master.data;
+  //     print("Get user data : ${(userSymptomsData?.toJson())}");
+  //     selectedStaining = userSymptomsData?.staining;
+  //     selectedClotSize = userSymptomsData?.clotSize;
+  //     selectedWorkingAbility = userSymptomsData?.workingAbility;
+  //     selectedLocation = userSymptomsData?.location;
+  //     selectedLocationArray?.add(userSymptomsData?.location);
+  //     selectedCramps = userSymptomsData?.cramps;
+  //     selectedDays = userSymptomsData?.days;
+  //     selectedCollection = userSymptomsData?.collectionMethod;
+  //     selectedFrequency = userSymptomsData?.frequencyOfChangeDay;
+  //     selectedMood = userSymptomsData?.mood;
+  //     selectedEnergy = userSymptomsData?.energy;
+  //     selectedStress = userSymptomsData?.stress;
+  //     selectedAcne = userSymptomsData?.acne;
+
+  //     print("Get user data : staining${selectedStaining}");
+  //     print("Get user data : clot${selectedClotSize}");
+  //   } else if (!master.success!) {}
+  //   notifyListeners();
+  // }
 
   // Future<void> postUserSymptomsLogApi() async {
 
@@ -357,6 +399,7 @@ class LogYourSymptomsModel with ChangeNotifier {
 
       _showSnackBar(context, "Symptoms logged successfully.", isError: false);
       notifyListeners();
+      Navigator.pop(context);
     } catch (e) {
       debugPrint("Error logging symptoms: $e");
       _showSnackBar(context, "Failed to log symptoms. Please try again.");

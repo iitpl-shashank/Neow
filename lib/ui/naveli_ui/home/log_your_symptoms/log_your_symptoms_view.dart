@@ -1235,7 +1235,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     onPress: () {
                       mViewModel.postUserSymptomsLogApi(context);
 
-                      Navigator.pop(context);
+                    
                     },
                   ),
                 )
