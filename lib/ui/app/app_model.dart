@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-
 import '../../database/app_preferences.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';

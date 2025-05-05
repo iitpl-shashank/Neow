@@ -64,9 +64,7 @@ class _HomeViewState extends State<HomeView> {
   // DateTime previousDate = DateTime(int.parse(globalUserMaster?.previousPeriodsBegin ?? ''));
 
   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
-
-//Shifted to bottom view
-  // String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
+  String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
 
   //String daysToGo = "";
 
@@ -88,43 +86,32 @@ class _HomeViewState extends State<HomeView> {
         // Ensure the first frame is shown after the video is initialized
         setState(() {});
       });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      mViewModel.attachedContext(context);
+      mViewModel.fetchHealthMixCategoryList();
 
-    Future.delayed(
-      Duration.zero,
-      () {
-        mViewModel.attachedContext(context);
-        //Shifted to bottom view
-        // mViewModel.fetchHealthMixCategoryList();
+      // Loading Issue
+      // mViewModel.getDialogBox(context);
 
-        // Loading Issue
-        // mViewModel.getDialogBox(context);
+      mViewYourNaveliModel =
+          Provider.of<YourNaveliViewModel>(context, listen: false);
+      mViewHealthMixModel =
+          Provider.of<HealthMixViewModel>(context, listen: false);
+      mViewSymptomsModel =
+          Provider.of<LogYourSymptomsModel>(context, listen: false);
 
-        mViewYourNaveliModel =
-            Provider.of<YourNaveliViewModel>(context, listen: false);
-        mViewHealthMixModel =
-            Provider.of<HealthMixViewModel>(context, listen: false);
-        mViewSymptomsModel =
-            Provider.of<LogYourSymptomsModel>(context, listen: false);
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          //Shifted to bottom view
-          // mViewModel.getPeriodInfoList();
+      mViewModel.attachedContext(context);
+      mViewHealthMixModel.getHealthMixLatestPosts();
+      mViewModel.getPeriodInfoList();
 
-          await handleFirstBloc();
-          //Shifted to bottom view
-          // await mViewModel.handleSecondBloc(dateString);
-          await handleThirdBloc();
-          print("diipppka1");
-          //mViewModel.fetchData();
-          _setTimeout();
-          //Shifted to bottom view
-          // mViewModel.updateSelectedDate(DateTime.now());
-        });
-      },
-    );
+      await handleFirstBloc();
+      await mViewModel.handleSecondBloc(dateString);
+      print("diipppka1");
+      // mViewModel.fetchData();
+      _setTimeout();
 
-    // handleFirstBloc();
-    // handleSecondBloc();
-    // handleThirdBloc();
+      mViewModel.updateSelectedDate(DateTime.now());
+    });
   }
 
   void _startAutoSlide() {
@@ -232,30 +219,6 @@ class _HomeViewState extends State<HomeView> {
         AppPreferences.instance.setBuddyAccess(false);
       }
     }
-  }
-
-  Future<void> handleThirdBloc() async {
-    DateTime currentDate = DateTime.now();
-    DateTime dateWithoutTime =
-        DateTime(currentDate.year, currentDate.month, currentDate.day);
-    // mViewModel.startSlider();
-    mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "Popular");
-    /* mViewModel.getSliderVideoApi().whenComplete(
-          () => mViewHealthMixModel
-              .getHealthMixPostsApi(titleId: 7)
-              .whenComplete(
-                () => mViewSymptomsModel
-                    ?.getUserSymptomsLogApi(
-                        date: globalUserMaster?.previousPeriodsBegin ?? '')
-                    .whenComplete(() {
-                  if (gUserType == AppConstants.NEOWME) {
-                    if (mViewModel.nextCycleDates.contains(dateWithoutTime)) {
-                      checkForCompulsorySymptoms();
-                    }
-                  }
-                }),
-              ),
-        ); */
   }
 
   void checkForCompulsorySymptoms() {

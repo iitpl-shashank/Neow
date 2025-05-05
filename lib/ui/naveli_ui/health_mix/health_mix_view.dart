@@ -25,29 +25,23 @@ class _HealthMixViewState extends State<HealthMixView>
   TabController? tabController2;
   late HealthMixViewModel mViewModel;
   SampleItem? selectedMenu;
+  late HealthMixViewModel mViewHealthMixModel;
   int selectedTabIndex = 0;
   int selectedTabIndex2 = 0;
   final bool _isLiked = false;
   late HomeViewModel mHomeViewModel;
 
-  // final List<String> text = [
-  //   'Nutrition',
-  //   S.of(mainNavKey.currentContext!)!.expertAdvice,
-  //   S.of(mainNavKey.currentContext!)!.cycleWisdom,
-  //   // S.of(mainNavKey.currentContext!)!.grooveWithNeow,
-  //   S.of(mainNavKey.currentContext!)!.testimonials,
-  //   /* S.of(mainNavKey.currentContext!)!.funCorner,
-  //   S.of(mainNavKey.currentContext!)!.calebSpeaks,
-  //   S.of(mainNavKey.currentContext!)!.empowHer, */
-  // ];
   final List<String> subHeadings = ['Popular', "Latest", "Saved"];
 
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       mViewModel.attachedContext(context);
+      mViewHealthMixModel =
+          Provider.of<HealthMixViewModel>(context, listen: false);
+      mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "Popular");
       tabController = TabController(
           length: mHomeViewModel.healthMixCategoryList.length, vsync: this);
       tabController2 = TabController(length: subHeadings.length, vsync: this);

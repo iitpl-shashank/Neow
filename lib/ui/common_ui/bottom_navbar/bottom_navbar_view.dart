@@ -47,32 +47,31 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
 
     mViewModel = Provider.of<BottomNavbarViewModel>(context, listen: false);
 
-    Future.delayed(
-      Duration.zero,
-      () {
-        final mHomeViewModel =
-            Provider.of<HomeViewModel>(context, listen: false);
-        final mHealthMixViewModel =
-            Provider.of<HealthMixViewModel>(context, listen: false);
-        // mViewModel.attachedContext(context);
-        mHomeViewModel.fetchHealthMixCategoryList();
-        mHealthMixViewModel.getHealthMixLatestPosts();
-        // Loading Issue
-        // mViewModel.getDialogBox(context);
+    // Future.delayed(
+    //   Duration.zero,
+    //   () {
+    // final mHomeViewModel =
+    //     Provider.of<HomeViewModel>(context, listen: false);
+    // final mHealthMixViewModel =
+    //     Provider.of<HealthMixViewModel>(context, listen: false);
+    // // mViewModel.attachedContext(context);
+    // mHealthMixViewModel.getHealthMixLatestPosts();
+    // Loading Issue
+    // mViewModel.getDialogBox(context);
 
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          mHomeViewModel.getPeriodInfoList();
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   mHomeViewModel.getPeriodInfoList();
 
-          // await handleFirstBloc();
-          await mHomeViewModel.handleSecondBloc(dateString);
-          // await handleThirdBloc();
-          // print("diipppka1");
-          //mViewModel.fetchData();
-          // _setTimeout();
-          mHomeViewModel.updateSelectedDate(DateTime.now());
-        });
-      },
-    );
+    // await handleFirstBloc();
+    // await mHomeViewModel.handleSecondBloc(dateString);
+    // await handleThirdBloc();
+    // print("diipppka1");
+    //mViewModel.fetchData();
+    // _setTimeout();
+    // mHomeViewModel.updateSelectedDate(DateTime.now());
+    // });
+    //   },
+    // );
   }
 
   @override
@@ -87,7 +86,6 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
     super.dispose();
   }
 
- 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -100,7 +98,7 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
     return Scaffold(
       body: pages[mViewModel.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items:  <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: S.of(context)!.home,
