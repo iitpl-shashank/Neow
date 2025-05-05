@@ -49,7 +49,7 @@ class _CommonSymptomsWidgetState extends State<CommonSymptomsWidget> {
   @override
   Widget build(BuildContext context) {
     var tcolor =
-        widget.isSelected ? CommonColors.primaryColor : CommonColors.black87;
+        widget.isSelected ? CommonColors.primaryColor : CommonColors.greyText;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -139,23 +139,6 @@ class _CommonSymptomsWidgetState extends State<CommonSymptomsWidget> {
                             widget.imagePath!,
                             fit: widget.isBoxFit ? BoxFit.cover : null,
                           ),
-
-                          /* widget.isSelected
-                              ? Container(
-                                  height: 3,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      color: CommonColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(25)),
-                                )
-                              : Container(
-                                  height: 3,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      color: CommonColors.mTransparent,
-                                      borderRadius: BorderRadius.circular(25)),
-                                ),
-                          kCommonSpaceV5, */
                         ),
                         kCommonSpaceV8,
                         widget.isUnderText
@@ -219,20 +202,10 @@ class _CommonSymptomsTitleState extends State<CommonSymptomsTitle> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                      fontSize: 18,
                       color: CommonColors.blackColor),
                 ),
               ),
-              // FittedBox(
-              //   fit: BoxFit.none,
-              //   child: Text(
-              //     widget.title,
-              //     maxLines: 1,
-              //     overflow: TextOverflow.ellipsis,
-              //     style: getGoogleFontStyle(
-              //         fontSize: 25, color: CommonColors.primaryColor),
-              //   ),
-              // ),
               kCommonSpaceH5,
               widget.isHintIcon
                   ? GestureDetector(
@@ -520,79 +493,82 @@ class _CommonSymptomsBadgeState extends State<CommonSymptomsBadge> {
     var tcolor =
         widget.isSelected ? CommonColors.primaryColor : CommonColors.black87;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         kCommonSpaceV5,
         GestureDetector(
           onTap: widget.onTap,
-          child: Container(
-            // width: widget.width ?? 80,
-            // height: widget.height ?? 95,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              // color: Colors.orange,
-              shape: BoxShape.rectangle,
-              // border: Border.all(
-              //     color: widget.isSelected
-              //         ? CommonColors.primaryColor
-              //         : Colors.transparent,
-              //     width: 3),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(children: [
-                  Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        // shape: BoxShape.circle,
-                        color: widget.isSelected
-                            ? Color(0xFFFAEEFF)
-                            : CommonColors.mWhite,
-                        boxShadow: [
-                          widget.isSelected
-                              ? const BoxShadow(
-                                  color: CommonColors.primaryColor,
-                                  blurRadius: 0.0,
-                                )
-                              : const BoxShadow(
-                                  color: CommonColors.mTransparent,
-                                  blurRadius: 0.0,
-                                )
-                        ],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0),
-                        ),
-                        border: Border.all(
-                          width: 1,
+          child: IntrinsicWidth(
+            child: Container(
+              // width: widget.width ?? 80,
+              // height: widget.height ?? 95,
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                shape: BoxShape.rectangle,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          // shape: BoxShape.circle,
                           color: widget.isSelected
-                              ? CommonColors.primaryColor
-                              : CommonColors.mGrey.withOpacity(0.3),
+                              ? Color(0xFFFAEEFF)
+                              : CommonColors.mWhite,
+                          boxShadow: [
+                            widget.isSelected
+                                ? const BoxShadow(
+                                    color: CommonColors.primaryColor,
+                                    blurRadius: 0.0,
+                                  )
+                                : const BoxShadow(
+                                    color: CommonColors.mTransparent,
+                                    blurRadius: 0.0,
+                                  )
+                          ],
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.circular(20.0),
+                            bottomRight: Radius.circular(20.0),
+                          ),
+                          border: Border.all(
+                            width: 1,
+                            color: widget.isSelected
+                                ? CommonColors.primaryColor
+                                : CommonColors.mGrey.withOpacity(0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            widget.imagePath != null
+                                ? Image.asset(
+                                    widget.imagePath!,
+                                    fit: widget.isBoxFit ? BoxFit.cover : null,
+                                  )
+                                : const SizedBox(),
+                            Text(
+                              widget.underText!,
+                              // textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: tcolor),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(children: [
-                        widget.imagePath != null
-                            ? Image.asset(
-                                widget.imagePath!,
-                                fit: widget.isBoxFit ? BoxFit.cover : null,
-                              )
-                            : const SizedBox(),
-                        Text(
-                          widget.underText!,
-                          // textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.fade,
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: tcolor),
-                        ),
-                      ])),
-                ])
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

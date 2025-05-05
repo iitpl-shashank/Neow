@@ -84,7 +84,6 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                     if (lang != "hi")
                       Text(
                         "Terms & Conditions*",
-                       
                         style: TextStyle(
                           color: CommonColors.blackColor,
                           fontSize: 18,
@@ -155,11 +154,20 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                             });
                           },
                         ),
-                        Text(
-                          S.of(context)!.iHaveReadClue,
-                          style: getAppStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                        ),
+                        if (lang == "hi")
+                          Expanded(
+                            child: Text(
+                              S.of(context)!.iHaveReadClue,
+                              style: getAppStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        if (lang != 'hi')
+                          Text(
+                            S.of(context)!.iHaveReadClue,
+                            style: getAppStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                          ),
                         if (lang != 'hi')
                           Expanded(
                             child: Text(

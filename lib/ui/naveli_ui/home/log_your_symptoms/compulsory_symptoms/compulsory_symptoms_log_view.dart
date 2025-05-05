@@ -115,9 +115,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        staining: mViewModel.selectedStaining,
-                                        stainingScore: 1);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     staining: mViewModel.selectedStaining,
+                                    //     stainingScore: 1);
                                   },
                                   imagePath: LocalImages.img_staining_light,
                                   imgWidth: 40,
@@ -136,9 +136,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        staining: mViewModel.selectedStaining,
-                                        stainingScore: 5);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     staining: mViewModel.selectedStaining,
+                                    //     stainingScore: 5);
                                   },
                                   imagePath: LocalImages.img_staining_dark,
                                   imgWidth: 40,
@@ -156,9 +156,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                       mViewModel.count += 1;
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
-                                    mViewModel.userSymptomsLogApi(
-                                        staining: mViewModel.selectedStaining,
-                                        stainingScore: 20);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     staining: mViewModel.selectedStaining,
+                                    //     stainingScore: 20);
                                   },
                                   imagePath:
                                       LocalImages.img_staining_extra_dark,
@@ -241,9 +241,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                   if (mViewModel.count != 0) {
                                     mViewModel.count -= 1;
                                   }
-                                  mViewModel.userSymptomsLogApi(
-                                      clotSize: mViewModel.selectedClotSize,
-                                      clotSizeScore: 1);
+                                  // mViewModel.userSymptomsLogApi(
+                                  //     clotSize: mViewModel.selectedClotSize,
+                                  //     clotSizeScore: 1);
                                 },
                                 imagePath: LocalImages.img_clot_small,
                                 imgWidth: 53,
@@ -262,9 +262,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                   if (mViewModel.count != 0) {
                                     mViewModel.count -= 1;
                                   }
-                                  mViewModel.userSymptomsLogApi(
-                                      clotSize: mViewModel.selectedClotSize,
-                                      clotSizeScore: 5);
+                                  // mViewModel.userSymptomsLogApi(
+                                  //     clotSize: mViewModel.selectedClotSize,
+                                  //     clotSizeScore: 5);
                                 },
                                 imagePath: LocalImages.img_clot_medium,
                                 imgWidth: 65,
@@ -285,9 +285,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                   });
                                   // mViewModel.checkMoreThenThreeSelected();
 
-                                  mViewModel.userSymptomsLogApi(
-                                      clotSize: mViewModel.selectedClotSize,
-                                      clotSizeScore: 10);
+                                  // mViewModel.userSymptomsLogApi(
+                                  //     clotSize: mViewModel.selectedClotSize,
+                                  //     clotSizeScore: 10);
                                 },
                                 imagePath: LocalImages.img_clot_large,
                                 imgWidth: 75,
@@ -390,9 +390,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        collectionMethod:
-                                            mViewModel.selectedCollection);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     collectionMethod:
+                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Sanitary Pads",
                                   isUnderText: true,
@@ -409,9 +409,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        collectionMethod:
-                                            mViewModel.selectedCollection);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     collectionMethod:
+                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Cloth",
                                   isUnderText: true,
@@ -428,9 +428,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        collectionMethod:
-                                            mViewModel.selectedCollection);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     collectionMethod:
+                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Tampons",
                                   isUnderText: true,
@@ -448,9 +448,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
 
-                                    mViewModel.userSymptomsLogApi(
-                                        collectionMethod:
-                                            mViewModel.selectedCollection);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     collectionMethod:
+                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Cups",
                                   isUnderText: true,
@@ -637,9 +637,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        frequencyOfChangeDay:
-                                            mViewModel.selectedFrequency);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     frequencyOfChangeDay:
+                                    //         mViewModel.selectedFrequency);
                                   },
                                   imagePath: LocalImages.img_frequency_4,
                                   imgHeight: 40,
@@ -656,9 +656,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        frequencyOfChangeDay:
-                                            mViewModel.selectedFrequency);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     frequencyOfChangeDay:
+                                    //         mViewModel.selectedFrequency);
                                   },
                                   imagePath: LocalImages.img_frequency_3,
                                   imgHeight: 40,
@@ -675,9 +675,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        frequencyOfChangeDay:
-                                            mViewModel.selectedFrequency);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     frequencyOfChangeDay:
+                                    //         mViewModel.selectedFrequency);
                                   },
                                   imagePath: LocalImages.img_frequency_2,
                                   imgHeight: 40,
@@ -693,9 +693,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                       mViewModel.count += 1;
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
-                                    mViewModel.userSymptomsLogApi(
-                                        frequencyOfChangeDay:
-                                            mViewModel.selectedFrequency);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     frequencyOfChangeDay:
+                                    //         mViewModel.selectedFrequency);
                                   },
                                   imagePath: LocalImages.img_frequency_1,
                                   imgHeight: 40,
@@ -825,10 +825,10 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        workingAbility:
-                                            mViewModel.selectedWorkingAbility,
-                                        workingAbilityScore: 0);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     workingAbility:
+                                    //         mViewModel.selectedWorkingAbility,
+                                    //     workingAbilityScore: 0);
                                   },
                                   imagePath: LocalImages.img_working_4,
                                   // imgHeight: 70,
@@ -847,10 +847,10 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        workingAbility:
-                                            mViewModel.selectedWorkingAbility,
-                                        workingAbilityScore: 1);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     workingAbility:
+                                    //         mViewModel.selectedWorkingAbility,
+                                    //     workingAbilityScore: 1);
                                   },
                                   imagePath: LocalImages.img_working_3,
                                   // imgHeight: 70,
@@ -869,10 +869,10 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        workingAbility:
-                                            mViewModel.selectedWorkingAbility,
-                                        workingAbilityScore: 2);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     workingAbility:
+                                    //         mViewModel.selectedWorkingAbility,
+                                    //     workingAbilityScore: 2);
                                   },
                                   imagePath: LocalImages.img_working_2,
                                   // imgHeight: 70,
@@ -890,10 +890,10 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                       mViewModel.count += 1;
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
-                                    mViewModel.userSymptomsLogApi(
-                                        workingAbility:
-                                            mViewModel.selectedWorkingAbility,
-                                        workingAbilityScore: 3);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     workingAbility:
+                                    //         mViewModel.selectedWorkingAbility,
+                                    //     workingAbilityScore: 3);
                                   },
                                   imagePath: LocalImages.img_working_1,
                                   // imgHeight: 70,
@@ -982,9 +982,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        location: mViewModel.selectedLocation,
-                                        locationScore: 0);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     location: mViewModel.selectedLocation,
+                                    //     locationScore: 0);
                                   },
                                   imagePath: LocalImages.img_location_1,
                                   isUnderText: true,
@@ -1002,9 +1002,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        location: mViewModel.selectedLocation,
-                                        locationScore: 1);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     location: mViewModel.selectedLocation,
+                                    //     locationScore: 1);
                                   },
                                   isUnderText: true,
                                   imagePath: LocalImages.img_location_2,
@@ -1022,9 +1022,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        location: mViewModel.selectedLocation,
-                                        locationScore: 2);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     location: mViewModel.selectedLocation,
+                                    //     locationScore: 2);
                                   },
                                   imagePath: LocalImages.img_location_3,
                                   underText: "2-3",
@@ -1042,9 +1042,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
 
-                                    mViewModel.userSymptomsLogApi(
-                                        location: mViewModel.selectedLocation,
-                                        locationScore: 3);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     location: mViewModel.selectedLocation,
+                                    //     locationScore: 3);
                                   },
                                   isUnderText: true,
                                   imagePath: LocalImages.img_location_4,
@@ -1261,9 +1261,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        cramps: mViewModel.selectedCramps,
-                                        periodCrampsScore: 0);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     cramps: mViewModel.selectedCramps,
+                                    //     periodCrampsScore: 0);
                                   },
                                   underText: "No Hurt",
                                   isUnderText: true,
@@ -1279,9 +1279,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        cramps: mViewModel.selectedCramps,
-                                        periodCrampsScore: 1);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     cramps: mViewModel.selectedCramps,
+                                    //     periodCrampsScore: 1);
                                   },
                                   underText: "Hurts Little bit",
                                   isUnderText: true,
@@ -1297,9 +1297,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        cramps: mViewModel.selectedCramps,
-                                        periodCrampsScore: 2);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     cramps: mViewModel.selectedCramps,
+                                    //     periodCrampsScore: 2);
                                   },
                                   underText: "Hurts More",
                                   isUnderText: true,
@@ -1314,9 +1314,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                       mViewModel.count += 1;
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
-                                    mViewModel.userSymptomsLogApi(
-                                        cramps: mViewModel.selectedCramps,
-                                        periodCrampsScore: 3);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     cramps: mViewModel.selectedCramps,
+                                    //     periodCrampsScore: 3);
                                   },
                                   underText: "Hurts Worst",
                                   isUnderText: true,
@@ -1399,9 +1399,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        days: mViewModel.selectedDays,
-                                        daysScore: 0);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     days: mViewModel.selectedDays,
+                                    //     daysScore: 0);
                                   },
                                   imagePath: LocalImages.img_days_1,
                                   imgHeight: 40,
@@ -1418,9 +1418,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        days: mViewModel.selectedDays,
-                                        daysScore: 1);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     days: mViewModel.selectedDays,
+                                    //     daysScore: 1);
                                   },
                                   imgHeight: 40,
                                   underText: "1-2",
@@ -1437,9 +1437,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     if (mViewModel.count != 0) {
                                       mViewModel.count -= 1;
                                     }
-                                    mViewModel.userSymptomsLogApi(
-                                        days: mViewModel.selectedDays,
-                                        daysScore: 2);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     days: mViewModel.selectedDays,
+                                    //     daysScore: 2);
                                   },
                                   imagePath: LocalImages.img_days_3,
                                   imgHeight: 40,
@@ -1456,9 +1456,9 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                     });
                                     // mViewModel.checkMoreThenThreeSelected();
 
-                                    mViewModel.userSymptomsLogApi(
-                                        days: mViewModel.selectedDays,
-                                        daysScore: 3);
+                                    // mViewModel.userSymptomsLogApi(
+                                    //     days: mViewModel.selectedDays,
+                                    //     daysScore: 3);
                                   },
                                   imagePath: LocalImages.img_days_4,
                                   imgHeight: 40,

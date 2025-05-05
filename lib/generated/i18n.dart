@@ -1094,7 +1094,7 @@ class $mr extends S {
   String get welcomeViewText => "आपका  स्वागत है ।";
 
   @override
-  String get personalisingExp => 'आपके अनुभव को व्यक्तिगत बनाना';
+  String get personalisingExp => 'हम आपके अनुभव को व्यक्तिगत बनाना';
 
   @override
   String get hotFlushes => 'गर्मी का आभास';

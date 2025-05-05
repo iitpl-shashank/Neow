@@ -1364,108 +1364,110 @@ class _SymptomsBotViewState extends State<SymptomsBotView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Chat Page'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                return Column(
-                  children: [
-                    Align(
-                      alignment: message.isUser
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        padding: EdgeInsets.all(10),
-                        decoration: (message.image.toString() != "")?BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Color(0xffF6F6F6), // Border color
-                            width: 1, // Border width
-                          ),
-                        ):BoxDecoration(
-                          color: message.isUser
-                              ? Color(0xFF6F4085)
-                              : Color(0xffF6F6F6),
-                          borderRadius: message.isUser? BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16),
-                            bottomLeft: Radius.circular(16),
-                            bottomRight: Radius.circular(0), // Pointed end for sender bubble
-                          ):BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: message.isUser
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 5),
-                            Text(
-                              message.text,
-                              style: TextStyle(
-                                  color: message.isUser
-                                      ? Colors.white
-                                      : Colors.black),
-                            ),
-                            if (message.image.toString() != "")
-                              GestureDetector(
-                                onTap: () async{
-                                  await showDialog(
-                                  context: context,
-                                  builder: (_) => FullScreenImageView(image: message.image??"",)
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: message.image.toString() == ""
-                                      ? null
-                                      : Image.asset(
-                                          message.image.toString(),
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (isAnsSelected && index == _messages.length - 1)
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text('Chat Page'),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final message = _messages[index];
+                  return Column(
+                    children: [
                       Align(
                         alignment: message.isUser
                             ? Alignment.centerRight
                             : Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0, left: 20),
-                          child: Image.asset(
-                            LocalImages.loadDots,
-                            height: 59,
-                            fit: BoxFit.cover,
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          padding: EdgeInsets.all(10),
+                          decoration: (message.image.toString() != "")?BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Color(0xffF6F6F6), // Border color
+                              width: 1, // Border width
+                            ),
+                          ):BoxDecoration(
+                            color: message.isUser
+                                ? Color(0xFF6F4085)
+                                : Color(0xffF6F6F6),
+                            borderRadius: message.isUser? BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                              bottomLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(0), // Pointed end for sender bubble
+                            ):BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: message.isUser
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 5),
+                              Text(
+                                message.text,
+                                style: TextStyle(
+                                    color: message.isUser
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                              if (message.image.toString() != "")
+                                GestureDetector(
+                                  onTap: () async{
+                                    await showDialog(
+                                    context: context,
+                                    builder: (_) => FullScreenImageView(image: message.image??"",)
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: message.image.toString() == ""
+                                        ? null
+                                        : Image.asset(
+                                            message.image.toString(),
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ),
-                  ],
-                );
-              },
+                      if (isAnsSelected && index == _messages.length - 1)
+                        Align(
+                          alignment: message.isUser
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, left: 20),
+                            child: Image.asset(
+                              LocalImages.loadDots,
+                              height: 59,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          // Display the answer options based on the current question
-
-          if (_messages.isNotEmpty && !_messages.last.isUser) _MainConatiner()
-
-          // isAnsSelected
-        ],
+            // Display the answer options based on the current question
+      
+            if (_messages.isNotEmpty && !_messages.last.isUser) _MainConatiner()
+      
+            // isAnsSelected
+          ],
+        ),
       ),
     );
   }
