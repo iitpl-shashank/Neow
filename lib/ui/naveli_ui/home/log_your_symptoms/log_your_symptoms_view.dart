@@ -350,7 +350,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     kCommonSpaceH10,
                     CommonSymptomsWidget(
                       onTap: () {
-                        showheavyFlow(context);
+                        // showheavyFlow(context);
                         setState(() {
                           mViewModel.selectedStaining = 3;
                           mViewModel.count += 1;
