@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/models/common_master.dart';
 import 'package:naveli_2023/models/state_master.dart';
 
+import '../../../database/app_preferences.dart';
 import '../../../models/city_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
@@ -26,7 +27,10 @@ class StateSelectionViewModel with ChangeNotifier {
 
   Future<void> getStateListApi() async {
     CommonUtils.showProgressDialog();
-    StateMaster? master = await _services.api!.getStateList();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    StateMaster? master = await _services.api!.getStateList(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();
@@ -39,10 +43,6 @@ class StateSelectionViewModel with ChangeNotifier {
       );
     } else if (master.success == true) {
       stateList = master.data ?? [];
-      //  CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
     }
     notifyListeners();
   }
@@ -53,6 +53,7 @@ class StateSelectionViewModel with ChangeNotifier {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.state_id: stateId,
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
     log(params.toString());
     CityMaster? master = await _services.api!.getCityList(params: params);

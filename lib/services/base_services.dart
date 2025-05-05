@@ -165,7 +165,7 @@ abstract class BaseServices {
   Future<MonthlyReminderMaster?> getMonthlyRemindersList(
       {required Map<String, dynamic> params});
 
-  Future<StateMaster?> getStateList();
+  Future<StateMaster?> getStateList({required Map<String, dynamic> params});
 
   Future<CityMaster?> getCityList({required Map<String, dynamic> params});
 

@@ -609,16 +609,32 @@ class _WelcomeViewState extends State<WelcomeView> {
                     child: Column(
                       children: [
                         kCommonSpaceV10,
-                        Text(
-                          S.of(context)!.neowNaamSunaHoga,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: CommonColors.blackColor,
-                            fontSize: 24,
-                            fontWeight: lang == "hi"
-                                ? FontWeight.w200
-                                : FontWeight.w600,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                             Text(
+                              "NeoW, ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: CommonColors.blackColor,
+                                fontSize: 24,
+                                fontWeight: lang == "hi"
+                                    ? FontWeight.w400
+                                    : FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              S.of(context)!.neowNaamSunaHoga,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: CommonColors.blackColor,
+                                fontSize: 24,
+                                fontWeight: lang == "hi"
+                                    ? FontWeight.w200
+                                    : FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                         kCommonSpaceV30,
                         kCommonSpaceV30,

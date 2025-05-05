@@ -305,16 +305,7 @@ class _DashboardViewState extends State<DashboardView> {
           mAilmentsViewModel.storedOtherAilmentsList.clear();
           medicationController.clear();
           medicalConditionController.clear();
-          /* mMedicationViewModel.getStoredMedicineListApi(false,"Thyriod").whenComplete(() {
-            var medication =
-                mMedicationViewModel.userPreviousMedication.toString();
-            medication = medication.substring(1, medication.length - 1);
-            var otherMedication =
-                mMedicationViewModel.storedOtherMedicineList.toString();
-            otherMedication =
-                otherMedication.substring(1, otherMedication.length - 1);
-            medicationController.text = "$medication  $otherMedication";
-          }); */
+       
           mAilmentsViewModel.getStoredAilmentsListApi(false).whenComplete(() {
             var ailments = mAilmentsViewModel.userPreviousAilments.toString();
             ailments = ailments.substring(1, ailments.length - 1);
@@ -402,14 +393,7 @@ class _DashboardViewState extends State<DashboardView> {
     mViewModelSleep = Provider.of<SleepViewModel>(context);
     mViewModelWaterInteke = Provider.of<WaterReminderViewModel>(context);
 
-    /* List<charts.Series<BarData, String>> series = [
-      charts.Series(
-          id: "Subscribers",
-          data: barData,
-          domainFn: (BarData series, _) => series.ydata,
-          measureFn: (BarData series, _) => series.xdata,
-          colorFn: (BarData series, _) => series.barColor)
-    ]; */
+   
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,

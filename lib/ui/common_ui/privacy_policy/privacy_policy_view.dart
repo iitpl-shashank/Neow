@@ -84,8 +84,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                     if (lang != "hi")
                       Text(
                         "Terms & Conditions*",
-                        // maxLines: 1,
-                        // overflow: TextOverflow.ellipsis,
+                       
                         style: TextStyle(
                           color: CommonColors.blackColor,
                           fontSize: 18,
@@ -161,16 +160,17 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                           style: getAppStyle(
                               fontSize: 15, fontWeight: FontWeight.w500),
                         ),
-                        Expanded(
-                          child: Text(
-                            S.of(context)!.privacyPolicy,
-                            overflow: TextOverflow.ellipsis,
-                            style: getAppStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: CommonColors.primaryColor),
+                        if (lang != 'hi')
+                          Expanded(
+                            child: Text(
+                              S.of(context)!.privacyPolicy,
+                              overflow: TextOverflow.ellipsis,
+                              style: getAppStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: CommonColors.primaryColor),
+                            ),
                           ),
-                        ),
                       ],
                     ),
 

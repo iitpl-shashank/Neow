@@ -870,7 +870,7 @@ class S implements WidgetsLocalizations {
 
   String get getStarted => "Get Started";
 
-  String get neowNaamSunaHoga => "Neow, Naam to suna hi hoga";
+  String get neowNaamSunaHoga => "Naam to suna hi hoga";
 
   String get typeHere => "Type here";
 
@@ -1008,6 +1008,35 @@ class S implements WidgetsLocalizations {
   String get personalisingExp => 'Personalising your experience';
 
   String get welcomeViewText => "Welcome!";
+
+  String get dayText => "Day";
+
+  String get daysText => "Days";
+
+  String get viewAll => "View All";
+
+  String get trackAndLearn => "Track and Learn";
+
+  String get explore => "Explore";
+
+  String get articles => "Articles";
+
+  String get latestVideos => "Latest Videos";
+
+  String get shorts => "Shorts";
+
+  String get letsTakeDive => "Let\'s take a dive\ninto your day!";
+
+  String get chatNow => 'Chat Now';
+
+  String get askADoctor => "Ask a Doctor.";
+
+  String get haveAnyQuestion =>
+      "Have any questions, our\nexperts are here to guide.";
+
+  String get askDoctor => "Here";
+
+  String get hi => "Hi";
 }
 
 class $en extends S {
@@ -1018,6 +1047,49 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get hi => "हेलो";
+
+  @override
+  String get askDoctor => "सवाल करें।";
+
+  @override
+  String get haveAnyQuestion =>
+      "कोई प्रश्न है? हमारे एक्सपर्टस मार्गदर्शन\nके लिए यहाँ हैं।";
+
+  @override
+  String get askADoctor => "डॉक्टर से पूछें।";
+
+  @override
+  String get chatNow => 'चैट करें';
+
+  @override
+  String get letsTakeDive => "आज आप कैसा महसूस\nकर रहे हैं?";
+
+  @override
+  String get shorts => "शाॅर्ट्स";
+
+  @override
+  String get latestVideos => "लेटेस्ट वीडियो";
+
+  @override
+  String get articles => "लेख";
+
+  @override
+  String get explore => "खोजें";
+
+  @override
+  String get trackAndLearn => "अपने स्वास्थ्य को ट्रैक कर";
+
+  @override
+  String get viewAll => "सभी देखें";
+
+  @override
+  String get dayText => "दिन";
+
+  @override
+  String get daysText => "दिन";
+
   @override
   String get welcomeViewText => "आपका  स्वागत है ।";
 
@@ -1225,7 +1297,7 @@ class $mr extends S {
   String get typeHere => "यहाँ टाइप करें";
 
   @override
-  String get neowNaamSunaHoga => "NeoW, नाम तो सुना ही होगा";
+  String get neowNaamSunaHoga => "नाम तो सुना ही होगा";
 
   @override
   String get getStarted => "शुरू करें";
@@ -1731,16 +1803,17 @@ class $mr extends S {
       "हम आपके डेटा को सुरक्षित और निजी रखने का वादा करते हैं। कृपया हमारी नीतियों को जानने के लिए थोड़ा समय निकालें।";
 
   @override
-  String get iAgree => "मैं क्लू से सहमत हूँ।";
+  String get iAgree => "मैं NeoW की नियम और शर्तों से सहमत हूँ।";
 
   @override
-  String get termsOfServices => "सेवा की शर्तें।";
+  String get termsOfServices => "";
 
   @override
-  String get iHaveReadClue => "मैंने क्लू को पढ़ा है";
+  String get iHaveReadClue =>
+      "मैं सहमत हूँ कि NeoW ऐप मुझे सूचनाएँ, अपडेट्स और महत्वपूर्ण जानकारी ईमेल के माध्यम से अवगत कराएगा।";
 
   @override
-  String get privacyPolicy => "गोपनीयता नीति.";
+  String get privacyPolicy => "";
 
   @override
   String get iAgreeProcessing =>

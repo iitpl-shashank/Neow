@@ -128,6 +128,7 @@ class HealthMixViewModel with ChangeNotifier {
   }
 
   Future<void> getHealthMixLatestPosts() async {
+     debugPrint("UNDER GET HEALTH MIX LATES POSTS");
     // CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
@@ -149,7 +150,10 @@ class HealthMixViewModel with ChangeNotifier {
       );
     } else if (posts.success == true) {
       healthLatestPostsList = posts.data?.healthMixPosts ?? [];
-      debugPrint("healthLatestPostsList: $healthLatestPostsList");
+      debugPrint("healthLatestPostsList: ${healthLatestPostsList}");
+      healthLatestPostsList.forEach((post) {
+        debugPrint('Post: $post');
+      });
     }
     // CommonUtils.hideProgressDialog();
     notifyListeners();

@@ -40,7 +40,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
   );
   final mDateController = TextEditingController();
   late CycleInfoViewModel mViewModel;
-  int? selectedCycleLength = 21;
+  int? selectedCycleLength = 28;
   String? selectedPreviousPeriodDate;
   late SignInViewModel singInViewModel = SignInViewModel();
 
@@ -58,7 +58,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
       mViewModel.getCurrentMonthDays();
     });
 
-    scrollController = FixedExtentScrollController(initialItem: 0);
+    scrollController = FixedExtentScrollController(initialItem: 7);
     scrollPeriodLengthController = FixedExtentScrollController(initialItem: 0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -198,7 +198,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "${index + 21} ${index == 0 ? 'Day' : 'Days'}",
+                                  "${index + 21} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                   style: getAppStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w400,
@@ -424,7 +424,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                               ),
                               alignment: Alignment.center,
                               child: Text(
-                                "${index + 1} ${index == 0 ? 'Day' : 'Days'}",
+                                "${index + 1} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                 style: getAppStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,

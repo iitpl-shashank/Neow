@@ -31,6 +31,7 @@ import '../../../widgets/common_daily_insight_container.dart';
 import '../../../widgets/healthmix_category_card.dart';
 import '../../../widgets/horiozntal.dart';
 import '../../../widgets/latest_videos_card.dart';
+import '../../app/app_model.dart';
 import '../calendar/calendar_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
@@ -429,920 +430,943 @@ class _HomeViewState extends State<HomeView> {
       height: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
-        /* image: DecorationImage(
-          image: AssetImage(LocalImages.img_background),
-          fit: BoxFit.cover,
-        ), */
       ),
       child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            // backgroundColor:Colors.red,
-            title: Text("Hi, NeoW $username!",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                )),
+        child: Builder(builder: (context) {
+          var lang = Provider.of<AppModel>(context).locale;
+          return Scaffold(
+            appBar: AppBar(
+              // backgroundColor:Colors.red,
+              title: Text("${S.of(context)!.hi}, NeoW $username!",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight:
+                        lang == "hi" ? FontWeight.w500 : FontWeight.bold,
+                    fontSize: 18,
+                  )),
 
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.black,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    push(const NotificationScreen());
+                  },
                 ),
-                onPressed: () {
-                  push(const NotificationScreen());
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Colors.black,
+                IconButton(
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    isLogEdit = false;
+                    push(CalendarView());
+                  },
                 ),
-                onPressed: () {
-                  isLogEdit = false;
-                  push(CalendarView());
-                },
-              ),
-            ],
-            backgroundColor: Color(bgColor),
-          ),
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            // padding: const EdgeInsets.only(left: 12, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (gUserType == AppConstants.NEOWME ||
-                    gUserType == AppConstants.BUDDY) ...[
-                  calender2,
-                ],
-                if (gUserType == AppConstants.NEOWME ||
-                    gUserType == AppConstants.BUDDY) ...[
+              ],
+              backgroundColor: Color(bgColor),
+            ),
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              // padding: const EdgeInsets.only(left: 12, right: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (gUserType == AppConstants.NEOWME ||
+                      gUserType == AppConstants.BUDDY) ...[
+                    calender2,
+                  ],
+                  if (gUserType == AppConstants.NEOWME ||
+                      gUserType == AppConstants.BUDDY) ...[
+                    SizedBox(
+                      height: kDeviceHeight / 3,
+                      child: Stack(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            decoration: BoxDecoration(
+                              color: Color(bgColor),
+                              // width:500,
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.elliptical(
+                                      MediaQuery.of(context).size.width, 90.0)),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                (mViewModel.isLoading)
+                                    ? CircularProgressIndicator()
+                                    : Visibility(
+                                        visible: timeoutValue == 2,
+                                        child: Container(
+                                            width: 150,
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(mViewModel
+                                                    .dateWiseTextList
+                                                    .msg
+                                                    .image),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                mViewModel.dateWiseTextList.msg
+                                                    .periodMsg,
+                                                style: TextStyle(
+                                                    color: mViewModel
+                                                            .dateWiseTextList
+                                                            .msg
+                                                            .color
+                                                            .contains("black")
+                                                        ? Colors.black
+                                                        : Colors.white),
+                                              ),
+                                            )),
+                                      ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                            mViewModel.dateWiseTextList.msg
+                                                .description,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: CommonColors
+                                                    .darkPrimaryColor,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                kCommonSpaceV5,
+                                ElevatedButton(
+                                  onPressed: () {
+                                    navigateToCalendarView();
+                                  },
+                                  style: ButtonStyle(
+                                    fixedSize: WidgetStateProperty.all<Size>(
+                                      Size(120.0,
+                                          30.0), // Button width and height
+                                    ),
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color>(
+                                            CommonColors.primaryColor),
+                                    foregroundColor:
+                                        WidgetStateProperty.all<Color>(
+                                            Colors.white),
+                                  ),
+                                  child: Text('Log Period',
+                                      style: TextStyle(fontSize: 14)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    kCommonSpaceV10,
+                  ],
+                  if (gUserType == AppConstants.CYCLE_EXPLORER) ...[
+                    SizedBox(
+                      height: 200,
+                      child: const VideoPlayerScreen(
+                          link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
+                    ),
+                    kCommonSpaceV20,
+                  ],
+                  kCommonSpaceV10,
                   SizedBox(
-                    height: kDeviceHeight / 3,
+                      height: 170,
+                      child: Stack(children: [
+                        PageView.builder(
+                          controller: mViewModel.pageController,
+                          onPageChanged: (value) {
+                            setState(() {
+                              mViewModel.currentPage = value;
+                            });
+                          },
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return index == 0
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 12, right: 12, bottom: 20),
+                                    child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 10),
+                                        height: 160,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: CommonColors.bglightPinkColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          shadows: const [
+                                            BoxShadow(
+                                              color: Color(0x3F000000),
+                                              blurRadius: 5,
+                                              offset: Offset(0, 2),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: Stack(children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    S.of(context)!.letsTakeDive,
+                                                    style: TextStyle(
+                                                      fontWeight: lang == "hi"
+                                                          ? FontWeight.w500
+                                                          : FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                  kCommonSpaceV10,
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      push(
+                                                          const SymptomsBotView());
+                                                    },
+                                                    style: ButtonStyle(
+                                                      padding:
+                                                          WidgetStateProperty
+                                                              .all<EdgeInsets>(
+                                                                  EdgeInsets
+                                                                      .zero),
+                                                      fixedSize:
+                                                          WidgetStateProperty
+                                                              .all<Size>(
+                                                        Size(90.0,
+                                                            25.0), // Button width and height
+                                                      ),
+                                                      backgroundColor:
+                                                          WidgetStateProperty
+                                                              .all<Color>(Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      242,
+                                                                      94,
+                                                                      180)),
+                                                      foregroundColor:
+                                                          WidgetStateProperty
+                                                              .all<Color>(
+                                                                  Colors.white),
+                                                    ),
+                                                    child: Text(
+                                                      S.of(context)!.chatNow,
+                                                      style: TextStyle(
+                                                        fontWeight: lang == "hi"
+                                                            ? FontWeight.w500
+                                                            : FontWeight.bold,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: InkWell(
+                                              /* onTap: () {
+                                                      push(const ReminderView());
+                                                    }, */
+                                              child: Image.asset(
+                                                LocalImages.img_welcome_home,
+                                                fit: BoxFit.contain,
+                                                height: 150,
+                                              ),
+                                            ),
+                                          ),
+                                        ])),
+                                  )
+                                : index == 1
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 12, right: 12, bottom: 20),
+                                        child: Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10, top: 10),
+                                            height: 160,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: ShapeDecoration(
+                                              color: Color(0xFFDDEBFF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              shadows: const [
+                                                BoxShadow(
+                                                  color: Color(0x3F000000),
+                                                  blurRadius: 5,
+                                                  offset: Offset(0, 2),
+                                                  spreadRadius: 0,
+                                                )
+                                              ],
+                                            ),
+                                            child: Stack(children: [
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        S
+                                                            .of(context)!
+                                                            .askADoctor,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                      kCommonSpaceV10,
+                                                      Text(
+                                                        S
+                                                            .of(context)!
+                                                            .haveAnyQuestion,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          color:
+                                                              Color(0xFF8B8B8B),
+                                                        ),
+                                                      ),
+                                                      kCommonSpaceV10,
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          push(
+                                                              const SymptomsBotView());
+                                                        },
+                                                        style: ButtonStyle(
+                                                          fixedSize:
+                                                              WidgetStateProperty
+                                                                  .all<Size>(
+                                                            Size(120.0,
+                                                                25.0), // Button width and height
+                                                          ),
+                                                          backgroundColor:
+                                                              WidgetStateProperty
+                                                                  .all<Color>(Color(
+                                                                      0xFF3D73BF)),
+                                                          foregroundColor:
+                                                              WidgetStateProperty
+                                                                  .all<Color>(
+                                                                      Colors
+                                                                          .white),
+                                                        ),
+                                                        child: Text(
+                                                          S
+                                                              .of(context)!
+                                                              .askDoctor,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    Alignment.bottomRight,
+                                                child: InkWell(
+                                                  /* onTap: () {
+                                                      push(const ReminderView());
+                                                    }, */
+                                                  child: Image.asset(
+                                                    LocalImages
+                                                        .img_naveli_nurse,
+                                                    fit: BoxFit.contain,
+                                                    height: 150,
+                                                  ),
+                                                ),
+                                              ),
+                                            ])),
+                                      )
+                                    : index == 2
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 12,
+                                                right: 12,
+                                                bottom: 20),
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 10),
+                                                height: 160,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: ShapeDecoration(
+                                                  color: Color(0XFFFFEEEE),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  shadows: const [
+                                                    BoxShadow(
+                                                      color: Color(0x3F000000),
+                                                      blurRadius: 5,
+                                                      offset: Offset(0, 2),
+                                                      spreadRadius: 0,
+                                                    )
+                                                  ],
+                                                ),
+                                                child: Stack(children: [
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'The Neow Story',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          Text(
+                                                            'Leading Ladies: Women making\nHeadlines',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              //TODO : Slider onTap required
+                                                              push(PostList(
+                                                                position: 0,
+                                                                selectedTabIndex:
+                                                                    0,
+                                                                postTitle: "",
+                                                              ));
+                                                            },
+                                                            style: ButtonStyle(
+                                                              fixedSize:
+                                                                  WidgetStateProperty
+                                                                      .all<
+                                                                          Size>(
+                                                                Size(90.0,
+                                                                    25.0), // Button width and height
+                                                              ),
+                                                              backgroundColor:
+                                                                  WidgetStateProperty.all<
+                                                                          Color>(
+                                                                      Color(
+                                                                          0xFFD15151)),
+                                                              foregroundColor:
+                                                                  WidgetStateProperty.all<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .white),
+                                                            ),
+                                                            child: Text('Here',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        12)),
+                                                          ),
+                                                        ]),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: InkWell(
+                                                      /* onTap: () {
+                                                      push(const ReminderView());
+                                                    }, */
+                                                      child: Image.asset(
+                                                        LocalImages
+                                                            .img_naveli_mike,
+                                                        fit: BoxFit.contain,
+                                                        height: 150,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ])),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 12,
+                                                right: 12,
+                                                bottom: 20),
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 10),
+                                                height: 160,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: ShapeDecoration(
+                                                  color: Color(0XFFFFEEEE),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  shadows: const [
+                                                    BoxShadow(
+                                                      color: Color(0x3F000000),
+                                                      blurRadius: 5,
+                                                      offset: Offset(0, 2),
+                                                      spreadRadius: 0,
+                                                    )
+                                                  ],
+                                                ),
+                                                child: Stack(children: [
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Leading Ladies: Women Making Headlines',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          Text(
+                                                            'Groove with Neow',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              //TODO : Slider onTap required
+                                                              push(PostList(
+                                                                position: 0,
+                                                                selectedTabIndex:
+                                                                    0,
+                                                                postTitle:
+                                                                    "Slider",
+                                                              ));
+                                                            },
+                                                            style: ButtonStyle(
+                                                              fixedSize:
+                                                                  WidgetStateProperty
+                                                                      .all<
+                                                                          Size>(
+                                                                Size(90.0,
+                                                                    25.0), // Button width and height
+                                                              ),
+                                                              backgroundColor:
+                                                                  WidgetStateProperty.all<
+                                                                          Color>(
+                                                                      Color.fromARGB(
+                                                                          255,
+                                                                          175,
+                                                                          34,
+                                                                          34)),
+                                                              foregroundColor:
+                                                                  WidgetStateProperty.all<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .white),
+                                                            ),
+                                                            child: Text('Here',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        12)),
+                                                          ),
+                                                        ]),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: InkWell(
+                                                      child: Image.asset(
+                                                        LocalImages
+                                                            .grovewithnew,
+                                                        fit: BoxFit.contain,
+                                                        height: 150,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ])),
+                                          );
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: buildIndicator(),
+                          ),
+                        ),
+                      ])),
+                  kCommonSpaceV30,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Stack(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 12, right: 12),
-                          decoration: BoxDecoration(
-                            color: Color(bgColor),
-                            // width:500,
-                            borderRadius: BorderRadius.vertical(
-                                bottom: Radius.elliptical(
-                                    MediaQuery.of(context).size.width, 90.0)),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            S.of(context)!.trackAndLearn,
+                            style: TextStyle(
+                              fontWeight: lang == "hi"
+                                  ? FontWeight.w500
+                                  : FontWeight.bold,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                         Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              (mViewModel.isLoading)
-                                  ? CircularProgressIndicator()
-                                  : Visibility(
-                                      visible: timeoutValue == 2,
-                                      child: Container(
-                                          width: 150,
-                                          height: 150,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(mViewModel
-                                                  .dateWiseTextList.msg.image),
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              mViewModel.dateWiseTextList.msg
-                                                  .periodMsg,
-                                              style: TextStyle(
-                                                  color: mViewModel
-                                                          .dateWiseTextList
-                                                          .msg
-                                                          .color
-                                                          .contains("black")
-                                                      ? Colors.black
-                                                      : Colors.white),
-                                            ),
-                                          )),
-                                    ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                          mViewModel
-                                              .dateWiseTextList.msg.description,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  CommonColors.darkPrimaryColor,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
+                          alignment: Alignment.topRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              push(const TrackHealthViewAllView());
+                            },
+                            child: Text(
+                              S.of(context)!.viewAll,
+                              style: TextStyle(
+                                fontWeight: lang == "hi"
+                                    ? FontWeight.w500
+                                    : FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(0xFF6F4085),
                               ),
-                              kCommonSpaceV5,
-                              ElevatedButton(
-                                onPressed: () {
-                                  navigateToCalendarView();
-                                },
-                                style: ButtonStyle(
-                                  fixedSize: WidgetStateProperty.all<Size>(
-                                    Size(
-                                        120.0, 30.0), // Button width and height
-                                  ),
-                                  backgroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                          CommonColors.primaryColor),
-                                  foregroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                          Colors.white),
-                                ),
-                                child: Text('Log Period',
-                                    style: TextStyle(fontSize: 14)),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  kCommonSpaceV10,
-                ],
-                if (gUserType == AppConstants.CYCLE_EXPLORER) ...[
-                  SizedBox(
-                    height: 200,
-                    child: const VideoPlayerScreen(
-                        link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
-                  ),
                   kCommonSpaceV20,
-                ],
-                kCommonSpaceV10,
-                SizedBox(
-                    height: 170,
-                    child: Stack(children: [
-                      PageView.builder(
-                        controller: mViewModel.pageController,
-                        onPageChanged: (value) {
-                          setState(() {
-                            mViewModel.currentPage = value;
-                          });
-                        },
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return index == 0
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 12, right: 12, bottom: 20),
-                                  child: Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10, top: 10),
-                                      height: 160,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: ShapeDecoration(
-                                        color: CommonColors.bglightPinkColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        shadows: const [
-                                          BoxShadow(
-                                            color: Color(0x3F000000),
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                            spreadRadius: 0,
-                                          )
-                                        ],
-                                      ),
-                                      child: Stack(children: [
-                                        Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Let\'s take a dive\ninto your day!',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                kCommonSpaceV10,
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    push(
-                                                        const SymptomsBotView());
-                                                  },
-                                                  style: ButtonStyle(
-                                                    padding: WidgetStateProperty
-                                                        .all<EdgeInsets>(
-                                                            EdgeInsets.zero),
-                                                    fixedSize:
-                                                        WidgetStateProperty.all<
-                                                            Size>(
-                                                      Size(90.0,
-                                                          25.0), // Button width and height
-                                                    ),
-                                                    backgroundColor:
-                                                        WidgetStateProperty.all<
-                                                                Color>(
-                                                            Color.fromARGB(255,
-                                                                242, 94, 180)),
-                                                    foregroundColor:
-                                                        WidgetStateProperty.all<
-                                                                Color>(
-                                                            Colors.white),
-                                                  ),
-                                                  child: Text('Chat Now',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 12)),
-                                                ),
-                                              ]),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: InkWell(
-                                            /* onTap: () {
-                                                  push(const ReminderView());
-                                                }, */
-                                            child: Image.asset(
-                                              LocalImages.img_welcome_home,
-                                              fit: BoxFit.contain,
-                                              height: 150,
-                                            ),
-                                          ),
-                                        ),
-                                      ])),
-                                )
-                              : index == 1
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 12, right: 12, bottom: 20),
-                                      child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, right: 10, top: 10),
-                                          height: 160,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: ShapeDecoration(
-                                            color: Color(0xFFDDEBFF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            shadows: const [
-                                              BoxShadow(
-                                                color: Color(0x3F000000),
-                                                blurRadius: 5,
-                                                offset: Offset(0, 2),
-                                                spreadRadius: 0,
-                                              )
-                                            ],
-                                          ),
-                                          child: Stack(children: [
-                                            Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Have any questions, our experts\n are here to guide',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color:
-                                                            Color(0xFF8B8B8B),
-                                                      ),
-                                                    ),
-                                                    kCommonSpaceV10,
-                                                    Text(
-                                                      'Ask A Doctor',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                    kCommonSpaceV10,
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        push(
-                                                            const SymptomsBotView());
-                                                      },
-                                                      style: ButtonStyle(
-                                                        fixedSize:
-                                                            WidgetStateProperty
-                                                                .all<Size>(
-                                                          Size(90.0,
-                                                              25.0), // Button width and height
-                                                        ),
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all<Color>(Color(
-                                                                    0xFF3D73BF)),
-                                                        foregroundColor:
-                                                            WidgetStateProperty
-                                                                .all<Color>(
-                                                                    Colors
-                                                                        .white),
-                                                      ),
-                                                      child: Text('Here',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 12)),
-                                                    ),
-                                                  ]),
-                                            ),
-
-                                            /* Align(
-                                              alignment: Alignment.topLeft,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  push(const ReminderView());
-                                                },
-                                                child:
-                                              ),
-                                            ), */
-
-                                            Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: InkWell(
-                                                /* onTap: () {
-                                                  push(const ReminderView());
-                                                }, */
-                                                child: Image.asset(
-                                                  LocalImages.img_naveli_nurse,
-                                                  fit: BoxFit.contain,
-                                                  height: 150,
-                                                ),
-                                              ),
-                                            ),
-                                          ])),
-                                    )
-                                  : index == 2
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 12, right: 12, bottom: 20),
-                                          child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 10, top: 10),
-                                              height: 160,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: ShapeDecoration(
-                                                color: Color(0XFFFFEEEE),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                shadows: const [
-                                                  BoxShadow(
-                                                    color: Color(0x3F000000),
-                                                    blurRadius: 5,
-                                                    offset: Offset(0, 2),
-                                                    spreadRadius: 0,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Stack(children: [
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Leading Ladies: Women making\nHeadlines',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        kCommonSpaceV10,
-                                                        Text(
-                                                          'The Neow Story',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20,
-                                                          ),
-                                                        ),
-                                                        kCommonSpaceV10,
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            //TODO : Slider onTap required
-                                                            push(PostList(
-                                                              position: 0,
-                                                              selectedTabIndex:
-                                                                  0,
-                                                              postTitle: "",
-                                                            ));
-                                                          },
-                                                          style: ButtonStyle(
-                                                            fixedSize:
-                                                                WidgetStateProperty
-                                                                    .all<Size>(
-                                                              Size(90.0,
-                                                                  25.0), // Button width and height
-                                                            ),
-                                                            backgroundColor:
-                                                                WidgetStateProperty
-                                                                    .all<Color>(
-                                                                        Color(
-                                                                            0xFFD15151)),
-                                                            foregroundColor:
-                                                                WidgetStateProperty
-                                                                    .all<Color>(
-                                                                        Colors
-                                                                            .white),
-                                                          ),
-                                                          child: Text('Here',
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      12)),
-                                                        ),
-                                                      ]),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: InkWell(
-                                                    /* onTap: () {
-                                                  push(const ReminderView());
-                                                }, */
-                                                    child: Image.asset(
-                                                      LocalImages
-                                                          .img_naveli_mike,
-                                                      fit: BoxFit.contain,
-                                                      height: 150,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ])),
-                                        )
-                                      : Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 12, right: 12, bottom: 20),
-                                          child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 10, top: 10),
-                                              height: 160,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: ShapeDecoration(
-                                                color: Color(0XFFFFEEEE),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                shadows: const [
-                                                  BoxShadow(
-                                                    color: Color(0x3F000000),
-                                                    blurRadius: 5,
-                                                    offset: Offset(0, 2),
-                                                    spreadRadius: 0,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Stack(children: [
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Leading Ladies: Women Making Headlines',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        kCommonSpaceV10,
-                                                        Text(
-                                                          'Groove with Neow',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20,
-                                                          ),
-                                                        ),
-                                                        kCommonSpaceV10,
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            //TODO : Slider onTap required
-                                                            push(PostList(
-                                                              position: 0,
-                                                              selectedTabIndex:
-                                                                  0,
-                                                              postTitle:
-                                                                  "Slider",
-                                                            ));
-                                                          },
-                                                          style: ButtonStyle(
-                                                            fixedSize:
-                                                                WidgetStateProperty
-                                                                    .all<Size>(
-                                                              Size(90.0,
-                                                                  25.0), // Button width and height
-                                                            ),
-                                                            backgroundColor:
-                                                                WidgetStateProperty.all<
-                                                                        Color>(
-                                                                    Color.fromARGB(
-                                                                        255,
-                                                                        175,
-                                                                        34,
-                                                                        34)),
-                                                            foregroundColor:
-                                                                WidgetStateProperty
-                                                                    .all<Color>(
-                                                                        Colors
-                                                                            .white),
-                                                          ),
-                                                          child: Text('Here',
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      12)),
-                                                        ),
-                                                      ]),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: InkWell(
-                                                    child: Image.asset(
-                                                      LocalImages.grovewithnew,
-                                                      fit: BoxFit.contain,
-                                                      height: 150,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ])),
-                                        );
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: buildIndicator(),
-                        ),
-                      ),
-                    ])),
-                kCommonSpaceV30,
-                Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Stack(children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Track and Learn",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            push(const TrackHealthViewAllView());
-                          },
-                          child: Text(
-                            "View All",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: Color(0xFF6F4085)),
-                          ),
-                        ),
-                      )
-                      /* Align(
-                        alignment:Alignment.topRight,
-                        child:Text(
-                          "View All",
-                          style: TextStyle(
-                            fontWeight:FontWeight.bold,
-                            fontSize:14,
-                            color:CommonColors.primaryColor,
-                          ),
-                        ),
-                      ), */
-                    ])),
-                kCommonSpaceV20,
-                SizedBox(
-                  height: 160,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Row(
-                      // scrollDirection: Axis.horizontal,
-                      // shrinkWrap: true,
-                      children: <Widget>[
-                        if (gUserType == AppConstants.NEOWME)
-                          // TODO : Show toast if not a period day
+                  SizedBox(
+                    height: 160,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: Row(
+                        children: <Widget>[
+                          if (gUserType == AppConstants.NEOWME)
+                            // TODO : Show toast if not a period day
+                            CommonDailyInsightContainer(
+                              onTap: () {
+                                if (mViewModel.dateWiseTextList.msg.periodMsg
+                                    .contains("Period Day")) {
+                                  push(const LogYourSymptoms()).then((value) =>
+                                      mViewSymptomsModel?.getUserSymptomsLogApi(
+                                          date: globalUserMaster
+                                                  ?.previousPeriodsBegin ??
+                                              ''));
+                                } else {
+                                  CommonUtils.showToastMessage(
+                                      "You can log your Symptoms only on Period Days.");
+                                }
+                              },
+                              text: S.of(context)!.logYourSymptoms,
+                              image: LocalImages.img_log_symptoms,
+                              gradientColors: const [
+                                Color(0xFFFFFFFF),
+                                Color(0xFFFFFFFF),
+                              ],
+                              borderColor: CommonColors.bglightPinkColor,
+                            ),
+                          kCommonSpaceH10,
                           CommonDailyInsightContainer(
                             onTap: () {
-                              if (mViewModel.dateWiseTextList.msg.periodMsg
-                                  .contains("Period Day")) {
-                                push(const LogYourSymptoms()).then((value) =>
-                                    mViewSymptomsModel?.getUserSymptomsLogApi(
-                                        date: globalUserMaster
-                                                ?.previousPeriodsBegin ??
-                                            ''));
-                              } else {
-                                CommonUtils.showToastMessage(
-                                    "You can log your Symptoms only on Period Days.");
-                              }
-                              // if (getLogSymtopmActive() == true) {
-                              //   push(const LogYourSymptoms()).then((value) =>
-                              //       mViewSymptomsModel?.getUserSymptomsLogApi(
-                              //           date: globalUserMaster
-                              //                   ?.previousPeriodsBegin ??
-                              //               ''));
-                              // } else {
-                              //   CommonUtils.showSnackBar(
-                              //     'You can log your symtomps only in peroid days.',
-                              //     color: CommonColors.greenColor,
-                              //   );
-                              // }
+                              push(const TrackView());
                             },
-                            text: S.of(context)!.logYourSymptoms,
-                            image: LocalImages.img_log_symptoms,
-                            gradientColors: const [
-                              Color(0xFFFFFFFF),
-                              Color(0xFFFFFFFF),
-                            ],
-                            borderColor: CommonColors.bglightPinkColor,
-                          ),
-                        kCommonSpaceH10,
-                        CommonDailyInsightContainer(
-                          onTap: () {
-                            push(const TrackView());
-                          },
-                          text: S.of(context)!.track,
-                          image: LocalImages.img_track,
-                          gradientColors: const [
-                            Color(0xFF9E72C3),
-                            Color(0xFF7338A0),
-                          ],
-                          borderColor: CommonColors.bglightPinkColor,
-                        ),
-                        kCommonSpaceH10,
-                        CommonDailyInsightContainer(
-                          onTap: () {
-                            // push(const KnowYourBodyView());
-                            push(const AllAboutPeriodsView());
-                          },
-                          text: 'Articles',
-                          image: LocalImages.img_know_your_body,
-                          gradientColors: const [
-                            Color(0xFF9E72C3),
-                            Color(0xFF7338A0),
-                          ],
-                          borderColor: CommonColors.bglightPinkColor,
-                        ),
-                        kCommonSpaceH10,
-                        if (gUserType == AppConstants.NEOWME ||
-                            gUserType == AppConstants.CYCLE_EXPLORER)
-                          CommonDailyInsightContainer(
-                            onTap: () {
-                              // showPopusDialog();
-                              // showSymptomsDialog(context);
-                              push(const QuizView());
-                            },
-                            text: S.of(context)!.quickQuestion,
-                            image: LocalImages.img_quick_question,
+                            text: S.of(context)!.track,
+                            image: LocalImages.img_track,
                             gradientColors: const [
                               Color(0xFF9E72C3),
                               Color(0xFF7338A0),
                             ],
                             borderColor: CommonColors.bglightPinkColor,
                           ),
-                        kCommonSpaceH10,
-                        CommonDailyInsightContainer(
-                          onTap: () {
-                            // showPopusDialog();
-                            push(const DeStressView());
-                          },
-                          text: S.of(context)!.deStress,
-                          image: LocalImages.img_de_stress,
-                          gradientColors: const [
-                            Color(0xFF9E72C3),
-                            Color(0xFF7338A0),
+                          kCommonSpaceH10,
+                          CommonDailyInsightContainer(
+                            onTap: () {
+                              // push(const KnowYourBodyView());
+                              push(const AllAboutPeriodsView());
+                            },
+                            text: S.of(context)!.articles,
+                            image: LocalImages.img_know_your_body,
+                            gradientColors: const [
+                              Color(0xFF9E72C3),
+                              Color(0xFF7338A0),
+                            ],
+                            borderColor: CommonColors.bglightPinkColor,
+                          ),
+                          kCommonSpaceH10,
+                          if (gUserType == AppConstants.NEOWME ||
+                              gUserType == AppConstants.CYCLE_EXPLORER)
+                            CommonDailyInsightContainer(
+                              onTap: () {
+                                // showPopusDialog();
+                                // showSymptomsDialog(context);
+                                push(const QuizView());
+                              },
+                              text: S.of(context)!.quickQuestion,
+                              image: LocalImages.img_quick_question,
+                              gradientColors: const [
+                                Color(0xFF9E72C3),
+                                Color(0xFF7338A0),
+                              ],
+                              borderColor: CommonColors.bglightPinkColor,
+                            ),
+                          kCommonSpaceH10,
+                          CommonDailyInsightContainer(
+                            onTap: () {
+                              // showPopusDialog();
+                              push(const DeStressView());
+                            },
+                            text: S.of(context)!.deStress,
+                            image: LocalImages.img_de_stress,
+                            gradientColors: const [
+                              Color(0xFF9E72C3),
+                              Color(0xFF7338A0),
+                            ],
+                            borderColor: CommonColors.bglightPinkColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  kCommonSpaceV20,
+                  // kCommonSpaceV30,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.of(context)!.explore,
+                              style: TextStyle(
+                                fontWeight: lang == "hi"
+                                    ? FontWeight.w500
+                                    : FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                push(HealthMixCategoryAll());
+                              },
+                              child: Text(
+                                S.of(context)!.viewAll,
+                                style: TextStyle(
+                                  fontWeight: lang == "hi"
+                                      ? FontWeight.w500
+                                      : FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Color(0xFF6F4085),
+                                ),
+                              ),
+                            ),
                           ],
-                          borderColor: CommonColors.bglightPinkColor,
                         ),
                       ],
                     ),
                   ),
-                ),
-                kCommonSpaceV20,
-                // kCommonSpaceV30,
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Stack(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Explore",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              push(HealthMixCategoryAll());
-                            },
-                            child: Text(
-                              "View all",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Color(0xFF6F4085)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
 
-                kCommonSpaceV10,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      final firstCard =
-                          mViewModel.healthMixCategoryList[index * 2];
-                      final secondCard = index * 2 + 1 <
-                              mViewModel.healthMixCategoryList.length
-                          ? mViewModel.healthMixCategoryList[index * 2 + 1]
-                          : null;
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            HealthmixCategoryCard(
-                              title: firstCard.name ?? "",
-                              imagePath: firstCard.iconUrl ?? "",
-                              backgroundColor: CommonColors.mWhite,
-                              onTap: () => push(PostList(
-                                position: 0,
-                                selectedTabIndex: firstCard.id ?? 0,
-                                postTitle: firstCard.name ?? "",
-                              )),
-                            ),
-                            if (secondCard != null)
+                  kCommonSpaceV10,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        final firstCard =
+                            mViewModel.healthMixCategoryList[index * 2];
+                        final secondCard = index * 2 + 1 <
+                                mViewModel.healthMixCategoryList.length
+                            ? mViewModel.healthMixCategoryList[index * 2 + 1]
+                            : null;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               HealthmixCategoryCard(
-                                title: secondCard.name ?? "",
-                                imagePath: secondCard.iconUrl ?? "",
+                                title: firstCard.name ?? "",
+                                imagePath: firstCard.iconUrl ?? "",
                                 backgroundColor: CommonColors.mWhite,
                                 onTap: () => push(PostList(
                                   position: 0,
-                                  selectedTabIndex: secondCard.id ?? 0,
-                                  postTitle: secondCard.name ?? "",
+                                  selectedTabIndex: firstCard.id ?? 0,
+                                  postTitle: firstCard.name ?? "",
                                 )),
-                              )
-                            else
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.2),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                kCommonSpaceV15,
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Latest Videos",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-
-                      // ShortsView
-                      GestureDetector(
-                        onTap: () {
-                          // Define the action when the text is clicked
-                          push(ShortsView(
-                              healthPostsList:
-                                  mViewHealthMixModel.healthPostsList));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: CommonColors
-                                .bglightPinkColor, // Replace with your custom color
-                            borderRadius:
-                                BorderRadius.circular(10), // Rounded corners
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000), // Shadow color
-                                blurRadius: 5, // Blur radius
-                                offset: Offset(0, 2), // Shadow offset
-                                spreadRadius: 0, // Spread radius
                               ),
+                              if (secondCard != null)
+                                HealthmixCategoryCard(
+                                  title: secondCard.name ?? "",
+                                  imagePath: secondCard.iconUrl ?? "",
+                                  backgroundColor: CommonColors.mWhite,
+                                  onTap: () => push(PostList(
+                                    position: 0,
+                                    selectedTabIndex: secondCard.id ?? 0,
+                                    postTitle: secondCard.name ?? "",
+                                  )),
+                                )
+                              else
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width /
+                                        2.2),
                             ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'assets/images/ic_short.png',
-                                ),
-                                const SizedBox(
-                                    width: 8), // Space between image and text
-                                Text(
-                                  "Shorts",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: CommonColors.primaryColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kCommonSpaceV10,
-                ListView.builder(
-                  itemCount: min(
-                    5,
-                    mViewHealthMixModel.healthLatestPostsList.length,
-                  ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final post =
-                        mViewHealthMixModel.healthLatestPostsList[index];
-                    return LatestVideoCard(
-                      imageUrl: post.media!.contains("youtube")
-                          ? "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png"
-                          : post.media ??
-                              "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                      title: post.description ?? "Unknown Description",
-                      category: post.category?.title ?? "Category",
-                      timeDifference: post.diffrenceTime,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HealthmixLatestDetailView(
-                              key: ValueKey(
-                                  post.id), // Use a unique key for each post
-                              post: post,
-                            ),
                           ),
                         );
                       },
-                    );
-                  },
-                ),
-                kCommonSpaceV20,
-              ],
+                    ),
+                  ),
+
+                  kCommonSpaceV15,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          S.of(context)!.latestVideos,
+                          style: TextStyle(
+                            fontWeight: lang == "hi"
+                                ? FontWeight.w500
+                                : FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+
+                        // ShortsView
+                        GestureDetector(
+                          onTap: () {
+                            // Define the action when the text is clicked
+                            push(ShortsView(
+                                healthPostsList:
+                                    mViewHealthMixModel.healthPostsList));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: CommonColors
+                                  .bglightPinkColor, // Replace with your custom color
+                              borderRadius:
+                                  BorderRadius.circular(10), // Rounded corners
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000), // Shadow color
+                                  blurRadius: 5, // Blur radius
+                                  offset: Offset(0, 2), // Shadow offset
+                                  spreadRadius: 0, // Spread radius
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/ic_short.png',
+                                  ),
+                                  const SizedBox(
+                                      width: 8), // Space between image and text
+                                  Text(
+                                    S.of(context)!.shorts,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: CommonColors.primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  kCommonSpaceV10,
+                  ListView.builder(
+                    itemCount: min(
+                      5,
+                      mViewHealthMixModel.healthLatestPostsList.length,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final post =
+                          mViewHealthMixModel.healthLatestPostsList[index];
+                      return LatestVideoCard(
+                        imageUrl: post.media!.contains("youtube")
+                            ? "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png"
+                            : post.media ??
+                                "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
+                        title: post.description ?? "Unknown Description",
+                        category: post.category?.title ?? "Category",
+                        timeDifference: post.diffrenceTime,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HealthmixLatestDetailView(
+                                key: ValueKey(
+                                    post.id), // Use a unique key for each post
+                                post: post,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  kCommonSpaceV20,
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

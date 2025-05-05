@@ -755,9 +755,11 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<StateMaster?> getStateList() async {
+  Future<StateMaster?> getStateList(
+      {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.getApiCallWithOutToken(
       url: ApiUrl.GET_STATE,
+      queryParams: params,
     );
     if (response != null) {
       try {
