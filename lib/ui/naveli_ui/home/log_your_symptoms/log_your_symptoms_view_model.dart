@@ -70,6 +70,42 @@ class LogYourSymptomsModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateCollection(int collection) {
+    selectedCollection = collection;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateAcne(int acne) {
+    selectedAcne = acne;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateMood(int mood) {
+    selectedMood = mood;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateEnergy(int energy) {
+    selectedEnergy = energy;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateStress(int stress) {
+    selectedStress = stress;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateFrequency(int frequency) {
+    selectedFrequency = frequency;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
   void updateDays(int days) {
     selectedDays = days;
     checkMoreThenThreeSelected();
