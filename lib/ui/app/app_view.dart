@@ -76,9 +76,13 @@ class AppState extends State<App> {
     super.initState();
     initConnectivity();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final appModel = Provider.of<AppModel>(context, listen: false);
-      appModel.attachedContext(context);
-      appModel.changeLanguage(); // Ensure language is applied
+      try {
+        final appModel = Provider.of<AppModel>(context, listen: false);
+        appModel.attachedContext(context);
+        appModel.changeLanguage(); // Ensure language is applied
+      } catch (e) {
+        debugPrint("Error accessing Provider<AppModel>: $e");
+      }
     });
 
     Services().configAPI();
