@@ -66,9 +66,21 @@ int calculateAge(String birthDateString) {
 
   // Adjust if the birthday hasn't occurred yet this year
   if (currentDate.month < birthDate.month ||
-      (currentDate.month == birthDate.month && currentDate.day < birthDate.day)) {
+      (currentDate.month == birthDate.month &&
+          currentDate.day < birthDate.day)) {
     age--;
   }
 
   return age;
+}
+
+String formatDate(String date) {
+  try {
+    DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date);
+    String day = DateFormat('EEE').format(parsedDate);
+    String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+    return '$day, $formattedDate';
+  } catch (e) {
+    return 'Invalid date';
+  }
 }

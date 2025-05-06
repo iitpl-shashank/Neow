@@ -612,7 +612,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                             Text(
+                            Text(
                               "NeoW, ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -1168,16 +1168,16 @@ class _WelcomeViewState extends State<WelcomeView> {
                                   backgroundColor: CommonColors.mTransparent,
                                   content: Container(
                                     width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.only(
-                                      left: 20,
-                                    ),
                                     child: Stack(children: [
-                                      Align(
-                                        child: Image.asset(
-                                          LocalImages.heartHands,
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
+                                      Transform.scale(
+                                          scale: 1.2,
+                                        child: Align(
+                                          child: Image.asset(
+                                            LocalImages.heartHands,
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ]),

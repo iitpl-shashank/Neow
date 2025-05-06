@@ -4,6 +4,7 @@ import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
+import '../../../../utils/global_function.dart';
 import '../../../../utils/global_variables.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_symptoms_widget.dart';
@@ -274,13 +275,13 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
         child: Scaffold(
           backgroundColor: CommonColors.mWhite,
           appBar: CommonAppBar(
-            title: '',
+            title: formatDate(globalUserMaster?.previousPeriodsBegin ?? ''),
             bgColor: CommonColors.mTransparent,
-            iconColor: CommonColors.primaryColor,
+            iconColor: CommonColors.blackColor,
             style: TextStyle(
-              color: CommonColors.primaryColor,
-              fontSize: 25,
-              fontWeight: FontWeight.w400,
+              color: CommonColors.blackColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
             ),
           ),
           body: SingleChildScrollView(

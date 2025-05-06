@@ -92,7 +92,7 @@ class ApiServices extends BaseServices {
   Future<Map<String, dynamic>> postUserSymptoms(
       {required Map<String, dynamic> body}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
-        url: ApiUrl.logSymptoms, postParams: body);
+        url: ApiUrl.USER_SYMPTOMS_LOG, postParams: body);
     debugPrint("response in overriding $response");
 
     return response;

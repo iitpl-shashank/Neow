@@ -104,6 +104,7 @@ class _HomeViewState extends State<HomeView> {
       mViewHealthMixModel.getHealthMixLatestPosts();
       mViewModel.getPeriodInfoList();
 
+      //TODO  First and Second block to be in hindi or not !!!!
       await handleFirstBloc();
       await mViewModel.handleSecondBloc(dateString);
       print("diipppka1");
@@ -1054,11 +1055,7 @@ class _HomeViewState extends State<HomeView> {
                               onTap: () {
                                 if (mViewModel.dateWiseTextList.msg.periodMsg
                                     .contains("Period Day")) {
-                                  push(const LogYourSymptoms()).then((value) =>
-                                      mViewSymptomsModel?.getUserSymptomsLogApi(
-                                          date: globalUserMaster
-                                                  ?.previousPeriodsBegin ??
-                                              ''));
+                                  push(const LogYourSymptoms());
                                 } else {
                                   CommonUtils.showToastMessage(
                                       "You can log your Symptoms only on Period Days.");
