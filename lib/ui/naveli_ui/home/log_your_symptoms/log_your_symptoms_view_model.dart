@@ -41,9 +41,75 @@ class LogYourSymptomsModel with ChangeNotifier {
   int? selectedAcne;
   int count = 0;
 
+  void updateLocation(int location) {
+    selectedLocation = location;
+
+    if (location == 6) {
+      if (selectedLocationArray!.contains(6)) {
+        selectedLocationArray!.remove(6);
+      } else {
+        selectedLocationArray = [6];
+      }
+    } else {
+      if (!selectedLocationArray!.contains(6)) {
+        if (selectedLocationArray!.contains(location)) {
+          selectedLocationArray!.remove(location);
+        } else {
+          selectedLocationArray!.add(location);
+        }
+      }
+    }
+
+    checkMoreThenThreeSelected();
+    notifyListeners(); // Notify listeners to rebuild the UI
+  }
+
+  void updateCramps(int cramp) {
+    selectedCramps = cramp;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateDays(int days) {
+    selectedDays = days;
+    checkMoreThenThreeSelected();
+    notifyListeners();
+  }
+
+  void updateStaining(int staining) {
+    selectedStaining = staining;
+    notifyListeners();
+  }
+
+  void updateClotSize(int clotSize) {
+    selectedClotSize = clotSize;
+    notifyListeners();
+  }
+
+  void updateWorkingAbility(int workingAbility) {
+    selectedWorkingAbility = workingAbility;
+    notifyListeners();
+  }
+
   void attachedContext(BuildContext context) {
     this.context = context;
     notifyListeners();
+  }
+
+  void _resetAllVariables() {
+    selectedStaining = null;
+    selectedClotSize = null;
+    selectedWorkingAbility = null;
+    selectedLocationArray = [];
+    selectedCramps = null;
+    selectedDays = null;
+    selectedCollection = null;
+    selectedFrequency = null;
+    selectedMood = null;
+    selectedEnergy = null;
+    selectedStress = null;
+    selectedAcne = null;
+    notifyListeners(); // Notify listeners to rebuild the UI
   }
 
   void checkMoreThenThreeSelected() {
@@ -214,47 +280,51 @@ class LogYourSymptomsModel with ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> getUserSymptomsLogApi({required String date}) async {
-  Map<String, dynamic> params = {
-    ApiParams.period_start_date: date,
-  };
+  Future<void> getUserSymptomsLogApi({required String date}) async {
+    Map<String, dynamic> params = {
+      ApiParams.period_start_date: date,
+    };
 
-  print("Get user data : Before API");
-  UserSymptomsMaster? master = await _services.api!.getUserSymptomsDetails(params: params);
-  print("Get user data : After API");
+    print("Get user data : Before API");
+    UserSymptomsMaster? master =
+        await _services.api!.getUserSymptomsDetails(params: params);
+    print("Get user data : After API");
 
-  if (master == null) {
-    print("Get user data : null it is");
-    CommonUtils.oopsMSG();
-    print("................................symptoms oops.............................");
-  } else if (master.success == true && master.data?.logs != null && master.data!.logs!.isNotEmpty) {
-    final log = master.data!.logs!.first;
+    if (master == null) {
+      print("Get user data : null it is");
+      _resetAllVariables();
+      CommonUtils.oopsMSG();
+      print(
+          "................................symptoms oops.............................");
+    } else if (master.success == false) {
+      _resetAllVariables();
+      return;
+    } else if (master.success == true &&
+        master.data?.logs != null &&
+        master.data!.logs!.isNotEmpty) {
+      final log = master.data!.logs!.first;
+      selectedStaining = log.staining;
+      selectedClotSize = log.clotSize;
+      selectedWorkingAbility = log.workingAbility;
+      selectedLocationArray = log.location != null ? [log.location!] : [];
+      selectedCramps = log.cramps;
+      selectedDays = log.days;
+      selectedCollection = log.collectionMethod;
+      selectedFrequency = log.frequencyOfChangeDay;
+      selectedMood = log.mood;
+      selectedEnergy = log.energy;
+      selectedStress = log.stress;
+      selectedAcne = log.acne;
 
-    // Set values from log
-    selectedStaining = log.staining;
-    selectedClotSize = log.clotSize;
-    selectedWorkingAbility = log.workingAbility;
-    // selectedLocation = log.location;
-    selectedLocationArray = log.location != null ? [log.location!] : [];
-    selectedCramps = log.cramps;
-    selectedDays = log.days;
-    selectedCollection = log.collectionMethod;
-    selectedFrequency = log.frequencyOfChangeDay;
-    selectedMood = log.mood;
-    selectedEnergy = log.energy;
-    selectedStress = log.stress;
-    selectedAcne = log.acne;
+      print("Get user data : staining $selectedStaining");
+      print("Get user data : clot $selectedClotSize");
+    } else {
+      print("Get user data : success false or empty logs");
+      CommonUtils.oopsMSG();
+    }
 
-    print("Get user data : staining $selectedStaining");
-    print("Get user data : clot $selectedClotSize");
-  } else {
-    print("Get user data : success false or empty logs");
-    CommonUtils.oopsMSG();
+    notifyListeners();
   }
-
-  notifyListeners();
-}
-
 
   // Future<void> getUserSymptomsLogApi({required String date}) async {
   //   Map<String, dynamic> params = <String, dynamic>{

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
-import 'package:naveli_2023/ui/common_ui/bottom_navbar/bottom_navbar_view.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../models/common_master.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/global_variables.dart';
@@ -312,9 +308,8 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                   children: [
                     CommonSymptomsWidget(
                       onTap: () {
-                        setState(() {
-                          mViewModel.selectedStaining = 1;
-                        });
+                        // mViewModel.selectedStaining = 1;
+                        mViewModel.updateStaining(1);
                         if (mViewModel.count != 0) {
                           mViewModel.count -= 1;
                         }
@@ -331,9 +326,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     kCommonSpaceH10,
                     CommonSymptomsWidget(
                       onTap: () {
-                        setState(() {
-                          mViewModel.selectedStaining = 2;
-                        });
+                        mViewModel.updateStaining(2);
                         if (mViewModel.count != 0) {
                           mViewModel.count -= 1;
                         }
@@ -351,10 +344,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     CommonSymptomsWidget(
                       onTap: () {
                         // showheavyFlow(context);
-                        setState(() {
-                          mViewModel.selectedStaining = 3;
-                          mViewModel.count += 1;
-                        });
+                        mViewModel.updateStaining(3);
+
+                        mViewModel.count += 1;
                       },
                       imagePath: LocalImages.img_staining_extra_dark,
                       imgWidth: 40,
@@ -376,9 +368,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                   children: [
                     CommonSymptomsWidget(
                       onTap: () {
-                        setState(() {
-                          mViewModel.selectedClotSize = 1;
-                        });
+                        mViewModel.updateClotSize(1);
                         if (mViewModel.count != 0) {
                           mViewModel.count -= 1;
                         }
@@ -395,9 +385,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     kCommonSpaceH10,
                     CommonSymptomsWidget(
                       onTap: () {
-                        setState(() {
-                          mViewModel.selectedClotSize = 2;
-                        });
+                        mViewModel.updateClotSize(2);
                         if (mViewModel.count != 0) {
                           mViewModel.count -= 1;
                         }
@@ -414,12 +402,8 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     kCommonSpaceH10,
                     kCommonSpaceH10,
                     CommonSymptomsWidget(
-                      // height: 105,
                       onTap: () {
-                        setState(() {
-                          mViewModel.selectedClotSize = 3;
-                          mViewModel.count += 1;
-                        });
+                        mViewModel.updateClotSize(3);
                         mViewModel.checkMoreThenThreeSelected();
                       },
                       imagePath: LocalImages.img_clot_large,
@@ -459,9 +443,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           // height: 98,
                           onTap: () {
-                            setState(() {
-                              mViewModel.selectedWorkingAbility = 1;
-                            });
+                            mViewModel.updateWorkingAbility(1);
                             if (mViewModel.count != 0) {
                               mViewModel.count -= 1;
                             }
@@ -476,9 +458,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           // height: 116,
                           onTap: () {
-                            setState(() {
-                              mViewModel.selectedWorkingAbility = 2;
-                            });
+                            mViewModel.updateWorkingAbility(2);
                             if (mViewModel.count != 0) {
                               mViewModel.count -= 1;
                             }
@@ -493,9 +473,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           // height: 116,
                           onTap: () {
-                            setState(() {
-                              mViewModel.selectedWorkingAbility = 3;
-                            });
+                            mViewModel.updateWorkingAbility(3);
                             if (mViewModel.count != 0) {
                               mViewModel.count -= 1;
                             }
@@ -510,9 +488,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           // height: 116,
                           onTap: () {
-                            setState(() {
-                              mViewModel.selectedWorkingAbility = 4;
-                            });
+                            mViewModel.updateWorkingAbility(4);
                             if (mViewModel.count != 0) {
                               mViewModel.count -= 1;
                             }
@@ -538,16 +514,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     children: [
                       CommonSymptomsBadge(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedLocation = 6;
-                            if (mViewModel.selectedLocationArray!.contains(6)) {
-                              mViewModel.selectedLocationArray?.remove(6);
-                            } else {
-                              mViewModel.selectedLocationArray = [];
-                              mViewModel.selectedLocationArray?.add(6);
-                            }
-                          });
-                          mViewModel.checkMoreThenThreeSelected();
+                          mViewModel.updateLocation(6);
                         },
                         isUnderText: true,
                         imagePath: null,
@@ -560,20 +527,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       CommonSymptomsBadge(
                         // height: 115,
                         onTap: () {
-                          if (!mViewModel.selectedLocationArray!.contains(6)) {
-                            setState(() {
-                              mViewModel.selectedLocation = 1;
-                              if (mViewModel.selectedLocationArray!
-                                  .contains(1)) {
-                                mViewModel.selectedLocationArray?.remove(1);
-                              } else {
-                                mViewModel.selectedLocationArray?.add(1);
-                              }
-                            });
-                            if (mViewModel.count != 0) {
-                              mViewModel.count -= 1;
-                            }
-                          }
+                          mViewModel.updateLocation(1);
                         },
                         imagePath: LocalImages.img_location_1,
                         isUnderText: true,
@@ -586,21 +540,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       CommonSymptomsBadge(
                         // height: 115,
                         onTap: () {
-                          if (!mViewModel.selectedLocationArray!.contains(6)) {
-                            setState(() {
-                              mViewModel.selectedLocation = 2;
-
-                              if (mViewModel.selectedLocationArray!
-                                  .contains(2)) {
-                                mViewModel.selectedLocationArray?.remove(2);
-                              } else {
-                                mViewModel.selectedLocationArray?.add(2);
-                              }
-                            });
-                            if (mViewModel.count != 0) {
-                              mViewModel.count -= 1;
-                            }
-                          }
+                          mViewModel.updateLocation(2);
                         },
                         isUnderText: true,
                         imagePath: LocalImages.img_location_2,
@@ -618,20 +558,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       CommonSymptomsBadge(
                         // height: 115,
                         onTap: () {
-                          if (!mViewModel.selectedLocationArray!.contains(6)) {
-                            setState(() {
-                              mViewModel.selectedLocation = 3;
-                              if (mViewModel.selectedLocationArray!
-                                  .contains(3)) {
-                                mViewModel.selectedLocationArray?.remove(3);
-                              } else {
-                                mViewModel.selectedLocationArray?.add(3);
-                              }
-                            });
-                            if (mViewModel.count != 0) {
-                              mViewModel.count -= 1;
-                            }
-                          }
+                          mViewModel.updateLocation(3);
                         },
                         imagePath: LocalImages.img_location_3,
                         underText: "Leg Pain",
@@ -644,20 +571,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       CommonSymptomsBadge(
                         // height: 115,
                         onTap: () {
-                          if (!mViewModel.selectedLocationArray!.contains(6)) {
-                            setState(() {
-                              mViewModel.selectedLocation = 4;
-                              mViewModel.count += 1;
-
-                              if (mViewModel.selectedLocationArray!
-                                  .contains(4)) {
-                                mViewModel.selectedLocationArray?.remove(4);
-                              } else {
-                                mViewModel.selectedLocationArray?.add(4);
-                              }
-                            });
-                            mViewModel.checkMoreThenThreeSelected();
-                          }
+                          mViewModel.updateLocation(4);
                         },
                         isUnderText: true,
                         imagePath: LocalImages.img_location_4,
@@ -670,20 +584,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       CommonSymptomsBadge(
                         // height: 115,
                         onTap: () {
-                          if (!mViewModel.selectedLocationArray!.contains(6)) {
-                            setState(() {
-                              mViewModel.selectedLocation = 5;
-                              mViewModel.count += 1;
-
-                              if (mViewModel.selectedLocationArray!
-                                  .contains(5)) {
-                                mViewModel.selectedLocationArray?.remove(5);
-                              } else {
-                                mViewModel.selectedLocationArray?.add(5);
-                              }
-                            });
-                            mViewModel.checkMoreThenThreeSelected();
-                          }
+                          mViewModel.updateLocation(5);
                         },
                         isUnderText: true,
                         imagePath: null,
@@ -706,9 +607,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     children: [
                       CommonSymptomsWidget(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedCramps = 1;
-                          });
+                          mViewModel.updateCramps(1);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -720,9 +619,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedCramps = 2;
-                          });
+                          mViewModel.updateCramps(2);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -734,9 +631,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedCramps = 3;
-                          });
+                          mViewModel.updateCramps(3);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -748,12 +643,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
-                          showDysmenorrheaDialog(context);
-                          setState(() {
-                            mViewModel.selectedCramps = 4;
-                            mViewModel.count += 1;
-                          });
-                          mViewModel.checkMoreThenThreeSelected();
+                          // TODO : to show or not ?
+                          // showDysmenorrheaDialog(context);
+                          mViewModel.updateCramps(4);
                         },
                         underText: S.of(context)!.hurtWorst,
                         isUnderText: true,
@@ -775,9 +667,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     children: [
                       CommonSymptomsBadge(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedDays = 1;
-                          });
+                          mViewModel.updateDays(1);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -789,9 +679,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsBadge(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedDays = 2;
-                          });
+                          mViewModel.updateDays(2);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -803,9 +691,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsBadge(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedDays = 4;
-                          });
+                          mViewModel.updateDays(4);
                           if (mViewModel.count != 0) {
                             mViewModel.count -= 1;
                           }
@@ -817,11 +703,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       ),
                       CommonSymptomsBadge(
                         onTap: () {
-                          setState(() {
-                            mViewModel.selectedDays = 5;
-                            mViewModel.count += 1;
-                          });
-                          mViewModel.checkMoreThenThreeSelected();
+                          mViewModel.updateDays(5);
                         },
                         imgHeight: 40,
                         underText: "4+",
@@ -1234,8 +1116,6 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     buttonColor: CommonColors.primaryColor,
                     onPress: () {
                       mViewModel.postUserSymptomsLogApi(context);
-
-                    
                     },
                   ),
                 )

@@ -1,11 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/date_utils.dart';
-
 import '../ui/naveli_ui/home/home_view_model.dart';
 import '../utils/global_variables.dart';
 import 'dart:math';
@@ -89,7 +85,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
               List<DateTime> loggedPeriodDates = [];
               List<DateTime> predictedPeriodDates = [];
               peroidCustomeList.forEach((element) {
-                element.predictions!.forEach((predictions) {
+                element.predictions.forEach((predictions) {
                   for (DateTime start =
                           DateTime.parse(predictions.predictedStart);
                       start.isSameDayOrBefore(
