@@ -452,6 +452,7 @@ class LocalImages {
   static const String imgTrack = 'assets/images/ic_track.png';
   static const String imgBodyQuiz = 'assets/images/ic_body_quiz.png';
   static const String imgVaccination = 'assets/images/ic_vaccination.png';
+  static const String pregnancy = 'assets/images/pregnancy.png';
 }
 
 class LocalSvgs {

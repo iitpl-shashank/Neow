@@ -271,47 +271,39 @@ class DashBoardViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-// TODO : Profile API to be added
-//  Future<void> getUserSymptoms() async {
-//   try {
-//     // Show progress dialog
-//     CommonUtils.showProgressDialog();
+  Future<void> getUserSymptoms() async {
+    try {
+      Map<String, dynamic> params = <String, dynamic>{
+        ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+      };
 
-//     // Fetch symptom report data
-//     SymptomReportModel? master = await _services.api!.getSymptomReportList(params: {});
+      SymptomReportModel? master =
+          await _services.api!.getSymptomReportList(params: params);
 
-//     // Hide progress dialog
-//     CommonUtils.hideProgressDialog();
+      if (master == null || master.data!.monthlyScores!.isEmpty) {
+        return;
+      }
 
-//     if (master == null) {
-//       // Handle null response
-//       CommonUtils.oopsMSG();
-//       return;
-//     }
+// {data: {monthly_scores: [], total_staining_score: 0, total_clot_size_score: 0, total_score: 0, alert: false}, success: true, message: No symptom logs found}
 
-//     if (master.success == false) {
-//       // Handle unsuccessful response
-//       CommonUtils.showSnackBar(
-//         master.message ?? "An error occurred",
-//         color: CommonColors.mRed,
-//       );
-//       print("Error: ${master.message}");
-//       return;
-//     }
+      if (master.success == false) {
+        CommonUtils.showSnackBar(
+          master.message ?? "An error occurred",
+          color: CommonColors.mRed,
+        );
+        print("Error: ${master.message}");
 
-//     if (master.success == true) {
-//       // Handle successful response
-//       print("Data received: ${master.data}");
-//       dataList = master.data ?? [];
-//     }
-//   } catch (e) {
-//     // Handle exceptions
-//     CommonUtils.hideProgressDialog();
-//     CommonUtils.oopsMSG();
-//     print("Exception in getUserSymptoms: $e");
-//   } finally {
-//     // Notify listeners
-//     notifyListeners();
-//   }
-// }
+        return;
+      }
+
+      if (master.success == true) {
+        print("Data user report received: ${master.data}");
+        userReportList = master.data?.monthlyScores ?? [];
+      }
+    } catch (e) {
+      print("Exception in getUserSymptoms: $e");
+    } finally {
+      notifyListeners();
+    }
+  }
 }

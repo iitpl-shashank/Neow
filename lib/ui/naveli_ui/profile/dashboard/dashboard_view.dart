@@ -24,7 +24,10 @@ import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_textfield_container_bmi.dart';
 import '../../../../widgets/cycle_info_card.dart';
 import '../../../../widgets/number_dropdown.dart';
+import '../../../../widgets/pregnancy_dialog.dart';
 import '../../../../widgets/primary_button.dart';
+import '../../../../widgets/stress_log_card.dart';
+import '../../../../widgets/symptoms_card.dart';
 import '../../home/track/ailments/ailments_view_model.dart';
 import '../../home/track/medication/medication_view_model.dart';
 import 'dashboard_view_model.dart';
@@ -252,7 +255,7 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       mViewModel.attachedContext(context);
       mViewModel.getUserInfo();
       mViewModel.getAboutYourCycle();
@@ -261,6 +264,9 @@ class _DashboardViewState extends State<DashboardView> {
       mViewModelWeight.attachedContext(context);
       mViewModelSleep.attachedContext(context);
       mViewModelSleep.fetchSleepData();
+
+      //User report data
+      mViewModel.getUserSymptoms();
 
       // setBarData();
       mViewModelWeight.fetchWeightData();
@@ -335,6 +341,7 @@ class _DashboardViewState extends State<DashboardView> {
         });
       }
     });
+    // Future.delayed(Duration.zero, () {});
     super.initState();
   }
 
@@ -1109,26 +1116,108 @@ class _DashboardViewState extends State<DashboardView> {
                     )),
                 if (symp)
                   Container(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 10,
-                      right: 10,
-                      bottom: 20,
-                    ),
                     color: CommonColors.mGrey200,
-                    child: Column(
-                      children: [
-                        _symptomsCell(context, 'Flow',
-                            'Heavy Menstrual Bleeding', imageList),
-                        _symptomsCell(
-                            context,
-                            'Pain',
-                            'Pain Insufficient data! Please log your symptoms for all period dates for more accurate predictions.',
-                            imageList),
-                        _symptomsCell(context, 'Stress', '', imageList),
-                        _symptomsCell(context, 'Acne', '', acneImageList)
-                      ],
-                    ),
+                    child: Consumer<DashBoardViewModel>(
+                        builder: (context, vModel, child) {
+                      if (vModel.userReportList.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No data available. Please log your symptoms.",
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        );
+                      }
+                      return Column(
+                        children: [
+                          for (var report in vModel.userReportList)
+                            Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 20,
+                                  ),
+                                  color: CommonColors.mGrey200,
+                                  child: SymptomsCard(
+                                    title: 'Flow',
+                                    symptoms: [
+                                      "${report.flow} (${report.month})"
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 20,
+                                  ),
+                                  color: CommonColors.mGrey200,
+                                  child: SymptomsCard(
+                                    title: 'Pain',
+                                    symptoms: [
+                                      "${report.pain} (${report.month})"
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 20,
+                                  ),
+                                  // TODO : Stress not coming correctly from api response
+                                  child: StressLogCard(
+                                    title: 'Stress',
+                                    logs: [
+                                      StressLog(level: 'Low', date: '12/01/25'),
+                                      StressLog(level: 'Low', date: '12/01/25'),
+                                      StressLog(
+                                          level: 'High', date: '12/01/25'),
+                                      StressLog(level: 'Low', date: '12/01/25'),
+                                      StressLog(
+                                          level: 'No Data', date: '12/01/25'),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 20,
+                                  ),
+                                  color: CommonColors.mGrey200,
+                                  child: SymptomsCard(
+                                    title: 'Acne',
+                                    symptoms: [
+                                      "${report.acne} (${report.month})"
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 20,
+                                  ),
+                                  color: CommonColors.mGrey200,
+                                  child: SymptomsCard(
+                                    // TODO : Ovulation not coming in api response
+                                    title: 'Ovulation',
+                                    symptoms: [
+                                      "${report.stress} (${report.month})"
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            ),
+                        ],
+                      );
+                    }),
                   ),
                 kCommonSpaceV20,
                 Container(
@@ -1149,11 +1238,6 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           Row(
                             children: [
-                              /*Icon(
-                                Icons.track_changes,
-                                color: CommonColors.blackColor,
-                                size: 25,
-                              ),*/
                               Image.asset(LocalImages.imgTrack, height: 25),
                               kCommonSpaceH10,
                               Text(
@@ -1517,25 +1601,31 @@ class _DashboardViewState extends State<DashboardView> {
                             ],
                           ),
                           kCommonSpaceV20,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                LocalSvgs.womanFeeding,
-                                height: 22,
-                                width: 22,
-                                fit: BoxFit.contain,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Switch to Pregnancy Mode',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: CommonColors.primaryColor,
+                          InkWell(
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => const PregnancyDialog(),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  LocalSvgs.womanFeeding,
+                                  height: 22,
+                                  width: 22,
+                                  fit: BoxFit.contain,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Switch to Pregnancy Mode',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: CommonColors.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           kCommonSpaceV20,
                           _text('Are you trying to get pregnant?', 14),

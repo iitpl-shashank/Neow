@@ -1359,9 +1359,9 @@ class ApiServices extends BaseServices {
   Future<SymptomReportModel?> getSymptomReportList(
       {required Map<String, dynamic> params}) async {
     try {
-      dynamic response = await appBaseClient.postApiWithTokenCall(
+      dynamic response = await appBaseClient.getApiWithTokenCall(
         url: ApiUrl.getUserSymptomsReport,
-        postParams: params,
+        queryParams: params,
       );
       if (response != null) {
         debugPrint("SymptomReportList Response: $response");
