@@ -4,6 +4,7 @@ import 'package:naveli_2023/ui/naveli_ui/health_mix/health_mix_view_model.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../../generated/i18n.dart';
 import '../../../models/health_mix_posts_master.dart';
 import '../../../utils/common_colors.dart';
 import '../../../widgets/common_appbar.dart';
@@ -73,7 +74,7 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
         appBar: isFullScreen
             ? null
             : CommonAppBar(
-                title: "Post Details",
+                title: S.of(context)!.postDetails,
                 bgColor: CommonColors.mTransparent,
                 iconColor: CommonColors.blackColor,
                 style: const TextStyle(
@@ -124,7 +125,7 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                   ),
                 const SizedBox(height: 15),
                 Text(
-                  "Tags",
+                  S.of(context)!.tags,
                   style: const TextStyle(
                     color: CommonColors.primaryColor,
                     fontSize: 14,
@@ -141,7 +142,7 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Description",
+                  S.of(context)!.description,
                   style: const TextStyle(
                     color: CommonColors.primaryColor,
                     fontSize: 14,

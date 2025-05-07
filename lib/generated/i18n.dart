@@ -1110,6 +1110,17 @@ class S implements WidgetsLocalizations {
   String get failedToLogSymptoms => "Failed to log symptoms. Please try again.";
 
   String get symptomsLoggedSuccess => "Symptoms logged successfully.";
+
+  String get logOnlyOnPeriodDay =>
+      "You can log your Symptoms only on Period Days.";
+
+  String get logPeriod => "Log Period";
+
+  String get postDetails => "Post Details";
+
+  String get tags => "Tags";
+
+  String get description => "Description";
 }
 
 class $en extends S {
@@ -1120,6 +1131,22 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get description => "विवरण";
+
+  @override
+  String get tags => "टैग";
+
+  @override
+  String get postDetails => "पोस्ट विवरण";
+
+  @override
+  String get logPeriod => "Log Period";
+
+  @override
+  String get logOnlyOnPeriodDay =>
+      "आप अपने लक्षण केवल मासिक धर्म के दिनों में ही दर्ज कर सकते हैं।";
+
   @override
   String get symptomsLoggedSuccess => "लक्षण सफलतापूर्वक लॉग किए गए.";
 

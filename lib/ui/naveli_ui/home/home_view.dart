@@ -529,8 +529,12 @@ class _HomeViewState extends State<HomeView> {
                                         WidgetStateProperty.all<Color>(
                                             Colors.white),
                                   ),
-                                  child: Text('Log Period',
-                                      style: TextStyle(fontSize: 14)),
+                                  child: Text(
+                                    S.of(context)!.logPeriod,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1083,7 +1087,8 @@ class _HomeViewState extends State<HomeView> {
                                   push(const LogYourSymptoms());
                                 } else {
                                   CommonUtils.showToastMessage(
-                                      "You can log your Symptoms only on Period Days.");
+                                    S.of(context)!.logOnlyOnPeriodDay,
+                                  );
                                 }
                               },
                               text: S.of(context)!.logYourSymptoms,
