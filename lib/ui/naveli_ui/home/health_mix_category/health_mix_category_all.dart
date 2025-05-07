@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/post_list.dart';
 import 'package:naveli_2023/widgets/common_appbar.dart';
+import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../../widgets/scaffold_bg.dart';
@@ -21,7 +22,7 @@ class HealthMixCategoryAll extends StatelessWidget {
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
         appBar: CommonAppBar(
-          title: "Explore HealthMix",
+          title: S.of(context)!.exploreHealthmix,
           bgColor: CommonColors.mTransparent,
           iconColor: CommonColors.blackColor,
           style: const TextStyle(

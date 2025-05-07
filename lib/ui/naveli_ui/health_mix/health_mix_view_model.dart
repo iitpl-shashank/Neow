@@ -128,7 +128,7 @@ class HealthMixViewModel with ChangeNotifier {
   }
 
   Future<void> getHealthMixLatestPosts() async {
-     debugPrint("UNDER GET HEALTH MIX LATES POSTS");
+    debugPrint("UNDER GET HEALTH MIX LATES POSTS");
     // CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),

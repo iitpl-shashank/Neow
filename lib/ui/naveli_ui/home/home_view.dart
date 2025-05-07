@@ -519,7 +519,7 @@ class _HomeViewState extends State<HomeView> {
                                   },
                                   style: ButtonStyle(
                                     fixedSize: WidgetStateProperty.all<Size>(
-                                      Size(120.0,
+                                      Size(lang == 'hi' ? 170 : 120.0,
                                           30.0), // Button width and height
                                     ),
                                     backgroundColor:

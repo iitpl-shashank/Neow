@@ -1203,8 +1203,11 @@ class HomeViewModel with ChangeNotifier {
 
   Future<void> fetchHealthMixCategoryList() async {
     try {
+      Map<String, dynamic> params = <String, dynamic>{
+        ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+      };
       HealthMixCategoryModel? response =
-          await _services.api!.getHealthMixCategoryList();
+          await _services.api!.getHealthMixCategoryList(params: params);
 
       if (response != null && response.success == true) {
         healthMixCategoryList = response.data?.records ?? [];

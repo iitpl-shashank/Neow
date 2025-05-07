@@ -1310,10 +1310,12 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<HealthMixCategoryModel?> getHealthMixCategoryList() async {
+  Future<HealthMixCategoryModel?> getHealthMixCategoryList(
+      {required Map<String, dynamic> params}) async {
     try {
       dynamic response = await appBaseClient.getApiWithTokenCall(
         url: ApiUrl.getHealthMixCategoryList,
+        queryParams: params,
       );
       if (response != null) {
         debugPrint("HealthMixCategoryList Response: $response");

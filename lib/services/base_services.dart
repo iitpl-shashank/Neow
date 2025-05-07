@@ -238,5 +238,6 @@ abstract class BaseServices {
 
   Future<Map<String, dynamic>> getDialogBoxData();
 
-  Future<HealthMixCategoryModel?> getHealthMixCategoryList();
+  Future<HealthMixCategoryModel?> getHealthMixCategoryList(
+      {required Map<String, dynamic> params});
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 
+import '../../../../generated/i18n.dart';
+
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
@@ -9,12 +11,14 @@ class NotificationScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: Text(
+          S.of(context)!.notifications,
+        ),
         backgroundColor: CommonColors.bgColor,
       ),
       body: Center(
         child: Text(
-          'No notifications yet!',
+          S.of(context)!.noNotificationYet,
           style: TextStyle(fontSize: 20, color: Colors.black),
         ),
       ),

@@ -1121,6 +1121,14 @@ class S implements WidgetsLocalizations {
   String get tags => "Tags";
 
   String get description => "Description";
+
+  String get trackYourHealth => "Track Your Health";
+
+  String get exploreHealthmix => "Explore HealthMix";
+
+  String get notifications => "Notifications";
+
+  String get noNotificationYet => "No notifications yet!";
 }
 
 class $en extends S {
@@ -1132,6 +1140,18 @@ class $mr extends S {
 
   // hindi words start //
   @override
+  String get noNotificationYet => "अभी तक कोई सूचना नहीं!";
+
+  @override
+  String get notifications => "सूचनाएं";
+
+  @override
+  String get exploreHealthmix => "हेल्थमिक्स का अन्वेषण करें";
+
+  @override
+  String get trackYourHealth => "अपने स्वास्थ्य पर नज़र रखें";
+
+  @override
   String get description => "विवरण";
 
   @override
@@ -1141,7 +1161,7 @@ class $mr extends S {
   String get postDetails => "पोस्ट विवरण";
 
   @override
-  String get logPeriod => "Log Period";
+  String get logPeriod => "पीरियड लॉग करें";
 
   @override
   String get logOnlyOnPeriodDay =>
