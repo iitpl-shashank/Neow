@@ -743,7 +743,11 @@ class _HomeViewState extends State<HomeView> {
                                                               .askDoctor,
                                                           style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                                lang == "hi"
+                                                                    ? FontWeight
+                                                                        .w500
+                                                                    : FontWeight
+                                                                        .bold,
                                                             fontSize: 12,
                                                           ),
                                                         ),
@@ -806,7 +810,9 @@ class _HomeViewState extends State<HomeView> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            'The Neow Story',
+                                                            S
+                                                                .of(context)!
+                                                                .theNeowStory,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -816,7 +822,9 @@ class _HomeViewState extends State<HomeView> {
                                                           ),
                                                           kCommonSpaceV10,
                                                           Text(
-                                                            'Leading Ladies: Women making\nHeadlines',
+                                                            S
+                                                                .of(context)!
+                                                                .leadingLadies1,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -839,7 +847,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   WidgetStateProperty
                                                                       .all<
                                                                           Size>(
-                                                                Size(90.0,
+                                                                Size(120.0,
                                                                     25.0), // Button width and height
                                                               ),
                                                               backgroundColor:
@@ -853,10 +861,17 @@ class _HomeViewState extends State<HomeView> {
                                                                       Colors
                                                                           .white),
                                                             ),
-                                                            child: Text('Here',
+                                                            child: Text(
+                                                                S
+                                                                    .of(
+                                                                        context)!
+                                                                    .tapHere,
                                                                 style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
+                                                                    fontWeight: lang ==
+                                                                            "hi"
+                                                                        ? FontWeight
+                                                                            .w500
+                                                                        : FontWeight
                                                                             .bold,
                                                                     fontSize:
                                                                         12)),
@@ -886,29 +901,27 @@ class _HomeViewState extends State<HomeView> {
                                                 right: 12,
                                                 bottom: 20),
                                             child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    right: 10,
-                                                    top: 10),
-                                                height: 160,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: Color(0XFFFFEEEE),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  shadows: const [
-                                                    BoxShadow(
-                                                      color: Color(0x3F000000),
-                                                      blurRadius: 5,
-                                                      offset: Offset(0, 2),
-                                                      spreadRadius: 0,
-                                                    )
-                                                  ],
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, right: 10, top: 10),
+                                              height: 160,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: ShapeDecoration(
+                                                color: Color(0XFFFFEEEE),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
-                                                child: Stack(children: [
+                                                shadows: const [
+                                                  BoxShadow(
+                                                    color: Color(0x3F000000),
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 2),
+                                                    spreadRadius: 0,
+                                                  )
+                                                ],
+                                              ),
+                                              child: Stack(
+                                                children: [
                                                   Align(
                                                     alignment:
                                                         Alignment.topLeft,
@@ -918,21 +931,25 @@ class _HomeViewState extends State<HomeView> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            'Leading Ladies: Women Making Headlines',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                          kCommonSpaceV10,
-                                                          Text(
-                                                            'Groove with Neow',
+                                                            S
+                                                                .of(context)!
+                                                                .grooveWithNeow,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
-                                                              fontSize: 20,
+                                                              fontSize: 18,
+                                                            ),
+                                                          ),
+                                                          kCommonSpaceV10,
+                                                          Text(
+                                                            S
+                                                                .of(context)!
+                                                                .leadingLadies2,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                             ),
                                                           ),
                                                           kCommonSpaceV10,
@@ -952,7 +969,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   WidgetStateProperty
                                                                       .all<
                                                                           Size>(
-                                                                Size(90.0,
+                                                                Size(120.0,
                                                                     25.0), // Button width and height
                                                               ),
                                                               backgroundColor:
@@ -969,13 +986,19 @@ class _HomeViewState extends State<HomeView> {
                                                                       Colors
                                                                           .white),
                                                             ),
-                                                            child: Text('Here',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12)),
+                                                            child: Text(
+                                                              S
+                                                                  .of(context)!
+                                                                  .tapHere,
+                                                              style: TextStyle(
+                                                                fontWeight: lang == "hi"
+                                                                    ? FontWeight
+                                                                        .w500
+                                                                    : FontWeight
+                                                                        .bold,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ]),
                                                   ),
@@ -991,7 +1014,9 @@ class _HomeViewState extends State<HomeView> {
                                                       ),
                                                     ),
                                                   ),
-                                                ])),
+                                                ],
+                                              ),
+                                            ),
                                           );
                           },
                         ),

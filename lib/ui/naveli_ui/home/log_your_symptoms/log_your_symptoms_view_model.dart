@@ -424,62 +424,62 @@ class LogYourSymptomsModel with ChangeNotifier {
 
   Future<void> postUserSymptomsLogApi(BuildContext context) async {
     if (selectedStaining == null) {
-      _showSnackBar(context, "Please select staining.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectStaining);
       return;
     }
 
     if (selectedClotSize == null) {
-      _showSnackBar(context, "Please select clot size.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectClotSize);
       return;
     }
 
     if (selectedWorkingAbility == null) {
-      _showSnackBar(context, "Please select working ability.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectWorkingAbility);
       return;
     }
 
     if (selectedLocationArray == null || selectedLocationArray!.isEmpty) {
-      _showSnackBar(context, "Please select at least one pain location.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectAtleastOneLocation);
       return;
     }
 
     if (selectedCramps == null) {
-      _showSnackBar(context, "Please select cramps status.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectCramps);
       return;
     }
 
     if (selectedDays == null) {
-      _showSnackBar(context, "Please select days.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectDays);
       return;
     }
 
     if (selectedCollection == null) {
-      _showSnackBar(context, "Please select collection method.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectMethod);
       return;
     }
 
     if (selectedFrequency == null) {
-      _showSnackBar(context, "Please select frequency of change.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectFrequency);
       return;
     }
 
     if (selectedMood == null) {
-      _showSnackBar(context, "Please select mood.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectMood);
       return;
     }
 
     if (selectedEnergy == null) {
-      _showSnackBar(context, "Please select energy level.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectEnergyLevel);
       return;
     }
 
     if (selectedStress == null) {
-      _showSnackBar(context, "Please select stress level.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectStressLevel);
       return;
     }
 
     if (selectedAcne == null) {
-      _showSnackBar(context, "Please select acne severity.");
+      _showSnackBar(context, S.of(context)!.pleaseSelectAcne);
       return;
     }
 
@@ -503,12 +503,13 @@ class LogYourSymptomsModel with ChangeNotifier {
           await _services.api!.postUserSymptoms(body: body);
       debugPrint("master: $master");
 
-      _showSnackBar(context, "Symptoms logged successfully.", isError: false);
+      _showSnackBar(context, S.of(context)!.symptomsLoggedSuccess,
+          isError: false);
       notifyListeners();
       Navigator.pop(context);
     } catch (e) {
       debugPrint("Error logging symptoms: $e");
-      _showSnackBar(context, "Failed to log symptoms. Please try again.");
+      _showSnackBar(context, S.of(context)!.failedToLogSymptoms);
     }
   }
 
@@ -527,10 +528,6 @@ class LogYourSymptomsModel with ChangeNotifier {
         selectedClotSize != null &&
         selectedCollection != null &&
         selectedFrequency != null) {
-      // pageController.nextPage(
-      //   duration: Duration(milliseconds: 300),
-      //   curve: Curves.easeIn,
-      // );
       pageController.animateToPage(1,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }

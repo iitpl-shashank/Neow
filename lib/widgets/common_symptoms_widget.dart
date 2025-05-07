@@ -172,6 +172,7 @@ class CommonSymptomsTitle extends StatefulWidget {
   final bool isMiddleTitle;
   final bool isHintIcon;
   final String? dialogText;
+  final FontWeight? fontWeight;
 
   const CommonSymptomsTitle(
       {super.key,
@@ -179,7 +180,8 @@ class CommonSymptomsTitle extends StatefulWidget {
       this.onTap,
       this.isMiddleTitle = false,
       this.dialogText,
-      this.isHintIcon = false});
+      this.isHintIcon = false,
+      this.fontWeight});
 
   @override
   State<CommonSymptomsTitle> createState() => _CommonSymptomsTitleState();
@@ -201,7 +203,7 @@ class _CommonSymptomsTitleState extends State<CommonSymptomsTitle> {
                   widget.title,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: widget.fontWeight ?? FontWeight.bold,
                       fontSize: 18,
                       color: CommonColors.blackColor),
                 ),
@@ -252,10 +254,11 @@ class _CommonSymptomsTitleState extends State<CommonSymptomsTitle> {
                                         Text(
                                           widget.title ?? "Working Ability",
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: CommonColors.primaryColor,
                                             fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: widget.fontWeight ??
+                                                FontWeight.bold,
                                           ),
                                         ),
                                         const SizedBox(height: 10),

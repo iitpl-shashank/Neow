@@ -1037,6 +1037,79 @@ class S implements WidgetsLocalizations {
   String get askDoctor => "Here";
 
   String get hi => "Hi";
+
+  String get theNeowStory => "The Neow Story";
+
+  String get leadingLadies1 => "Leading Ladies: Women making\nHeadlines";
+
+  String get leadingLadies2 => "Leading Ladies: Women Making Headlines";
+
+  String get tapHere => "Here";
+
+  String get popular => "Popular";
+
+  String get oldest => "Oldest";
+
+  String get saved => "Saved";
+
+  String get noContentInThisCategory => "No content uploaded in this category.";
+
+  String get veryActive => "Very\nActive";
+
+  String get active => "Active\n";
+
+  String get inActive => "Inactive\n";
+
+  String get somewhatActive => 'Somewhat\nActive';
+
+  String get headache => 'Headache';
+
+  String get backache => 'Backache';
+
+  String get legPain => 'Leg Pain';
+
+  String get abdominalPain => 'Abdominal Pain';
+
+  String get daysOfPain => "Days of Pain";
+
+  String get times => "times";
+
+  String get time => "time";
+
+  String get tired => "Tired";
+
+  String get noAcne => "None";
+
+  String get save => "Save";
+
+  String get pleaseSelectStaining => "Please select staining.";
+
+  String get pleaseSelectClotSize => "Please select clot size.";
+
+  String get pleaseSelectWorkingAbility => "Please select working ability.";
+
+  String get pleaseSelectAtleastOneLocation =>
+      "Please select at least one pain location.";
+
+  String get pleaseSelectCramps => "Please select cramps status.";
+
+  String get pleaseSelectDays => "Please select days.";
+
+  String get pleaseSelectMethod => "Please select collection method.";
+
+  String get pleaseSelectFrequency => "Please select frequency of change.";
+
+  String get pleaseSelectMood => "Please select mood.";
+
+  String get pleaseSelectEnergyLevel => "Please select energy level.";
+
+  String get pleaseSelectStressLevel => "Please select stress level.";
+
+  String get pleaseSelectAcne => "Please select acne severity.";
+
+  String get failedToLogSymptoms => "Failed to log symptoms. Please try again.";
+
+  String get symptomsLoggedSuccess => "Symptoms logged successfully.";
 }
 
 class $en extends S {
@@ -1047,6 +1120,120 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get symptomsLoggedSuccess => "लक्षण सफलतापूर्वक लॉग किए गए.";
+
+  @override
+  String get failedToLogSymptoms =>
+      "लक्षण लॉग करने में विफल। कृपया पुनः प्रयास करें।";
+
+  @override
+  String get pleaseSelectStaining => "कृपया स्टेन चुनें.";
+
+  @override
+  String get pleaseSelectClotSize => "कृपया थक्के का आकार चुनें.";
+
+  @override
+  String get pleaseSelectWorkingAbility => "कृपया कार्य क्षमता का चयन करें.";
+
+  @override
+  String get pleaseSelectAtleastOneLocation =>
+      "कृपया कम से कम एक दर्द स्थान का चयन करें.";
+
+  @override
+  String get pleaseSelectCramps => "कृपया ऐंठन की स्थिति का चयन करें.";
+
+  @override
+  String get pleaseSelectDays => "कृपया दिन चुनें.";
+
+  @override
+  String get pleaseSelectMethod => "कृपया संग्रहण विधि का चयन करें.";
+
+  @override
+  String get pleaseSelectFrequency => "कृपया परिवर्तन की आवृत्ति का चयन करें.";
+
+  @override
+  String get pleaseSelectMood => "कृपया मूड चुनें.";
+
+  @override
+  String get pleaseSelectEnergyLevel => "कृपया ऊर्जा स्तर का चयन करें.";
+
+  @override
+  String get pleaseSelectStressLevel => "कृपया तनाव स्तर का चयन करें.";
+
+  @override
+  String get pleaseSelectAcne => "कृपया मुँहासे की गंभीरता का चयन करें.";
+
+  @override
+  String get save => "सेव";
+
+  @override
+  String get noAcne => "बिलकुल नहीं";
+
+  @override
+  String get times => "बार";
+
+  @override
+  String get tired => "थकावट";
+
+  @override
+  String get time => "बार";
+
+  @override
+  String get period_panty => "पीरियड पैंटी";
+
+  @override
+  String get daysOfPain => "दर्द के दिनों संख्या";
+
+  @override
+  String get backache => 'कमर दर्द';
+
+  @override
+  String get legPain => 'पैर में दर्द';
+
+  @override
+  String get abdominalPain => 'पेट में दर्द';
+
+  @override
+  String get headache => 'सिरदर्द';
+
+  @override
+  String get active => "सक्रिय\n";
+
+  @override
+  String get inActive => "निष्क्रिय\n";
+
+  @override
+  String get somewhatActive => 'कुछ हद तक\nसक्रिय';
+
+  @override
+  String get veryActive => "बहुत सक्रिय\n";
+
+  @override
+  String get noContentInThisCategory =>
+      "इस श्रेणी में कोई सामग्री अपलोड नहीं की गई है।";
+
+  @override
+  String get saved => "सेव किया हुआ";
+
+  @override
+  String get oldest => "सबसे पुराना";
+
+  @override
+  String get popular => "लोकप्रिय";
+
+  @override
+  String get tapHere => "क्लिक करें";
+
+  @override
+  String get leadingLadies1 => "मुख्य भूमिका में महिलाएं: छाई नारी शक्ति";
+
+  @override
+  String get leadingLadies2 => "मुख्य भूमिका में महिलाएं: छाई नारी शक्ति";
+
+  @override
+  String get theNeowStory => "द नियो स्टोरी";
+
   @override
   String get hi => "हेलो";
 
@@ -1871,7 +2058,7 @@ class $mr extends S {
   String get setReminder => "रिमाइंडर सेट करें";
 
   @override
-  String get mood => "मनोदशा";
+  String get mood => "मूड";
 
   @override
   String get plSelectState => "कृपया अपना राज्य चुनें!";
@@ -1941,7 +2128,7 @@ class $mr extends S {
   String get cycleWisdom => "साइकिल ज्ञान";
 
   @override
-  String get grooveWithNeow => "ग्रूव विद NeoW";
+  String get grooveWithNeow => "NeoW के साथ न्यू बनें।";
 
   @override
   String get testimonials => "टेस्टीमोनियल";
@@ -1992,10 +2179,10 @@ class $mr extends S {
   String get low => "कम";
 
   @override
-  String get medium => "मध्यम";
+  String get medium => "सामान्य";
 
   @override
-  String get high => "उच्च";
+  String get high => "ज्यादा";
 
   @override
   String get clotSize => "रक्त थक्का का साइज़";
@@ -2049,43 +2236,43 @@ class $mr extends S {
   String get hurtWorst => "बहुत ज्यादा दर्द";
 
   @override
-  String get collectionMethod => "संग्रहण विधि";
+  String get collectionMethod => "आपका पीरियड प्रोडक्ट";
 
   @override
-  String get sanitaryPads => "सैनिटरी पैड";
+  String get sanitaryPads => "सैनिटरी पैड्स";
 
   @override
   String get cloth => "कपड़ा";
 
   @override
-  String get tampons => "टैम्पन";
+  String get tampons => "मेंस्ट्रुअल कप्स";
 
   @override
-  String get cups => "कप";
+  String get cups => "मेंस्ट्रुअल कप्स";
 
   @override
-  String get relaxed => "आराम मिला।";
+  String get relaxed => "खुशनुमा";
 
   @override
   String get sad => "उदास";
 
   @override
-  String get energy => "ऊर्जा";
+  String get energy => "शारीरिक शक्ति";
 
   @override
   String get lively => "जीवंत";
 
   @override
-  String get irritated => "चिढ़ा हुआ";
+  String get irritated => "चिढ़चिढ़ा";
 
   @override
   String get stress => "तनाव";
 
   @override
-  String get moderate => "मध्यम";
+  String get moderate => "सामान्य";
 
   @override
-  String get acne => "मुंहासा";
+  String get acne => "मुंहासे";
 
   @override
   String get minimal => "कम";
@@ -2094,7 +2281,7 @@ class $mr extends S {
   String get rejected => "अस्वीकार कर दिया";
 
   @override
-  String get severe => "गंभीर";
+  String get severe => "बहुत ज़्यादा";
 
   @override
   String get add => "जोड़ना";
@@ -2166,7 +2353,7 @@ class $mr extends S {
       "अपने पानी के सेवन पर नज़र रखें और हाइड्रेटेड और स्वस्थ रहने के लिए रिमाइंडर सेट करें";
 
   @override
-  String get freqOfChange => "एक दिन में परिवर्तन की आवृत्ति";
+  String get freqOfChange => "प्रतिदिन पीरियड प्रोडक्ट बदलने की संख्या";
 
   @override
   String get neverMissADate =>
