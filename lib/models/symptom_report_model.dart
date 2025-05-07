@@ -32,7 +32,7 @@ class SymptomReportModel {
 }
 
 class Data {
-  MonthlyScores? monthlyScores;
+  List<MonthlyScore>? monthlyScores;
 
   Data({
     this.monthlyScores,
@@ -40,34 +40,20 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         monthlyScores: json["monthly_scores"] == null
-            ? null
-            : MonthlyScores.fromJson(json["monthly_scores"]),
+            ? []
+            : List<MonthlyScore>.from(
+                json["monthly_scores"]!.map((x) => MonthlyScore.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "monthly_scores": monthlyScores?.toJson(),
+        "monthly_scores": monthlyScores == null
+            ? []
+            : List<dynamic>.from(monthlyScores!.map((x) => x.toJson())),
       };
 }
 
-class MonthlyScores {
-  May2025? may2025;
-
-  MonthlyScores({
-    this.may2025,
-  });
-
-  factory MonthlyScores.fromJson(Map<String, dynamic> json) => MonthlyScores(
-        may2025: json["May 2025"] == null
-            ? null
-            : May2025.fromJson(json["May 2025"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "May 2025": may2025?.toJson(),
-      };
-}
-
-class May2025 {
+class MonthlyScore {
+  String? month;
   List<Log>? logs;
   String? flow;
   String? pain;
@@ -75,7 +61,8 @@ class May2025 {
   List<String>? logDates;
   String? acne;
 
-  May2025({
+  MonthlyScore({
+    this.month,
     this.logs,
     this.flow,
     this.pain,
@@ -84,7 +71,8 @@ class May2025 {
     this.acne,
   });
 
-  factory May2025.fromJson(Map<String, dynamic> json) => May2025(
+  factory MonthlyScore.fromJson(Map<String, dynamic> json) => MonthlyScore(
+        month: json["month"],
         logs: json["logs"] == null
             ? []
             : List<Log>.from(json["logs"]!.map((x) => Log.fromJson(x))),
@@ -98,6 +86,7 @@ class May2025 {
       );
 
   Map<String, dynamic> toJson() => {
+        "month": month,
         "logs": logs == null
             ? []
             : List<dynamic>.from(logs!.map((x) => x.toJson())),

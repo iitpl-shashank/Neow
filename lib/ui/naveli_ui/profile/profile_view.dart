@@ -138,7 +138,7 @@ class _ProfileViewState extends State<ProfileView> {
                     if (gUserType == AppConstants.NEOWME)
                       CommonProfileMenu(
                         color: Color(0xFFFAEEFF),
-                        text: 'My Health Reports',
+                        text: S.of(context)!.myHealthReports,
                         text2:
                             'View and access all your\n health reports here.',
                         isLast: false,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/database/app_preferences.dart';
+import 'package:naveli_2023/models/symptom_report_model.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 
 import '../../../../models/about_your_cycle_master.dart';
@@ -142,6 +143,7 @@ class User {
 
 class DashBoardViewModel with ChangeNotifier {
   List<CycleTableData> dataList = [];
+  List<MonthlyScore> userReportList = [];
   List<FlSpot> top3Spots = [];
   List<FlSpot> scaledSpots = [];
   late BuildContext context;
@@ -225,7 +227,6 @@ class DashBoardViewModel with ChangeNotifier {
     // CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();
-
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
@@ -237,21 +238,23 @@ class DashBoardViewModel with ChangeNotifier {
       print("about =>${master.data}");
       dataList = master.data ?? [];
       if (dataList.isNotEmpty) {
-        int max3Lenght = dataList.length>3?3:dataList.length;
-        List<FlSpot> spotList=[];
-        for(int i=0;i<max3Lenght;i++){
+        int max3Lenght = dataList.length > 3 ? 3 : dataList.length;
+        List<FlSpot> spotList = [];
+        for (int i = 0; i < max3Lenght; i++) {
           //print("ddddddPeriodLenght===>${dataList[i].periodLength??"0"}");
-          spotList.add(FlSpot(double.parse(DateTime.parse(dataList[i].period_start_date??"0").month.toString()),double.parse(dataList[i].periodCycleLength??"0")));
+          spotList.add(FlSpot(
+              double.parse(DateTime.parse(dataList[i].period_start_date ?? "0")
+                  .month
+                  .toString()),
+              double.parse(dataList[i].periodCycleLength ?? "0")));
         }
         top3Spots = List.from(spotList)
           ..sort((a, b) => b.y.compareTo(a.y)) // Sort by Y value descending
-          ..sublist(
-              0,
-              spotList.length); // Take the first 3 spots
+          ..sublist(0, spotList.length); // Take the first 3 spots
         // Sort the top 3 by X-axis values to maintain chronological order
         top3Spots.sort((a, b) => a.x.compareTo(b.x));
         // Scale the X values of top3Spots to fill the X-axis range
-       /* final double xScaleFactor = 15 / (top3Spots.last.x - top3Spots.first.x);
+        /* final double xScaleFactor = 15 / (top3Spots.last.x - top3Spots.first.x);
         scaledSpots = top3Spots
             .map((spot) => FlSpot(
           (spot.x - top3Spots.first.x) * xScaleFactor,
@@ -267,4 +270,48 @@ class DashBoardViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+// TODO : Profile API to be added
+//  Future<void> getUserSymptoms() async {
+//   try {
+//     // Show progress dialog
+//     CommonUtils.showProgressDialog();
+
+//     // Fetch symptom report data
+//     SymptomReportModel? master = await _services.api!.getSymptomReportList(params: {});
+
+//     // Hide progress dialog
+//     CommonUtils.hideProgressDialog();
+
+//     if (master == null) {
+//       // Handle null response
+//       CommonUtils.oopsMSG();
+//       return;
+//     }
+
+//     if (master.success == false) {
+//       // Handle unsuccessful response
+//       CommonUtils.showSnackBar(
+//         master.message ?? "An error occurred",
+//         color: CommonColors.mRed,
+//       );
+//       print("Error: ${master.message}");
+//       return;
+//     }
+
+//     if (master.success == true) {
+//       // Handle successful response
+//       print("Data received: ${master.data}");
+//       dataList = master.data ?? [];
+//     }
+//   } catch (e) {
+//     // Handle exceptions
+//     CommonUtils.hideProgressDialog();
+//     CommonUtils.oopsMSG();
+//     print("Exception in getUserSymptoms: $e");
+//   } finally {
+//     // Notify listeners
+//     notifyListeners();
+//   }
+// }
 }

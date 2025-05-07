@@ -9,6 +9,7 @@ import 'package:naveli_2023/models/buddy_request_master.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
+import 'package:naveli_2023/models/symptom_report_model.dart';
 import 'package:naveli_2023/services/api_url.dart';
 
 import '../models/about_your_cycle_master.dart';
@@ -1351,5 +1352,27 @@ class ApiServices extends BaseServices {
       return null;
     }
     ;
+    return null;
+  }
+
+  @override
+  Future<SymptomReportModel?> getSymptomReportList(
+      {required Map<String, dynamic> params}) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.getUserSymptomsReport,
+        postParams: params,
+      );
+      if (response != null) {
+        debugPrint("SymptomReportList Response: $response");
+        return SymptomReportModel.fromJson(response);
+      } else {
+        debugPrint("SymptomReportList Response is null");
+        return null;
+      }
+    } on Exception catch (e) {
+      log("Exception in getSymptomReportList: $e");
+      return null;
+    }
   }
 }

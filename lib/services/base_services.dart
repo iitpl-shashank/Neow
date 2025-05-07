@@ -35,6 +35,7 @@ import '../models/sleep_master.dart';
 import '../models/slider_video_master.dart';
 import '../models/state_master.dart';
 import '../models/sub_question_master.dart';
+import '../models/symptom_report_model.dart';
 import '../models/user_ailments_master.dart';
 import '../models/user_details_master.dart';
 import '../models/user_medicine_master.dart';
@@ -239,5 +240,8 @@ abstract class BaseServices {
   Future<Map<String, dynamic>> getDialogBoxData();
 
   Future<HealthMixCategoryModel?> getHealthMixCategoryList(
+      {required Map<String, dynamic> params});
+
+  Future<SymptomReportModel?> getSymptomReportList(
       {required Map<String, dynamic> params});
 }

@@ -1129,6 +1129,8 @@ class S implements WidgetsLocalizations {
   String get notifications => "Notifications";
 
   String get noNotificationYet => "No notifications yet!";
+
+  String get myHealthReports => 'My Health Reports';
 }
 
 class $en extends S {
@@ -1139,6 +1141,9 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get myHealthReports => "मेरी स्वास्थ्य रिपोर्ट्स";
+
   @override
   String get noNotificationYet => "अभी तक कोई सूचना नहीं!";
 
