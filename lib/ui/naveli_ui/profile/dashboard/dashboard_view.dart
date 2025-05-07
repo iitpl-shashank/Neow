@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/common_ui/splash/splash_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/sleep/sleep_view_model.dart';
@@ -22,6 +23,7 @@ import '../../../../utils/common_utils.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_textfield_container_bmi.dart';
 import '../../../../widgets/cycle_info_card.dart';
+import '../../../../widgets/number_dropdown.dart';
 import '../../../../widgets/primary_button.dart';
 import '../../home/track/ailments/ailments_view_model.dart';
 import '../../home/track/medication/medication_view_model.dart';
@@ -395,416 +397,718 @@ class _DashboardViewState extends State<DashboardView> {
     mViewModelWaterInteke = Provider.of<WaterReminderViewModel>(context);
 
     return ScaffoldBG(
-      child: Scaffold(
-        backgroundColor: CommonColors.mTransparent,
-        appBar: CommonAppBar(
-          title: 'My Health Report',
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.calendar_month),
-                onPressed: () {
-                  // push(CalendarView());
-                }),
-          ],
-        ),
-        body: SingleChildScrollView(
-          padding: kCommonScreenPadding,
-          child: Column(
-            children: [
-              // CircleAvatar(
-              //   radius: 55,
-              //   backgroundColor: primaryColorWithOpacity,
-              //   // backgroundImage: AssetImage(LocalImages.img_acne_1),
-              //   backgroundImage: selectedImage != null
-              //       ? FileImage(selectedImage!)
-              //       : FileImage(
-              //           File(LocalImages.img_acne_1),
-              //         ),
-              //   child: Stack(
-              //     children: [
-              //       Align(
-              //         alignment: Alignment.bottomRight,
-              //         child: GestureDetector(
-              //           onTap: () async {
-              //             File? image = await pickSinglePhoto();
-              //             setState(() {
-              //               selectedImage = image;
-              //             });
-              //           },
-              //           child: CircleAvatar(
-              //             radius: 14,
-              //             backgroundColor: CommonColors.primaryColor,
-              //             child: Icon(
-              //               Icons.camera_alt_rounded,
-              //               color: CommonColors.mWhite,
-              //               size: 18,
-              //             ), // change this children
-              //           ),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-              /* GestureDetector(
-                onTap: () async {
-                  final image = await pickSinglePhoto();
-                  if (image != null) {
-                    setState(() {
-                      selectedImage = image;
-                      imagePath = image.path;
-                    });
-                  }
-                },
-                child: Container(
-                  width: 110,
-                  height: 110,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: primaryColorWithOpacity,
-                    shape: BoxShape.circle,
-                  ),
-                  child: (() {
-                    if (selectedImage != null) {
-                      // Display the selected image if available
-                      return Image.file(
-                        selectedImage!,
-                        fit: BoxFit.cover,
-                      );
-                    } else if (globalUserMaster?.image != null) {
-                      // Display the user's stored image if available
-                      return Image.network(
-                        globalUserMaster!.image!,
-                        fit: BoxFit.cover,
-                      );
-                    } else {
-                      // Display a default icon if no image is available
-                      return const Icon(
-                        Icons.collections,
-                        size: 30,
-                        color: CommonColors.primaryColor,
-                      );
-                    }
-                  })(),
-                ),
-              ), */
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: CommonColors.blueShade,
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        isPersonal = !isPersonal;
-                        isCycle = false;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.person,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgPersonalInformation,
-                                height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'Personal Information',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  )),
-              if (isPersonal)
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: CommonColors.mTransparent,
+          appBar: CommonAppBar(
+            title: 'My Health Report',
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.calendar_month),
+                  onPressed: () {
+                    // push(CalendarView());
+                  }),
+            ],
+          ),
+          body: SingleChildScrollView(
+            padding: kCommonScreenPadding,
+            child: Column(
+              children: [
                 Container(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 10,
-                      right: 10,
-                      bottom: 20,
-                    ),
-                    //color: CommonColors.mGrey200,
-                    color: Color(0xFFF5F5F5),
-                    child: Column(
-                      children: [
-                        CustomTextFieldContainer(
-                          //color: CommonColors.mGrey200,
-                          color: Color(0xFFF5F5F5),
-                          labelText: "Name",
-                          controller: nameController,
-                          border: true,
-                        ),
-                        kCommonSpaceV5,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextFieldContainer(
-                                //color: CommonColors.mGrey200,
-                                color: Color(0xFFF5F5F5),
-                                labelText: "Gender",
-                                controller: genderController,
-                                isReadOnly: true,
-                                border: true,
-                              ),
-                            ),
-                            kCommonSpaceH10,
-                            Expanded(
-                              child: CustomTextFieldContainer(
-                                //color: CommonColors.mGrey200,
-                                color: Color(0xFFF5F5F5),
-                                labelText: "Age",
-                                controller: ageController,
-                                isReadOnly: true,
-                                border: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                        kCommonSpaceV5,
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextFieldContainer(
-                                //color: CommonColors.mGrey200,
-                                color: Color(0xFFF5F5F5),
-                                labelText: "State",
-                                controller: stateController,
-                                isReadOnly: true,
-                                border: true,
-                              ),
-                            ),
-                            kCommonSpaceH10,
-                            Expanded(
-                              child: CustomTextFieldContainer(
-                                // color: CommonColors.mGrey200,
-                                color: Color(0xFFF5F5F5),
-                                labelText: "District",
-                                controller: districtController,
-                                isReadOnly: true,
-                                border: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                        kCommonSpaceV5,
-
-                        CustomTextFieldContainer(
-                          // color: CommonColors.mGrey200,
-                          color: Color(0xFFF5F5F5),
-                          labelText: "Mobile",
-                          controller: mobileController,
-                          isReadOnly: true,
-                          border: true,
-                        ),
-                        kCommonSpaceV5,
-
-                        //
-                        Container(
-                          height: 70,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                  color: CommonColors.mGrey201,
-                                  width: 1), // Bottom border for the row
-                            ),
-                          ),
-                          child: Row(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: CommonColors.blueShade,
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isPersonal = !isPersonal;
+                          isCycle = false;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              // Custom Text Field with 100% width
+                              /*Icon(
+                                Icons.person,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgPersonalInformation,
+                                  height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'Personal Information',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    )),
+                if (isPersonal)
+                  Container(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20,
+                      ),
+                      //color: CommonColors.mGrey200,
+                      color: Color(0xFFF5F5F5),
+                      child: Column(
+                        children: [
+                          CustomTextFieldContainer(
+                            //color: CommonColors.mGrey200,
+                            color: Color(0xFFF5F5F5),
+                            labelText: "Name",
+                            controller: nameController,
+                            border: true,
+                          ),
+                          kCommonSpaceV5,
+                          Row(
+                            children: [
                               Expanded(
                                 child: CustomTextFieldContainer(
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  labelText: "Email",
-                                  controller: emailController,
-                                  border:
-                                      false, // Don't apply border to the TextField, it's handled by the container
+                                  labelText: "Gender",
+                                  controller: genderController,
+                                  isReadOnly: true,
+                                  border: true,
                                 ),
                               ),
-
-                              // Edit Icon with specific size
-                              IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15, // Set the size of the icon
+                              kCommonSpaceH10,
+                              Expanded(
+                                child: CustomTextFieldContainer(
+                                  //color: CommonColors.mGrey200,
+                                  color: Color(0xFFF5F5F5),
+                                  labelText: "Age",
+                                  controller: ageController,
+                                  isReadOnly: true,
+                                  border: true,
                                 ),
-                                onPressed: () {
-                                  showInputDialog(
-                                    context: context,
-                                    title: 'Edit email',
-                                    hintText: 'Enter email',
-                                    onSubmit: (value) {
-                                      //print('Input: $value'); // Do something with the input
-                                    },
-                                  );
-                                  // Handle edit icon press
-                                  print("Edit icon pressed");
-                                },
                               ),
                             ],
                           ),
-                        ),
-                        kCommonSpaceV5,
-                        kCommonSpaceV5,
-                        CustomTextFieldContainer(
-                          //color: CommonColors.mGrey200,
-                          color: Color(0xFFF5F5F5),
-                          labelText: "D.O.B.",
-                          controller: dobController,
-                          isReadOnly: true,
-                          border: true,
-                        ),
-                        kCommonSpaceV5,
-                        // CustomTextFieldContainer(
-                        //   color: CommonColors.mGrey200,
-                        //   labelText: "Unique Id",
-                        //   controller: uniqueIdController,
-                        //   isReadOnly: true,
-                        //   border: true,
-                        // ),
-                        // kCommonSpaceV5,
-                        CustomTextFieldContainer(
-                          //color: CommonColors.mGrey200,
-                          color: Color(0xFFF5F5F5),
-                          labelText: "Age group",
-                          controller: ageGroupController,
-                          isReadOnly: true,
-                          border: true,
-                        ),
-                        kCommonSpaceV5,
+                          kCommonSpaceV5,
 
-                        CustomTextFieldContainer(
-                          //color: CommonColors.mGrey200,
-                          color: Color(0xFFF5F5F5),
-                          labelText: "Relationship Status",
-                          controller: relationshipStatusController,
-                          isReadOnly: true,
-                          border: true,
-                        ),
-                        kCommonSpaceV5,
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: CustomTextFieldContainer(
-                        //         color: CommonColors.mGrey200,
-                        //         labelText: "Age",
-                        //         controller: ageController,
-                        //         isReadOnly: true,
-                        //         border: true,
-                        //       ),
-                        //     ),
-                        //     kCommonSpaceH10,
-                        //     Expanded(
-                        //       child: CustomTextFieldContainer(
-                        //         color: CommonColors.mGrey200,
-                        //         labelText: "Age group",
-                        //         controller: ageGroupController,
-                        //         isReadOnly: true,
-                        //         border: true,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // kCommonSpaceV5,
-                        kCommonSpaceV20,
-                        PrimaryButton(
-                          width: kDeviceWidth / 2,
-                          onPress: () {
-                            int? maritalStatus = 0;
-                            if (maritalStatusController.text == "Solo") {
-                              maritalStatus = 1;
-                            } else if (maritalStatusController.text == "Tied") {
-                              maritalStatus = 2;
-                            } else if (maritalStatusController.text ==
-                                "Open for surprise") {
-                              maritalStatus = 3;
-                            }
-                            mViewModel.userUpdateDashboardApi(
-                                imagePath: imagePath,
-                                name: nameController.text.trim(),
-                                email: emailController.text.trim(),
-                                relationshipStatus: maritalStatus.toString(),
-                                averageCycleLength:
-                                    cycleLengthController.text.trim(),
-                                averagePeriodLength:
-                                    periodLengthController.text.trim());
-                          },
-                          label: S.of(context)!.update,
-                        ),
-                      ],
-                    )),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextFieldContainer(
+                                  //color: CommonColors.mGrey200,
+                                  color: Color(0xFFF5F5F5),
+                                  labelText: "State",
+                                  controller: stateController,
+                                  isReadOnly: true,
+                                  border: true,
+                                ),
+                              ),
+                              kCommonSpaceH10,
+                              Expanded(
+                                child: CustomTextFieldContainer(
+                                  // color: CommonColors.mGrey200,
+                                  color: Color(0xFFF5F5F5),
+                                  labelText: "District",
+                                  controller: districtController,
+                                  isReadOnly: true,
+                                  border: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          kCommonSpaceV5,
 
-              kCommonSpaceV20,
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFFFF1F1),
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      // CommonUtils.showProgressDialog();
-                      setState(() {
-                        isPersonal = false;
-                        isCycle = !isCycle;
-                      });
-                      // Future.delayed(Duration(seconds: 3), () {
-                      //   CommonUtils.hideProgressDialog();
-                      // });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.recycling,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgAboutYourCycle,
-                                height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'About Your Cycle',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                          CustomTextFieldContainer(
+                            // color: CommonColors.mGrey200,
+                            color: Color(0xFFF5F5F5),
+                            labelText: "Mobile",
+                            controller: mobileController,
+                            isReadOnly: true,
+                            border: true,
+                          ),
+                          kCommonSpaceV5,
+
+                          //
+                          Container(
+                            height: 70,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    color: CommonColors.mGrey201,
+                                    width: 1), // Bottom border for the row
                               ),
                             ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
+                            child: Row(
+                              children: [
+                                // Custom Text Field with 100% width
+                                Expanded(
+                                  child: CustomTextFieldContainer(
+                                    //color: CommonColors.mGrey200,
+                                    color: Color(0xFFF5F5F5),
+                                    labelText: "Email",
+                                    controller: emailController,
+                                    border:
+                                        false, // Don't apply border to the TextField, it's handled by the container
+                                  ),
+                                ),
+
+                                // Edit Icon with specific size
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 15, // Set the size of the icon
+                                  ),
+                                  onPressed: () {
+                                    showInputDialog(
+                                      context: context,
+                                      title: 'Edit email',
+                                      hintText: 'Enter email',
+                                      onSubmit: (value) {
+                                        //print('Input: $value'); // Do something with the input
+                                      },
+                                    );
+                                    // Handle edit icon press
+                                    print("Edit icon pressed");
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          kCommonSpaceV5,
+                          kCommonSpaceV5,
+                          CustomTextFieldContainer(
+                            //color: CommonColors.mGrey200,
+                            color: Color(0xFFF5F5F5),
+                            labelText: "D.O.B.",
+                            controller: dobController,
+                            isReadOnly: true,
+                            border: true,
+                          ),
+                          kCommonSpaceV5,
+                          // CustomTextFieldContainer(
+                          //   color: CommonColors.mGrey200,
+                          //   labelText: "Unique Id",
+                          //   controller: uniqueIdController,
+                          //   isReadOnly: true,
+                          //   border: true,
+                          // ),
+                          // kCommonSpaceV5,
+                          CustomTextFieldContainer(
+                            //color: CommonColors.mGrey200,
+                            color: Color(0xFFF5F5F5),
+                            labelText: "Age group",
+                            controller: ageGroupController,
+                            isReadOnly: true,
+                            border: true,
+                          ),
+                          kCommonSpaceV5,
+
+                          CustomTextFieldContainer(
+                            //color: CommonColors.mGrey200,
+                            color: Color(0xFFF5F5F5),
+                            labelText: "Relationship Status",
+                            controller: relationshipStatusController,
+                            isReadOnly: true,
+                            border: true,
+                          ),
+                          kCommonSpaceV5,
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: CustomTextFieldContainer(
+                          //         color: CommonColors.mGrey200,
+                          //         labelText: "Age",
+                          //         controller: ageController,
+                          //         isReadOnly: true,
+                          //         border: true,
+                          //       ),
+                          //     ),
+                          //     kCommonSpaceH10,
+                          //     Expanded(
+                          //       child: CustomTextFieldContainer(
+                          //         color: CommonColors.mGrey200,
+                          //         labelText: "Age group",
+                          //         controller: ageGroupController,
+                          //         isReadOnly: true,
+                          //         border: true,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // kCommonSpaceV5,
+                          kCommonSpaceV20,
+                          PrimaryButton(
+                            width: kDeviceWidth / 2,
+                            onPress: () {
+                              int? maritalStatus = 0;
+                              if (maritalStatusController.text == "Solo") {
+                                maritalStatus = 1;
+                              } else if (maritalStatusController.text ==
+                                  "Tied") {
+                                maritalStatus = 2;
+                              } else if (maritalStatusController.text ==
+                                  "Open for surprise") {
+                                maritalStatus = 3;
+                              }
+                              mViewModel.userUpdateDashboardApi(
+                                  imagePath: imagePath,
+                                  name: nameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                  relationshipStatus: maritalStatus.toString(),
+                                  averageCycleLength:
+                                      cycleLengthController.text.trim(),
+                                  averagePeriodLength:
+                                      periodLengthController.text.trim());
+                            },
+                            label: S.of(context)!.update,
+                          ),
+                        ],
+                      )),
+                kCommonSpaceV20,
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFFFF1F1),
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        // CommonUtils.showProgressDialog();
+                        setState(() {
+                          isPersonal = false;
+                          isCycle = !isCycle;
+                        });
+                        // Future.delayed(Duration(seconds: 3), () {
+                        //   CommonUtils.hideProgressDialog();
+                        // });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              /*Icon(
+                                Icons.recycling,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgAboutYourCycle,
+                                  height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'About Your Cycle',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    )),
+                if (isCycle && mViewModel.dataList.isNotEmpty)
+                  IntrinsicHeight(
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20,
+                      ),
+                      color: CommonColors.mGrey200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Wrap the Table in a vertical SingleChildScrollView
+                          SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: SizedBox(
+                                width: 600,
+                                child: Table(
+                                  border: TableBorder.all(
+                                    width: 0.5,
+                                    color: const Color.fromARGB(255, 128, 127,
+                                        127), // Border color for the entire table
+                                  ),
+                                  children: [
+                                    // Header Row with Background Color
+                                    TableRow(
+                                      decoration: BoxDecoration(
+                                          // Background color for header row
+                                          ),
+                                      children: [
+                                        _tableCell(
+                                            'No.',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.5)),
+                                        _tableCell(
+                                            'Period Date (start-end)',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.2)),
+                                        _tableCell(
+                                            'Cycle Length (days)',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.5)),
+                                        _tableCell(
+                                            'Deviation (days)',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.5)),
+                                        _tableCell(
+                                            'Interpretation',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.2)),
+                                        _tableCell(
+                                            'Period Length (days)',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.2)),
+                                        _tableCell(
+                                            'Deviation (days)',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.5)),
+                                        _tableCell(
+                                            'Interpretation',
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.2)),
+                                      ],
+                                    ),
+                                    // Data Rows
+                                    for (int index = 0;
+                                        index < mViewModel.dataList.length;
+                                        index++)
+                                      TableRow(
+                                        children: [
+                                          _tableCell((index + 1).toString(),
+                                              CommonColors.mWhite),
+                                          _tableCell(
+                                              mViewModel.dataList[index]
+                                                      .periodDate ??
+                                                  '',
+                                              CommonColors.mWhite),
+                                          _tableCell(
+                                              mViewModel.dataList[index]
+                                                      .periodCycleLength ??
+                                                  '',
+                                              CommonColors.mWhite),
+                                          _tableCell(
+                                              (mViewModel.dataList[index]
+                                                          .cycleLengthDeviation ??
+                                                      0)
+                                                  .toString(),
+                                              CommonColors.mWhite),
+                                          TableCell(
+                                            child: Container(
+                                              color: CommonColors.mWhite,
+                                              height: 70,
+                                              width: 120,
+                                              padding: const EdgeInsets.all(5),
+                                              alignment: Alignment.center,
+                                              child: !(mViewModel
+                                                          .dataList[index]
+                                                          .cycleLengthInterpretation ??
+                                                      true)
+                                                  ? Icon(Icons.warning_rounded,
+                                                      color: Colors.red,
+                                                      size: 25)
+                                                  : Icon(Icons.thumb_up,
+                                                      color: Colors.green,
+                                                      size: 25),
+                                            ),
+                                          ),
+                                          _tableCell(
+                                              mViewModel.dataList[index]
+                                                      .periodLength ??
+                                                  '',
+                                              CommonColors.mWhite),
+                                          _tableCell(
+                                              (mViewModel.dataList[index]
+                                                          .periodLengthDeviation ??
+                                                      0)
+                                                  .toString(),
+                                              CommonColors.mWhite),
+                                          TableCell(
+                                            child: Container(
+                                              color: CommonColors.mWhite,
+                                              height: 70,
+                                              width: 120,
+                                              padding: const EdgeInsets.all(5),
+                                              alignment: Alignment.center,
+                                              child: !(mViewModel
+                                                          .dataList[index]
+                                                          .periodLengthInterpretation ??
+                                                      true)
+                                                  ? Icon(Icons.warning_rounded,
+                                                      color: Colors.red,
+                                                      size: 25)
+                                                  : Icon(Icons.thumb_up,
+                                                      color: Colors.green,
+                                                      size: 25),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          kCommonSpaceV20,
+                          CycleInfoCard(),
+                          kCommonSpaceV20,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Last 3 Peroids",
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "Duration",
+                                style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 139, 134, 134),
+                                  fontSize: 12,
+                                ),
+                              ),
+                              kCommonSpaceV10,
+                              Container(
+                                height: 400,
+                                color: Colors.white,
+                                padding: EdgeInsets.all(25),
+                                child: LineChart(
+                                  LineChartData(
+                                    lineTouchData: LineTouchData(
+                                      handleBuiltInTouches:
+                                          true, // Enables tap/touch
+                                      touchTooltipData: LineTouchTooltipData(
+                                        tooltipRoundedRadius: 8,
+                                        fitInsideHorizontally: true,
+                                        fitInsideVertically: true,
+                                        getTooltipItems: (touchedSpots) {
+                                          return touchedSpots
+                                              .map((touchedSpot) {
+                                            const monthNames = [
+                                              '', // index 0 is unused to align 1-based month numbers
+                                              'Jan', 'Feb', 'Mar', 'Apr', 'May',
+                                              'Jun',
+                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                                              'Dec'
+                                            ];
+
+                                            String monthLabel = '';
+                                            if (touchedSpot.x >= 1 &&
+                                                touchedSpot.x <= 12) {
+                                              monthLabel = monthNames[
+                                                  touchedSpot.x.toInt()];
+                                            }
+                                            return LineTooltipItem(
+                                              'Month: ${monthLabel}\nCycle Length: ${touchedSpot.y.toStringAsFixed(0)}',
+                                              const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                              ),
+                                            );
+                                          }).toList();
+                                        },
+                                      ),
+                                    ),
+                                    gridData: FlGridData(show: false),
+                                    // Hide grid lines
+                                    titlesData: FlTitlesData(
+                                      leftTitles: AxisTitles(
+                                        sideTitles: SideTitles(
+                                          showTitles:
+                                              true, // Hide left titles (labels)
+                                          reservedSize: 15,
+                                          interval: 5,
+                                          getTitlesWidget: (value, meta) {
+                                            return Text(
+                                              value.toStringAsFixed(0),
+                                              // Format Y-axis values
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      bottomTitles: AxisTitles(
+                                        sideTitles: SideTitles(
+                                          getTitlesWidget: (data, meta) {
+                                            const monthNames = [
+                                              '', // index 0 is unused to align 1-based month numbers
+                                              'Jan', 'Feb', 'Mar', 'Apr', 'May',
+                                              'Jun',
+                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                                              'Dec'
+                                            ];
+
+                                            String monthLabel = '';
+                                            if (data >= 1 && data <= 12) {
+                                              monthLabel =
+                                                  monthNames[data.toInt()];
+                                            }
+
+                                            return Text(
+                                              monthLabel,
+                                              // Format X-axis values
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                              ),
+                                            );
+                                          },
+                                          reservedSize: 26,
+                                          showTitles:
+                                              true, // Hide bottom titles (labels)
+                                        ),
+                                      ),
+                                      topTitles: AxisTitles(
+                                        // Hide top titles if any
+                                        sideTitles: SideTitles(
+                                          showTitles:
+                                              false, // Hide top titles (labels)
+                                        ),
+                                      ),
+                                      rightTitles: AxisTitles(
+                                        // Hide right titles if any
+                                        sideTitles: SideTitles(
+                                          showTitles:
+                                              false, // Hide right titles (labels)
+                                        ),
+                                      ),
+                                    ),
+                                    borderData: FlBorderData(
+                                      show: true,
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 204, 207, 209),
+                                        width: 0.5,
+                                      ),
+                                    ),
+                                    minX: 0,
+                                    maxX: 5,
+                                    minY: 0,
+                                    maxY: 45,
+                                    lineBarsData: [
+                                      LineChartBarData(
+                                        spots: mViewModel.scaledSpots,
+                                        isCurved: true,
+                                        color: CommonColors.primaryColor
+                                            .withOpacity(0.2),
+                                        dotData: FlDotData(
+                                            show: true,
+                                            getDotPainter:
+                                                (value, data, bardata, index) {
+                                              return FlDotCirclePainter(
+                                                radius: 4,
+                                                color: CommonColors.primaryColor
+                                                    .withOpacity(0.2),
+                                                strokeWidth: 2,
+                                                strokeColor: CommonColors
+                                                    .primaryColor
+                                                    .withOpacity(0.2),
+                                              );
+                                            }),
+                                        belowBarData: BarAreaData(
+                                          show: false,
+                                          color: CommonColors.primaryColor
+                                              .withOpacity(
+                                                  0.2), // Color below the line
+                                        ),
+                                        aboveBarData: BarAreaData(
+                                          show: false,
+                                          color: Colors.blue.withOpacity(
+                                              0.8), // Color above the line
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              kCommonSpaceV10,
+                            ],
+                          ),
+                          // Add more widgets if needed (e.g. LineChart or additional content)
+                        ],
+                      ),
                     ),
-                  )),
-              if (isCycle && mViewModel.dataList.isNotEmpty)
-                IntrinsicHeight(
-                  child: Container(
+                  ),
+                kCommonSpaceV20,
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFEAF6FF),
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          symp = !symp;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              /*Icon(
+                                Icons.featured_play_list_outlined,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgSymptons, height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'Symptoms',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    )),
+                if (symp)
+                  Container(
                     padding: const EdgeInsets.only(
                       top: 20,
                       left: 10,
@@ -813,694 +1117,321 @@ class _DashboardViewState extends State<DashboardView> {
                     ),
                     color: CommonColors.mGrey200,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Wrap the Table in a vertical SingleChildScrollView
-                        SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: SizedBox(
-                              width: 600,
-                              child: Table(
-                                border: TableBorder.all(
-                                  width: 0.5,
-                                  color: const Color.fromARGB(255, 128, 127,
-                                      127), // Border color for the entire table
+                        _symptomsCell(context, 'Flow',
+                            'Heavy Menstrual Bleeding', imageList),
+                        _symptomsCell(
+                            context,
+                            'Pain',
+                            'Pain Insufficient data! Please log your symptoms for all period dates for more accurate predictions.',
+                            imageList),
+                        _symptomsCell(context, 'Stress', '', imageList),
+                        _symptomsCell(context, 'Acne', '', acneImageList)
+                      ],
+                    ),
+                  ),
+                kCommonSpaceV20,
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFFFFBED),
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          track = !track;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              /*Icon(
+                                Icons.track_changes,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgTrack, height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'Track',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                children: [
-                                  // Header Row with Background Color
-                                  TableRow(
-                                    decoration: BoxDecoration(
-                                        // Background color for header row
-                                        ),
-                                    children: [
-                                      _tableCell(
-                                          'No.',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.5)),
-                                      _tableCell(
-                                          'Period Date (start-end)',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.2)),
-                                      _tableCell(
-                                          'Cycle Length (days)',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.5)),
-                                      _tableCell(
-                                          'Deviation (days)',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.5)),
-                                      _tableCell(
-                                          'Interpretation',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.2)),
-                                      _tableCell(
-                                          'Period Length (days)',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.2)),
-                                      _tableCell(
-                                          'Deviation (days)',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.5)),
-                                      _tableCell(
-                                          'Interpretation',
-                                          CommonColors.primaryColor
-                                              .withOpacity(0.2)),
-                                    ],
-                                  ),
-                                  // Data Rows
-                                  for (int index = 0;
-                                      index < mViewModel.dataList.length;
-                                      index++)
-                                    TableRow(
-                                      children: [
-                                        _tableCell((index + 1).toString(),
-                                            CommonColors.mWhite),
-                                        _tableCell(
-                                            mViewModel.dataList[index]
-                                                    .periodDate ??
-                                                '',
-                                            CommonColors.mWhite),
-                                        _tableCell(
-                                            mViewModel.dataList[index]
-                                                    .periodCycleLength ??
-                                                '',
-                                            CommonColors.mWhite),
-                                        _tableCell(
-                                            (mViewModel.dataList[index]
-                                                        .cycleLengthDeviation ??
-                                                    0)
-                                                .toString(),
-                                            CommonColors.mWhite),
-                                        TableCell(
-                                          child: Container(
-                                            color: CommonColors.mWhite,
-                                            height: 70,
-                                            width: 120,
-                                            padding: const EdgeInsets.all(5),
-                                            alignment: Alignment.center,
-                                            child: !(mViewModel.dataList[index]
-                                                        .cycleLengthInterpretation ??
-                                                    true)
-                                                ? Icon(Icons.warning_rounded,
-                                                    color: Colors.red, size: 25)
-                                                : Icon(Icons.thumb_up,
-                                                    color: Colors.green,
-                                                    size: 25),
-                                          ),
-                                        ),
-                                        _tableCell(
-                                            mViewModel.dataList[index]
-                                                    .periodLength ??
-                                                '',
-                                            CommonColors.mWhite),
-                                        _tableCell(
-                                            (mViewModel.dataList[index]
-                                                        .periodLengthDeviation ??
-                                                    0)
-                                                .toString(),
-                                            CommonColors.mWhite),
-                                        TableCell(
-                                          child: Container(
-                                            color: CommonColors.mWhite,
-                                            height: 70,
-                                            width: 120,
-                                            padding: const EdgeInsets.all(5),
-                                            alignment: Alignment.center,
-                                            child: !(mViewModel.dataList[index]
-                                                        .periodLengthInterpretation ??
-                                                    true)
-                                                ? Icon(Icons.warning_rounded,
-                                                    color: Colors.red, size: 25)
-                                                : Icon(Icons.thumb_up,
-                                                    color: Colors.green,
-                                                    size: 25),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                ],
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-
-                        kCommonSpaceV20,
-                        CycleInfoCard(),
-                        kCommonSpaceV20,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Last 3 Peroids",
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              "Duration",
-                              style: TextStyle(
-                                color: const Color.fromARGB(255, 139, 134, 134),
-                                fontSize: 12,
-                              ),
-                            ),
-                            kCommonSpaceV10,
-                            Container(
-                              height: 400,
-                              color: Colors.white,
-                              padding: EdgeInsets.all(25),
-                              child: LineChart(
-                                LineChartData(
-                                  lineTouchData: LineTouchData(
-                                    handleBuiltInTouches:
-                                        true, // Enables tap/touch
-                                    touchTooltipData: LineTouchTooltipData(
-                                      tooltipRoundedRadius: 8,
-                                      fitInsideHorizontally: true,
-                                      fitInsideVertically: true,
-                                      getTooltipItems: (touchedSpots) {
-                                        return touchedSpots.map((touchedSpot) {
-                                          const monthNames = [
-                                            '', // index 0 is unused to align 1-based month numbers
-                                            'Jan', 'Feb', 'Mar', 'Apr', 'May',
-                                            'Jun',
-                                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                                            'Dec'
-                                          ];
-
-                                          String monthLabel = '';
-                                          if (touchedSpot.x >= 1 &&
-                                              touchedSpot.x <= 12) {
-                                            monthLabel = monthNames[
-                                                touchedSpot.x.toInt()];
-                                          }
-                                          return LineTooltipItem(
-                                            'Month: ${monthLabel}\nCycle Length: ${touchedSpot.y.toStringAsFixed(0)}',
-                                            const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          );
-                                        }).toList();
-                                      },
-                                    ),
-                                  ),
-                                  gridData: FlGridData(show: false),
-                                  // Hide grid lines
-                                  titlesData: FlTitlesData(
-                                    leftTitles: AxisTitles(
-                                      sideTitles: SideTitles(
-                                        showTitles:
-                                            true, // Hide left titles (labels)
-                                        reservedSize: 15,
-                                        interval: 5,
-                                        getTitlesWidget: (value, meta) {
-                                          return Text(
-                                            value.toStringAsFixed(0),
-                                            // Format Y-axis values
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    bottomTitles: AxisTitles(
-                                      sideTitles: SideTitles(
-                                        getTitlesWidget: (data, meta) {
-                                          const monthNames = [
-                                            '', // index 0 is unused to align 1-based month numbers
-                                            'Jan', 'Feb', 'Mar', 'Apr', 'May',
-                                            'Jun',
-                                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                                            'Dec'
-                                          ];
-
-                                          String monthLabel = '';
-                                          if (data >= 1 && data <= 12) {
-                                            monthLabel =
-                                                monthNames[data.toInt()];
-                                          }
-
-                                          return Text(
-                                            monthLabel,
-                                            // Format X-axis values
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                            ),
-                                          );
-                                        },
-                                        reservedSize: 26,
-                                        showTitles:
-                                            true, // Hide bottom titles (labels)
-                                      ),
-                                    ),
-                                    topTitles: AxisTitles(
-                                      // Hide top titles if any
-                                      sideTitles: SideTitles(
-                                        showTitles:
-                                            false, // Hide top titles (labels)
-                                      ),
-                                    ),
-                                    rightTitles: AxisTitles(
-                                      // Hide right titles if any
-                                      sideTitles: SideTitles(
-                                        showTitles:
-                                            false, // Hide right titles (labels)
-                                      ),
-                                    ),
-                                  ),
-                                  borderData: FlBorderData(
-                                    show: true,
-                                    border: Border.all(
-                                      color: const Color.fromARGB(
-                                          255, 204, 207, 209),
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                  minX: 0,
-                                  maxX: 5,
-                                  minY: 0,
-                                  maxY: 45,
-                                  lineBarsData: [
-                                    LineChartBarData(
-                                      spots: mViewModel.scaledSpots,
-                                      isCurved: true,
-                                      color: CommonColors.primaryColor
-                                          .withOpacity(0.2),
-                                      dotData: FlDotData(
-                                          show: true,
-                                          getDotPainter:
-                                              (value, data, bardata, index) {
-                                            return FlDotCirclePainter(
-                                              radius: 4,
-                                              color: CommonColors.primaryColor
-                                                  .withOpacity(0.2),
-                                              strokeWidth: 2,
-                                              strokeColor: CommonColors
-                                                  .primaryColor
-                                                  .withOpacity(0.2),
-                                            );
-                                          }),
-                                      belowBarData: BarAreaData(
-                                        show: false,
-                                        color: CommonColors.primaryColor
-                                            .withOpacity(
-                                                0.2), // Color below the line
-                                      ),
-                                      aboveBarData: BarAreaData(
-                                        show: false,
-                                        color: Colors.blue.withOpacity(
-                                            0.8), // Color above the line
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            kCommonSpaceV10,
-                          ],
-                        ),
-                        // Add more widgets if needed (e.g. LineChart or additional content)
-                      ],
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    )),
+                if (track)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 10,
+                      right: 10,
+                      bottom: 20,
                     ),
-                  ),
-                ),
-
-              kCommonSpaceV20,
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFEAF6FF),
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        symp = !symp;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    color: CommonColors.mGrey200,
+                    child: Column(
                       children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.featured_play_list_outlined,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgSymptons, height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'Symptoms',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  )),
+                        //  mViewModelMedication.storedOtherMedicineList
 
-              if (symp)
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 10,
-                    right: 10,
-                    bottom: 20,
-                  ),
-                  color: CommonColors.mGrey200,
-                  child: Column(
-                    children: [
-                      _symptomsCell(context, 'Flow', 'Heavy Menstrual Bleeding',
-                          imageList),
-                      _symptomsCell(
-                          context,
-                          'Pain',
-                          'Pain Insufficient data! Please log your symptoms for all period dates for more accurate predictions.',
-                          imageList),
-                      _symptomsCell(context, 'Stress', '', imageList),
-                      _symptomsCell(context, 'Acne', '', acneImageList)
-                    ],
-                  ),
-                ),
-
-              kCommonSpaceV20,
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFFFFBED),
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        track = !track;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.track_changes,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgTrack, height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'Track',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  )),
-              if (track)
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 10,
-                    right: 10,
-                    bottom: 20,
-                  ),
-                  color: CommonColors.mGrey200,
-                  child: Column(
-                    children: [
-                      //  mViewModelMedication.storedOtherMedicineList
-
-                      for (int index = 0;
-                          index <
-                              mAilmentsViewModel.storedOtherAilmentsList.length;
-                          index++)
+                        for (int index = 0;
+                            index <
+                                mAilmentsViewModel
+                                    .storedOtherAilmentsList.length;
+                            index++)
+                          _track(
+                              context,
+                              'Medication',
+                              mAilmentsViewModel.storedOtherAilmentsList[index]
+                                  .toString(),
+                              '',
+                              '',
+                              LocalImages.img_pill,
+                              '0.50mg, once a day, 5 month course'),
                         _track(
                             context,
-                            'Medication',
-                            mAilmentsViewModel.storedOtherAilmentsList[index]
-                                .toString(),
+                            'Prescription',
+                            'Thyroid prescription.jpg',
+                            LocalImages.view,
+                            LocalImages.download,
                             '',
-                            '',
-                            LocalImages.img_pill,
-                            '0.50mg, once a day, 5 month course'),
-                      _track(
-                          context,
-                          'Prescription',
-                          'Thyroid prescription.jpg',
-                          LocalImages.view,
-                          LocalImages.download,
-                          '',
-                          ''),
-                      _weight_bmi(context, 'Weight & BMI',
-                          mViewModelWeight.weightHistory),
-                      kCommonSpaceV20,
-                      Text(
-                        'Sleep Cycle Overview',
-                        style: getAppStyle(
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 14,
+                            ''),
+                        _weight_bmi(context, 'Weight & BMI',
+                            mViewModelWeight.weightHistory),
+                        kCommonSpaceV20,
+                        Text(
+                          'Sleep Cycle Overview',
+                          style: getAppStyle(
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                      kCommonSpaceV20,
-                      SleepBarData.length != 0
-                          ? SizedBox(
-                              height: 160,
-                              child: BarChart(
-                                BarChartData(
-                                  borderData: FlBorderData(
-                                    border: const Border(
+                        kCommonSpaceV20,
+                        SleepBarData.length != 0
+                            ? SizedBox(
+                                height: 160,
+                                child: BarChart(
+                                  BarChartData(
+                                    borderData: FlBorderData(
+                                      border: const Border(
+                                        top: BorderSide.none,
+                                        right: BorderSide.none,
+                                        left: BorderSide(width: 1),
+                                        bottom: BorderSide(width: 1),
+                                      ),
+                                    ),
+                                    groupsSpace: 10,
+                                    barGroups: [
+                                      for (var bdata in SleepBarData)
+                                        BarChartGroupData(
+                                          x: bdata.xdata,
+                                          barRods: [
+                                            BarChartRodData(
+                                              fromY: 0,
+                                              toY: double.parse(bdata.ydata),
+                                              width: 15,
+                                              color: const Color.fromARGB(
+                                                  255, 111, 64, 133),
+                                              borderRadius: BorderRadius
+                                                  .zero, // Remove radius by setting to zero
+                                            ),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : kCommonSpaceV20,
+                        kCommonSpaceV20,
+                        kCommonSpaceV20,
+                        Text(
+                          'Water Intake',
+                          style: getAppStyle(
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 14,
+                          ),
+                        ),
+                        kCommonSpaceV20,
+                        WaterInteke.length != 0
+                            ? SizedBox(
+                                height: 160,
+                                child: BarChart(
+                                  BarChartData(
+                                    borderData: FlBorderData(
+                                        border: const Border(
                                       top: BorderSide.none,
                                       right: BorderSide.none,
                                       left: BorderSide(width: 1),
                                       bottom: BorderSide(width: 1),
-                                    ),
+                                    )),
+                                    groupsSpace: 10,
+                                    barGroups: [
+                                      for (var bdata in WaterInteke)
+                                        BarChartGroupData(
+                                          x: bdata
+                                              .xdata, // Use a numeric index for X-axis
+                                          barRods: [
+                                            BarChartRodData(
+                                              fromY: 0,
+                                              toY: int.parse(bdata.ydata)
+                                                  .toDouble(),
+                                              // Water intake value
+                                              width: 15,
+                                              color: const Color.fromARGB(
+                                                  255, 111, 64, 133),
+                                              borderRadius: BorderRadius.zero,
+                                            ),
+                                          ],
+                                        ),
+                                    ],
                                   ),
-                                  groupsSpace: 10,
-                                  barGroups: [
-                                    for (var bdata in SleepBarData)
-                                      BarChartGroupData(
-                                        x: bdata.xdata,
-                                        barRods: [
-                                          BarChartRodData(
-                                            fromY: 0,
-                                            toY: double.parse(bdata.ydata),
-                                            width: 15,
-                                            color: const Color.fromARGB(
-                                                255, 111, 64, 133),
-                                            borderRadius: BorderRadius
-                                                .zero, // Remove radius by setting to zero
-                                          ),
-                                        ],
-                                      ),
-                                  ],
+                                ),
+                              )
+                            : kCommonSpaceV20,
+                        kCommonSpaceV20,
+                      ],
+                    ),
+                  ),
+                kCommonSpaceV20,
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFF8FFF0),
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          bodyq = !bodyq;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              /*Icon(
+                                Icons.sensor_occupied,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgBodyQuiz, height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'BodyQuiz',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            )
-                          : kCommonSpaceV20,
-                      kCommonSpaceV20,
-                      kCommonSpaceV20,
-                      Text(
-                        'Water Intake',
-                        style: getAppStyle(
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 14,
-                        ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
                       ),
-                      kCommonSpaceV20,
-                      WaterInteke.length != 0
-                          ? SizedBox(
-                              height: 160,
-                              child: BarChart(
-                                BarChartData(
-                                  borderData: FlBorderData(
-                                      border: const Border(
-                                    top: BorderSide.none,
-                                    right: BorderSide.none,
-                                    left: BorderSide(width: 1),
-                                    bottom: BorderSide(width: 1),
-                                  )),
-                                  groupsSpace: 10,
-                                  barGroups: [
-                                    for (var bdata in WaterInteke)
-                                      BarChartGroupData(
-                                        x: bdata
-                                            .xdata, // Use a numeric index for X-axis
-                                        barRods: [
-                                          BarChartRodData(
-                                            fromY: 0,
-                                            toY: int.parse(bdata.ydata)
-                                                .toDouble(),
-                                            // Water intake value
-                                            width: 15,
-                                            color: const Color.fromARGB(
-                                                255, 111, 64, 133),
-                                            borderRadius: BorderRadius.zero,
-                                          ),
-                                        ],
-                                      ),
-                                  ],
+                    )),
+                if (bodyq)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 10,
+                      right: 10,
+                      bottom: 20,
+                    ),
+                    color: CommonColors.mGrey200,
+                    child: Column(
+                      children: [
+                        _quizCell(
+                            context, 'PMC', 'Minimal or no PMS symptoms.'),
+                        _quizCell(context, 'PCO', 'Moderate PCO symptoms.'),
+                        _quizCell(context, 'Anaemia', 'Severe symptoms.'),
+                        _quizCell(context, 'Mental Health',
+                            'Heavy Menstrual Bleeding'),
+                      ],
+                    ),
+                  ),
+                kCommonSpaceV20,
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFF0EBFF),
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1, color: CommonColors.blackColor))),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          oth = !oth;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              /*Icon(
+                                Icons.vaccines,
+                                color: CommonColors.blackColor,
+                                size: 25,
+                              ),*/
+                              Image.asset(LocalImages.imgVaccination,
+                                  height: 25),
+                              kCommonSpaceH10,
+                              Text(
+                                'Vaccination',
+                                style: TextStyle(
+                                  color: CommonColors.blackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            )
-                          : kCommonSpaceV20,
-                      kCommonSpaceV20,
-                    ],
-                  ),
-                ),
-              kCommonSpaceV20,
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFF8FFF0),
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        bodyq = !bodyq;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.sensor_occupied,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgBodyQuiz, height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'BodyQuiz',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
+                            ],
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CommonColors.blackColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    )),
+                if (oth)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 10,
+                      right: 10,
+                      bottom: 20,
                     ),
-                  )),
-              if (bodyq)
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 10,
-                    right: 10,
-                    bottom: 20,
-                  ),
-                  color: CommonColors.mGrey200,
-                  child: Column(
-                    children: [
-                      _quizCell(context, 'PMC', 'Minimal or no PMS symptoms.'),
-                      _quizCell(context, 'PCO', 'Moderate PCO symptoms.'),
-                      _quizCell(context, 'Anaemia', 'Severe symptoms.'),
-                      _quizCell(
-                          context, 'Mental Health', 'Heavy Menstrual Bleeding'),
-                    ],
-                  ),
-                ),
-              kCommonSpaceV20,
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFF0EBFF),
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: CommonColors.blackColor))),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        oth = !oth;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            /*Icon(
-                              Icons.vaccines,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),*/
-                            Image.asset(LocalImages.imgVaccination, height: 25),
-                            kCommonSpaceH10,
-                            Text(
-                              'Vaccination',
-                              style: TextStyle(
-                                color: CommonColors.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: CommonColors.blackColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  )),
-              if (oth)
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 10,
-                    right: 10,
-                    bottom: 20,
-                  ),
-                  color: CommonColors.mGrey200,
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _text(
-                            'At what age did you get your first period ?', 16),
-                        kCommonSpaceV10,
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
+                    color: CommonColors.mGrey200,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _text('At what age did you get your first period ?',
+                              14),
+                          kCommonSpaceV10,
+                          Center(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -1549,456 +1480,513 @@ class _DashboardViewState extends State<DashboardView> {
                               ),
                             ),
                           ),
-                        ),
-                        kCommonSpaceV10,
-                        _text('Cervical Cancer Vaccine', 16),
-                        Row(
-                          children: [
-                            _radioBtn('Dose 1'),
-                            _radioBtn('Dose 2'),
-                            _radioBtn('none'),
-                          ],
-                        ),
-                        _text('HPV Vaccine', 16),
-                        Row(
-                          children: [
-                            _radioBtn('Dose 1'),
-                            _radioBtn('Dose 2'),
-                            _radioBtn('none'),
-                          ],
-                        ),
-                        _text('Do you have kids?', 16),
-                        Row(
-                          children: [
-                            _radioBtn('Yes'),
-                            _radioBtn('No'),
-                            SizedBox(width: 20),
-                            Text('How many?'),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (value) {
-                                  kidsCount = value;
-                                },
+                          kCommonSpaceV20,
+                          _text('Cervical Cancer Vaccine', 14),
+                          Wrap(
+                            children: [
+                              _radioBtn('Dose 1'),
+                              _radioBtn('Dose 2'),
+                              _radioBtn('none'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text('HPV Vaccine', 14),
+                          Wrap(
+                            children: [
+                              _radioBtn('Dose 1'),
+                              _radioBtn('Dose 2'),
+                              _radioBtn('none'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text('Do you have kids?', 14),
+                          Wrap(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                              SizedBox(width: 20),
+                              NumberDropdown(),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text('Are you pregnant?', 14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                LocalSvgs.womanFeeding,
+                                height: 22,
+                                width: 22,
+                                fit: BoxFit.contain,
                               ),
-                            ),
-                          ],
-                        ),
-                        _text('Are you trying to get pregnant?', 16),
-                        Row(
-                          children: [
-                            _radioBtn('Yes'),
-                            _radioBtn('No'),
-                          ],
-                        ),
-                        _text(
-                            'If you\'re 21 years or more, have you gotten a Pap smear in the past six months?',
-                            16),
-                        Row(
-                          children: [
-                            _radioBtn('Yes'),
-                            _radioBtn('No'),
-                          ],
-                        ),
-                        _text(
-                            'If you\'re 50 yrs or more, have you had any periods in the last year?',
-                            16),
-                        Row(
-                          children: [
-                            _radioBtn('Yes'),
-                            _radioBtn('No'),
-                          ],
-                        ),
-                        _text('Do you experience:', 16),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Hot Flushes'),
-                          value: hotFlushes,
-                          onChanged: (value) {
-                            setState(() {
-                              hotFlushes = value!;
-                            });
-                          },
-                        ),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Tiredness'),
-                          value: tiredness,
-                          onChanged: (value) {
-                            setState(() {
-                              tiredness = value!;
-                            });
-                          },
-                        ),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Mood Swings'),
-                          value: moodSwings,
-                          onChanged: (value) {
-                            setState(() {
-                              moodSwings = value!;
-                            });
-                          },
-                        ),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Vaginal Dryness'),
-                          value: vaginalDryness,
-                          onChanged: (value) {
-                            setState(() {
-                              vaginalDryness = value!;
-                            });
-                          },
-                        ),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Decreased Libido'),
-                          value: decreasedLibido,
-                          onChanged: (value) {
-                            setState(() {
-                              decreasedLibido = value!;
-                            });
-                          },
-                        ),
-                        CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text('Joint Pain'),
-                          value: jointPain,
-                          onChanged: (value) {
-                            setState(() {
-                              jointPain = value!;
-                            });
-                          },
-                        ),
-                        _displayBox(150,
-                            'If you’re experiencing above symptoms mentioned above, do not worry these are menopausal symptoms due to estrogen deficiency, consult a gynaecologist to start HRT (Hormone Replacement Therapy) to relieve these symptoms.'),
-                        _text(
-                            'Have you experienced postmenopausal spotting/bleeding after 1 year of stoppage of periods?',
-                            16),
-                        Row(
-                          children: [
-                            _radioBtn('Yes'),
-                            _radioBtn('No'),
-                          ],
-                        ),
-                        _displayBox(100,
-                            'Possible causes can be estrogen deficiency, vaginal dryness, or cancer.Get an ultrasound and a Pap Smear now!'),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity, // <-- match_parent
-                          height: 40, // <-- match-parent
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all<Color>(
-                                  CommonColors.primaryColor),
-                              foregroundColor:
-                                  WidgetStateProperty.all<Color>(Colors.white),
-                            ),
-                            child:
-                                Text('Submit', style: TextStyle(fontSize: 16)),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Switch to Pregnancy Mode',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: CommonColors.primaryColor,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          kCommonSpaceV20,
+                          _text('Are you trying to get pregnant?', 14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text(
+                              'Have you been trying since 12 months or more than that?',
+                              14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text(
+                              'If you\’re 21 years or more, have you gotten a Pap smear in the past six months?',
+                              14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text(
+                              'If you\'re 50 yrs or more, have you had any periods in the last year?',
+                              14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          kCommonSpaceV20,
+                          _text('Do you experience:', 14),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Hot Flushes',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: hotFlushes,
+                            onChanged: (value) {
+                              setState(() {
+                                hotFlushes = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Tiredness',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: tiredness,
+                            onChanged: (value) {
+                              setState(() {
+                                tiredness = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Mood Swings',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: moodSwings,
+                            onChanged: (value) {
+                              setState(() {
+                                moodSwings = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Vaginal Dryness',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: vaginalDryness,
+                            onChanged: (value) {
+                              setState(() {
+                                vaginalDryness = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Decreased Libido',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: decreasedLibido,
+                            onChanged: (value) {
+                              setState(() {
+                                decreasedLibido = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              'Joint Pain',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            value: jointPain,
+                            onChanged: (value) {
+                              setState(() {
+                                jointPain = value!;
+                              });
+                            },
+                          ),
+                          // _displayBox(150,
+                          //     'If you’re experiencing above symptoms mentioned above, do not worry these are menopausal symptoms due to estrogen deficiency, consult a gynaecologist to start HRT (Hormone Replacement Therapy) to relieve these symptoms.'),
+                          kCommonSpaceV20,
+                          _text(
+                              'Have you experienced postmenopausal spotting/bleeding after 1 year of stoppage of periods?',
+                              14),
+                          Row(
+                            children: [
+                              _radioBtn('Yes'),
+                              _radioBtn('No'),
+                            ],
+                          ),
+                          // _displayBox(100,
+                          //     'Possible causes can be estrogen deficiency, vaginal dryness, or cancer.Get an ultrasound and a Pap Smear now!'),
+                          SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity, // <-- match_parent
+                            height: 40, // <-- match-parent
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                    CommonColors.primaryColor),
+                                foregroundColor: WidgetStateProperty.all<Color>(
+                                    Colors.white),
+                              ),
+                              child: Text('Submit',
+                                  style: TextStyle(fontSize: 16)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+
+                /* Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFieldContainer(
+                        onTap: () {
+                          push(const AilmentsView());
+                        },
+                        color: CommonColors.mGrey200,
+                        labelText: "Medical conditions",
+                        controller: medicalConditionController,
+                        isReadOnly: true,
+                      ),
+                    ),
+                    kCommonSpaceH10,
+                    Expanded(
+                      child: CustomTextFieldContainer(
+                        onTap: () {
+                          push(MedicationView(
+                            aid: '',
+                          ));
+                        },
+                        color: primaryColorWithOpacity,
+                        labelText: "Medication",
+                        controller: medicationController,
+                        isReadOnly: true,
+                      ),
+                    ),
+                  ],
                 ),
-
-              /* Row(
-                children: [
-                  Expanded(
-                    child: CustomTextFieldContainer(
-                      onTap: () {
-                        push(const AilmentsView());
-                      },
-                      color: CommonColors.mGrey200,
-                      labelText: "Medical conditions",
-                      controller: medicalConditionController,
-                      isReadOnly: true,
-                    ),
-                  ),
-                  kCommonSpaceH10,
-                  Expanded(
-                    child: CustomTextFieldContainer(
-                      onTap: () {
-                        push(MedicationView(
-                          aid: '',
-                        ));
-                      },
-                      color: primaryColorWithOpacity,
-                      labelText: "Medication",
-                      controller: medicationController,
-                      isReadOnly: true,
-                    ),
-                  ),
-                ],
-              ),
-              kCommonSpaceV5,
-              CustomTextFieldContainer(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        child: StatefulBuilder(
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                kCommonSpaceV20,
-                                CommonGenderSelectBox(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedRelation = 1;
-                                      maritalStatusController.text = "Solo";
-                                    });
-                                  },
-                                  text: S.of(context)!.solo,
-                                  imagePath: LocalImages.img_solo,
-                                  isBoxFit: true,
-                                  isShowDefaultBorder: true,
-                                  isSelected: selectedRelation == 1,
-                                ),
-                                CommonGenderSelectBox(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedRelation = 2;
-                                      maritalStatusController.text = "Tied";
-                                    });
-                                  },
-                                  text: S.of(context)!.tied,
-                                  imagePath: LocalImages.img_tried,
-                                  isBoxFit: true,
-                                  isShowDefaultBorder: true,
-                                  isSelected: selectedRelation == 2,
-                                ),
-                                CommonGenderSelectBox(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedRelation = 3;
-                                      maritalStatusController.text =
-                                          "Open for surprise";
-                                    });
-                                  },
-                                  text: S.of(context)!.openForSur,
-                                  imagePath: LocalImages.img_open_for_surprises,
-                                  isShowDefaultBorder: true,
-                                  isBoxFit: true,
-                                  isSelected: selectedRelation == 3,
-                                ),
-                                kCommonSpaceV20,
-                              ],
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-                color: primaryColorWithOpacity,
-                labelText: "Marital status",
-                controller: maritalStatusController,
-                isReadOnly: true,
-              ),
-              kCommonSpaceV5,
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextFieldContainer(
-                      onTap: () {
-                        push(const WeightView());
-                      },
-                      color: primaryColorWithOpacity,
-                      labelText: "Weight",
-                      controller: weightController,
-                      isReadOnly: true,
-                    ),
-                  ),
-                  kCommonSpaceH10,
-                  Expanded(
-                    child: CustomTextFieldContainer(
-                      onTap: () {
-                        push(const BmiCalculatorView());
-                      },
-                      color: primaryColorWithOpacity,
-                      labelText: "BMI",
-                      controller: bmiController,
-                      isReadOnly: true,
-                    ),
-                  ),
-                ],
-              ),
-              kCommonSpaceV5,
-              CustomTextFieldContainer(
-                onTap: () {
-                  push(const EditPeriodDateView());
-                },
-                color: primaryColorWithOpacity,
-                labelText: "Date of last period",
-                controller: lastPeriodController,
-                isReadOnly: true,
-              ),
-              kCommonSpaceV5,
-              CustomTextFieldContainer(
-                onTap: () {
-                  push(const EditCycleLengthView());
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        child: Container(
-                          height: kDeviceHeight / 2,
+                kCommonSpaceV5,
+                CustomTextFieldContainer(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
                           child: StatefulBuilder(
                             builder:
                                 (BuildContext context, StateSetter setState) {
                               return Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   kCommonSpaceV20,
-                                  Text(
-                                    S.of(context)!.averageCycle,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.piedra(
-                                      color: CommonColors.primaryColor,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                  CommonGenderSelectBox(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedRelation = 1;
+                                        maritalStatusController.text = "Solo";
+                                      });
+                                    },
+                                    text: S.of(context)!.solo,
+                                    imagePath: LocalImages.img_solo,
+                                    isBoxFit: true,
+                                    isShowDefaultBorder: true,
+                                    isSelected: selectedRelation == 1,
                                   ),
-                                  Expanded(
-                                    child: ListWheelScrollView(
-                                      itemExtent: 100,
-                                      diameterRatio: .8,
-                                      perspective: 0.005,
-                                      physics: FixedExtentScrollPhysics(),
-                                      onSelectedItemChanged: (value) {
-                                        selectedCycleLength = value + 1;
-                                        cycleLengthController.text =
-                                            selectedCycleLength.toString();
-                                      },
-                                      children: List.generate(
-                                        45,
-                                        (index) => Container(
-                                          height: 120,
-                                          width: 120,
-                                          decoration: const BoxDecoration(
-                                            color: CommonColors.A43786,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "${index + 1}",
-                                            style: getAppStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600,
-                                                color: CommonColors.mWhite),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  CommonGenderSelectBox(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedRelation = 2;
+                                        maritalStatusController.text = "Tied";
+                                      });
+                                    },
+                                    text: S.of(context)!.tied,
+                                    imagePath: LocalImages.img_tried,
+                                    isBoxFit: true,
+                                    isShowDefaultBorder: true,
+                                    isSelected: selectedRelation == 2,
                                   ),
+                                  CommonGenderSelectBox(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedRelation = 3;
+                                        maritalStatusController.text =
+                                            "Open for surprise";
+                                      });
+                                    },
+                                    text: S.of(context)!.openForSur,
+                                    imagePath: LocalImages.img_open_for_surprises,
+                                    isShowDefaultBorder: true,
+                                    isBoxFit: true,
+                                    isSelected: selectedRelation == 3,
+                                  ),
+                                  kCommonSpaceV20,
                                 ],
                               );
                             },
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                color: primaryColorWithOpacity,
-                labelText: "Average cycle length (days)",
-                controller: cycleLengthController,
-                isReadOnly: true,
-              ),
-              kCommonSpaceV5,
-              CustomTextFieldContainer(
-                onTap: () {
-                  push(const EditPeriodLengthView());
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        child: Container(
-                          height: kDeviceHeight / 2,
-                          child: StatefulBuilder(
-                            builder:
-                                (BuildContext context, StateSetter setState) {
-                              return Column(
-                                children: [
-                                  kCommonSpaceV20,
-                                  Text(
-                                    S.of(context)!.averagePeriod,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.piedra(
-                                      color: CommonColors.primaryColor,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
+                        );
+                      },
+                    );
+                  },
+                  color: primaryColorWithOpacity,
+                  labelText: "Marital status",
+                  controller: maritalStatusController,
+                  isReadOnly: true,
+                ),
+                kCommonSpaceV5,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFieldContainer(
+                        onTap: () {
+                          push(const WeightView());
+                        },
+                        color: primaryColorWithOpacity,
+                        labelText: "Weight",
+                        controller: weightController,
+                        isReadOnly: true,
+                      ),
+                    ),
+                    kCommonSpaceH10,
+                    Expanded(
+                      child: CustomTextFieldContainer(
+                        onTap: () {
+                          push(const BmiCalculatorView());
+                        },
+                        color: primaryColorWithOpacity,
+                        labelText: "BMI",
+                        controller: bmiController,
+                        isReadOnly: true,
+                      ),
+                    ),
+                  ],
+                ),
+                kCommonSpaceV5,
+                CustomTextFieldContainer(
+                  onTap: () {
+                    push(const EditPeriodDateView());
+                  },
+                  color: primaryColorWithOpacity,
+                  labelText: "Date of last period",
+                  controller: lastPeriodController,
+                  isReadOnly: true,
+                ),
+                kCommonSpaceV5,
+                CustomTextFieldContainer(
+                  onTap: () {
+                    push(const EditCycleLengthView());
+        
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            height: kDeviceHeight / 2,
+                            child: StatefulBuilder(
+                              builder:
+                                  (BuildContext context, StateSetter setState) {
+                                return Column(
+                                  children: [
+                                    kCommonSpaceV20,
+                                    Text(
+                                      S.of(context)!.averageCycle,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.piedra(
+                                        color: CommonColors.primaryColor,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: ListWheelScrollView(
-                                      itemExtent: 100,
-                                      diameterRatio: .8,
-                                      physics: FixedExtentScrollPhysics(),
-                                      perspective: 0.004,
-                                      onSelectedItemChanged: (value) {
-                                        selectedPeriodsLength = value + 1;
-                                        periodLengthController.text =
-                                            selectedPeriodsLength.toString();
-                                      },
-                                      children: List.generate(
-                                        15,
-                                        (index) => Container(
-                                          height: 120,
-                                          width: 120,
-                                          decoration: const BoxDecoration(
-                                            color: CommonColors.A43786,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "${index + 1}",
-                                            style: getAppStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600,
-                                                color: CommonColors.mWhite),
+                                    Expanded(
+                                      child: ListWheelScrollView(
+                                        itemExtent: 100,
+                                        diameterRatio: .8,
+                                        perspective: 0.005,
+                                        physics: FixedExtentScrollPhysics(),
+                                        onSelectedItemChanged: (value) {
+                                          selectedCycleLength = value + 1;
+                                          cycleLengthController.text =
+                                              selectedCycleLength.toString();
+                                        },
+                                        children: List.generate(
+                                          45,
+                                          (index) => Container(
+                                            height: 120,
+                                            width: 120,
+                                            decoration: const BoxDecoration(
+                                              color: CommonColors.A43786,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "${index + 1}",
+                                              style: getAppStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: CommonColors.mWhite),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            },
+                                  ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                color: primaryColorWithOpacity,
-                labelText: "Average period length (days)",
-                controller: periodLengthController,
-                isReadOnly: true,
-              ),
-              kCommonSpaceV5,
-              CustomTextFieldContainer(
-                onTap: () {
-                  push(const InterestView());
-                },
-                color: primaryColorWithOpacity,
-                labelText: "Forum Interest",
-                controller: forumInterestController,
-                isReadOnly: true,
-              ), */
-            ],
+                        );
+                      },
+                    );
+                  },
+                  color: primaryColorWithOpacity,
+                  labelText: "Average cycle length (days)",
+                  controller: cycleLengthController,
+                  isReadOnly: true,
+                ),
+                kCommonSpaceV5,
+                CustomTextFieldContainer(
+                  onTap: () {
+                    push(const EditPeriodLengthView());
+        
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            height: kDeviceHeight / 2,
+                            child: StatefulBuilder(
+                              builder:
+                                  (BuildContext context, StateSetter setState) {
+                                return Column(
+                                  children: [
+                                    kCommonSpaceV20,
+                                    Text(
+                                      S.of(context)!.averagePeriod,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.piedra(
+                                        color: CommonColors.primaryColor,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListWheelScrollView(
+                                        itemExtent: 100,
+                                        diameterRatio: .8,
+                                        physics: FixedExtentScrollPhysics(),
+                                        perspective: 0.004,
+                                        onSelectedItemChanged: (value) {
+                                          selectedPeriodsLength = value + 1;
+                                          periodLengthController.text =
+                                              selectedPeriodsLength.toString();
+                                        },
+                                        children: List.generate(
+                                          15,
+                                          (index) => Container(
+                                            height: 120,
+                                            width: 120,
+                                            decoration: const BoxDecoration(
+                                              color: CommonColors.A43786,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "${index + 1}",
+                                              style: getAppStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: CommonColors.mWhite),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  color: primaryColorWithOpacity,
+                  labelText: "Average period length (days)",
+                  controller: periodLengthController,
+                  isReadOnly: true,
+                ),
+                kCommonSpaceV5,
+                CustomTextFieldContainer(
+                  onTap: () {
+                    push(const InterestView());
+                  },
+                  color: primaryColorWithOpacity,
+                  labelText: "Forum Interest",
+                  controller: forumInterestController,
+                  isReadOnly: true,
+                ), */
+              ],
+            ),
           ),
         ),
       ),
@@ -2715,7 +2703,7 @@ Widget _text(text, double size) {
       text,
       style: TextStyle(
         fontSize: size, // You can adjust text size here
-        fontWeight: FontWeight.bold, // Bold text
+        fontWeight: FontWeight.w500, // Bold text
         color: const Color.fromARGB(255, 5, 5, 5), // Text color
       ),
     ),
@@ -2726,7 +2714,7 @@ Widget _radioBtn(text) {
   return Container(
     clipBehavior: Clip.antiAlias,
     height: 40,
-    // width: 120,
+    width: 120,
     margin: EdgeInsets.all(5),
     decoration: ShapeDecoration(
       color: CommonColors.mWhite,
@@ -2749,8 +2737,11 @@ Widget _radioBtn(text) {
       children: [
         Radio(value: 4, groupValue: 1, onChanged: (value) {}),
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: Text(text),
+          padding: EdgeInsets.only(right: 12.0),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 14),
+          ),
         ),
       ],
     ),

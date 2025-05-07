@@ -49,129 +49,91 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldBG(
-      child: Builder(builder: (context) {
-        var lang = Provider.of<AppModel>(context).locale;
-        return Scaffold(
-          backgroundColor: CommonColors.mTransparent,
-          body: Center(
-            child: SingleChildScrollView(
-              padding: kCommonScreenPadding,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      height: kDeviceHeight / 3,
-                      LocalImages.img_naveli_speaker,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(LocalImages.img_image_error);
-                      },
-                    ),
-                    kCommonSpaceV20,
-                    Text(
-                      S.of(context)!.yatriGanDhyanDe,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: ScaffoldBG(
+        child: Builder(builder: (context) {
+          var lang = Provider.of<AppModel>(context).locale;
+          return Scaffold(
+            backgroundColor: CommonColors.mTransparent,
+            body: Center(
+              child: SingleChildScrollView(
+                padding: kCommonScreenPadding,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        height: kDeviceHeight / 3,
+                        LocalImages.img_naveli_speaker,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(LocalImages.img_image_error);
+                        },
                       ),
-                    ),
-                    kCommonSpaceV10,
-                    if (lang != "hi")
+                      kCommonSpaceV20,
                       Text(
-                        "Terms & Conditions*",
+                        S.of(context)!.yatriGanDhyanDe,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      kCommonSpaceV10,
+                      if (lang != "hi")
+                        Text(
+                          "Terms & Conditions*",
+                          style: TextStyle(
+                            color: CommonColors.blackColor,
+                            fontSize: 18,
+                            height: 1,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      kCommonSpaceV20,
+                      Text(
+                        S.of(context)!.tcTitle,
                         style: TextStyle(
                           color: CommonColors.blackColor,
-                          fontSize: 18,
-                          height: 1,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontWeight:
+                              lang == "hi" ? FontWeight.w300 : FontWeight.w500,
                         ),
                       ),
-                    kCommonSpaceV20,
-                    Text(
-                      S.of(context)!.tcTitle,
-                      style: TextStyle(
-                        color: CommonColors.blackColor,
-                        fontSize: 16,
-                        fontWeight:
-                            lang == "hi" ? FontWeight.w300 : FontWeight.w500,
-                      ),
-                    ),
-                    kCommonSpaceV5,
-                    kCommonSpaceV5,
-                    Text(
-                      S.of(context)!.tcSubtitle,
-                      style: TextStyle(
-                        color: CommonColors.blackColor,
-                        fontSize: 16,
-                        fontWeight:
-                            lang == "hi" ? FontWeight.w300 : FontWeight.w500,
-                      ),
-                    ),
-                    kCommonSpaceV20,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          activeColor: CommonColors.primaryColor,
-                          value: isCheckedTermsOfService,
-                          onChanged: (bool? newValue) {
-                            setState(() {
-                              isCheckedTermsOfService = newValue ?? false;
-                            });
-                          },
+                      kCommonSpaceV5,
+                      kCommonSpaceV5,
+                      Text(
+                        S.of(context)!.tcSubtitle,
+                        style: TextStyle(
+                          color: CommonColors.blackColor,
+                          fontSize: 16,
+                          fontWeight:
+                              lang == "hi" ? FontWeight.w300 : FontWeight.w500,
                         ),
-                        Text(
-                          S.of(context)!.iAgree,
-                          style: getAppStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                        ),
-                        Expanded(
-                          child: Text(
-                            S.of(context)!.termsOfServices,
-                            overflow: TextOverflow.ellipsis,
-                            style: getAppStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: CommonColors.primaryColor),
+                      ),
+                      kCommonSpaceV20,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                            activeColor: CommonColors.primaryColor,
+                            value: isCheckedTermsOfService,
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                isCheckedTermsOfService = newValue ?? false;
+                              });
+                            },
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          activeColor: CommonColors.primaryColor,
-                          value: isCheckedPrivacyPolicy,
-                          onChanged: (bool? newValue) {
-                            setState(() {
-                              isCheckedPrivacyPolicy = newValue ?? false;
-                            });
-                          },
-                        ),
-                        if (lang == "hi")
-                          Expanded(
-                            child: Text(
-                              S.of(context)!.iHaveReadClue,
-                              style: getAppStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        if (lang != 'hi')
                           Text(
-                            S.of(context)!.iHaveReadClue,
+                            S.of(context)!.iAgree,
                             style: getAppStyle(
                                 fontSize: 15, fontWeight: FontWeight.w500),
                           ),
-                        if (lang != 'hi')
                           Expanded(
                             child: Text(
-                              S.of(context)!.privacyPolicy,
+                              S.of(context)!.termsOfServices,
                               overflow: TextOverflow.ellipsis,
                               style: getAppStyle(
                                   fontSize: 15,
@@ -179,31 +141,71 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                                   color: CommonColors.primaryColor),
                             ),
                           ),
-                      ],
-                    ),
-
-                    kCommonSpaceV50,
-                    // kCommonSpaceV20,
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: PrimaryButton(
-                        width: kDeviceWidth / 1.3,
-                        onPress: () {
-                          if (isValid()) {
-                            pushReplacement(const StateSelectionView());
-                          }
-                        },
-                        label: S.of(context)!.accept,
+                        ],
                       ),
-                    ),
-                    kCommonSpaceV15,
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                            activeColor: CommonColors.primaryColor,
+                            value: isCheckedPrivacyPolicy,
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                isCheckedPrivacyPolicy = newValue ?? false;
+                              });
+                            },
+                          ),
+                          if (lang == "hi")
+                            Expanded(
+                              child: Text(
+                                S.of(context)!.iHaveReadClue,
+                                style: getAppStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          if (lang != 'hi')
+                            Text(
+                              S.of(context)!.iHaveReadClue,
+                              style: getAppStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w500),
+                            ),
+                          if (lang != 'hi')
+                            Expanded(
+                              child: Text(
+                                S.of(context)!.privacyPolicy,
+                                overflow: TextOverflow.ellipsis,
+                                style: getAppStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: CommonColors.primaryColor),
+                              ),
+                            ),
+                        ],
+                      ),
+
+                      kCommonSpaceV50,
+                      // kCommonSpaceV20,
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: PrimaryButton(
+                          width: kDeviceWidth / 1.3,
+                          onPress: () {
+                            if (isValid()) {
+                              pushReplacement(const StateSelectionView());
+                            }
+                          },
+                          label: S.of(context)!.accept,
+                        ),
+                      ),
+                      kCommonSpaceV15,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 

@@ -453,3 +453,7 @@ class LocalImages {
   static const String imgBodyQuiz = 'assets/images/ic_body_quiz.png';
   static const String imgVaccination = 'assets/images/ic_vaccination.png';
 }
+
+class LocalSvgs {
+  static const String womanFeeding = 'assets/svgs/woman_feeding.svg';
+}

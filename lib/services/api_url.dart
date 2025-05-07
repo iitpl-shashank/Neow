@@ -104,4 +104,6 @@ class ApiUrl {
   static const String getHealthMixCategoryList =
       "${BASE_URL}healthMixCategoryList";
   static const String getHealthMixLatestVideoList = "${BASE_URL}healthMixList";
+  static const String getUserSymptomsReport =
+      "${BASE_URL}userReportSymptomsLogs";
 }

@@ -215,16 +215,16 @@ class _WelcomeViewState extends State<WelcomeView> {
           showCloseIcon: true,
           icon: Images.briefcase,
         );
+      } else {
+        await showCustomDialog(
+          context: context,
+          icon: Images.dangerSign,
+          showCloseIcon: true,
+          showPurpleButton: true,
+          title: S.of(context)!.keepTrying,
+          options: [DialogOption(S.of(context)!.clickHere, "click")],
+        );
       }
-    } else {
-      await showCustomDialog(
-        context: context,
-        icon: Images.dangerSign,
-        showCloseIcon: true,
-        showPurpleButton: true,
-        title: S.of(context)!.keepTrying,
-        options: [DialogOption(S.of(context)!.clickHere, "click")],
-      );
     }
   }
 
@@ -1170,7 +1170,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                                     width: MediaQuery.of(context).size.width,
                                     child: Stack(children: [
                                       Transform.scale(
-                                          scale: 1.2,
+                                        scale: 1.2,
                                         child: Align(
                                           child: Image.asset(
                                             LocalImages.heartHands,
