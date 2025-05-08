@@ -139,8 +139,7 @@ class _ProfileViewState extends State<ProfileView> {
                       CommonProfileMenu(
                         color: Color(0xFFFAEEFF),
                         text: S.of(context)!.myHealthReports,
-                        text2:
-                            'View and access all your\n health reports here.',
+                        text2: S.of(context)!.viewAndAccessAllYourReport,
                         isLast: false,
                         onTap: () {
                           push(const DashboardView());
@@ -156,7 +155,7 @@ class _ProfileViewState extends State<ProfileView> {
                     CommonProfileMenu(
                       color: Color(0xFFFFF1F1),
                       text: S.of(context)!.aboutUs,
-                      text2: 'Mission and values text\n here.',
+                      text2: S.of(context)!.missionAndVision,
                       isLast: false,
                       onTap: () {
                         push(const AboutUs());
@@ -164,8 +163,8 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     CommonProfileMenu(
                       color: Color(0xFFEAF6FF),
-                      text: '${S.of(context)!.reminder}s',
-                      text2: 'Mission and Values text\n here.',
+                      text: S.of(context)!.reminders,
+                      text2: S.of(context)!.timelyReminders,
                       isLast: false,
                       // onTap: () {
                       //   push(SettingsView());
@@ -174,7 +173,7 @@ class _ProfileViewState extends State<ProfileView> {
                     CommonProfileMenu(
                       color: Color(0xFFFFFBED),
                       text: S.of(context)!.help,
-                      text2: 'Mission and Values text\n here.',
+                      text2: S.of(context)!.findAnswersAndAssistance,
                       isLast: false,
                       onTap: () {
                         push(const HelpView());
@@ -183,7 +182,7 @@ class _ProfileViewState extends State<ProfileView> {
                     CommonProfileMenu(
                       color: Color(0xFFF8FFF0),
                       text: S.of(context)!.settings,
-                      text2: 'Mission and Values text\n here.',
+                      text2: S.of(context)!.controlYourAppSettings,
                       isLast: false,
                       onTap: () {
                         push(const SettingsView());
@@ -192,14 +191,20 @@ class _ProfileViewState extends State<ProfileView> {
                     CommonProfileMenu(
                         color: Color(0xFFF0EBFF),
                         text: S.of(context)!.rateUs,
-                        text2: 'Mission and Values text\n here.',
-                        isLast: true),
+                        text2: '',
+                        isLast: false),
+                    CommonProfileMenu(
+                      color: Color(0xFFEAF6FF),
+                      text: S.of(context)!.shareNeowApp,
+                      text2: S.of(context)!.shareAppWithFriends,
+                      isLast: true,
+                    ),
                   ],
                 ),
               ),
               kCommonSpaceV50,
               Text(
-                "Follow us on:",
+                S.of(context)!.followUsOn,
                 style: TextStyle(
                   color: CommonColors.blackColor,
                   fontSize: 15,

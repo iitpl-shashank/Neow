@@ -1,6 +1,7 @@
 import 'package:http/http.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/signup_master.dart';
+import 'package:naveli_2023/models/vaccination_model.dart';
 
 import '../models/about_us_master.dart';
 import '../models/about_your_cycle_master.dart';
@@ -243,5 +244,8 @@ abstract class BaseServices {
       {required Map<String, dynamic> params});
 
   Future<SymptomReportModel?> getSymptomReportList(
+      {required Map<String, dynamic> params});
+
+  Future<VaccinationModel?> saveVaccinationInfo(
       {required Map<String, dynamic> params});
 }

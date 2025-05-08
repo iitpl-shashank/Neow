@@ -60,8 +60,7 @@ class SplashViewModel with ChangeNotifier {
 
   void onFinishGIF() {
     pushAndRemoveUntil(const SelectOptionView());
-    AppPreferences.instance
-        .setIsFirstTime(false);
+    AppPreferences.instance.setIsFirstTime(false);
     // pushAndRemoveUntil(const StateSelectionView());
   }
 
@@ -112,12 +111,12 @@ class SplashViewModel with ChangeNotifier {
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,
       );
     }
-    // below condition check if session is expired or not
-    // if (master?.isSessionExpired ?? false) {
-    //   // if session is expired then we got [isSessionExpired = true] then
-    //   // we have to remove all saved data from local preference and redirect user to login screen
-    //   clearPreference();
-    // }
+    // TODO : below condition check if session is expired or not
+    if (master?.isSessionExpired ?? false) {
+      // if session is expired then we got [isSessionExpired = true] then
+      // we have to remove all saved data from local preference and redirect user to login screen
+      clearPreference();
+    }
   }
 
   Future<void> logoutApi() async {

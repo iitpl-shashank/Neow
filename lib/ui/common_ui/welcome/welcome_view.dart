@@ -110,6 +110,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           mDateController.text =
               CommonUtils.dateFormatyyyyMMDD(picked.toString());
           int age = calculateAge(mDateController.text);
+          mViewModel.setAge(age);
           debugPrint("Age===>: $age");
 
           if (age >= 9 && age <= 25) {
@@ -145,7 +146,9 @@ class _WelcomeViewState extends State<WelcomeView> {
       title: S.of(context)!.gottonYourselfVaccinated,
       options: [
         DialogOption(S.of(context)!.yes, "yes"),
-        DialogOption(S.of(context)!.no, "no"),
+        DialogOption(S.of(context)!.no, "no", onClick: () async {
+          mViewModel.setCancerVaccine(0);
+        }),
       ],
     );
 
@@ -155,8 +158,12 @@ class _WelcomeViewState extends State<WelcomeView> {
         title: S.of(context)!.howManyDoseTaken,
         isHorizontal: true,
         options: [
-          DialogOption(S.of(context)!.dose1, "1"),
-          DialogOption(S.of(context)!.dose2, "2"),
+          DialogOption(S.of(context)!.dose1, "1", onClick: () async {
+            mViewModel.setCancerVaccine(1);
+          }),
+          DialogOption(S.of(context)!.dose2, "2", onClick: () async {
+            mViewModel.setCancerVaccine(2);
+          }),
         ],
       );
 
@@ -192,8 +199,12 @@ class _WelcomeViewState extends State<WelcomeView> {
       context: context,
       title: S.of(context)!.tryingToGetPregnant,
       options: [
-        DialogOption(S.of(context)!.yes, "yes"),
-        DialogOption(S.of(context)!.no, "no"),
+        DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+          mViewModel.setTryPregnant(1);
+        }),
+        DialogOption(S.of(context)!.no, "no", onClick: () async {
+          mViewModel.setTryPregnant(0);
+        }),
       ],
     );
 
@@ -203,8 +214,12 @@ class _WelcomeViewState extends State<WelcomeView> {
         title: S.of(context)!.tryingSince12Months,
         isHorizontal: true,
         options: [
-          DialogOption(S.of(context)!.yes, "yes"),
-          DialogOption(S.of(context)!.no, "no"),
+          DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+            mViewModel.setWillPregnant(1);
+          }),
+          DialogOption(S.of(context)!.no, "no", onClick: () async {
+            mViewModel.setWillPregnant(0);
+          }),
         ],
       );
 
@@ -256,8 +271,12 @@ class _WelcomeViewState extends State<WelcomeView> {
         context: context,
         title: S.of(context)!.haveYouGotPapSmear,
         options: [
-          DialogOption(S.of(context)!.yes, "yes"),
-          DialogOption(S.of(context)!.no, "no"),
+          DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+            mViewModel.setPapSmear(1);
+          }),
+          DialogOption(S.of(context)!.no, "no", onClick: () async {
+            mViewModel.setPapSmear(0);
+          }),
         ],
       );
 
@@ -310,14 +329,12 @@ class _WelcomeViewState extends State<WelcomeView> {
       context: context,
       title: S.of(context)!.hadPeriodLasyYear,
       options: [
-        DialogOption(
-          S.of(context)!.yes,
-          "yes",
-        ),
-        DialogOption(
-          S.of(context)!.no,
-          "no",
-        ),
+        DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+          mViewModel.setHadPeriod(1);
+        }),
+        DialogOption(S.of(context)!.no, "no", onClick: () async {
+          mViewModel.setHadPeriod(0);
+        }),
       ],
     );
 
@@ -325,6 +342,7 @@ class _WelcomeViewState extends State<WelcomeView> {
       final selected = await showMenopauseDialog(context);
       if (selected != null && selected.isNotEmpty) {
         print('Selected symptoms: $selected');
+        mViewModel.setExperience(selected);
       }
 
       final isOkay = await showCustomDialog(
@@ -343,8 +361,11 @@ class _WelcomeViewState extends State<WelcomeView> {
           context: context,
           title: S.of(context)!.experiencedPostmenopausalSpotting,
           options: [
-            DialogOption(S.of(context)!.yes, "yes"),
+            DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+              mViewModel.setPostmenopausal(1);
+            }),
             DialogOption(S.of(context)!.no, "no", onClick: () async {
+              mViewModel.setPostmenopausal(0);
               print('Scallback 4 onClick');
               setState(() {
                 print('Scallback 5 setState');
@@ -986,12 +1007,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // SizedBox(
-                        //   child: Image.asset(
-                        //     LocalImages.img_ham_aapke_kon,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
                         Align(
                           alignment: Alignment.topLeft,
                           child: InkWell(
@@ -1097,7 +1112,11 @@ class _WelcomeViewState extends State<WelcomeView> {
                       label: S.of(context)!.next,
                       buttonColor: CommonColors.primaryColor,
                       onPress: () {
+                        debugPrint("currentIndex: $currentIndex");
                         if (isValid()) {
+                          if (currentIndex == 4) {
+                            mViewModel.callVaccinationUpdateApi();
+                          }
                           if (currentIndex == 3) {
                             Future.delayed(const Duration(milliseconds: 3200),
                                 () {

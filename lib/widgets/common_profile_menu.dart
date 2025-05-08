@@ -43,7 +43,7 @@ class CommonProfileMenu extends StatelessWidget {
             // margin: const EdgeInsets.only(bottom: 5.0),
             child: Container(
               decoration: ShapeDecoration(
-                color: color!=null?color: Color(0xFFFFFFFF),
+                color: color != null ? color : Color(0xFFFFFFFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -63,6 +63,9 @@ class CommonProfileMenu extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
                         text2 ?? '',
                         style: TextStyle(
@@ -75,7 +78,7 @@ class CommonProfileMenu extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right,
-                    color: CommonColors.blackArrow,//CommonColors.primaryColor,
+                    color: CommonColors.blackArrow, //CommonColors.primaryColor,
                     size: 25,
                   ),
                 ],

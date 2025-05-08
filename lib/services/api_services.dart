@@ -10,6 +10,7 @@ import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
+import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/services/api_url.dart';
 
 import '../models/about_your_cycle_master.dart';
@@ -1372,6 +1373,30 @@ class ApiServices extends BaseServices {
       }
     } on Exception catch (e) {
       log("Exception in getSymptomReportList: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<VaccinationModel?> saveVaccinationInfo(
+      {required Map<String, dynamic> params}) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+          url: ApiUrl.vaccinationUpdateDetails, postParams: params);
+      debugPrint("Vaccination Saved: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("Vaccination Saved: $response");
+          return VaccinationModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
       return null;
     }
   }

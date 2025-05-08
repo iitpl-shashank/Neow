@@ -4,8 +4,8 @@ import 'package:naveli_2023/utils/common_colors.dart';
 
 import '../../../../generated/i18n.dart'; // Add this import for toast functionality
 
-Future<List<String>?> showMenopauseDialog(BuildContext context) {
-  return showDialog<List<String>>(
+Future<List<int>?> showMenopauseDialog(BuildContext context) {
+  return showDialog<List<int>>(
     context: context,
     barrierDismissible: false,
     builder: (context) => _MenopauseDialog(),
@@ -18,17 +18,27 @@ class _MenopauseDialog extends StatefulWidget {
 }
 
 class _MenopauseDialogState extends State<_MenopauseDialog> {
-  final Set<String> selectedSymptoms = {};
+  // final Set<String> selectedSymptoms = {};
+  final Set<int> selectedSymptoms = {};
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> symptomsMap = {
-      S.of(context)!.hotFlushes: "Hot Flushes",
-      S.of(context)!.tiredness: "Tiredness",
-      S.of(context)!.moodSwings: "Mood Swings",
-      S.of(context)!.vaginalDryness: "Vaginal Dryness",
-      S.of(context)!.decreasedSexDrive: "Decreased Sex Drive",
-      S.of(context)!.jointPain: "Joint Pain",
+    // final Map<String, String> symptomsMap = {
+    //   S.of(context)!.hotFlushes: "Hot Flushes",
+    //   S.of(context)!.tiredness: "Tiredness",
+    //   S.of(context)!.moodSwings: "Mood Swings",
+    //   S.of(context)!.vaginalDryness: "Vaginal Dryness",
+    //   S.of(context)!.decreasedSexDrive: "Decreased Sex Drive",
+    //   S.of(context)!.jointPain: "Joint Pain",
+    // };
+
+    final Map<String, int> symptomsMap = {
+      S.of(context)!.hotFlushes: 1,
+      S.of(context)!.tiredness: 2,
+      S.of(context)!.moodSwings: 3,
+      S.of(context)!.vaginalDryness: 4,
+      S.of(context)!.decreasedSexDrive: 5,
+      S.of(context)!.jointPain: 6,
     };
 
     final List<String> symptoms = symptomsMap.keys.toList();

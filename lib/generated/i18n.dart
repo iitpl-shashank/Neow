@@ -1130,7 +1130,28 @@ class S implements WidgetsLocalizations {
 
   String get noNotificationYet => "No notifications yet!";
 
+  String get viewAndAccessAllYourReport =>
+      'View and access all your\nhealth reports here.';
+
   String get myHealthReports => 'My Health Reports';
+
+  String get missionAndVision => "Mission and Vision";
+
+  String get reminders => "Reminders";
+
+  String get timelyReminders => "Timely reminders, tailored for you";
+
+  String get findAnswersAndAssistance =>
+      "Find answers and get\nassistance here";
+
+  String get controlYourAppSettings => "Control your app settings your way";
+
+  String get shareNeowApp => "Share NeoW App";
+
+  String get shareAppWithFriends =>
+      "Share our app with your friends\nand family.";
+
+  String get followUsOn => "Follow us on:";
 }
 
 class $en extends S {
@@ -1141,6 +1162,36 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get followUsOn => "पर हमें का पालन करें:";
+
+  @override
+  String get shareAppWithFriends =>
+      "हमारे ऐप को अपने मित्रों और\nपरिवार के साथ साझा करें।";
+
+  @override
+  String get shareNeowApp => "NeoW ऐप साझा करें";
+
+  @override
+  String get controlYourAppSettings =>
+      "अपनी ऐप सेटिंग्स को अपनी तरीके से नियंत्रित करें";
+
+  @override
+  String get findAnswersAndAssistance => "यहाँ सहायता प्राप्त करें";
+
+  @override
+  String get timelyReminders => "आपके लिए विशेष रूप से तैयार किए गए";
+
+  @override
+  String get reminders => "स्मरण सूची";
+
+  @override
+  String get missionAndVision => "मिशन और विजन";
+
+  @override
+  String get viewAndAccessAllYourReport =>
+      'यहां अपने सभी स्वास्थ्य रिपोर्ट देखें';
+
   @override
   String get myHealthReports => "मेरी स्वास्थ्य रिपोर्ट्स";
 
@@ -2207,7 +2258,7 @@ class $mr extends S {
   String get aboutUs => "हमारे बारे में";
 
   @override
-  String get help => "मदद";
+  String get help => "सहायता";
 
   @override
   String get rateUs => "रेट और रिव्यू";
