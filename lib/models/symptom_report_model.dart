@@ -58,7 +58,6 @@ class MonthlyScore {
   String? flow;
   String? pain;
   String? stress;
-  List<String>? logDates;
   String? acne;
 
   MonthlyScore({
@@ -67,7 +66,6 @@ class MonthlyScore {
     this.flow,
     this.pain,
     this.stress,
-    this.logDates,
     this.acne,
   });
 
@@ -79,9 +77,6 @@ class MonthlyScore {
         flow: json["flow"],
         pain: json["pain"],
         stress: json["stress"],
-        logDates: json["log_dates"] == null
-            ? []
-            : List<String>.from(json["log_dates"]!.map((x) => x)),
         acne: json["acne"],
       );
 
@@ -93,8 +88,6 @@ class MonthlyScore {
         "flow": flow,
         "pain": pain,
         "stress": stress,
-        "log_dates":
-            logDates == null ? [] : List<dynamic>.from(logDates!.map((x) => x)),
         "acne": acne,
       };
 }
@@ -103,7 +96,7 @@ class Log {
   int? year;
   int? month;
   DateTime? periodStartDate;
-  int? logDay;
+  String? logDay;
   int? stainingScore;
   int? clotSizeScore;
   int? workingAbilityScore;
@@ -112,6 +105,7 @@ class Log {
   int? daysScore;
   int? stress;
   int? acne;
+  List<LogDate>? logDates;
 
   Log({
     this.year,
@@ -126,6 +120,7 @@ class Log {
     this.daysScore,
     this.stress,
     this.acne,
+    this.logDates,
   });
 
   factory Log.fromJson(Map<String, dynamic> json) => Log(
@@ -143,6 +138,10 @@ class Log {
         daysScore: json["days_score"],
         stress: json["stress"],
         acne: json["acne"],
+        logDates: json["log_dates"] == null
+            ? []
+            : List<LogDate>.from(
+                json["log_dates"]!.map((x) => LogDate.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -159,5 +158,28 @@ class Log {
         "days_score": daysScore,
         "stress": stress,
         "acne": acne,
+        "log_dates": logDates == null
+            ? []
+            : List<dynamic>.from(logDates!.map((x) => x.toJson())),
+      };
+}
+
+class LogDate {
+  String? date;
+  String? stress;
+
+  LogDate({
+    this.date,
+    this.stress,
+  });
+
+  factory LogDate.fromJson(Map<String, dynamic> json) => LogDate(
+        date: json["date"],
+        stress: json["stress"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "date": date,
+        "stress": stress,
       };
 }

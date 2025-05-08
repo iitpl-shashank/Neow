@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../ui/naveli_ui/profile/dashboard/dashboard_view_model.dart';
 import '../utils/common_colors.dart';
 
 class NumberDropdown extends StatefulWidget {
@@ -12,7 +14,7 @@ class NumberDropdown extends StatefulWidget {
 class _NumberDropdownState extends State<NumberDropdown> {
   String? _selectedNumber; // Make it nullable
 
-  final List<String> _numbers = ['1', '2', '3', '4', '5+'];
+  final List<int> items = [1, 2, 3, 4, 5];
 
   @override
   Widget build(BuildContext context) {
@@ -38,30 +40,28 @@ class _NumberDropdownState extends State<NumberDropdown> {
               )
             ],
           ),
-          child: DropdownButton<String>(
-            value: _selectedNumber,
-            isExpanded: true,
-            hint: const Text(
-              'How Many?',
-              style: TextStyle(
-                fontSize: 14,
-                color: CommonColors.blackColor,
-              ),
-            ), // Placeholder text
-            underline: const SizedBox(), // Removes the default underline
-            icon: const Icon(
-              Icons.arrow_drop_down,
-            ),
-            items: _numbers.map((String number) {
-              return DropdownMenuItem<String>(
-                value: number,
-                child: Text(number),
+          child: Consumer<DashBoardViewModel>(
+            builder: (context, vModel, child) {
+              return DropdownButton<int>(
+                value: vModel.numberOfKids,
+                hint: const Text(
+                  'How Many?',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: CommonColors.blackColor,
+                  ),
+                ),
+                isExpanded: true, // Make dropdown expand to full width
+                onChanged: (int? newValue) {
+                  vModel.updateNumberOfKids(newValue ?? 0); // Update ViewModel
+                },
+                items: items.map<DropdownMenuItem<int>>((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text(value.toString()),
+                  );
+                }).toList(),
               );
-            }).toList(),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedNumber = newValue;
-              });
             },
           ),
         ),
@@ -69,3 +69,12 @@ class _NumberDropdownState extends State<NumberDropdown> {
     );
   }
 }
+
+// class NumberDropdown extends StatelessWidget {
+//   final List<int> items = [1, 2, 3, 4, 5]; 
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//   }
+// }

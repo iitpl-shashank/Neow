@@ -58,12 +58,12 @@ class _CycleInfoViewState extends State<CycleInfoView> {
       mViewModel.getCurrentMonthDays();
     });
 
-    scrollController = FixedExtentScrollController(initialItem: 7);
+    scrollController = FixedExtentScrollController(initialItem: 0);
     scrollPeriodLengthController = FixedExtentScrollController(initialItem: 0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       scrollController.animateToItem(
-        0, // Target position
+        13, // Target position
         duration: const Duration(seconds: 2), // Animation duration
         curve: Curves.easeInOut, // Animation curve
       );
@@ -178,18 +178,18 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                         Expanded(
                           child: ListWheelScrollView(
                             itemExtent: 40,
-                            diameterRatio: .8,
-                            perspective: 0.005,
+                            diameterRatio: 1.2,
+                            perspective: 0.003,
                             controller:
                                 scrollController, // Use the initialized scrollController
                             physics: FixedExtentScrollPhysics(),
                             onSelectedItemChanged: (value) {
                               selectedCycleLength = value +
-                                  21; // Ensuring the range starts from 21
+                                  15; // Ensuring the range starts from 21
                               print("Selected length: $selectedCycleLength");
                             },
                             children: List.generate(
-                              25, // Total count (from 21 to 45) = 45 - 21 + 1
+                              31, // Total count (from 21 to 45) = 45 - 21 + 1
                               (index) => Container(
                                 height: 80,
                                 width: 120,
@@ -198,7 +198,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "${index + 21} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
+                                  "${index + 15} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                   style: getAppStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w400,
@@ -406,10 +406,10 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                       Expanded(
                         child: ListWheelScrollView(
                           itemExtent: 40,
-                          diameterRatio: .8,
+                          diameterRatio: 1.2,
                           controller: scrollPeriodLengthController,
                           physics: FixedExtentScrollPhysics(),
-                          perspective: 0.004,
+                          perspective: 0.003,
                           onSelectedItemChanged: (value) {
                             selectedPeriodsLength =
                                 value + 1; // Ensuring range starts from 1
@@ -427,7 +427,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 "${index + 1} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                 style: getAppStyle(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w400,
                                   color: CommonColors.blackColor,
                                 ),
                               ),

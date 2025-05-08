@@ -100,9 +100,9 @@ class _DashboardViewState extends State<DashboardView> {
   bool papSmear = false;
   bool periodsLastYear = false;
   bool postMenopausalBleeding = false;
-  String? selectedItem;
+  int? selectedItem;
 
-  final List<String> items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  final List<int> items = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
   List<BarData> barData = [
     BarData(
@@ -267,6 +267,7 @@ class _DashboardViewState extends State<DashboardView> {
 
       //User report data
       mViewModel.getUserSymptoms();
+      mViewModel.getUserVaccinationInfo();
 
       // setBarData();
       mViewModelWeight.fetchWeightData();
@@ -1123,98 +1124,151 @@ class _DashboardViewState extends State<DashboardView> {
                         return const Center(
                           child: Text(
                             "No data available. Please log your symptoms.",
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16, color: Colors.grey),
                           ),
                         );
                       }
                       return Column(
                         children: [
-                          for (var report in vModel.userReportList)
-                            Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
-                                    left: 10,
-                                    right: 10,
-                                    bottom: 20,
-                                  ),
-                                  color: CommonColors.mGrey200,
-                                  child: SymptomsCard(
-                                    title: 'Flow',
-                                    symptoms: [
-                                      "${report.flow} (${report.month})"
-                                    ],
-                                  ),
+                          Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 20,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    right: 10,
-                                    bottom: 20,
-                                  ),
-                                  color: CommonColors.mGrey200,
-                                  child: SymptomsCard(
-                                    title: 'Pain',
-                                    symptoms: [
-                                      "${report.pain} (${report.month})"
-                                    ],
-                                  ),
+                                color: CommonColors.mGrey200,
+                                child: Consumer<DashBoardViewModel>(
+                                  builder: (context, vModel, child) {
+                                    List userReports =
+                                        vModel.userReportList.reversed.toList();
+
+                                    List latestReports =
+                                        userReports.take(5).toList();
+
+                                    return SymptomsCard(
+                                      title: 'Flow',
+                                      symptoms: latestReports.reversed
+                                          .toList()
+                                          .map((report) =>
+                                              "${report.flow} (${report.month})")
+                                          .toList(),
+                                    );
+                                  },
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    right: 10,
-                                    bottom: 20,
-                                  ),
-                                  // TODO : Stress not coming correctly from api response
-                                  child: StressLogCard(
-                                    title: 'Stress',
-                                    logs: [
-                                      StressLog(level: 'Low', date: '12/01/25'),
-                                      StressLog(level: 'Low', date: '12/01/25'),
-                                      StressLog(
-                                          level: 'High', date: '12/01/25'),
-                                      StressLog(level: 'Low', date: '12/01/25'),
-                                      StressLog(
-                                          level: 'No Data', date: '12/01/25'),
-                                    ],
-                                  ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 20,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    right: 10,
-                                    bottom: 20,
-                                  ),
-                                  color: CommonColors.mGrey200,
-                                  child: SymptomsCard(
-                                    title: 'Acne',
-                                    symptoms: [
-                                      "${report.acne} (${report.month})"
-                                    ],
-                                  ),
+                                color: CommonColors.mGrey200,
+                                child: Consumer<DashBoardViewModel>(
+                                  builder: (context, vModel, child) {
+                                    List userReports =
+                                        vModel.userReportList.reversed.toList();
+
+                                    List latestReports =
+                                        userReports.take(5).toList();
+
+                                    return SymptomsCard(
+                                      title: 'Pain',
+                                      symptoms: latestReports.reversed
+                                          .toList()
+                                          .map((report) =>
+                                              "${report.pain} (${report.month})")
+                                          .toList(),
+                                    );
+                                  },
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    right: 10,
-                                    bottom: 20,
-                                  ),
-                                  color: CommonColors.mGrey200,
-                                  child: SymptomsCard(
-                                    // TODO : Ovulation not coming in api response
-                                    title: 'Ovulation',
-                                    symptoms: [
-                                      "${report.stress} (${report.month})"
-                                    ],
-                                  ),
+                              ),
+
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 20,
                                 ),
-                                const SizedBox(
-                                  height: 8,
+                                child: Consumer<DashBoardViewModel>(
+                                  builder: (context, vModel, child) {
+                                    List<StressLog> stressLogs = [];
+                                    for (var monthlyScore
+                                        in vModel.userReportList) {
+                                      for (var log in monthlyScore.logs ?? []) {
+                                        for (var logDate
+                                            in log.logDates ?? []) {
+                                          stressLogs.add(StressLog(
+                                            level: logDate.stress ?? 'No Data',
+                                            date: logDate.date ?? '',
+                                          ));
+                                        }
+                                      }
+                                    }
+                                    stressLogs.sort(
+                                        (a, b) => b.date.compareTo(a.date));
+                                    if (stressLogs.length > 5) {
+                                      stressLogs = stressLogs.take(5).toList();
+                                    }
+                                    return StressLogCard(
+                                      title: 'Stress',
+                                      logs: stressLogs,
+                                    );
+                                  },
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 20,
+                                ),
+                                color: CommonColors.mGrey200,
+                                child: Consumer<DashBoardViewModel>(
+                                  builder: (context, vModel, child) {
+                                    List userReports =
+                                        vModel.userReportList.reversed.toList();
+
+                                    List latestReports =
+                                        userReports.take(5).toList();
+
+                                    return SymptomsCard(
+                                      title: 'Acne',
+                                      symptoms: latestReports.reversed
+                                          .toList()
+                                          .map((report) =>
+                                              "${report.acne} (${report.month})")
+                                          .toList(),
+                                    );
+                                  },
+                                ),
+                              ),
+                              // TODO : Ovulation not coming in api response
+                              // Container(
+                              //   padding: const EdgeInsets.only(
+                              //     left: 10,
+                              //     right: 10,
+                              //     bottom: 20,
+                              //   ),
+                              //   color: CommonColors.mGrey200,
+                              //   child: SymptomsCard(
+                              //     // TODO : Ovulation not coming in api response
+                              //     title: 'Ovulation',
+                              //     symptoms: [
+                              //       "${report.stress} (${report.month})"
+                              //     ],
+                              //   ),
+                              // ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          ),
                         ],
                       );
                     }),
@@ -1535,71 +1589,162 @@ class _DashboardViewState extends State<DashboardView> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12.0),
-                                child: DropdownButton<String>(
-                                  value: selectedItem,
-                                  hint: Text(
-                                    'Age (yrs)',
-                                    style: TextStyle(
-                                      fontSize:
-                                          12, // You can adjust text size here
-                                      color: const Color.fromARGB(
-                                          255, 5, 5, 5), // Text color
-                                    ),
-                                  ),
-                                  isExpanded: true,
-                                  // Make dropdown expand to full width
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedItem = newValue;
-                                    });
-                                  },
-                                  items: items.map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
+                                child: Consumer<DashBoardViewModel>(
+                                  builder: (context, vModel, child) {
+                                    return DropdownButton<int>(
+                                      value: vModel.userAge,
+                                      hint: Text(
+                                        'Age (yrs)',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: const Color.fromARGB(
+                                              255, 5, 5, 5),
+                                        ),
+                                      ),
+                                      isExpanded: true,
+                                      onChanged: (int? newValue) {
+                                        vModel.updateUserAge(newValue ?? 0);
+                                      },
+                                      items: items.map<DropdownMenuItem<int>>(
+                                          (int value) {
+                                        return DropdownMenuItem<int>(
+                                          value: value,
+                                          child: Text(value.toString()),
+                                        );
+                                      }).toList(),
                                     );
-                                  }).toList(),
+                                  },
                                 ),
                               ),
                             ),
                           ),
                           kCommonSpaceV20,
                           _text('Cervical Cancer Vaccine', 14),
-                          Wrap(
-                            children: [
-                              _radioBtn('Dose 1'),
-                              _radioBtn('Dose 2'),
-                              _radioBtn('none'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Wrap(
+                              children: [
+                                _radioBtn(
+                                  'Dose 1',
+                                  1,
+                                  vModel.isUserVaccinated,
+                                  (value) {
+                                    vModel.updateVaccinationStatus(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'Dose 2',
+                                  2,
+                                  vModel.isUserVaccinated,
+                                  (value) {
+                                    vModel.updateVaccinationStatus(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'None',
+                                  0,
+                                  vModel.isUserVaccinated,
+                                  (value) {
+                                    vModel.updateVaccinationStatus(
+                                        value!); // Update to None
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text('HPV Vaccine', 14),
-                          Wrap(
-                            children: [
-                              _radioBtn('Dose 1'),
-                              _radioBtn('Dose 2'),
-                              _radioBtn('none'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Wrap(
+                              children: [
+                                _radioBtn(
+                                  'Dose 1',
+                                  1,
+                                  vModel.isUserHpvVaccinated,
+                                  (value) {
+                                    vModel.updateHpvVaccinationStatus(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'Dose 2',
+                                  2,
+                                  vModel.isUserHpvVaccinated,
+                                  (value) {
+                                    vModel.updateHpvVaccinationStatus(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'Dose 3',
+                                  3,
+                                  vModel.isUserHpvVaccinated,
+                                  (value) {
+                                    vModel.updateHpvVaccinationStatus(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'None',
+                                  0,
+                                  vModel.isUserHpvVaccinated,
+                                  (value) {
+                                    vModel.updateHpvVaccinationStatus(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text('Do you have kids?', 14),
-                          Wrap(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                              SizedBox(width: 20),
-                              NumberDropdown(),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Wrap(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.haveKids,
+                                  (value) {
+                                    vModel.updateHaveKids(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.haveKids,
+                                  (value) {
+                                    vModel.updateHaveKids(value!);
+                                  },
+                                ),
+                                if (vModel.haveKids == 1) SizedBox(width: 20),
+                                if (vModel.haveKids == 1) NumberDropdown(),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text('Are you pregnant?', 14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.isPregnant,
+                                  (value) {
+                                    vModel.updateIsPregnant(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.isPregnant,
+                                  (value) {
+                                    vModel.updateIsPregnant(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           InkWell(
                             onTap: () => showDialog(
@@ -1629,126 +1774,208 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           kCommonSpaceV20,
                           _text('Are you trying to get pregnant?', 14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.tryPregnant,
+                                  (value) {
+                                    vModel.updateTryPregnant(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.tryPregnant,
+                                  (value) {
+                                    vModel.updateTryPregnant(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text(
                               'Have you been trying since 12 months or more than that?',
                               14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.willPregnant,
+                                  (value) {
+                                    vModel.updateWillPregnant(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.willPregnant,
+                                  (value) {
+                                    vModel.updateWillPregnant(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text(
                               'If you\’re 21 years or more, have you gotten a Pap smear in the past six months?',
                               14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.papSmear,
+                                  (value) {
+                                    vModel.updatePapSmear(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.papSmear,
+                                  (value) {
+                                    vModel.updatePapSmear(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text(
                               'If you\'re 50 yrs or more, have you had any periods in the last year?',
                               14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.hadPeriod,
+                                  (value) {
+                                    vModel.updateHadPeriod(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.hadPeriod,
+                                  (value) {
+                                    vModel.updateHadPeriod(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           kCommonSpaceV20,
                           _text('Do you experience:', 14),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Hot Flushes',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: hotFlushes,
-                            onChanged: (value) {
-                              setState(() {
-                                hotFlushes = value!;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Tiredness',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: tiredness,
-                            onChanged: (value) {
-                              setState(() {
-                                tiredness = value!;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Mood Swings',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: moodSwings,
-                            onChanged: (value) {
-                              setState(() {
-                                moodSwings = value!;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Vaginal Dryness',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: vaginalDryness,
-                            onChanged: (value) {
-                              setState(() {
-                                vaginalDryness = value!;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Decreased Libido',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: decreasedLibido,
-                            onChanged: (value) {
-                              setState(() {
-                                decreasedLibido = value!;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text(
-                              'Joint Pain',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: jointPain,
-                            onChanged: (value) {
-                              setState(() {
-                                jointPain = value!;
-                              });
+                          Consumer<DashBoardViewModel>(
+                            builder: (context, vModel, child) {
+                              return Column(
+                                children: [
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Hot Flushes',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        1), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          1); // Toggle selection
+                                    },
+                                  ),
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Tiredness',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        2), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          2); // Toggle selection
+                                    },
+                                  ),
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Mood Swings',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        3), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          3); // Toggle selection
+                                    },
+                                  ),
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Vaginal Dryness',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        4), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          4); // Toggle selection
+                                    },
+                                  ),
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Decreased Libido',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        5), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          5); // Toggle selection
+                                    },
+                                  ),
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: const Text(
+                                      'Joint Pain',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    value: vModel.isExperienceSelected(
+                                        6), // Check if selected
+                                    onChanged: (value) {
+                                      vModel.toggleExperience(
+                                          6); // Toggle selection
+                                    },
+                                  ),
+                                ],
+                              );
                             },
                           ),
                           // _displayBox(150,
@@ -1757,12 +1984,29 @@ class _DashboardViewState extends State<DashboardView> {
                           _text(
                               'Have you experienced postmenopausal spotting/bleeding after 1 year of stoppage of periods?',
                               14),
-                          Row(
-                            children: [
-                              _radioBtn('Yes'),
-                              _radioBtn('No'),
-                            ],
-                          ),
+                          Consumer<DashBoardViewModel>(
+                              builder: (context, vModel, child) {
+                            return Row(
+                              children: [
+                                _radioBtn(
+                                  'Yes',
+                                  1,
+                                  vModel.expPostmenopausal,
+                                  (value) {
+                                    vModel.updateExpPostmenopausal(value!);
+                                  },
+                                ),
+                                _radioBtn(
+                                  'No',
+                                  0,
+                                  vModel.expPostmenopausal,
+                                  (value) {
+                                    vModel.updateExpPostmenopausal(value!);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           // _displayBox(100,
                           //     'Possible causes can be estrogen deficiency, vaginal dryness, or cancer.Get an ultrasound and a Pap Smear now!'),
                           SizedBox(height: 20),
@@ -1770,7 +2014,9 @@ class _DashboardViewState extends State<DashboardView> {
                             width: double.infinity, // <-- match_parent
                             height: 40, // <-- match-parent
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                mViewModel.updateVaccinationInfo();
+                              },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                     CommonColors.primaryColor),
@@ -2800,40 +3046,88 @@ Widget _text(text, double size) {
   );
 }
 
-Widget _radioBtn(text) {
-  return Container(
-    clipBehavior: Clip.antiAlias,
-    height: 40,
-    width: 120,
-    margin: EdgeInsets.all(5),
-    decoration: ShapeDecoration(
-      color: CommonColors.mWhite,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Border radius for all edges
-      ),
-      shadows: const [
-        BoxShadow(
-          color: Color(0x3F000000),
-          blurRadius: 5,
-          offset: Offset(0, 2),
-          spreadRadius: 0,
-        )
-      ],
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start, // Center the content
-      crossAxisAlignment: CrossAxisAlignment.center, // Center vertically
-      children: [
-        Radio(value: 4, groupValue: 1, onChanged: (value) {}),
-        Padding(
-          padding: EdgeInsets.only(right: 12.0),
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 14),
-          ),
+// Widget _radioBtn(text) {
+//   return Container(
+//     clipBehavior: Clip.antiAlias,
+//     height: 40,
+//     width: 120,
+//     margin: EdgeInsets.all(5),
+//     decoration: ShapeDecoration(
+//       color: CommonColors.mWhite,
+//       shape: RoundedRectangleBorder(
+//         borderRadius:
+//             BorderRadius.all(Radius.circular(8)), // Border radius for all edges
+//       ),
+//       shadows: const [
+//         BoxShadow(
+//           color: Color(0x3F000000),
+//           blurRadius: 5,
+//           offset: Offset(0, 2),
+//           spreadRadius: 0,
+//         )
+//       ],
+//     ),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.start, // Center the content
+//       crossAxisAlignment: CrossAxisAlignment.center, // Center vertically
+//       children: [
+//         Radio(value: 4, groupValue: 1, onChanged: (value) {}),
+//         Padding(
+//           padding: EdgeInsets.only(right: 12.0),
+//           child: Text(
+//             text,
+//             style: TextStyle(fontSize: 14),
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
+
+Widget _radioBtn(
+    String text, int value, int? groupValue, Function(int?) onChanged) {
+  return GestureDetector(
+    onTap: () {
+      onChanged(value); // Call the onChanged callback with the selected value
+    },
+    child: Container(
+      clipBehavior: Clip.antiAlias,
+      height: 40,
+      width: 120,
+      margin: const EdgeInsets.all(5),
+      decoration: ShapeDecoration(
+        color: CommonColors.mWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(
+              Radius.circular(8)), // Border radius for all edges
         ),
-      ],
+        shadows: const [
+          BoxShadow(
+            color: Color(0x3F000000),
+            blurRadius: 5,
+            offset: Offset(0, 2),
+            spreadRadius: 0,
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start, // Center the content
+        crossAxisAlignment: CrossAxisAlignment.center, // Center vertically
+        children: [
+          Radio<int>(
+            value: value,
+            groupValue: groupValue, // Compare with the current group value
+            onChanged: onChanged, // Update the selected value
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

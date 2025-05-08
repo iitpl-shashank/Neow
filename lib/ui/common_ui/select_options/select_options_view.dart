@@ -120,7 +120,6 @@ class _SelectOptionViewState extends State<SelectOptionView>
                       ),
                     ),
                     kCommonSpaceV50,
-
                     CommonUserSelect(
                       onTap: () {
                         setState(() {
@@ -145,18 +144,6 @@ class _SelectOptionViewState extends State<SelectOptionView>
                       descriptionText: S.of(context)!.optionBuddySubtitle,
                     ),
                     kCommonSpaceV15,
-                    // CommonUserSelect(
-                    //   onTap: () {
-                    //     setState(() {
-                    //       selectedUser = AppConstants.BUDDY;
-                    //     });
-                    //   },
-                    //   text: 'BUDDY New',
-                    //   imagePath: LocalImages.img_buddy,
-                    //   isSelected: selectedUser == AppConstants.BUDDY,
-                    //   descriptionText: "Monitor my Noewme's health",
-                    // ),
-                    // kCommonSpaceV15,
                     CommonUserSelect(
                       onTap: () {
                         setState(() {
@@ -170,7 +157,6 @@ class _SelectOptionViewState extends State<SelectOptionView>
                     ),
                     kCommonSpaceV50,
                     kCommonSpaceV20,
-
                     Container(
                       decoration: BoxDecoration(
                           border: Border.all(

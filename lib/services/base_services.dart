@@ -246,6 +246,8 @@ abstract class BaseServices {
   Future<SymptomReportModel?> getSymptomReportList(
       {required Map<String, dynamic> params});
 
+  Future<VaccinationModel?> getVaccinationInfo();
+
   Future<VaccinationModel?> saveVaccinationInfo(
       {required Map<String, dynamic> params});
 }

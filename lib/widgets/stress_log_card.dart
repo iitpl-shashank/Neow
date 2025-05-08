@@ -48,7 +48,7 @@ class StressLogCard extends StatelessWidget {
                     log.level,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                      fontSize: 12,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -56,7 +56,7 @@ class StressLogCard extends StatelessWidget {
                     log.date,
                     style: TextStyle(
                       color: Colors.grey[600],
-                      fontSize: 13,
+                      fontSize: 10,
                     ),
                   ),
                 ],

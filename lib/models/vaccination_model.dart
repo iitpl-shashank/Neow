@@ -7,7 +7,7 @@ String vaccinationModelToJson(VaccinationModel data) =>
     json.encode(data.toJson());
 
 class VaccinationModel {
-  Data? data;
+  List<VaccineInfo>? data;
   bool? success;
   String? message;
 
@@ -19,37 +19,43 @@ class VaccinationModel {
 
   factory VaccinationModel.fromJson(Map<String, dynamic> json) =>
       VaccinationModel(
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null
+            ? []
+            : List<VaccineInfo>.from(
+                json["data"]!.map((x) => VaccineInfo.fromJson(x))),
         success: json["success"],
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "success": success,
         "message": message,
       };
 }
 
-class Data {
-  int? userId;
-  String? age;
-  String? hasKids;
-  String? cancerVaccine;
-  String? numberOfKids;
-  String? hpvVaccine;
-  String? isPregnant;
-  String? willPregnant;
-  String? tryPregnant;
-  String? papSmear;
-  String? hadPeriod;
-  String? experience;
-  String? postmenopausal;
-  DateTime? updatedAt;
-  DateTime? createdAt;
+class VaccineInfo {
   int? id;
+  int? userId;
+  int? age;
+  int? hasKids;
+  int? cancerVaccine;
+  int? numberOfKids;
+  int? hpvVaccine;
+  int? isPregnant;
+  int? willPregnant;
+  int? tryPregnant;
+  int? papSmear;
+  int? hadPeriod;
+  List<int>? experience;
+  int? postmenopausal;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  Data({
+  VaccineInfo({
+    this.id,
     this.userId,
     this.age,
     this.hasKids,
@@ -63,12 +69,12 @@ class Data {
     this.hadPeriod,
     this.experience,
     this.postmenopausal,
-    this.updatedAt,
     this.createdAt,
-    this.id,
+    this.updatedAt,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory VaccineInfo.fromJson(Map<String, dynamic> json) => VaccineInfo(
+        id: json["id"],
         userId: json["user_id"],
         age: json["age"],
         hasKids: json["has_kids"],
@@ -80,18 +86,20 @@ class Data {
         tryPregnant: json["try_pregnant"],
         papSmear: json["pap_smear"],
         hadPeriod: json["had_period"],
-        experience: json["experience"],
+        experience: json["experience"] == null
+            ? []
+            : List<int>.from(json["experience"]!.map((x) => x)),
         postmenopausal: json["postmenopausal"],
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
-        id: json["id"],
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "user_id": userId,
         "age": age,
         "has_kids": hasKids,
@@ -103,10 +111,11 @@ class Data {
         "try_pregnant": tryPregnant,
         "pap_smear": papSmear,
         "had_period": hadPeriod,
-        "experience": experience,
+        "experience": experience == null
+            ? []
+            : List<dynamic>.from(experience!.map((x) => x)),
         "postmenopausal": postmenopausal,
-        "updated_at": updatedAt?.toIso8601String(),
         "created_at": createdAt?.toIso8601String(),
-        "id": id,
+        "updated_at": updatedAt?.toIso8601String(),
       };
 }

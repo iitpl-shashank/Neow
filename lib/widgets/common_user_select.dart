@@ -76,12 +76,6 @@ class _CommonUserSelectState extends State<CommonUserSelect> {
                 spreadRadius: 0,
               )
             ],
-            /* border: Border.all(
-                        width: 2,
-                        color: widget.isSelected
-                            ? CommonColors.primaryColor
-                            : CommonColors.mGrey,
-                      ), */
           ),
           child: Padding(
               padding: const EdgeInsets.only(

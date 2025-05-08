@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/database/app_preferences.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
+import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 
 import '../../../../models/about_your_cycle_master.dart';
@@ -283,9 +285,6 @@ class DashBoardViewModel with ChangeNotifier {
       if (master == null || master.data!.monthlyScores!.isEmpty) {
         return;
       }
-
-// {data: {monthly_scores: [], total_staining_score: 0, total_clot_size_score: 0, total_score: 0, alert: false}, success: true, message: No symptom logs found}
-
       if (master.success == false) {
         CommonUtils.showSnackBar(
           master.message ?? "An error occurred",
@@ -299,6 +298,183 @@ class DashBoardViewModel with ChangeNotifier {
       if (master.success == true) {
         print("Data user report received: ${master.data}");
         userReportList = master.data?.monthlyScores ?? [];
+      }
+    } catch (e) {
+      print("Exception in getUserSymptoms: $e");
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  int? isUserVaccinated;
+  int? isUserHpvVaccinated;
+  int? haveKids;
+  int? isPregnant;
+  int? tryPregnant;
+  int? willPregnant;
+  int? papSmear;
+  int? hadPeriod;
+  int? expPostmenopausal;
+  int? numberOfKids;
+  int? userAge;
+  List<int> experienceList = [];
+
+  Future<void> updateVaccinationInfo() async {
+    CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = {
+      if (userAge != null) 'age': userAge,
+      if (haveKids != null) 'has_kids': haveKids,
+      if (isUserVaccinated != null) 'cancer_vaccine': isUserVaccinated,
+      if (numberOfKids != null || haveKids == 0) 'number_of_kids': numberOfKids,
+      if (isUserHpvVaccinated != null) 'hpv_vaccine': isUserHpvVaccinated,
+      if (isPregnant != null) 'is_pregnant': isPregnant,
+      if (willPregnant != null) 'will_pregnant': willPregnant,
+      if (tryPregnant != null) 'try_pregnant': tryPregnant,
+      if (papSmear != null) 'pap_smear': papSmear,
+      if (hadPeriod != null) 'had_period': hadPeriod,
+      if (expPostmenopausal != null) 'postmenopausal': expPostmenopausal,
+      if (experienceList.isNotEmpty)
+        for (int i = 0; i < experienceList.length; i++)
+          'experience[]': experienceList[i],
+    };
+
+    try {
+      VaccinationModel? response =
+          await _services.api!.saveVaccinationInfo(params: params);
+
+      CommonUtils.hideProgressDialog();
+
+      if (response != null) {
+        CommonUtils.showSnackBar(
+          "Vaccination details saved successfully!",
+          color: CommonColors.greenColor,
+        );
+        getUserVaccinationInfo();
+        log("API Response: ${response.toJson()}");
+      } else {
+        CommonUtils.showSnackBar(
+          "Failed to save vaccination details.",
+          color: CommonColors.mRed,
+        );
+      }
+    } catch (e) {
+      CommonUtils.hideProgressDialog();
+      log("Exception in callVaccinationUpdateApi: $e");
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void toggleExperience(int value) {
+    if (experienceList.contains(value)) {
+      experienceList.remove(value);
+    } else {
+      experienceList.add(value);
+    }
+    notifyListeners();
+  }
+
+  bool isExperienceSelected(int value) {
+    return experienceList.contains(value);
+  }
+
+  void updateExpPostmenopausal(int status) {
+    expPostmenopausal = status;
+    notifyListeners();
+  }
+
+  void updateUserAge(int status) {
+    if (status == 0) return;
+    userAge = status;
+    notifyListeners();
+  }
+
+  void updateNumberOfKids(int status) {
+    if (status == 0) return;
+    numberOfKids = status;
+    notifyListeners();
+  }
+
+  void updateHadPeriod(int status) {
+    hadPeriod = status;
+    notifyListeners();
+  }
+
+  void updatePapSmear(int status) {
+    papSmear = status;
+    notifyListeners();
+  }
+
+  void updateWillPregnant(int status) {
+    willPregnant = status;
+    notifyListeners();
+  }
+
+  void updateTryPregnant(int status) {
+    tryPregnant = status;
+    notifyListeners();
+  }
+
+  void updateIsPregnant(int status) {
+    isPregnant = status;
+    notifyListeners();
+  }
+
+  void updateHaveKids(int status) {
+    haveKids = status;
+    notifyListeners();
+  }
+
+  void updateHpvVaccinationStatus(int status) {
+    isUserHpvVaccinated = status;
+    notifyListeners();
+  }
+
+  void updateVaccinationStatus(int status) {
+    isUserVaccinated = status;
+    notifyListeners();
+  }
+
+  Future<void> getUserVaccinationInfo() async {
+    try {
+      isUserVaccinated = null;
+      isUserHpvVaccinated = null;
+      haveKids = null;
+      isPregnant = null;
+      tryPregnant = null;
+      willPregnant = null;
+      papSmear = null;
+      hadPeriod = null;
+      expPostmenopausal = null;
+      numberOfKids = null;
+      userAge = null;
+      experienceList.clear();
+      notifyListeners();
+
+      VaccinationModel? master = await _services.api!.getVaccinationInfo();
+
+      if (master == null || master.data!.isEmpty || master.success == false) {
+        CommonUtils.showSnackBar(
+          master?.message ?? "An error occurred",
+          color: CommonColors.mRed,
+        );
+        return;
+      }
+
+      if (master.success == true) {
+        print("Data user vaccination received: ${master.data}");
+        isUserVaccinated = master.data![0].cancerVaccine;
+        isUserHpvVaccinated = master.data![0].hpvVaccine;
+        haveKids = master.data![0].hasKids;
+        isPregnant = master.data![0].isPregnant;
+        tryPregnant = master.data![0].tryPregnant;
+        willPregnant = master.data![0].willPregnant;
+        papSmear = master.data![0].papSmear;
+        hadPeriod = master.data![0].hadPeriod;
+        expPostmenopausal = master.data![0].postmenopausal;
+        experienceList = master.data![0].experience ?? [];
+        numberOfKids = master.data![0].numberOfKids;
+        userAge = master.data![0].age;
       }
     } catch (e) {
       print("Exception in getUserSymptoms: $e");

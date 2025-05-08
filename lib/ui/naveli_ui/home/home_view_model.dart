@@ -1087,6 +1087,7 @@ class HomeViewModel with ChangeNotifier {
     dynamic body = {};
     body = {
       "clicked_date": DateFormat('yyyy-MM-dd').format(selectedDate).toString(),
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
     debugPrint(
         "selectedDate ====>${DateFormat('yyyy-MM-dd').format(selectedDate)}");

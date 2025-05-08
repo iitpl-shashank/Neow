@@ -1400,4 +1400,27 @@ class ApiServices extends BaseServices {
       return null;
     }
   }
+
+  @override
+  Future<VaccinationModel?> getVaccinationInfo() async {
+    try {
+      dynamic response = await appBaseClient.getApiWithTokenCall(
+          url: ApiUrl.getVaccinationDetails);
+      debugPrint("Vaccination Data: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("Vaccination Data: $response");
+          return VaccinationModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
+      return null;
+    }
+  }
 }

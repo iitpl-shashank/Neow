@@ -138,7 +138,8 @@ class WelcomeViewModel with ChangeNotifier {
   Future<void> callVaccinationUpdateApi() async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = {
-      if (age != null) 'age': age,
+      //Not user age but age at which user get first period
+      // if (age != null) 'age': age,
       if (hasKids != null) 'has_kids': hasKids,
       if (cancerVaccine != null) 'cancer_vaccine': cancerVaccine,
       if (numberOfKids != null) 'number_of_kids': numberOfKids,
@@ -174,10 +175,6 @@ class WelcomeViewModel with ChangeNotifier {
       }
     } catch (e) {
       CommonUtils.hideProgressDialog();
-      CommonUtils.showSnackBar(
-        "An error occurred while saving vaccination details.",
-        color: CommonColors.mRed,
-      );
       log("Exception in callVaccinationUpdateApi: $e");
     } finally {
       notifyListeners();
