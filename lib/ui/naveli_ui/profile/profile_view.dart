@@ -191,7 +191,7 @@ class _ProfileViewState extends State<ProfileView> {
                     CommonProfileMenu(
                         color: Color(0xFFF0EBFF),
                         text: S.of(context)!.rateUs,
-                        text2: '',
+                        text2: S.of(context)!.rateAndWriteReview,
                         isLast: false),
                     CommonProfileMenu(
                       color: Color(0xFFEAF6FF),

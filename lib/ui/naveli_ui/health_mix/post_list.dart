@@ -197,47 +197,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.of(context).push(MaterialPageRoute<void>(
-                      //       fullscreenDialog: true,
-                      //       builder: (BuildContext context) {
-                      //         return GestureDetector(
-                      //           onTap: () {
-                      //             Navigator.pop(context);
-                      //           },
-                      //           child: Image.network(
-                      //             height: kDeviceHeight / 1,
-                      //             width: MediaQuery.of(context).size.width,
-                      //             mViewModel.healthPostsList[index].media ??
-                      //                 "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                      //             fit: BoxFit.fill,
-                      //           ),
-                      //         );
-                      //       },
-                      //     ));
-                      //   },
-                      //   child: Container(
-                      //     height: 314,
-                      //     width: double.infinity,
-                      //     decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         image: DecorationImage(
-                      //             image: NetworkImage(
-                      //               mViewModel.healthPostsList[index].media ??
-                      //                   "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                      //             ),
-                      //             fit: BoxFit.fill),
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color: CommonColors.mGrey.withOpacity(0.5),
-                      //             spreadRadius: 1,
-                      //             blurRadius: 3,
-                      //             offset: const Offset(0, 3),
-                      //           ),
-                      //         ]),
-                      //   ),
-                      // ),
                       if (mViewModel.healthPostsList[index].mediaType == 'link')
                         Container(
                           height: 314,
@@ -253,10 +212,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                           child: VideoPlayerScreen(
                             link: mViewModel.healthPostsList[index].media ??
                                 "https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2021/06/youtube-logo-0628211.jpg",
-                            // "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                            // isFillAvailableSpace: false,
-                            // isLoop: true,
-                            // isMute: false,
                           ),
                         ),
                       Row(
@@ -315,36 +270,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                               onPressed: () {},
                               icon: Icon(Icons.bookmark_outline_rounded,
                                   color: CommonColors.primaryColor)),
-
-                          // Expanded(
-                          //   child: PrimaryButton(
-                          //     height: 40,
-                          //     onPress: () {},
-                          //     borderRadius: BorderRadius.zero,
-                          //     label: S.of(context)!.like,
-                          //     lblSize: 13,
-                          //   ),
-                          // ),
-                          // kCommonSpaceH3,
-                          // Expanded(
-                          //   child: PrimaryButton(
-                          //     height: 40,
-                          //     onPress: () {},
-                          //     borderRadius: BorderRadius.zero,
-                          //     label: S.of(context)!.dislike,
-                          //     lblSize: 13,
-                          //   ),
-                          // ),
-                          // kCommonSpaceH3,
-                          // Expanded(
-                          //   child: PrimaryButton(
-                          //     height: 40,
-                          //     onPress: () {},
-                          //     borderRadius: BorderRadius.zero,
-                          //     label: S.of(context)!.share,
-                          //     lblSize: 13,
-                          //   ),
-                          // ),
                         ],
                       ),
                       Padding(

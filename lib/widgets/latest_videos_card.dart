@@ -43,7 +43,7 @@ class LatestVideoCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(imageUrl),
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -60,7 +60,6 @@ class LatestVideoCard extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
-                        
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),

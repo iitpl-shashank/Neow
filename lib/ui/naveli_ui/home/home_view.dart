@@ -78,15 +78,18 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
 
-    _startAutoSlide();
-    vdo_Controller = VideoPlayerController.asset('assets/video/home_screen.mp4')
-      ..initialize().then((_) {
-        vdo_Controller.setLooping(true); // Set looping for continuous playback
-        vdo_Controller.play();
-        // Ensure the first frame is shown after the video is initialized
-        setState(() {});
-      });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _startAutoSlide();
+      vdo_Controller =
+          VideoPlayerController.asset('assets/video/home_screen.mp4')
+            ..initialize().then((_) {
+              vdo_Controller
+                  .setLooping(true); // Set looping for continuous playback
+              vdo_Controller.play();
+              // Ensure the first frame is shown after the video is initialized
+              setState(() {});
+            });
+
       mViewModel.attachedContext(context);
       mViewModel.fetchHealthMixCategoryList();
 
@@ -117,14 +120,14 @@ class _HomeViewState extends State<HomeView> {
 
   void _startAutoSlide() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      if (mViewModel.currentPage < 3) {
+      if (mViewModel.currentPage < 1) {
         mViewModel.currentPage++;
       } else {
         mViewModel.currentPage = 0; // Reset to the first page
       }
       mViewModel.pageController.animateToPage(
         mViewModel.currentPage,
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 1000),
         curve: Curves.easeInOut,
       );
     });
@@ -140,29 +143,6 @@ class _HomeViewState extends State<HomeView> {
       print("DIPAKAKKA");
       callApiAfterBack();
     });
-
-    // Call your API after the user goes back
-    /*Future.delayed(Duration.zero, () {
-      mViewModel.attachedContext(context);
-
-      mViewYourNaveliModel =
-          Provider.of<YourNaveliViewModel>(context, listen: false);
-      mViewHealthMixModel =
-          Provider.of<HealthMixViewModel>(context, listen: false);
-      mViewSymptomsModel =
-          Provider.of<LogYourSymptomsModel>(context, listen: false);
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        timeoutValue = 1;
-        await mViewModel.fetchData();
-        // await handleFirstBloc();
-        // await handleSecondBloc();
-        // await handleThirdBloc();
-        setState(() {
-          timeoutValue = 2;
-        });
-        _setTimeout();
-      });
-    });*/
   }
 
 // Function to call API after coming back from the CalendarView
@@ -554,8 +534,9 @@ class _HomeViewState extends State<HomeView> {
                   ],
                   kCommonSpaceV10,
                   SizedBox(
-                      height: 170,
-                      child: Stack(children: [
+                    height: 170,
+                    child: Stack(
+                      children: [
                         PageView.builder(
                           controller: mViewModel.pageController,
                           onPageChanged: (value) {
@@ -563,7 +544,7 @@ class _HomeViewState extends State<HomeView> {
                               mViewModel.currentPage = value;
                             });
                           },
-                          itemCount: 4,
+                          itemCount: 2,
                           itemBuilder: (context, index) {
                             return index == 0
                                 ? Padding(
@@ -663,365 +644,336 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                         ])),
                                   )
-                                : index == 1
-                                    ? Padding(
+                                :
+                                // ? Padding(
+                                //     padding: const EdgeInsets.only(
+                                //         left: 12, right: 12, bottom: 20),
+                                //     child: Container(
+                                //         padding: const EdgeInsets.only(
+                                //             left: 10, right: 10, top: 10),
+                                //         height: 160,
+                                //         clipBehavior: Clip.antiAlias,
+                                //         decoration: ShapeDecoration(
+                                //           color: Color(0xFFDDEBFF),
+                                //           shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10),
+                                //           ),
+                                //           shadows: const [
+                                //             BoxShadow(
+                                //               color: Color(0x3F000000),
+                                //               blurRadius: 5,
+                                //               offset: Offset(0, 2),
+                                //               spreadRadius: 0,
+                                //             )
+                                //           ],
+                                //         ),
+                                //         child: Stack(children: [
+                                //           Align(
+                                //             alignment: Alignment.topLeft,
+                                //             child: Column(
+                                //                 crossAxisAlignment:
+                                //                     CrossAxisAlignment
+                                //                         .start,
+                                //                 children: [
+                                //                   Text(
+                                //                     S
+                                //                         .of(context)!
+                                //                         .askADoctor,
+                                //                     style: TextStyle(
+                                //                       fontWeight:
+                                //                           FontWeight.bold,
+                                //                       fontSize: 18,
+                                //                     ),
+                                //                   ),
+                                //                   kCommonSpaceV10,
+                                //                   Text(
+                                //                     S
+                                //                         .of(context)!
+                                //                         .haveAnyQuestion,
+                                //                     style: TextStyle(
+                                //                       fontWeight:
+                                //                           FontWeight.w500,
+                                //                       fontSize: 14,
+                                //                       color:
+                                //                           Color(0xFF8B8B8B),
+                                //                     ),
+                                //                   ),
+                                //                   kCommonSpaceV10,
+                                //                   ElevatedButton(
+                                //                     onPressed: () {
+                                //                       push(
+                                //                           const SymptomsBotView());
+                                //                     },
+                                //                     style: ButtonStyle(
+                                //                       fixedSize:
+                                //                           WidgetStateProperty
+                                //                               .all<Size>(
+                                //                         Size(120.0,
+                                //                             25.0), // Button width and height
+                                //                       ),
+                                //                       backgroundColor:
+                                //                           WidgetStateProperty
+                                //                               .all<Color>(Color(
+                                //                                   0xFF3D73BF)),
+                                //                       foregroundColor:
+                                //                           WidgetStateProperty
+                                //                               .all<Color>(
+                                //                                   Colors
+                                //                                       .white),
+                                //                     ),
+                                //                     child: Text(
+                                //                       S
+                                //                           .of(context)!
+                                //                           .askDoctor,
+                                //                       style: TextStyle(
+                                //                         fontWeight:
+                                //                             lang == "hi"
+                                //                                 ? FontWeight
+                                //                                     .w500
+                                //                                 : FontWeight
+                                //                                     .bold,
+                                //                         fontSize: 12,
+                                //                       ),
+                                //                     ),
+                                //                   ),
+                                //                 ]),
+                                //           ),
+                                //           Align(
+                                //             alignment:
+                                //                 Alignment.bottomRight,
+                                //             child: InkWell(
+                                //               /* onTap: () {
+                                //                   push(const ReminderView());
+                                //                 }, */
+                                //               child: Image.asset(
+                                //                 LocalImages
+                                //                     .img_naveli_nurse,
+                                //                 fit: BoxFit.contain,
+                                //                 height: 150,
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ])),
+                                //   )
+                                // : index == 2
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 12, right: 12, bottom: 20),
+                                    child: Container(
                                         padding: const EdgeInsets.only(
-                                            left: 12, right: 12, bottom: 20),
-                                        child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10, top: 10),
-                                            height: 160,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFDDEBFF),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              shadows: const [
-                                                BoxShadow(
-                                                  color: Color(0x3F000000),
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 2),
-                                                  spreadRadius: 0,
-                                                )
-                                              ],
-                                            ),
-                                            child: Stack(children: [
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        S
-                                                            .of(context)!
-                                                            .askADoctor,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18,
-                                                        ),
+                                            left: 10, right: 10, top: 10),
+                                        height: 160,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: Color(0XFFFFEEEE),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          shadows: const [
+                                            BoxShadow(
+                                              color: Color(0x3F000000),
+                                              blurRadius: 5,
+                                              offset: Offset(0, 2),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: Stack(children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    S.of(context)!.theNeowStory,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                  kCommonSpaceV10,
+                                                  Text(
+                                                    S
+                                                        .of(context)!
+                                                        .leadingLadies1,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  kCommonSpaceV10,
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      //TODO : Slider onTap required
+                                                      push(PostList(
+                                                        position: 0,
+                                                        selectedTabIndex: 0,
+                                                        postTitle: "",
+                                                      ));
+                                                    },
+                                                    style: ButtonStyle(
+                                                      fixedSize:
+                                                          WidgetStateProperty
+                                                              .all<Size>(
+                                                        Size(120.0,
+                                                            25.0), // Button width and height
                                                       ),
-                                                      kCommonSpaceV10,
-                                                      Text(
-                                                        S
-                                                            .of(context)!
-                                                            .haveAnyQuestion,
+                                                      backgroundColor:
+                                                          WidgetStateProperty
+                                                              .all<Color>(Color(
+                                                                  0xFFD15151)),
+                                                      foregroundColor:
+                                                          WidgetStateProperty
+                                                              .all<Color>(
+                                                                  Colors.white),
+                                                    ),
+                                                    child: Text(
+                                                        S.of(context)!.tapHere,
                                                         style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Color(0xFF8B8B8B),
-                                                        ),
-                                                      ),
-                                                      kCommonSpaceV10,
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          push(
-                                                              const SymptomsBotView());
-                                                        },
-                                                        style: ButtonStyle(
-                                                          fixedSize:
-                                                              WidgetStateProperty
-                                                                  .all<Size>(
-                                                            Size(120.0,
-                                                                25.0), // Button width and height
-                                                          ),
-                                                          backgroundColor:
-                                                              WidgetStateProperty
-                                                                  .all<Color>(Color(
-                                                                      0xFF3D73BF)),
-                                                          foregroundColor:
-                                                              WidgetStateProperty
-                                                                  .all<Color>(
-                                                                      Colors
-                                                                          .white),
-                                                        ),
-                                                        child: Text(
-                                                          S
-                                                              .of(context)!
-                                                              .askDoctor,
-                                                          style: TextStyle(
                                                             fontWeight:
                                                                 lang == "hi"
                                                                     ? FontWeight
                                                                         .w500
                                                                     : FontWeight
                                                                         .bold,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomRight,
-                                                child: InkWell(
-                                                  /* onTap: () {
+                                                            fontSize: 12)),
+                                                  ),
+                                                ]),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: InkWell(
+                                              /* onTap: () {
                                                       push(const ReminderView());
                                                     }, */
-                                                  child: Image.asset(
-                                                    LocalImages
-                                                        .img_naveli_nurse,
-                                                    fit: BoxFit.contain,
-                                                    height: 150,
-                                                  ),
-                                                ),
-                                              ),
-                                            ])),
-                                      )
-                                    : index == 2
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 12,
-                                                right: 12,
-                                                bottom: 20),
-                                            child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    right: 10,
-                                                    top: 10),
-                                                height: 160,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: Color(0XFFFFEEEE),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  shadows: const [
-                                                    BoxShadow(
-                                                      color: Color(0x3F000000),
-                                                      blurRadius: 5,
-                                                      offset: Offset(0, 2),
-                                                      spreadRadius: 0,
-                                                    )
-                                                  ],
-                                                ),
-                                                child: Stack(children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            S
-                                                                .of(context)!
-                                                                .theNeowStory,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20,
-                                                            ),
-                                                          ),
-                                                          kCommonSpaceV10,
-                                                          Text(
-                                                            S
-                                                                .of(context)!
-                                                                .leadingLadies1,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                          kCommonSpaceV10,
-                                                          ElevatedButton(
-                                                            onPressed: () {
-                                                              //TODO : Slider onTap required
-                                                              push(PostList(
-                                                                position: 0,
-                                                                selectedTabIndex:
-                                                                    0,
-                                                                postTitle: "",
-                                                              ));
-                                                            },
-                                                            style: ButtonStyle(
-                                                              fixedSize:
-                                                                  WidgetStateProperty
-                                                                      .all<
-                                                                          Size>(
-                                                                Size(120.0,
-                                                                    25.0), // Button width and height
-                                                              ),
-                                                              backgroundColor:
-                                                                  WidgetStateProperty.all<
-                                                                          Color>(
-                                                                      Color(
-                                                                          0xFFD15151)),
-                                                              foregroundColor:
-                                                                  WidgetStateProperty.all<
-                                                                          Color>(
-                                                                      Colors
-                                                                          .white),
-                                                            ),
-                                                            child: Text(
-                                                                S
-                                                                    .of(
-                                                                        context)!
-                                                                    .tapHere,
-                                                                style: TextStyle(
-                                                                    fontWeight: lang ==
-                                                                            "hi"
-                                                                        ? FontWeight
-                                                                            .w500
-                                                                        : FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12)),
-                                                          ),
-                                                        ]),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: InkWell(
-                                                      /* onTap: () {
-                                                      push(const ReminderView());
-                                                    }, */
-                                                      child: Image.asset(
-                                                        LocalImages
-                                                            .img_naveli_mike,
-                                                        fit: BoxFit.contain,
-                                                        height: 150,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ])),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 12,
-                                                right: 12,
-                                                bottom: 20),
-                                            child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 10, top: 10),
-                                              height: 160,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: ShapeDecoration(
-                                                color: Color(0XFFFFEEEE),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                shadows: const [
-                                                  BoxShadow(
-                                                    color: Color(0x3F000000),
-                                                    blurRadius: 5,
-                                                    offset: Offset(0, 2),
-                                                    spreadRadius: 0,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            S
-                                                                .of(context)!
-                                                                .grooveWithNeow,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 18,
-                                                            ),
-                                                          ),
-                                                          kCommonSpaceV10,
-                                                          Text(
-                                                            S
-                                                                .of(context)!
-                                                                .leadingLadies2,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                          kCommonSpaceV10,
-                                                          ElevatedButton(
-                                                            onPressed: () {
-                                                              //TODO : Slider onTap required
-                                                              push(PostList(
-                                                                position: 0,
-                                                                selectedTabIndex:
-                                                                    0,
-                                                                postTitle:
-                                                                    "Slider",
-                                                              ));
-                                                            },
-                                                            style: ButtonStyle(
-                                                              fixedSize:
-                                                                  WidgetStateProperty
-                                                                      .all<
-                                                                          Size>(
-                                                                Size(120.0,
-                                                                    25.0), // Button width and height
-                                                              ),
-                                                              backgroundColor:
-                                                                  WidgetStateProperty.all<
-                                                                          Color>(
-                                                                      Color.fromARGB(
-                                                                          255,
-                                                                          175,
-                                                                          34,
-                                                                          34)),
-                                                              foregroundColor:
-                                                                  WidgetStateProperty.all<
-                                                                          Color>(
-                                                                      Colors
-                                                                          .white),
-                                                            ),
-                                                            child: Text(
-                                                              S
-                                                                  .of(context)!
-                                                                  .tapHere,
-                                                              style: TextStyle(
-                                                                fontWeight: lang == "hi"
-                                                                    ? FontWeight
-                                                                        .w500
-                                                                    : FontWeight
-                                                                        .bold,
-                                                                fontSize: 12,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: InkWell(
-                                                      child: Image.asset(
-                                                        LocalImages
-                                                            .grovewithnew,
-                                                        fit: BoxFit.contain,
-                                                        height: 150,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                              child: Image.asset(
+                                                LocalImages.img_naveli_mike,
+                                                fit: BoxFit.contain,
+                                                height: 150,
                                               ),
                                             ),
-                                          );
+                                          ),
+                                        ])),
+                                  );
+                            // : Padding(
+                            //     padding: const EdgeInsets.only(
+                            //         left: 12, right: 12, bottom: 20),
+                            //     child: Container(
+                            //       padding: const EdgeInsets.only(
+                            //           left: 10, right: 10, top: 10),
+                            //       height: 160,
+                            //       clipBehavior: Clip.antiAlias,
+                            //       decoration: ShapeDecoration(
+                            //         color: Color(0XFFFFEEEE),
+                            //         shape: RoundedRectangleBorder(
+                            //           borderRadius:
+                            //               BorderRadius.circular(10),
+                            //         ),
+                            //         shadows: const [
+                            //           BoxShadow(
+                            //             color: Color(0x3F000000),
+                            //             blurRadius: 5,
+                            //             offset: Offset(0, 2),
+                            //             spreadRadius: 0,
+                            //           )
+                            //         ],
+                            //       ),
+                            //       child: Stack(
+                            //         children: [
+                            //           Align(
+                            //             alignment: Alignment.topLeft,
+                            //             child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment
+                            //                         .start,
+                            //                 children: [
+                            //                   Text(
+                            //                     S
+                            //                         .of(context)!
+                            //                         .grooveWithNeow,
+                            //                     style: TextStyle(
+                            //                       fontWeight:
+                            //                           FontWeight.bold,
+                            //                       fontSize: 18,
+                            //                     ),
+                            //                   ),
+                            //                   kCommonSpaceV10,
+                            //                   Text(
+                            //                     S
+                            //                         .of(context)!
+                            //                         .leadingLadies2,
+                            //                     style: TextStyle(
+                            //                       fontWeight:
+                            //                           FontWeight.w500,
+                            //                     ),
+                            //                   ),
+                            //                   kCommonSpaceV10,
+                            //                   ElevatedButton(
+                            //                     onPressed: () {
+                            //                       //TODO : Slider onTap required
+                            //                       push(PostList(
+                            //                         position: 0,
+                            //                         selectedTabIndex: 0,
+                            //                         postTitle: "Slider",
+                            //                       ));
+                            //                     },
+                            //                     style: ButtonStyle(
+                            //                       fixedSize:
+                            //                           WidgetStateProperty
+                            //                               .all<Size>(
+                            //                         Size(120.0,
+                            //                             25.0), // Button width and height
+                            //                       ),
+                            //                       backgroundColor:
+                            //                           WidgetStateProperty
+                            //                               .all<Color>(Color
+                            //                                   .fromARGB(
+                            //                                       255,
+                            //                                       175,
+                            //                                       34,
+                            //                                       34)),
+                            //                       foregroundColor:
+                            //                           WidgetStateProperty
+                            //                               .all<Color>(
+                            //                                   Colors
+                            //                                       .white),
+                            //                     ),
+                            //                     child: Text(
+                            //                       S
+                            //                           .of(context)!
+                            //                           .tapHere,
+                            //                       style: TextStyle(
+                            //                         fontWeight:
+                            //                             lang == "hi"
+                            //                                 ? FontWeight
+                            //                                     .w500
+                            //                                 : FontWeight
+                            //                                     .bold,
+                            //                         fontSize: 12,
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ]),
+                            //           ),
+                            //           Align(
+                            //             alignment:
+                            //                 Alignment.bottomRight,
+                            //             child: InkWell(
+                            //               child: Image.asset(
+                            //                 LocalImages.grovewithnew,
+                            //                 fit: BoxFit.contain,
+                            //                 height: 150,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   );
                           },
                         ),
                         Align(
@@ -1031,7 +983,9 @@ class _HomeViewState extends State<HomeView> {
                             child: buildIndicator(),
                           ),
                         ),
-                      ])),
+                      ],
+                    ),
+                  ),
                   kCommonSpaceV30,
                   Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12),
@@ -1365,7 +1319,7 @@ class _HomeViewState extends State<HomeView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        4,
+        2,
         (index) => Container(
           width: 8.0,
           height: 8.0,

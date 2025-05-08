@@ -102,9 +102,9 @@ class _HealthmixLatestDetailViewState extends State<HealthmixLatestDetailView> {
                   Image.network(
                     widget.post.media ??
                         "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
-                    height: 200,
+                    height: 400,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) {
                         return child;

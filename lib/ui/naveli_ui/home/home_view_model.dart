@@ -926,25 +926,6 @@ class HomeViewModel with ChangeNotifier {
     getDateWiseText();
   }
 
-  void startSlider() {
-    timerSlider = Timer.periodic(
-      const Duration(seconds: 25),
-      (timer) {
-        if (currentPage < 1) {
-          currentPage++;
-        } else {
-          currentPage = 0;
-        }
-        pageController.animateToPage(
-          currentPage,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      },
-    );
-    notifyListeners();
-  }
-
   String getWeekDay(DateTime dateTime) {
     switch (dateTime.weekday) {
       case DateTime.sunday:

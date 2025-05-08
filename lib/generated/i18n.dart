@@ -1152,6 +1152,10 @@ class S implements WidgetsLocalizations {
       "Share our app with your friends\nand family.";
 
   String get followUsOn => "Follow us on:";
+
+  String get rateAndWriteReview => "Rate and write an app review";
+
+  String get today => "Today";
 }
 
 class $en extends S {
@@ -1162,6 +1166,12 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get today => "आज";
+
+  @override
+  String get rateAndWriteReview => "रेट करें और ऐप की समीक्षा लिखें";
+
   @override
   String get followUsOn => "पर हमें का पालन करें:";
 
@@ -1483,8 +1493,7 @@ class $mr extends S {
       "क्या आपको बहुत ज्य़ादा ब्लीडिंग या अनियमित ब्लीडिंग हो रहा है?";
 
   @override
-  String get keepTrying =>
-      "कम से कम 6 महीने तक कोशिश करते रहें। अपनी उपजाऊ अवधि के बारे में जानने के लिए [यहां क्लिक करें] (कैलेंडर पर जाएं)।";
+  String get keepTrying => "कम से कम 6 महीने तक कोशिश करते रहें।";
 
   @override
   String get clickHere => "क्लिक करें।";
@@ -1537,7 +1546,7 @@ class $mr extends S {
 
   @override
   String get gottonYourselfVaccinated =>
-      "क्या आपने सर्वाइकल कैंसर से बचाव के लिए टीका लगवाया है";
+      "क्या आपने सर्वाइकल कैंसर से बचाव के लिए टीका लगवाया है?";
 
   @override
   String get lastPeriodDay => "आपकी पिछली पीरियड की तारीख";
@@ -2210,7 +2219,7 @@ class $mr extends S {
   String get neowInNews => "ख़बरों में NeoW";
 
   @override
-  String get quickQuestion => "प्रश्नोत्तरी";
+  String get quickQuestion => "अहम सवाल";
 
   @override
   String get periodMedication => "पीरियड दवा";
@@ -2261,7 +2270,7 @@ class $mr extends S {
   String get help => "सहायता";
 
   @override
-  String get rateUs => "रेट और रिव्यू";
+  String get rateUs => "रेट और रिव्यू करें";
 
   @override
   String get logout => "लॉग आउट";
