@@ -268,6 +268,7 @@ class _DashboardViewState extends State<DashboardView> {
       //User report data
       mViewModel.getUserSymptoms();
       mViewModel.getUserVaccinationInfo();
+      mViewModel.getUserPersonalInformation();
 
       // setBarData();
       mViewModelWeight.fetchWeightData();
@@ -299,7 +300,6 @@ class _DashboardViewState extends State<DashboardView> {
           dobController.text = globalUserMaster?.birthdate ?? '';
           ageController.text = "${globalUserMaster?.age} Year";
           stateController.text = mViewModel.userInfo.state;
-
           districtController.text = mViewModel.userInfo.city;
 
           if (globalUserMaster?.relationshipStatus == '1') {
@@ -463,7 +463,9 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     )),
                 if (isPersonal)
-                  Container(
+                  Consumer<DashBoardViewModel>(
+                      builder: (context, vModel, child) {
+                    return Container(
                       padding: const EdgeInsets.only(
                         top: 20,
                         left: 10,
@@ -478,7 +480,10 @@ class _DashboardViewState extends State<DashboardView> {
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.name,
-                            controller: nameController,
+                            controller: TextEditingController(
+                                text: vModel
+                                        .userPersonalInformation?.data?.name ??
+                                    ""),
                             border: true,
                           ),
                           kCommonSpaceV5,
@@ -489,7 +494,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.gender,
-                                  controller: genderController,
+                                  controller: TextEditingController(
+                                      text: vModel.getUsergender()),
                                   isReadOnly: true,
                                   border: true,
                                 ),
@@ -500,7 +506,9 @@ class _DashboardViewState extends State<DashboardView> {
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.age,
-                                  controller: ageController,
+                                  controller: TextEditingController(
+                                      text:
+                                          "${vModel.userPersonalInformation?.data?.age.toString()} Years"),
                                   isReadOnly: true,
                                   border: true,
                                 ),
@@ -515,9 +523,13 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  // TODO : State name to be shown
                                   labelText: S.of(context)!.state,
-                                  controller: stateController,
+                                  controller: TextEditingController(
+                                    text: vModel.getStateName(
+                                      int.parse(vModel.userPersonalInformation!
+                                          .data!.state!),
+                                    ),
+                                  ),
                                   isReadOnly: true,
                                   border: true,
                                 ),
@@ -527,9 +539,13 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   // color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  // TODO : District name to be shown
                                   labelText: S.of(context)!.district,
-                                  controller: districtController,
+                                  controller: TextEditingController(
+                                    text: vModel.getCityName(
+                                      int.parse(vModel.userPersonalInformation!
+                                          .data!.city!),
+                                    ),
+                                  ),
                                   isReadOnly: true,
                                   border: true,
                                 ),
@@ -542,7 +558,9 @@ class _DashboardViewState extends State<DashboardView> {
                             // color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.phoneNumber,
-                            controller: mobileController,
+                            controller: TextEditingController(
+                                text:
+                                    "+91-${vModel.userPersonalInformation?.data?.mobile}"),
                             isReadOnly: true,
                             border: true,
                           ),
@@ -566,7 +584,10 @@ class _DashboardViewState extends State<DashboardView> {
                                     //color: CommonColors.mGrey200,
                                     color: Color(0xFFF5F5F5),
                                     labelText: S.of(context)!.email,
-                                    controller: emailController,
+                                    controller: TextEditingController(
+                                        text: vModel.userPersonalInformation
+                                                ?.data?.email ??
+                                            ""),
                                     border:
                                         false, // Don't apply border to the TextField, it's handled by the container
                                   ),
@@ -600,7 +621,10 @@ class _DashboardViewState extends State<DashboardView> {
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.dateOfBirth,
-                            controller: dobController,
+                            controller: TextEditingController(
+                                text: vModel.userPersonalInformation?.data
+                                        ?.birthdate ??
+                                    ""),
                             isReadOnly: true,
                             border: true,
                           ),
@@ -609,7 +633,8 @@ class _DashboardViewState extends State<DashboardView> {
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.ageGroup,
-                            controller: ageGroupController,
+                            controller: TextEditingController(
+                                text: vModel.getUserAgeGroup()),
                             isReadOnly: true,
                             border: true,
                           ),
@@ -619,39 +644,43 @@ class _DashboardViewState extends State<DashboardView> {
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.relationshipStatus,
-                            controller: relationshipStatusController,
+                            controller: TextEditingController(
+                                text: vModel.getUserRelationshipStatus()),
                             isReadOnly: true,
                             border: true,
                           ),
                           kCommonSpaceV5,
-                          kCommonSpaceV20,
-                          PrimaryButton(
-                            width: kDeviceWidth / 2,
-                            onPress: () {
-                              int? maritalStatus = 0;
-                              if (maritalStatusController.text == "Solo") {
-                                maritalStatus = 1;
-                              } else if (maritalStatusController.text ==
-                                  "Tied") {
-                                maritalStatus = 2;
-                              } else if (maritalStatusController.text ==
-                                  "Open for surprise") {
-                                maritalStatus = 3;
-                              }
-                              mViewModel.userUpdateDashboardApi(
-                                  imagePath: imagePath,
-                                  name: nameController.text.trim(),
-                                  email: emailController.text.trim(),
-                                  relationshipStatus: maritalStatus.toString(),
-                                  averageCycleLength:
-                                      cycleLengthController.text.trim(),
-                                  averagePeriodLength:
-                                      periodLengthController.text.trim());
-                            },
-                            label: S.of(context)!.update,
-                          ),
+                          // kCommonSpaceV20,
+                          //TODO : Add a button to update the profile
+                          // PrimaryButton(
+                          //   width: kDeviceWidth / 2,
+                          //   onPress: () {
+                          //     int? maritalStatus = 0;
+                          //     if (maritalStatusController.text == "Solo") {
+                          //       maritalStatus = 1;
+                          //     } else if (maritalStatusController.text ==
+                          //         "Tied") {
+                          //       maritalStatus = 2;
+                          //     } else if (maritalStatusController.text ==
+                          //         "Open for surprise") {
+                          //       maritalStatus = 3;
+                          //     }
+                          //     mViewModel.userUpdateDashboardApi(
+                          //         imagePath: imagePath,
+                          //         name: nameController.text.trim(),
+                          //         email: emailController.text.trim(),
+                          //         relationshipStatus: maritalStatus.toString(),
+                          //         averageCycleLength:
+                          //             cycleLengthController.text.trim(),
+                          //         averagePeriodLength:
+                          //             periodLengthController.text.trim());
+                          //   },
+                          //   label: S.of(context)!.update,
+                          // ),
                         ],
-                      )),
+                      ),
+                    );
+                  }),
                 kCommonSpaceV20,
                 Container(
                     padding: const EdgeInsets.all(10),
@@ -667,9 +696,6 @@ class _DashboardViewState extends State<DashboardView> {
                           isPersonal = false;
                           isCycle = !isCycle;
                         });
-                        // Future.delayed(Duration(seconds: 3), () {
-                        //   CommonUtils.hideProgressDialog();
-                        // });
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

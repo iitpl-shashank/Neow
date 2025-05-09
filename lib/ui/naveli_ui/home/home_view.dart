@@ -115,7 +115,6 @@ class _HomeViewState extends State<HomeView> {
       await mViewModel.handleSecondBloc(dateString);
       print("diipppka1");
       // mViewModel.fetchData();
-      _setTimeout();
 
       mViewModel.updateSelectedDate(DateTime.now());
     });
@@ -155,18 +154,6 @@ class _HomeViewState extends State<HomeView> {
     /*if (peroidCustomeList.length > 0) {
       await handleSecondBloc(peroidCustomeList[0].predicated_period_start_date);
     }*/
-  }
-
-  int timeoutValue = 1;
-
-  void _setTimeout() {
-    Future.delayed(Duration(seconds: 5, milliseconds: 500), () {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          timeoutValue = 2;
-        });
-      });
-    });
   }
 
   bool isCycleStartFromTommorw() {
@@ -441,19 +428,25 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                (mViewModel.isLoading)
-                                    ? CircularProgressIndicator()
-                                    : Visibility(
-                                        visible: timeoutValue == 2,
-                                        child: Container(
+                            child: Consumer<HomeViewModel>(
+                              builder: (context, vModel, child) {
+                                print(
+                                    "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    vModel.isDateWiseTextLoading
+                                        ? Image.asset(
+                                            LocalImages.syncing_vibe,
+                                            width: 150,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Container(
                                             width: 150,
                                             height: 150,
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                image: NetworkImage(mViewModel
+                                                image: NetworkImage(vModel
                                                     .dateWiseTextList
                                                     .msg
                                                     .image),
@@ -462,10 +455,10 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                             child: Center(
                                               child: Text(
-                                                mViewModel.dateWiseTextList.msg
+                                                vModel.dateWiseTextList.msg
                                                     .periodMsg,
                                                 style: TextStyle(
-                                                    color: mViewModel
+                                                    color: vModel
                                                             .dateWiseTextList
                                                             .msg
                                                             .color
@@ -473,51 +466,55 @@ class _HomeViewState extends State<HomeView> {
                                                         ? Colors.black
                                                         : Colors.white),
                                               ),
-                                            )),
+                                            ),
+                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                vModel.dateWiseTextList.msg
+                                                    .description,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: CommonColors
+                                                        .darkPrimaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                          ),
+                                        ],
                                       ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            mViewModel.dateWiseTextList.msg
-                                                .description,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: CommonColors
-                                                    .darkPrimaryColor,
-                                                fontWeight: FontWeight.w500)),
+                                    ),
+                                    kCommonSpaceV5,
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        navigateToCalendarView();
+                                      },
+                                      style: ButtonStyle(
+                                        fixedSize:
+                                            WidgetStateProperty.all<Size>(
+                                          Size(lang == 'hi' ? 170 : 120.0,
+                                              30.0), // Button width and height
+                                        ),
+                                        backgroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                                CommonColors.primaryColor),
+                                        foregroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                                Colors.white),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                kCommonSpaceV5,
-                                ElevatedButton(
-                                  onPressed: () {
-                                    navigateToCalendarView();
-                                  },
-                                  style: ButtonStyle(
-                                    fixedSize: WidgetStateProperty.all<Size>(
-                                      Size(lang == 'hi' ? 170 : 120.0,
-                                          30.0), // Button width and height
+                                      child: Text(
+                                        S.of(context)!.logPeriod,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                            CommonColors.primaryColor),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                            Colors.white),
-                                  ),
-                                  child: Text(
-                                    S.of(context)!.logPeriod,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ],

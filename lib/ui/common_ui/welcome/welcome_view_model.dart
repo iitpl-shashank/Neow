@@ -97,6 +97,21 @@ class WelcomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearAllAlertInfo() {
+    age = null;
+    hasKids = null;
+    cancerVaccine = null;
+    numberOfKids = null;
+    hpvVaccine = null;
+    isPregnant = null;
+    willPregnant = null;
+    tryPregnant = null;
+    papSmear = null;
+    hadPeriod = null;
+    postmenopausal = null;
+    experience.clear();
+  }
+
   Future<void> verifyUniqueIdApi(
       {required String? uniqueId, required bool isFromCycle}) async {
     CommonUtils.showProgressDialog();
@@ -150,9 +165,7 @@ class WelcomeViewModel with ChangeNotifier {
       if (papSmear != null) 'pap_smear': papSmear,
       if (hadPeriod != null) 'had_period': hadPeriod,
       if (postmenopausal != null) 'postmenopausal': postmenopausal,
-      if (experience.isNotEmpty)
-        for (int i = 0; i < experience.length; i++)
-          'experience[]': experience[i],
+      if (experience.isNotEmpty) 'experience': experience,
     };
 
     try {

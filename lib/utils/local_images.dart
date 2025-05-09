@@ -17,6 +17,7 @@ class LocalImages {
   static const String gif_opendoor = 'assets/gif/gif_opendoor.gif';
   static const String gif_naveli_aarati = 'assets/gif/gif_naveli_aarati.gif';
   static const String gif_star = 'assets/gif/gif_star.gif';
+  static const String syncing_vibe = 'assets/gif/syncing_vibe.gif';
   static const String gif_knock_door = 'assets/gif/gif_knock_door.gif';
   static const String img_background = 'assets/images/img_background.png';
   static const String img_app_logo = 'assets/images/img_app_logo.png';

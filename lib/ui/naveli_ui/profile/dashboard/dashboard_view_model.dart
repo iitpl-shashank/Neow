@@ -4,12 +4,15 @@ import 'dart:developer';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/database/app_preferences.dart';
+import 'package:naveli_2023/models/city_master.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
+import 'package:naveli_2023/models/user_details_master.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 
 import '../../../../models/about_your_cycle_master.dart';
 import '../../../../models/common_master.dart';
+import '../../../../models/state_master.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
@@ -151,6 +154,8 @@ class DashBoardViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
   late User userInfo;
+
+  UserDetailMaster? userPersonalInformation;
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -333,9 +338,7 @@ class DashBoardViewModel with ChangeNotifier {
       if (papSmear != null) 'pap_smear': papSmear,
       if (hadPeriod != null) 'had_period': hadPeriod,
       if (expPostmenopausal != null) 'postmenopausal': expPostmenopausal,
-      if (experienceList.isNotEmpty)
-        for (int i = 0; i < experienceList.length; i++)
-          'experience[]': experienceList[i],
+      if (experienceList.isNotEmpty) 'experience': experienceList,
     };
 
     try {
@@ -481,5 +484,146 @@ class DashBoardViewModel with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> getUserPersonalInformation() async {
+    UserDetailMaster? master = await _services.api!.getUserDetails();
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      print(
+          "................................Splash oops.............................");
+    } else if (master.success! && master.data != null) {
+      userPersonalInformation = master;
+
+      await getStateList();
+      await getCityList(stateId: int.parse(master.data!.state!));
+      notifyListeners();
+    } else if (!master.success!) {
+      CommonUtils.showRedToastMessage(
+        master.message ?? "User data sync failed",
+      );
+    }
+    notifyListeners();
+  }
+
+  String getUsergender() {
+    String usergender = '';
+    if (int.parse(userPersonalInformation?.data?.gender ?? '') == 1) {
+      usergender = "Male";
+    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 2) {
+      usergender = "Female";
+    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 3) {
+      usergender = "Transgender";
+    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 4) {
+      usergender = globalUserMaster?.genderType ?? '';
+    }
+    return usergender;
+  }
+
+  String getUserAgeGroup() {
+    String ageGroup = '';
+    if (userPersonalInformation?.data?.age != null) {
+      if (userPersonalInformation!.data!.age! >= 9 &&
+          userPersonalInformation!.data!.age! <= 15) {
+        ageGroup = "9-15 Year";
+      } else if (userPersonalInformation!.data!.age! >= 16 &&
+          userPersonalInformation!.data!.age! <= 25) {
+        ageGroup = "16-25 Year";
+      } else if (userPersonalInformation!.data!.age! >= 26 &&
+          userPersonalInformation!.data!.age! <= 45) {
+        ageGroup = "26-45 Year";
+      } else if (userPersonalInformation!.data!.age! >= 46 &&
+          userPersonalInformation!.data!.age! <= 60) {
+        ageGroup = "46-60 Year";
+      } else if (userPersonalInformation!.data!.age! > 60) {
+        ageGroup = "60+ Year";
+      }
+    }
+    return ageGroup;
+  }
+
+  String getUserRelationshipStatus() {
+    String relationshipStatus = '';
+    if (userPersonalInformation!.data!.relationshipStatus! == '1') {
+      relationshipStatus = "Solo";
+    } else if (userPersonalInformation!.data!.relationshipStatus! == '2') {
+      relationshipStatus = "Tied";
+    } else if (userPersonalInformation!.data!.relationshipStatus! == '3') {
+      relationshipStatus = "Open for surprise";
+    }
+    return relationshipStatus;
+  }
+
+  List<StateData> allStateList = [];
+  List<CityData> allCityList = [];
+
+  Future<void> getStateList() async {
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    StateMaster? master = await _services.api!.getStateList(params: params);
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      print(
+          "................................State selection oops.............................");
+    } else if (master.success == false) {
+      CommonUtils.showSnackBar(
+        master.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (master.success == true) {
+      allStateList = master.data ?? [];
+    }
+    notifyListeners();
+  }
+
+  Future<void> getCityList({
+    required int? stateId,
+  }) async {
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.state_id: stateId,
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    log(params.toString());
+    CityMaster? master = await _services.api!.getCityList(params: params);
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      print(
+          "................................State selection oops.............................");
+    } else if (master.success == false) {
+      CommonUtils.showSnackBar(
+        master.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (master.success == true) {
+      allCityList = master.data ?? [];
+    }
+    notifyListeners();
+  }
+
+  String getStateName(int stateId) {
+    String stateName = '';
+    for (var element in allStateList) {
+      if (element.id == stateId) {
+        stateName = element.name ?? '';
+        break;
+      }
+    }
+    return stateName;
+  }
+
+  String getCityName(int cityId) {
+    String cityName = '';
+    debugPrint("cityId => $cityId");
+    for (var element in allCityList) {
+      if (element.id == cityId) {
+        cityName = element.name ?? '';
+        break;
+      }
+    }
+    debugPrint("cityName => $cityName");
+    return cityName;
   }
 }

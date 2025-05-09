@@ -1083,9 +1083,9 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  bool isDateWiseTextLoading = false;
   Future<void> getDateWiseText() async {
-    // CommonUtils.showProgressDialog();
-    isLoading = true;
+    isDateWiseTextLoading = true;
     notifyListeners();
     dynamic body = {};
     body = {
@@ -1095,15 +1095,18 @@ class HomeViewModel with ChangeNotifier {
     debugPrint(
         "selectedDate ====>${DateFormat('yyyy-MM-dd').format(selectedDate)}");
     debugPrint("selectedDate ====>${body}");
-
-    Map<String, dynamic> response =
-        await _services.api!.getDateWiseText(params: body);
-    debugPrint("response in main response====>${response}");
-    dateWiseTextList = ApiResponse.fromJson(response);
-
-    debugPrint("dateWiseTextList ====>${dateWiseTextList}");
-    isLoading = false;
-    notifyListeners();
+    try {
+      Map<String, dynamic> response =
+          await _services.api!.getDateWiseText(params: body);
+      debugPrint("response in main response====>${response}");
+      dateWiseTextList = ApiResponse.fromJson(response);
+      debugPrint("dateWiseTextList ====>${dateWiseTextList}");
+    } catch (e) {
+      debugPrint("Error fetching date-wise text: $e");
+    } finally {
+      isDateWiseTextLoading = false;
+      notifyListeners();
+    }
   }
 
   DateTime previousDateLocal = DateTime.now();

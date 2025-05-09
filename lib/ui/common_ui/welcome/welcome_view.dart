@@ -1118,6 +1118,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                             mViewModel.callVaccinationUpdateApi();
                           }
                           if (currentIndex == 3) {
+                            mViewModel.clearAllAlertInfo();
                             Future.delayed(const Duration(milliseconds: 3200),
                                 () {
                               pageController.nextPage(
@@ -1125,11 +1126,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                                   curve: Curves.easeIn);
                             });
                           } else {
+                            mViewModel.clearAllAlertInfo();
                             pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn);
                           }
                           if (currentIndex == 3 && selectedRelation == 1) {
+                            mViewModel.clearAllAlertInfo();
                             showDialog(
                               barrierDismissible: false,
                               context: context,
@@ -1179,6 +1182,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                             });
                           } else if (currentIndex == 3 &&
                               selectedRelation == 2) {
+                            mViewModel.clearAllAlertInfo();
                             showDialog(
                               barrierDismissible: false,
                               context: context,
@@ -1210,6 +1214,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                             });
                           } else if (currentIndex == 3 &&
                               selectedRelation == 3) {
+                            mViewModel.clearAllAlertInfo();
                             showDialog(
                               barrierDismissible: false,
                               context: context,
