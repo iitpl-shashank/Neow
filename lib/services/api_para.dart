@@ -15,6 +15,8 @@ class ApiParams {
   static const String water_ml = "water_ml";
   static const String bad_time = "bad_time";
   static const String state_id = "state_id";
+  static const String state = "state";
+  static const String city = "city";
   static const String unique_id = "unique_id";
   static const String mood = "mood";
   static const String music = "music";

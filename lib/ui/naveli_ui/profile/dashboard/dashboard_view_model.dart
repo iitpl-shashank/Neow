@@ -163,6 +163,76 @@ class DashBoardViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateUserPersonalInformation() async {
+    int stateId = getStateId(userStateController.text);
+    int cityId = getCityId(userCityController.text);
+
+    if (userNameController.text.trim().isEmpty) {
+      CommonUtils.showSnackBar(
+        "Name cannot be empty",
+        color: CommonColors.mRed,
+      );
+      return;
+    }
+    if (userEmailController.text.trim().isEmpty) {
+      CommonUtils.showSnackBar(
+        "Email cannot be empty",
+        color: CommonColors.mRed,
+      );
+      return;
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+        .hasMatch(userEmailController.text.trim())) {
+      CommonUtils.showSnackBar(
+        "Please enter a valid email address",
+        color: CommonColors.mRed,
+      );
+      return;
+    } else if (stateId == 0) {
+      CommonUtils.showSnackBar(
+        "Please select a valid state",
+        color: CommonColors.mRed,
+      );
+      return;
+    } else if (cityId == 0) {
+      CommonUtils.showSnackBar(
+        "Please select a valid city",
+        color: CommonColors.mRed,
+      );
+      return;
+    }
+
+    CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.name: userNameController.text,
+      ApiParams.email: userEmailController.text,
+      ApiParams.relationship_status: getUserRelationshipStatusId(),
+      ApiParams.birthdate: userBirthDateController.text,
+      ApiParams.state: stateId,
+      ApiParams.city: cityId,
+    };
+
+    CommonMaster? master = await _services.api!.userUpdateDetails(
+      params: params,
+    );
+    CommonUtils.hideProgressDialog();
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      print(
+          "................................dashboard oops.............................");
+    } else if (master.success == false) {
+      CommonUtils.showSnackBar(
+        master.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (master.success == true) {
+      CommonUtils.showSnackBar(
+        master.message,
+        color: CommonColors.greenColor,
+      );
+    }
+    notifyListeners();
+  }
+
   Future<void> userUpdateDashboardApi({
     required String imagePath,
     required String name,
@@ -489,6 +559,7 @@ class DashBoardViewModel with ChangeNotifier {
 
   Future<void> getUserPersonalInformation() async {
     UserDetailMaster? master = await _services.api!.getUserDetails();
+    clearUserInputFields();
     if (master == null) {
       CommonUtils.oopsMSG();
       print(
@@ -598,6 +669,19 @@ class DashBoardViewModel with ChangeNotifier {
     userRelationController.text = relationshipStatus;
   }
 
+  int getUserRelationshipStatusId() {
+    if (userRelationController.text != '') {
+      if (userRelationController.text == "Solo") {
+        return 1;
+      } else if (userRelationController.text == "Tied") {
+        return 2;
+      } else if (userRelationController.text == "Open for surprise") {
+        return 3;
+      }
+    }
+    return 0;
+  }
+
   List<StateData> allStateList = [];
   List<CityData> allCityList = [];
 
@@ -694,6 +778,19 @@ class DashBoardViewModel with ChangeNotifier {
     }
     debugPrint("cityId => $cityId");
     return cityId;
+  }
+
+  void clearUserInputFields() {
+    userNameController.clear();
+    userMobileController.clear();
+    userEmailController.clear();
+    userStateController.clear();
+    userCityController.clear();
+    userBirthDateController.clear();
+    userRelationController.clear();
+    userAgeGroupController.clear();
+    userAgeController.clear();
+    notifyListeners();
   }
 
   TextEditingController userNameController = TextEditingController();

@@ -560,9 +560,10 @@ class _DashboardViewState extends State<DashboardView> {
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.phoneNumber,
                             controller: vModel.userMobileController,
-                            isReadOnly: false,
+                            // TODO : phone number changable ?
+                            isReadOnly: true,
                             textColor: CommonColors.blackColor,
-                            border: true,
+                            border: false,
                           ),
                           kCommonSpaceV5,
                           Container(
@@ -638,7 +639,6 @@ class _DashboardViewState extends State<DashboardView> {
                             border: false,
                           ),
                           kCommonSpaceV5,
-
                           CustomTextFieldContainer(
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.relationshipStatus,
@@ -656,32 +656,13 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           kCommonSpaceV5,
                           kCommonSpaceV20,
-                          // TODO : Add a button to update the profile
-                          // PrimaryButton(
-                          //   width: kDeviceWidth / 2,
-                          //   onPress: () {
-                          //     int? maritalStatus = 0;
-                          //     if (maritalStatusController.text == "Solo") {
-                          //       maritalStatus = 1;
-                          //     } else if (maritalStatusController.text ==
-                          //         "Tied") {
-                          //       maritalStatus = 2;
-                          //     } else if (maritalStatusController.text ==
-                          //         "Open for surprise") {
-                          //       maritalStatus = 3;
-                          //     }
-                          //     mViewModel.userUpdateDashboardApi(
-                          //         imagePath: imagePath,
-                          //         name: nameController.text.trim(),
-                          //         email: emailController.text.trim(),
-                          //         relationshipStatus: maritalStatus.toString(),
-                          //         averageCycleLength:
-                          //             cycleLengthController.text.trim(),
-                          //         averagePeriodLength:
-                          //             periodLengthController.text.trim());
-                          //   },
-                          //   label: S.of(context)!.update,
-                          // ),
+                          PrimaryButton(
+                            width: kDeviceWidth / 2,
+                            onPress: () {
+                              mViewModel.updateUserPersonalInformation();
+                            },
+                            label: S.of(context)!.update,
+                          ),
                         ],
                       ),
                     );
