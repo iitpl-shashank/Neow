@@ -1,7 +1,9 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:naveli_2023/ui/app/app_model.dart';
 import 'package:naveli_2023/utils/date_utils.dart';
+import 'package:provider/provider.dart';
 import '../generated/i18n.dart';
 import '../ui/naveli_ui/home/home_view_model.dart';
 import '../utils/global_variables.dart';
@@ -22,23 +24,75 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
   String currentMonth = DateFormat.MMMM().format(DateTime.now());
 
+  late int todayIndex;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   dates = _generateDates();
+
+  //   todayIndex = dates.indexWhere((d) => d.isSameDay(DateTime.now()));
+  //   currentMonth = DateFormat.MMMM().format(dates[todayIndex]);
+
+  //   _scrollController.addListener(() {
+  //     int visibleIndex = todayIndex + (_scrollController.offset / 35).floor();
+
+  //     if (visibleIndex >= 0 && visibleIndex < dates.length) {
+  //       DateTime visibleDate = dates[visibleIndex];
+  //       String visibleMonth = DateFormat.MMMM().format(visibleDate);
+
+  //       if (visibleMonth != currentMonth) {
+  //         setState(() {
+  //           currentMonth = visibleMonth;
+  //           print("Month : ${currentMonth} and ${visibleMonth}");
+  //         });
+  //       }
+  //     }
+  //   });
+
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     _scrollController.jumpTo(0);
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
     dates = _generateDates();
 
-    // Listen to scroll changes to update the current month
-    _scrollController.addListener(() {
-      int firstVisibleIndex =
-          (_scrollController.offset / 60).floor(); // Approximate index
-      if (firstVisibleIndex >= 0 && firstVisibleIndex < dates.length) {
-        String newMonth = DateFormat.MMMM().format(dates[firstVisibleIndex]);
-        if (newMonth != currentMonth) {
-          setState(() {
-            currentMonth = newMonth;
-          });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Access the context after the widget tree is built
+      var lang = Provider.of<AppModel>(context, listen: false).locale;
+
+      // Set the initial month name based on the language
+      todayIndex = dates.indexWhere((d) => d.isSameDay(DateTime.now()));
+      currentMonth = lang == 'hi'
+          ? DateFormat.MMMM('hi_IN')
+              .format(dates[todayIndex]) // Hindi month name
+          : DateFormat.MMMM('en_US')
+              .format(dates[todayIndex]); // English month name
+
+      // Scroll to the current date
+      _scrollController.jumpTo(0);
+
+      // Add scroll listener to update the month dynamically
+      _scrollController.addListener(() {
+        int visibleIndex = todayIndex + (_scrollController.offset / 35).floor();
+
+        if (visibleIndex >= 0 && visibleIndex < dates.length) {
+          DateTime visibleDate = dates[visibleIndex];
+          String visibleMonth = lang == 'hi'
+              ? DateFormat.MMMM('hi_IN').format(visibleDate) // Hindi month name
+              : DateFormat.MMMM('en_US')
+                  .format(visibleDate); // English month name
+
+          if (visibleMonth != currentMonth) {
+            setState(() {
+              currentMonth = visibleMonth;
+            });
+          }
         }
-      }
+      });
     });
   }
 
@@ -57,17 +111,6 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
     return dates;
   }
 
-  // void _scrollToCurrentDate() {
-  //   int currentIndex = dates.indexWhere((date) =>
-  //       date.year == widget.mViewModel.selectedDate.year &&
-  //       date.month == widget.mViewModel.selectedDate.month &&
-  //       date.day == widget.mViewModel.selectedDate.day);
-
-  //   if (currentIndex != -1) {
-  //     _scrollController.jumpTo(currentIndex * 0.0);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,7 +122,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
             currentMonth,
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: Colors.black,
             ),
           ),
@@ -102,11 +145,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                 bool isOvulation =
                     false; //widget.mViewModel.ovulationDates.contains(date);
                 bool isFirtile = false;
-
                 DateTime now = DateTime.now();
-                // int currentMonth = now.month;
-                // int currentYear = now.year;
-
                 List<DateTime> fertileDates = [];
                 List<DateTime> ovulationDates = [];
                 List<DateTime> loggedPeriodDates = [];
@@ -179,7 +218,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal:
-                                  (isFirtile || isPredictedDate) ? 10.0 : 0),
+                                  (isFirtile || isPredictedDate) ? 10.0 : 10.0),
                           child: DottedBorder(
                             color: isFirtile
                                 ? Colors.green

@@ -8,6 +8,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:naveli_2023/utils/hindi_translation.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/healthmix_category_model.dart';
 import '../../../models/period_phase_model.dart';
@@ -37,6 +38,27 @@ class HomeViewModel with ChangeNotifier {
   List<DateTime> daysList = [];
   DateTime selectedDate = DateTime.now();
   List<Record> healthMixCategoryList = [];
+
+  List<String> hindiTransliterations = [];
+  List<String> englishTransliterations = [];
+
+  Future<void> getHindiTranslation({required String string}) async {
+    CommonUtils.showProgressDialog();
+    TransliterationResponse? _response =
+        await HindiTranslation.transliterate(string, Languages.HINDI);
+    hindiTransliterations = _response!.transliterationSuggestions;
+    notifyListeners();
+    CommonUtils.hideProgressDialog();
+    log("Hindi Translation : ${hindiTransliterations}");
+  }
+
+  Future<void> getEnglishTranslation({required String string}) async {
+    TransliterationResponse? _response =
+        await HindiTranslation.transliterate(string, Languages.ENGLISH);
+    englishTransliterations = _response!.transliterationSuggestions;
+    notifyListeners();
+    log("English Translation : ${englishTransliterations}");
+  }
 
   List<Color> gradientColorsList() => [
         Colors.red,

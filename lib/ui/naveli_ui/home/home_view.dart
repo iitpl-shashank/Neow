@@ -79,6 +79,9 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      String username = globalUserMaster?.name.toString().split(' ')[0] ?? '';
+      mViewModel.getHindiTranslation(string: username);
+
       _startAutoSlide();
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
@@ -362,8 +365,6 @@ class _HomeViewState extends State<HomeView> {
     mViewHealthMixModel = Provider.of<HealthMixViewModel>(context);
     mViewSymptomsModel = Provider.of<LogYourSymptomsModel>(context);
     mViewYourNaveliModel = Provider.of<YourNaveliViewModel>(context);
-    String username = globalUserMaster?.name.toString().split(' ')[0] ?? '';
-    int no = 0;
 
     var calender2 = HorizontalCalendar(
       mViewModel: mViewModel,
@@ -381,7 +382,8 @@ class _HomeViewState extends State<HomeView> {
           return Scaffold(
             appBar: AppBar(
               // backgroundColor:Colors.red,
-              title: Text("${S.of(context)!.hi}, NeoW $username!",
+              title: Text(
+                  "${S.of(context)!.hi}, NeoW ${mViewModel.hindiTransliterations.isNotEmpty ? mViewModel.hindiTransliterations[0] : ''} !",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight:
@@ -1173,31 +1175,61 @@ class _HomeViewState extends State<HomeView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              HealthmixCategoryCard(
-                                title: firstCard.name ?? "",
-                                imagePath: firstCard.iconUrl ?? "",
-                                backgroundColor: CommonColors.mWhite,
-                                onTap: () => push(PostList(
-                                  position: 0,
-                                  selectedTabIndex: firstCard.id ?? 0,
-                                  postTitle: firstCard.name ?? "",
-                                )),
-                              ),
-                              if (secondCard != null)
+                              if (index * 2 <
+                                  mViewModel.healthMixCategoryList.length)
                                 HealthmixCategoryCard(
-                                  title: secondCard.name ?? "",
-                                  imagePath: secondCard.iconUrl ?? "",
+                                  title: mViewModel
+                                          .healthMixCategoryList[index * 2]
+                                          .name ??
+                                      "",
+                                  imagePath: mViewModel
+                                          .healthMixCategoryList[index * 2]
+                                          .iconUrl ??
+                                      "",
                                   backgroundColor: CommonColors.mWhite,
                                   onTap: () => push(PostList(
                                     position: 0,
-                                    selectedTabIndex: secondCard.id ?? 0,
-                                    postTitle: secondCard.name ?? "",
+                                    selectedTabIndex: mViewModel
+                                            .healthMixCategoryList[index * 2]
+                                            .id ??
+                                        0,
+                                    postTitle: mViewModel
+                                            .healthMixCategoryList[index * 2]
+                                            .name ??
+                                        "",
+                                  )),
+                                ),
+                              if (index * 2 + 1 <
+                                  mViewModel.healthMixCategoryList.length)
+                                HealthmixCategoryCard(
+                                  title: mViewModel
+                                          .healthMixCategoryList[index * 2 + 1]
+                                          .name ??
+                                      "",
+                                  imagePath: mViewModel
+                                          .healthMixCategoryList[index * 2 + 1]
+                                          .iconUrl ??
+                                      "",
+                                  backgroundColor: CommonColors.mWhite,
+                                  onTap: () => push(PostList(
+                                    position: 0,
+                                    selectedTabIndex: mViewModel
+                                            .healthMixCategoryList[
+                                                index * 2 + 1]
+                                            .id ??
+                                        0,
+                                    postTitle: mViewModel
+                                            .healthMixCategoryList[
+                                                index * 2 + 1]
+                                            .name ??
+                                        "",
                                   )),
                                 )
                               else
                                 SizedBox(
-                                    width: MediaQuery.of(context).size.width /
-                                        2.2),
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                ),
                             ],
                           ),
                         );
