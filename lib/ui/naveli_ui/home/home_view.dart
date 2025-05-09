@@ -1031,11 +1031,12 @@ class _HomeViewState extends State<HomeView> {
                       child: Row(
                         children: <Widget>[
                           if (gUserType == AppConstants.NEOWME)
-                            // TODO : Show toast if not a period day
                             CommonDailyInsightContainer(
                               onTap: () {
                                 if (mViewModel.dateWiseTextList.msg.periodMsg
-                                    .contains("Period Day")) {
+                                        .contains("Period Day") ||
+                                    mViewModel.dateWiseTextList.msg.periodMsg
+                                        .contains("पीरियड दिन")) {
                                   push(const LogYourSymptoms());
                                 } else {
                                   CommonUtils.showToastMessage(

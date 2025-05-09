@@ -472,18 +472,14 @@ class _DashboardViewState extends State<DashboardView> {
                         right: 10,
                         bottom: 20,
                       ),
-                      //color: CommonColors.mGrey200,
                       color: Color(0xFFF5F5F5),
                       child: Column(
                         children: [
                           CustomTextFieldContainer(
-                            //color: CommonColors.mGrey200,
+                            textColor: CommonColors.blackColor,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.name,
-                            controller: TextEditingController(
-                                text: vModel
-                                        .userPersonalInformation?.data?.name ??
-                                    ""),
+                            controller: vModel.userNameController,
                             border: true,
                           ),
                           kCommonSpaceV5,
@@ -491,167 +487,176 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.gender,
                                   controller: TextEditingController(
                                       text: vModel.getUsergender()),
                                   isReadOnly: true,
-                                  border: true,
+                                  border: false,
                                 ),
                               ),
                               kCommonSpaceH10,
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.age,
                                   controller: TextEditingController(
                                       text:
-                                          "${vModel.userPersonalInformation?.data?.age.toString()} Years"),
+                                          "${vModel.userAgeController.text} Years"),
                                   isReadOnly: true,
-                                  border: true,
+                                  border: false,
                                 ),
                               ),
                             ],
                           ),
                           kCommonSpaceV5,
-
                           Row(
                             children: [
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.state,
-                                  controller: TextEditingController(
-                                    text: vModel.getStateName(
-                                      int.parse(vModel.userPersonalInformation!
-                                          .data!.state!),
-                                    ),
-                                  ),
+                                  controller: vModel.userStateController,
                                   isReadOnly: true,
                                   border: true,
+                                  isDropDown: true,
+                                  dropDownItems: vModel.allStateList
+                                      .map((e) => e.name ?? "")
+                                      .toList(),
+                                  onItemSelected: (selectedState) {
+                                    vModel.userStateController.text =
+                                        selectedState;
+                                    vModel.updateUserState(selectedState);
+                                    vModel.getCityList(
+                                      stateId: vModel.getStateId(selectedState),
+                                    );
+                                    vModel.userCityController.text = "";
+                                  },
                                 ),
                               ),
                               kCommonSpaceH10,
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  // color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.district,
-                                  controller: TextEditingController(
-                                    text: vModel.getCityName(
-                                      int.parse(vModel.userPersonalInformation!
-                                          .data!.city!),
-                                    ),
-                                  ),
+                                  controller: vModel.userCityController,
                                   isReadOnly: true,
                                   border: true,
+                                  isDropDown: true,
+                                  dropDownItems: vModel.allCityList
+                                      .map((e) => e.name ?? "")
+                                      .toList(),
+                                  onItemSelected: (selectedState) {
+                                    vModel.userCityController.text =
+                                        selectedState;
+                                    vModel.updateUserCity(selectedState);
+                                  },
                                 ),
                               ),
                             ],
                           ),
                           kCommonSpaceV5,
-
                           CustomTextFieldContainer(
-                            // color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.phoneNumber,
-                            controller: TextEditingController(
-                                text:
-                                    "+91-${vModel.userPersonalInformation?.data?.mobile}"),
-                            isReadOnly: true,
+                            controller: vModel.userMobileController,
+                            isReadOnly: false,
+                            textColor: CommonColors.blackColor,
                             border: true,
                           ),
                           kCommonSpaceV5,
-
-                          //
                           Container(
                             height: 70,
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                    color: CommonColors.mGrey201,
-                                    width: 1), // Bottom border for the row
+                                  color: CommonColors.mGrey201,
+                                  width: 1,
+                                ),
                               ),
                             ),
                             child: Row(
                               children: [
-                                // Custom Text Field with 100% width
                                 Expanded(
                                   child: CustomTextFieldContainer(
-                                    //color: CommonColors.mGrey200,
                                     color: Color(0xFFF5F5F5),
                                     labelText: S.of(context)!.email,
-                                    controller: TextEditingController(
-                                        text: vModel.userPersonalInformation
-                                                ?.data?.email ??
-                                            ""),
-                                    border:
-                                        false, // Don't apply border to the TextField, it's handled by the container
+                                    controller: vModel.userEmailController,
+                                    border: false,
+                                    textColor: CommonColors.blackColor,
+                                    isReadOnly: false,
                                   ),
-                                ),
-
-                                // Edit Icon with specific size
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.edit,
-                                    size: 15, // Set the size of the icon
-                                  ),
-                                  onPressed: () {
-                                    showInputDialog(
-                                      context: context,
-                                      title: S.of(context)!.editEmail,
-                                      hintText: S.of(context)!.enterEmail,
-                                      onSubmit: (value) {
-                                        //print('Input: $value'); // Do something with the input
-                                      },
-                                    );
-                                    // Handle edit icon press
-                                    print("Edit icon pressed");
-                                  },
                                 ),
                               ],
                             ),
                           ),
-                          kCommonSpaceV5,
-                          kCommonSpaceV5,
+                          kCommonSpaceV10,
                           CustomTextFieldContainer(
-                            //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.dateOfBirth,
-                            controller: TextEditingController(
-                                text: vModel.userPersonalInformation?.data
-                                        ?.birthdate ??
-                                    ""),
+                            controller: vModel.userBirthDateController,
                             isReadOnly: true,
-                            border: true,
+                            border: false,
+                            onTap: () async {
+                              DateTime initialDate;
+                              try {
+                                initialDate = vModel
+                                        .userBirthDateController.text.isNotEmpty
+                                    ? DateFormat('yyyy-MM-dd').parse(
+                                        vModel.userBirthDateController.text)
+                                    : DateTime.now();
+                              } catch (e) {
+                                initialDate = DateTime.now();
+                              }
+                              DateTime? selectedDate = await showDatePicker(
+                                context: context,
+                                initialDate: initialDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (selectedDate != null) {
+                                String formattedDate = DateFormat('yyyy-MM-dd')
+                                    .format(selectedDate);
+                                vModel.userBirthDateController.text =
+                                    formattedDate;
+                                vModel.updateUserBirthDate(formattedDate);
+                                vModel.calculateAge(dateOfBirth: formattedDate);
+                                vModel.getUserAgeGroup(
+                                  age: int.parse(
+                                    vModel.userAgeController.text,
+                                  ),
+                                );
+                              }
+                            },
                           ),
                           kCommonSpaceV5,
                           CustomTextFieldContainer(
-                            //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.ageGroup,
-                            controller: TextEditingController(
-                                text: vModel.getUserAgeGroup()),
+                            controller: vModel.userAgeGroupController,
                             isReadOnly: true,
-                            border: true,
+                            border: false,
                           ),
                           kCommonSpaceV5,
 
                           CustomTextFieldContainer(
-                            //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
                             labelText: S.of(context)!.relationshipStatus,
-                            controller: TextEditingController(
-                                text: vModel.getUserRelationshipStatus()),
+                            controller: vModel.userRelationController,
                             isReadOnly: true,
                             border: true,
+                            isDropDown: true,
+                            dropDownItems:
+                                vModel.relationshipStatusList.toList(),
+                            onItemSelected: (selectedState) {
+                              vModel.userRelationController.text =
+                                  selectedState;
+                              vModel.updateRelationshipStatus(selectedState);
+                            },
                           ),
                           kCommonSpaceV5,
-                          // kCommonSpaceV20,
-                          //TODO : Add a button to update the profile
+                          kCommonSpaceV20,
+                          // TODO : Add a button to update the profile
                           // PrimaryButton(
                           //   width: kDeviceWidth / 2,
                           //   onPress: () {
@@ -711,7 +716,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'About Your Cycle',
+                                S.of(context)!.aboutYouCycle,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,
@@ -1089,7 +1094,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Image.asset(LocalImages.imgSymptons, height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'Symptoms',
+                                S.of(context)!.symptoms,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,
@@ -1286,7 +1291,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Image.asset(LocalImages.imgTrack, height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'Track',
+                                S.of(context)!.track,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,
@@ -1461,7 +1466,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Image.asset(LocalImages.imgBodyQuiz, height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'BodyQuiz',
+                                S.of(context)!.quickQuestion,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,
@@ -1526,7 +1531,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'Vaccination',
+                                S.of(context)!.vaccination,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,

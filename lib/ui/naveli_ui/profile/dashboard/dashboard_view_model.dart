@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:naveli_2023/database/app_preferences.dart';
 import 'package:naveli_2023/models/city_master.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
@@ -495,8 +496,20 @@ class DashBoardViewModel with ChangeNotifier {
     } else if (master.success! && master.data != null) {
       userPersonalInformation = master;
 
+      userNameController.text = userPersonalInformation?.data?.name ?? '';
+      userMobileController.text = userPersonalInformation?.data?.mobile ?? '';
+      userEmailController.text = userPersonalInformation?.data?.email ?? '';
+
       await getStateList();
       await getCityList(stateId: int.parse(master.data!.state!));
+
+      getStateName(int.parse(master.data!.state!));
+      getCityName(int.parse(master.data!.city!));
+      updateUserBirthDate(userPersonalInformation!.data!.birthdate!);
+      getUserRelationshipStatus();
+      getUserAgeGroup(age: userPersonalInformation!.data!.age!);
+      calculateAge(dateOfBirth: userPersonalInformation!.data!.birthdate!);
+
       notifyListeners();
     } else if (!master.success!) {
       CommonUtils.showRedToastMessage(
@@ -520,29 +533,60 @@ class DashBoardViewModel with ChangeNotifier {
     return usergender;
   }
 
-  String getUserAgeGroup() {
+  void calculateAge({required String dateOfBirth}) {
+    try {
+      DateTime birthDate = DateFormat('yyyy-MM-dd').parse(dateOfBirth);
+      DateTime today = DateTime.now();
+      int age = today.year - birthDate.year;
+      if (today.month < birthDate.month ||
+          (today.month == birthDate.month && today.day < birthDate.day)) {
+        age--;
+      }
+      userAgeController.text = age.toString();
+      updateUserProfileAge(age.toString());
+    } catch (e) {
+      debugPrint("Error calculating age: $e");
+    }
+  }
+
+  void getUserAgeGroup({required int? age}) {
     String ageGroup = '';
-    if (userPersonalInformation?.data?.age != null) {
-      if (userPersonalInformation!.data!.age! >= 9 &&
-          userPersonalInformation!.data!.age! <= 15) {
+    if (age != null) {
+      if (age >= 9 && age <= 15) {
         ageGroup = "9-15 Year";
-      } else if (userPersonalInformation!.data!.age! >= 16 &&
-          userPersonalInformation!.data!.age! <= 25) {
+      } else if (age >= 16 && age <= 25) {
         ageGroup = "16-25 Year";
-      } else if (userPersonalInformation!.data!.age! >= 26 &&
-          userPersonalInformation!.data!.age! <= 45) {
+      } else if (age >= 26 && age <= 45) {
         ageGroup = "26-45 Year";
-      } else if (userPersonalInformation!.data!.age! >= 46 &&
-          userPersonalInformation!.data!.age! <= 60) {
+      } else if (age >= 46 && age <= 60) {
         ageGroup = "46-60 Year";
-      } else if (userPersonalInformation!.data!.age! > 60) {
+      } else if (age > 60) {
         ageGroup = "60+ Year";
       }
     }
-    return ageGroup;
+    userAgeGroupController.text = ageGroup;
+    updateUserAgeGroup(ageGroup);
   }
 
-  String getUserRelationshipStatus() {
+  List<String> relationshipStatusList = [
+    "Solo",
+    "Tied",
+    "Open for surprise",
+  ];
+
+  int getRelationshipStatusIndex({required String status}) {
+    int index = 0;
+    if (status == 'Solo') {
+      index = 1;
+    } else if (status == 'Tied') {
+      index = 2;
+    } else if (status == 'Open for surprise') {
+      index = 3;
+    }
+    return index;
+  }
+
+  void getUserRelationshipStatus() {
     String relationshipStatus = '';
     if (userPersonalInformation!.data!.relationshipStatus! == '1') {
       relationshipStatus = "Solo";
@@ -551,7 +595,7 @@ class DashBoardViewModel with ChangeNotifier {
     } else if (userPersonalInformation!.data!.relationshipStatus! == '3') {
       relationshipStatus = "Open for surprise";
     }
-    return relationshipStatus;
+    userRelationController.text = relationshipStatus;
   }
 
   List<StateData> allStateList = [];
@@ -598,12 +642,13 @@ class DashBoardViewModel with ChangeNotifier {
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
+      allCityList.clear();
       allCityList = master.data ?? [];
     }
     notifyListeners();
   }
 
-  String getStateName(int stateId) {
+  void getStateName(int stateId) {
     String stateName = '';
     for (var element in allStateList) {
       if (element.id == stateId) {
@@ -611,10 +656,10 @@ class DashBoardViewModel with ChangeNotifier {
         break;
       }
     }
-    return stateName;
+    userStateController.text = stateName;
   }
 
-  String getCityName(int cityId) {
+  void getCityName(int cityId) {
     String cityName = '';
     debugPrint("cityId => $cityId");
     for (var element in allCityList) {
@@ -624,6 +669,75 @@ class DashBoardViewModel with ChangeNotifier {
       }
     }
     debugPrint("cityName => $cityName");
-    return cityName;
+    userCityController.text = cityName;
+  }
+
+  int getStateId(String stateName) {
+    int stateId = 0;
+    for (var element in allStateList) {
+      if (element.name == stateName) {
+        stateId = element.id ?? 0;
+        break;
+      }
+    }
+    debugPrint("stateId => $stateId");
+    return stateId;
+  }
+
+  int getCityId(String cityName) {
+    int cityId = 0;
+    for (var element in allCityList) {
+      if (element.name == cityName) {
+        cityId = element.id ?? 0;
+        break;
+      }
+    }
+    debugPrint("cityId => $cityId");
+    return cityId;
+  }
+
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController userMobileController = TextEditingController();
+  TextEditingController userEmailController = TextEditingController();
+  TextEditingController userStateController = TextEditingController();
+  TextEditingController userCityController = TextEditingController();
+  TextEditingController userBirthDateController = TextEditingController();
+  TextEditingController userRelationController = TextEditingController();
+  TextEditingController userAgeGroupController = TextEditingController();
+  TextEditingController userAgeController = TextEditingController();
+
+  void updateUserProfileAge(String age) {
+    userAgeController.text = age;
+    notifyListeners();
+  }
+
+  void updateUserState(String state) {
+    userStateController.text = state;
+    notifyListeners();
+  }
+
+  void updateUserAgeGroup(String ageGroup) {
+    userAgeGroupController.text = ageGroup;
+    notifyListeners();
+  }
+
+  void updateUserCity(String city) {
+    userCityController.text = city;
+    notifyListeners();
+  }
+
+  void updateUserEmail(String email) {
+    userEmailController.text = email;
+    notifyListeners();
+  }
+
+  void updateUserBirthDate(String date) {
+    userBirthDateController.text = date;
+    notifyListeners();
+  }
+
+  void updateRelationshipStatus(String status) {
+    userRelationController.text = status;
+    notifyListeners();
   }
 }

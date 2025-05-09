@@ -1172,6 +1172,12 @@ class S implements WidgetsLocalizations {
   String get enterEmail => "Enter email";
 
   String get ageGroup => "Age Group";
+
+  String get vaccination => "Vaccination";
+
+  String get aboutYouCycle => "About Your Cycle";
+
+  String get symptoms => "Symptoms";
 }
 
 class $en extends S {
@@ -1182,6 +1188,18 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get aboutYouCycle => "आपके पीरियडस के बारे में";
+
+  @override
+  String get symptoms => "पीरियड के लक्षण";
+
+  @override
+  String get vaccination => "टीकाकरण";
+
+  @override
+  String get deActiveYourAcc => "अपने खाते को निष्क्रिय करें";
+
   @override
   String get ageGroup => "आयु वर्ग";
 

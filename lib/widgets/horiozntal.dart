@@ -186,8 +186,9 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  (isFirtile || isPredictedDate) ? 10.0 : 10.0),
+                            horizontal:
+                                (isFirtile || isPredictedDate) ? 10.0 : 8.0,
+                          ),
                           child: DottedBorder(
                             color: isFirtile
                                 ? Colors.green
