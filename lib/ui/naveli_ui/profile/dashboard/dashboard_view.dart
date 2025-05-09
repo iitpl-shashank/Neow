@@ -256,6 +256,8 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      mViewModel.initializeRelationshipStatusList(context);
+
       mViewModel.attachedContext(context);
       mViewModel.getUserInfo();
       mViewModel.getAboutYourCycle();

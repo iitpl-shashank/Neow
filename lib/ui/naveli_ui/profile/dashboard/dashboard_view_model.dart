@@ -11,6 +11,7 @@ import 'package:naveli_2023/models/user_details_master.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 
+import '../../../../generated/i18n.dart';
 import '../../../../models/about_your_cycle_master.dart';
 import '../../../../models/common_master.dart';
 import '../../../../models/state_master.dart';
@@ -169,33 +170,33 @@ class DashBoardViewModel with ChangeNotifier {
 
     if (userNameController.text.trim().isEmpty) {
       CommonUtils.showSnackBar(
-        "Name cannot be empty",
+        S.of(context)!.nameCannotBeEmpty,
         color: CommonColors.mRed,
       );
       return;
     }
     if (userEmailController.text.trim().isEmpty) {
       CommonUtils.showSnackBar(
-        "Email cannot be empty",
+        S.of(context)!.emailCannotBeEmpty,
         color: CommonColors.mRed,
       );
       return;
     } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
         .hasMatch(userEmailController.text.trim())) {
       CommonUtils.showSnackBar(
-        "Please enter a valid email address",
+        S.of(context)!.plEnterValidEmail,
         color: CommonColors.mRed,
       );
       return;
     } else if (stateId == 0) {
       CommonUtils.showSnackBar(
-        "Please select a valid state",
+        S.of(context)!.pleaseSelectState,
         color: CommonColors.mRed,
       );
       return;
     } else if (cityId == 0) {
       CommonUtils.showSnackBar(
-        "Please select a valid city",
+        S.of(context)!.pleaseSelectCity,
         color: CommonColors.mRed,
       );
       return;
@@ -420,14 +421,14 @@ class DashBoardViewModel with ChangeNotifier {
 
       if (response != null) {
         CommonUtils.showSnackBar(
-          "Vaccination details saved successfully!",
+          S.of(context)!.vaccinationDetailsSavedSuccess,
           color: CommonColors.greenColor,
         );
         getUserVaccinationInfo();
         log("API Response: ${response.toJson()}");
       } else {
         CommonUtils.showSnackBar(
-          "Failed to save vaccination details.",
+          S.of(context)!.failedToSaveVaccDetails,
           color: CommonColors.mRed,
         );
       }
@@ -593,11 +594,11 @@ class DashBoardViewModel with ChangeNotifier {
   String getUsergender() {
     String usergender = '';
     if (int.parse(userPersonalInformation?.data?.gender ?? '') == 1) {
-      usergender = "Male";
+      usergender = S.of(context)!.male;
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 2) {
-      usergender = "Female";
+      usergender = S.of(context)!.female;
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 3) {
-      usergender = "Transgender";
+      usergender = S.of(context)!.transgender;
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 4) {
       usergender = globalUserMaster?.genderType ?? '';
     }
@@ -639,19 +640,23 @@ class DashBoardViewModel with ChangeNotifier {
     updateUserAgeGroup(ageGroup);
   }
 
-  List<String> relationshipStatusList = [
-    "Solo",
-    "Tied",
-    "Open for surprise",
-  ];
+  late List<String> relationshipStatusList;
+
+  void initializeRelationshipStatusList(BuildContext context) {
+    relationshipStatusList = [
+      S.of(context)!.solo,
+      S.of(context)!.tied,
+      S.of(context)!.openForSurprises,
+    ];
+  }
 
   int getRelationshipStatusIndex({required String status}) {
     int index = 0;
-    if (status == 'Solo') {
+    if (status == S.of(context)!.solo) {
       index = 1;
-    } else if (status == 'Tied') {
+    } else if (status == S.of(context)!.tied) {
       index = 2;
-    } else if (status == 'Open for surprise') {
+    } else if (status == S.of(context)!.openForSurprises) {
       index = 3;
     }
     return index;
@@ -660,22 +665,23 @@ class DashBoardViewModel with ChangeNotifier {
   void getUserRelationshipStatus() {
     String relationshipStatus = '';
     if (userPersonalInformation!.data!.relationshipStatus! == '1') {
-      relationshipStatus = "Solo";
+      relationshipStatus = S.of(context)!.solo;
     } else if (userPersonalInformation!.data!.relationshipStatus! == '2') {
-      relationshipStatus = "Tied";
+      relationshipStatus = S.of(context)!.tied;
     } else if (userPersonalInformation!.data!.relationshipStatus! == '3') {
-      relationshipStatus = "Open for surprise";
+      relationshipStatus = S.of(context)!.openForSurprises;
     }
     userRelationController.text = relationshipStatus;
   }
 
   int getUserRelationshipStatusId() {
     if (userRelationController.text != '') {
-      if (userRelationController.text == "Solo") {
+      if (userRelationController.text == S.of(context)!.solo) {
         return 1;
-      } else if (userRelationController.text == "Tied") {
+      } else if (userRelationController.text == S.of(context)!.tied) {
         return 2;
-      } else if (userRelationController.text == "Open for surprise") {
+      } else if (userRelationController.text ==
+          S.of(context)!.openForSurprises) {
         return 3;
       }
     }

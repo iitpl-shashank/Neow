@@ -1178,6 +1178,21 @@ class S implements WidgetsLocalizations {
   String get aboutYouCycle => "About Your Cycle";
 
   String get symptoms => "Symptoms";
+
+  String get failedToSaveVaccDetails => "Failed to save vaccination details.";
+
+  String get vaccinationDetailsSavedSuccess =>
+      "Vaccination details saved successfully!";
+
+  String get nameCannotBeEmpty => "Name cannot be empty";
+
+  String get emailCannotBeEmpty => "Email cannot be empty";
+
+  String get pleaseEnterValidEmail => "Please enter a valid email address";
+
+  String get pleaseSelectState => "Please select a valid state";
+
+  String get pleaseSelectCity => "Please select a valid city";
 }
 
 class $en extends S {
@@ -1188,6 +1203,28 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get nameCannotBeEmpty => "नाम खाली नहीं हो सकता";
+
+  @override
+  String get emailCannotBeEmpty => "ईमेल खाली नहीं हो सकता";
+
+  @override
+  String get pleaseEnterValidEmail => "कृपया एक मान्य ईमेल पता प्रविष्ट करें";
+
+  @override
+  String get pleaseSelectState => "कृपया एक वैध राज्य चुनें";
+
+  @override
+  String get pleaseSelectCity => "कृपया एक वैध शहर चुनें";
+
+  @override
+  String get vaccinationDetailsSavedSuccess =>
+      "टीकाकरण विवरण सफलतापूर्वक सहेजा गया!";
+
+  @override
+  String get failedToSaveVaccDetails => "टीकाकरण विवरण सहेजने में विफल.";
+
   @override
   String get aboutYouCycle => "आपके पीरियडस के बारे में";
 
