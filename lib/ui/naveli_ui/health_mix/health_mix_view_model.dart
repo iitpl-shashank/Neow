@@ -23,14 +23,6 @@ class HealthMixViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // void covertStringToList() {
-  //   String hashtagsString = "#period, #sideeffect, #homeremedies, #Wellness, #diet, #personalhygiene";
-  //
-  //   List<String> hashtagsList = hashtagsString.split(',').map((tag) => tag.trim()).toList();
-  //
-  //   print(hashtagsList);
-  // }
-
   Future<void> getLikedPostApi() async {
     CommonUtils.showProgressDialog();
     LikedPostMaster? master = await _services.api!.getLikedHealthPost();
@@ -91,6 +83,7 @@ class HealthMixViewModel with ChangeNotifier {
 
   Future<void> getHealthMixPostsApi(
       {required int titleId, required String type}) async {
+    debugPrint("");
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.title_id: titleId,

@@ -340,7 +340,6 @@ class _HomeViewState extends State<HomeView> {
     } else if (mViewModel
         .getCycleDayOrDaysToGo(mViewModel.selectedDate)
         .contains("after")) {
-      //red
       return LocalImages.not_fertile_loader;
     } else if (mViewModel
         .getCycleDayOrDaysToGo(mViewModel.selectedDate)
@@ -383,7 +382,7 @@ class _HomeViewState extends State<HomeView> {
             appBar: AppBar(
               // backgroundColor:Colors.red,
               title: Text(
-                  "${S.of(context)!.hi}, NeoW ${mViewModel.hindiTransliterations.isNotEmpty ? mViewModel.hindiTransliterations[0] : ''} !",
+                  "${S.of(context)!.hi}, NeoW ${lang == 'hi' ? (mViewModel.hindiTransliterations.isNotEmpty ? mViewModel.hindiTransliterations[0] : '') : globalUserMaster?.name.toString().split(' ')[0] ?? ''} !",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight:

@@ -102,7 +102,7 @@ class S implements WidgetsLocalizations {
 
   String get mythVsFacts => "Myth vs facts";
 
-  String get logYourSymptoms => "Log your symptoms";
+  String get logYourSymptoms => "Log Symptoms";
 
   String get womenInNews => "NeoW in News";
 
@@ -1810,7 +1810,7 @@ class $mr extends S {
   String get mythVsFacts => "मिथक बनाम सच्चाई";
 
   @override
-  String get logYourSymptoms => "अपने लक्षणों को बताएं।";
+  String get logYourSymptoms => "लक्षण दर्ज करें";
 
   @override
   String get womenInNews => "ख़बरों में NeoW";
@@ -2265,7 +2265,7 @@ class $mr extends S {
   String get periodMedication => "पीरियड दवा";
 
   @override
-  String get deStress => "डी-तनाव";
+  String get deStress => "तनाव कम करें";
 
   @override
   String get healthMixLatest => "स्वास्थ्य मिश्रण - नवीनतम";
