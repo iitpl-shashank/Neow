@@ -1163,51 +1163,47 @@ class _HomeViewState extends State<HomeView> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 2,
-                      itemBuilder: (context, index) {
-                        final firstCard =
-                            mViewModel.healthMixCategoryList[index * 2];
-                        final secondCard = index * 2 + 1 <
-                                mViewModel.healthMixCategoryList.length
-                            ? mViewModel.healthMixCategoryList[index * 2 + 1]
-                            : null;
+                      itemBuilder: (context, rowIndex) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (index * 2 <
+                              if (rowIndex * 2 <
                                   mViewModel.healthMixCategoryList.length)
                                 HealthmixCategoryCard(
                                   title: mViewModel
-                                          .healthMixCategoryList[index * 2]
+                                          .healthMixCategoryList[rowIndex * 2]
                                           .name ??
                                       "",
                                   imagePath: mViewModel
-                                          .healthMixCategoryList[index * 2]
+                                          .healthMixCategoryList[rowIndex * 2]
                                           .iconUrl ??
                                       "",
                                   backgroundColor: CommonColors.mWhite,
                                   onTap: () => push(PostList(
                                     position: 0,
                                     selectedTabIndex: mViewModel
-                                            .healthMixCategoryList[index * 2]
+                                            .healthMixCategoryList[rowIndex * 2]
                                             .id ??
                                         0,
                                     postTitle: mViewModel
-                                            .healthMixCategoryList[index * 2]
+                                            .healthMixCategoryList[rowIndex * 2]
                                             .name ??
                                         "",
                                   )),
                                 ),
-                              if (index * 2 + 1 <
+                              if (rowIndex * 2 + 1 <
                                   mViewModel.healthMixCategoryList.length)
                                 HealthmixCategoryCard(
                                   title: mViewModel
-                                          .healthMixCategoryList[index * 2 + 1]
+                                          .healthMixCategoryList[
+                                              rowIndex * 2 + 1]
                                           .name ??
                                       "",
                                   imagePath: mViewModel
-                                          .healthMixCategoryList[index * 2 + 1]
+                                          .healthMixCategoryList[
+                                              rowIndex * 2 + 1]
                                           .iconUrl ??
                                       "",
                                   backgroundColor: CommonColors.mWhite,
@@ -1215,12 +1211,12 @@ class _HomeViewState extends State<HomeView> {
                                     position: 0,
                                     selectedTabIndex: mViewModel
                                             .healthMixCategoryList[
-                                                index * 2 + 1]
+                                                rowIndex * 2 + 1]
                                             .id ??
                                         0,
                                     postTitle: mViewModel
                                             .healthMixCategoryList[
-                                                index * 2 + 1]
+                                                rowIndex * 2 + 1]
                                             .name ??
                                         "",
                                   )),

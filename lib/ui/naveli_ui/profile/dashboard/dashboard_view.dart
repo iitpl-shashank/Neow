@@ -409,7 +409,7 @@ class _DashboardViewState extends State<DashboardView> {
         child: Scaffold(
           backgroundColor: CommonColors.mTransparent,
           appBar: CommonAppBar(
-            title: 'My Health Report',
+            title: S.of(context)!.myHealthReports,
             actions: <Widget>[
               IconButton(
                   icon: Icon(Icons.calendar_month),
@@ -441,16 +441,11 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           Row(
                             children: [
-                              /*Icon(
-                                Icons.person,
-                                color: CommonColors.blackColor,
-                                size: 25,
-                              ),*/
                               Image.asset(LocalImages.imgPersonalInformation,
                                   height: 25),
                               kCommonSpaceH10,
                               Text(
-                                'Personal Information',
+                                S.of(context)!.personalInformation,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,
@@ -482,7 +477,7 @@ class _DashboardViewState extends State<DashboardView> {
                           CustomTextFieldContainer(
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
-                            labelText: "Name",
+                            labelText: S.of(context)!.name,
                             controller: nameController,
                             border: true,
                           ),
@@ -493,7 +488,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  labelText: "Gender",
+                                  labelText: S.of(context)!.gender,
                                   controller: genderController,
                                   isReadOnly: true,
                                   border: true,
@@ -504,7 +499,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  labelText: "Age",
+                                  labelText: S.of(context)!.age,
                                   controller: ageController,
                                   isReadOnly: true,
                                   border: true,
@@ -520,7 +515,8 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   //color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  labelText: "State",
+                                  // TODO : State name to be shown
+                                  labelText: S.of(context)!.state,
                                   controller: stateController,
                                   isReadOnly: true,
                                   border: true,
@@ -531,7 +527,8 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: CustomTextFieldContainer(
                                   // color: CommonColors.mGrey200,
                                   color: Color(0xFFF5F5F5),
-                                  labelText: "District",
+                                  // TODO : District name to be shown
+                                  labelText: S.of(context)!.district,
                                   controller: districtController,
                                   isReadOnly: true,
                                   border: true,
@@ -544,7 +541,7 @@ class _DashboardViewState extends State<DashboardView> {
                           CustomTextFieldContainer(
                             // color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
-                            labelText: "Mobile",
+                            labelText: S.of(context)!.phoneNumber,
                             controller: mobileController,
                             isReadOnly: true,
                             border: true,
@@ -568,7 +565,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   child: CustomTextFieldContainer(
                                     //color: CommonColors.mGrey200,
                                     color: Color(0xFFF5F5F5),
-                                    labelText: "Email",
+                                    labelText: S.of(context)!.email,
                                     controller: emailController,
                                     border:
                                         false, // Don't apply border to the TextField, it's handled by the container
@@ -584,8 +581,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   onPressed: () {
                                     showInputDialog(
                                       context: context,
-                                      title: 'Edit email',
-                                      hintText: 'Enter email',
+                                      title: S.of(context)!.editEmail,
+                                      hintText: S.of(context)!.enterEmail,
                                       onSubmit: (value) {
                                         //print('Input: $value'); // Do something with the input
                                       },
@@ -602,24 +599,16 @@ class _DashboardViewState extends State<DashboardView> {
                           CustomTextFieldContainer(
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
-                            labelText: "D.O.B.",
+                            labelText: S.of(context)!.dateOfBirth,
                             controller: dobController,
                             isReadOnly: true,
                             border: true,
                           ),
                           kCommonSpaceV5,
-                          // CustomTextFieldContainer(
-                          //   color: CommonColors.mGrey200,
-                          //   labelText: "Unique Id",
-                          //   controller: uniqueIdController,
-                          //   isReadOnly: true,
-                          //   border: true,
-                          // ),
-                          // kCommonSpaceV5,
                           CustomTextFieldContainer(
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
-                            labelText: "Age group",
+                            labelText: S.of(context)!.ageGroup,
                             controller: ageGroupController,
                             isReadOnly: true,
                             border: true,
@@ -629,36 +618,12 @@ class _DashboardViewState extends State<DashboardView> {
                           CustomTextFieldContainer(
                             //color: CommonColors.mGrey200,
                             color: Color(0xFFF5F5F5),
-                            labelText: "Relationship Status",
+                            labelText: S.of(context)!.relationshipStatus,
                             controller: relationshipStatusController,
                             isReadOnly: true,
                             border: true,
                           ),
                           kCommonSpaceV5,
-                          // Row(
-                          //   children: [
-                          //     Expanded(
-                          //       child: CustomTextFieldContainer(
-                          //         color: CommonColors.mGrey200,
-                          //         labelText: "Age",
-                          //         controller: ageController,
-                          //         isReadOnly: true,
-                          //         border: true,
-                          //       ),
-                          //     ),
-                          //     kCommonSpaceH10,
-                          //     Expanded(
-                          //       child: CustomTextFieldContainer(
-                          //         color: CommonColors.mGrey200,
-                          //         labelText: "Age group",
-                          //         controller: ageGroupController,
-                          //         isReadOnly: true,
-                          //         border: true,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // kCommonSpaceV5,
                           kCommonSpaceV20,
                           PrimaryButton(
                             width: kDeviceWidth / 2,
@@ -2394,8 +2359,8 @@ class _DashboardViewState extends State<DashboardView> {
                   setState(() {});
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: const Text(
-                  'Update',
+                child: Text(
+                  S.of(context)!.update,
                   style: TextStyle(color: Colors.white), // White text
                 ),
               ),

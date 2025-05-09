@@ -25,36 +25,6 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
   String currentMonth = DateFormat.MMMM().format(DateTime.now());
 
   late int todayIndex;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   dates = _generateDates();
-
-  //   todayIndex = dates.indexWhere((d) => d.isSameDay(DateTime.now()));
-  //   currentMonth = DateFormat.MMMM().format(dates[todayIndex]);
-
-  //   _scrollController.addListener(() {
-  //     int visibleIndex = todayIndex + (_scrollController.offset / 35).floor();
-
-  //     if (visibleIndex >= 0 && visibleIndex < dates.length) {
-  //       DateTime visibleDate = dates[visibleIndex];
-  //       String visibleMonth = DateFormat.MMMM().format(visibleDate);
-
-  //       if (visibleMonth != currentMonth) {
-  //         setState(() {
-  //           currentMonth = visibleMonth;
-  //           print("Month : ${currentMonth} and ${visibleMonth}");
-  //         });
-  //       }
-  //     }
-  //   });
-
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     _scrollController.jumpTo(0);
-  //   });
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -141,9 +111,8 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
                 bool isPredictedDate = false;
                 bool PriodDates = false;
-                // widget.mViewModel.nextCycleDates.contains(date);
-                bool isOvulation =
-                    false; //widget.mViewModel.ovulationDates.contains(date);
+
+                bool isOvulation = false;
                 bool isFirtile = false;
                 DateTime now = DateTime.now();
                 List<DateTime> fertileDates = [];

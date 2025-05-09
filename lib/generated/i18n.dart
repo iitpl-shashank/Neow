@@ -1156,6 +1156,22 @@ class S implements WidgetsLocalizations {
   String get rateAndWriteReview => "Rate and write an app review";
 
   String get today => "Today";
+
+  String get personalInformation => "Personal Information";
+
+  String get state => "State";
+
+  String get district => "District";
+
+  String get phoneNumber => "Phone Number";
+
+  String get dateOfBirth => "Date of Birth";
+
+  String get editEmail => "Edit email";
+
+  String get enterEmail => "Enter email";
+
+  String get ageGroup => "Age Group";
 }
 
 class $en extends S {
@@ -1166,6 +1182,30 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get ageGroup => "आयु वर्ग";
+
+  @override
+  String get editEmail => "ईमेल संपादित करें";
+
+  @override
+  String get enterEmail => "ईमेल दर्ज करें";
+
+  @override
+  String get dateOfBirth => "जन्म तिथि ";
+
+  @override
+  String get phoneNumber => "फोन नंबर ";
+
+  @override
+  String get district => "जिला";
+
+  @override
+  String get state => "राज्य";
+
+  @override
+  String get personalInformation => "व्यक्तिगत जानकारी";
+
   @override
   String get today => "आज";
 
@@ -1661,7 +1701,7 @@ class $mr extends S {
   String get doYouKnow => "क्या आप जानते हैं?";
 
   @override
-  String get update => "अद्यतन";
+  String get update => "अपडेट";
 
   @override
   String get here => "यहाँ";

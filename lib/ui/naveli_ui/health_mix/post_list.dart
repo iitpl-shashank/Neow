@@ -84,6 +84,24 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<HealthMixViewModel>(context);
+
+    if (mViewModel.healthPostsList.isEmpty || mViewModel.isLikedList.isEmpty) {
+      return Container(
+        color: CommonColors.mWhite,
+        height: double.infinity,
+        width: double.infinity,
+        child: Center(
+          child: Text(
+            "",
+            style: TextStyle(
+              color: CommonColors.blackColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
     return ScaffoldBG(
       bgColor: CommonColors.mWhite,
       child: Scaffold(
@@ -235,11 +253,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                                     : CupertinoIcons.heart,
                                 color: CommonColors.primaryColor),
                           ),
-                          // kCommonSpaceH3,
-                          // IconButton(
-                          //     onPressed: () {},
-                          //     icon: Icon(Icons.thumb_down_alt_rounded,
-                          //         color: CommonColors.primaryColor)),
                           kCommonSpaceH3,
                           IconButton(
                               onPressed: () {
@@ -263,7 +276,6 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
                               },
                               icon: const Icon(Icons.share_outlined,
                                   color: CommonColors.primaryColor)),
-
                           kCommonSpaceH3,
                           kCommonSpaceH3,
                           IconButton(

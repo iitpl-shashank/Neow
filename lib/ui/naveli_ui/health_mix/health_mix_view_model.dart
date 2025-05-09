@@ -34,7 +34,7 @@ class HealthMixViewModel with ChangeNotifier {
   Future<void> getLikedPostApi() async {
     CommonUtils.showProgressDialog();
     LikedPostMaster? master = await _services.api!.getLikedHealthPost();
-    CommonUtils.hideProgressDialog();
+
     if (master == null) {
       CommonUtils.oopsMSG();
       print(
@@ -44,6 +44,7 @@ class HealthMixViewModel with ChangeNotifier {
         master.message ?? "--",
         color: CommonColors.mRed,
       );
+      CommonUtils.hideProgressDialog();
     } else if (master.success == true) {
       final likedPosts = master.data ?? [];
       isLikedList.clear();
@@ -52,10 +53,7 @@ class HealthMixViewModel with ChangeNotifier {
             likedPost.healthMixId == post.id && likedPost.isLike == 1));
       }
       print(".................$isLikedList");
-      //  CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
+      CommonUtils.hideProgressDialog();
     }
     notifyListeners();
   }
@@ -114,13 +112,8 @@ class HealthMixViewModel with ChangeNotifier {
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
-      // CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
       healthPostsList = master.data?.healthMixPosts ?? [];
       debugPrint("healthPostsList: $healthPostsList");
-      // isLikedList = List.generate(healthPostsList.length, (_) => false);
       await getLikedPostApi();
     }
     CommonUtils.hideProgressDialog();
