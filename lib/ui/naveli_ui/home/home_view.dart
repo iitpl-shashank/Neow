@@ -411,115 +411,107 @@ class _HomeViewState extends State<HomeView> {
                       gUserType == AppConstants.BUDDY) ...[
                     calender2,
                   ],
+                  kCommonSpaceV5,
                   if (gUserType == AppConstants.NEOWME ||
                       gUserType == AppConstants.BUDDY) ...[
-                    SizedBox(
-                      height: kDeviceHeight / 3,
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 12, right: 12),
-                            decoration: BoxDecoration(
-                              color: Color(bgColor),
-                              // width:500,
-                              borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.elliptical(
-                                      MediaQuery.of(context).size.width, 90.0)),
-                            ),
+                    Stack(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 12, right: 12),
+                          decoration: BoxDecoration(
+                            color: Color(bgColor),
+                            // width:500,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.elliptical(
+                                    MediaQuery.of(context).size.width, 90.0)),
                           ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Consumer<HomeViewModel>(
-                              builder: (context, vModel, child) {
-                                print(
-                                    "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    vModel.isDateWiseTextLoading
-                                        ? Image.asset(
-                                            LocalImages.syncing_vibe,
-                                            width: 150,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Container(
-                                            width: 150,
-                                            height: 150,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(vModel
-                                                    .dateWiseTextList
-                                                    .msg
-                                                    .image),
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                vModel.dateWiseTextList.msg
-                                                    .periodMsg,
-                                                style: TextStyle(
-                                                    color: vModel
-                                                            .dateWiseTextList
-                                                            .msg
-                                                            .color
-                                                            .contains("black")
-                                                        ? Colors.black
-                                                        : Colors.white),
-                                              ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Consumer<HomeViewModel>(
+                            builder: (context, vModel, child) {
+                              print(
+                                  "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  vModel.isDateWiseTextLoading
+                                      ? Image.asset(
+                                          LocalImages.syncing_vibe,
+                                          width: 150,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Container(
+                                          width: 150,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(vModel
+                                                  .dateWiseTextList.msg.image),
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
+                                          child: Center(
                                             child: Text(
-                                                vModel.dateWiseTextList.msg
-                                                    .description,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: CommonColors
-                                                        .darkPrimaryColor,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
+                                              vModel.dateWiseTextList.msg
+                                                  .periodMsg,
+                                              style: TextStyle(
+                                                  color: vModel.dateWiseTextList
+                                                          .msg.color
+                                                          .contains("black")
+                                                      ? Colors.black
+                                                      : Colors.white),
+                                            ),
                                           ),
-                                        ],
+                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                              vModel.dateWiseTextList.msg
+                                                  .description,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: CommonColors
+                                                      .darkPrimaryColor,
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  kCommonSpaceV5,
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      navigateToCalendarView();
+                                    },
+                                    style: ButtonStyle(
+                                      fixedSize: WidgetStateProperty.all<Size>(
+                                        Size(lang == 'hi' ? 170 : 120.0,
+                                            30.0), // Button width and height
+                                      ),
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              CommonColors.primaryColor),
+                                      foregroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              Colors.white),
+                                    ),
+                                    child: Text(
+                                      S.of(context)!.logPeriod,
+                                      style: TextStyle(
+                                        fontSize: 14,
                                       ),
                                     ),
-                                    kCommonSpaceV5,
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        navigateToCalendarView();
-                                      },
-                                      style: ButtonStyle(
-                                        fixedSize:
-                                            WidgetStateProperty.all<Size>(
-                                          Size(lang == 'hi' ? 170 : 120.0,
-                                              30.0), // Button width and height
-                                        ),
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                                CommonColors.primaryColor),
-                                        foregroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                                Colors.white),
-                                      ),
-                                      child: Text(
-                                        S.of(context)!.logPeriod,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     kCommonSpaceV10,
                   ],

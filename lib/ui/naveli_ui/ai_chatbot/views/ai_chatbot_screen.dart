@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
-import 'package:naveli_2023/utils/custome_header_view.dart';
-import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
 
 class AiChatBotScreen extends StatefulWidget {
@@ -28,19 +25,24 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: SvgPicture.asset(
-          LocalSvgs.backButton,
-          width: 16,
-          height: 10,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.black,
+            size: 20,
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
+        backgroundColor: Colors.white,
         title: Center(
-          child: Text(
-            'Neowme',
-            style: TextStyle(
-              color: CommonColors.blackColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+          child: Transform.translate(
+            offset: const Offset(-30, 0),
+            child: Text('Neowme',
+                style: TextStyle(
+                  color: CommonColors.blackColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                )),
           ),
         ),
       ),

@@ -2,7 +2,6 @@ library;
 
 import 'package:naveli_2023/ui/naveli_ui/symptom_bot/chat.dart';
 import 'package:naveli_2023/ui/naveli_ui/symptom_bot/chat_message_type.dart';
-import 'package:naveli_2023/ui/naveli_ui/symptom_bot/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
@@ -23,10 +22,6 @@ class Bubble extends StatelessWidget {
       mainAxisAlignment: alignmentOnType,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /* if (chat.type == ChatMessageType.received)
-          const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/bot_avatar.jpg"),
-          ), */
         Container(
           margin: margin ?? EdgeInsets.zero,
           child: PhysicalShape(
@@ -46,13 +41,6 @@ class Bubble extends StatelessWidget {
                     chat.message,
                     style: TextStyle(color: textColorOnType),
                   ),
-                  /*const SizedBox(
-                    height: 8,
-                  ),
-                   Text(
-                    Formatter.formatDateTime(chat.time),
-                    style: TextStyle(color: textColorOnType, fontSize: 12),
-                  ) */
                 ],
               ),
             ),

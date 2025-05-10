@@ -454,9 +454,9 @@ class LocalImages {
   static const String imgBodyQuiz = 'assets/images/ic_body_quiz.png';
   static const String imgVaccination = 'assets/images/ic_vaccination.png';
   static const String pregnancy = 'assets/images/pregnancy.png';
+  static const String back = 'assets/images/back.png';
 }
 
 class LocalSvgs {
   static const String womanFeeding = 'assets/svgs/woman_feeding.svg';
-  static const String backButton = 'assets/svgs/backbutton.svg';
 }

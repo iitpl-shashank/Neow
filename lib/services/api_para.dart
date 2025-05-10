@@ -38,6 +38,7 @@ class ApiParams {
   static const String city_id = "city_id";
   static const String category_id = "category_id";
   static const String language_code = "language_code";
+  static const String language = "language";
   static const String start_date = "start_date";
   static const String end_date = "end_date";
   static const String wake_up_time = "wake_up_time";

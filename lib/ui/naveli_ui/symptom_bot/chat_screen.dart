@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:naveli_2023/utils/local_images.dart';
-import '../../../models/common_master.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
@@ -48,20 +47,6 @@ class _ChatScreen extends State<ChatScreen> {
         "image": LocalImages.emoji_mood_3,
         "isMultiple": false,
       },
-      /* {
-      "id": 1,
-      "title": "Angry",
-      "message": "Tareekh pe tareekh, tareekh pe tareekh",
-      "image": LocalImages.mood_angry,
-      "isMultiple": false,
-    },
-    {
-      "id": 1,
-      "title": "Tired",
-      "message": "All izz well",
-      "image": LocalImages.mood_tired,
-      "isMultiple": false,
-    }, */
     ];
     return Scaffold(
       resizeToAvoidBottomInset: true,
