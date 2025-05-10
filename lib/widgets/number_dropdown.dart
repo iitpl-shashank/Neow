@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../generated/i18n.dart';
 import '../ui/naveli_ui/profile/dashboard/dashboard_view_model.dart';
 import '../utils/common_colors.dart';
 
@@ -44,8 +45,8 @@ class _NumberDropdownState extends State<NumberDropdown> {
             builder: (context, vModel, child) {
               return DropdownButton<int>(
                 value: vModel.numberOfKids,
-                hint: const Text(
-                  'How Many?',
+                hint: Text(
+                  S.of(context)!.howMany,
                   style: TextStyle(
                     fontSize: 14,
                     color: CommonColors.blackColor,

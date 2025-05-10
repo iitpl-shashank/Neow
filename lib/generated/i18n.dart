@@ -912,6 +912,8 @@ class S implements WidgetsLocalizations {
 
   String get dose2 => "Dose 2";
 
+  String get dose3 => "Dose 3";
+
   String get dose2Pending => "Dose 2 Is Pending!";
 
   String get dose2Timing => "Take it 6 months after your first dose.";
@@ -1193,6 +1195,46 @@ class S implements WidgetsLocalizations {
   String get pleaseSelectState => "Please select a valid state";
 
   String get pleaseSelectCity => "Please select a valid city";
+
+  String get atWhatAgeFirstPeriod =>
+      "At what age did you get your first period ?";
+
+  String get ageYrs => "Age (yrs)";
+
+  String get cervicalCancerVaccine => "Cervical Cancer Vaccine";
+
+  String get hpvVaccine => "HPV Vaccine";
+
+  String get doYouHaveKids => "Do you have kids?";
+
+  String get areYouPregnant => "Are you pregnant?";
+
+  String get switchtoPregnancyMode => "Switch to Pregnancy Mode";
+
+  String get areYouTryingToGetPregnant => "Are you trying to get pregnant?";
+
+  String get tryingSince12MonthsOrMore =>
+      "Have you been trying since 12 months or more than that?";
+
+  String get ifYouAre21YearsOrMore =>
+      "If you are 21 years or more, have you gotten a pap smear in the past six months?";
+
+  String get ifYouAre50YearsOrMore =>
+      "If you are 50 years or more, have you got periods in the last one year?";
+
+  String get doYouExperience => "Do you experience:";
+
+  String get decreasedLibido => "Decreased Libido";
+
+  String get haveyouExpPostmenopausalSpotting =>
+      "Have you experienced postmenopausal spotting/bleeding after one year of stoppage of period?";
+
+  String get comingSoon => "Coming Soon.";
+
+  String get welcomeToJourneyOfParent =>
+      "Welcome to your journey to becoming a parent!";
+
+  String get howMany => "How Many?";
 }
 
 class $en extends S {
@@ -1203,6 +1245,64 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get howMany => "कितने?";
+
+  @override
+  String get comingSoon => "जल्द आ रहा है।";
+
+  @override
+  String get welcomeToJourneyOfParent =>
+      "माता-पिता बनने की आपकी यात्रा में आपका स्वागत है!";
+
+  @override
+  String get haveyouExpPostmenopausalSpotting =>
+      "क्या आपने एक साल से पीरियड्स बंद होने के बाद फिर से पोस्टमेनोपॉज़ल स्पॉटिंग/ब्लीडिंग का अनुभव किया है?";
+
+  @override
+  String get decreasedLibido => "कम यौन इच्छा";
+
+  @override
+  String get doYouExperience => "क्या आप इन लक्षणों का अनुभव कर रही हैं:";
+
+  @override
+  String get ifYouAre50YearsOrMore =>
+      "यदि आपकी उम्र 50 साल या उससे अधिक है, तो क्या आपको पिछले एक साल में पीरियड्स आए हैं?";
+
+  @override
+  String get ifYouAre21YearsOrMore =>
+      "यदि आपकी उम्र 21 साल या उससे अधिक है, तो क्या आपने पिछले छह महीने में पैप स्मीयर करवाया है?";
+
+  @override
+  String get tryingSince12MonthsOrMore =>
+      "क्या आप 12 महीने या उससे भी अधिक समय से प्रयास कर रहे हैं?";
+
+  @override
+  String get areYouTryingToGetPregnant =>
+      "क्या आप गर्भवती होने की कोशिश कर रही हैं?";
+
+  @override
+  String get switchtoPregnancyMode => "गर्भावस्था मोड पर स्विच करें";
+
+  @override
+  String get areYouPregnant => "क्या आप गर्भवती हैं?";
+
+  @override
+  String get doYouHaveKids => "क्या आपके बच्चे हैं?";
+
+  @override
+  String get hpvVaccine => "एचपीवी वैक्सीन";
+
+  @override
+  String get cervicalCancerVaccine => "सर्वाइकल कैंसर वैक्सीन";
+
+  @override
+  String get ageYrs => "आयु (वर्ष)";
+
+  @override
+  String get atWhatAgeFirstPeriod =>
+      "आपको पहली बार पीरियड किस उम्र में आया था?";
+
   @override
   String get nameCannotBeEmpty => "नाम खाली नहीं हो सकता";
 
@@ -1629,6 +1729,9 @@ class $mr extends S {
 
   @override
   String get dose2 => "डोज़ 2";
+
+  @override
+  String get dose3 => "डोज़ 3";
 
   @override
   String get howManyDoseTaken => "आपने कितने डोज़ लिए हैं?";

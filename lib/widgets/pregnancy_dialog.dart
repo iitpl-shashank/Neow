@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 
+import '../generated/i18n.dart';
+
 class PregnancyDialog extends StatelessWidget {
   const PregnancyDialog({Key? key}) : super(key: key);
 
@@ -23,7 +25,7 @@ class PregnancyDialog extends StatelessWidget {
             ),
             SizedBox(height: 24),
             Text(
-              "Welcome to your journey to becoming a parent!",
+              S.of(context)!.welcomeToJourneyOfParent,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -32,7 +34,7 @@ class PregnancyDialog extends StatelessWidget {
             ),
             SizedBox(height: 12),
             Text(
-              "Coming Soon.",
+              S.of(context)!.comingSoon,
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -51,7 +53,7 @@ class PregnancyDialog extends StatelessWidget {
                 ),
                 onPressed: () => Navigator.of(context).pop(),
                 child: Text(
-                  "Okay",
+                  S.of(context)!.okay,
                   style: TextStyle(fontSize: 16, color: CommonColors.bgColor),
                 ),
               ),

@@ -1545,8 +1545,7 @@ class _DashboardViewState extends State<DashboardView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _text('At what age did you get your first period ?',
-                              14),
+                          _text(S.of(context)!.atWhatAgeFirstPeriod, 14),
                           kCommonSpaceV10,
                           Center(
                             child: Container(
@@ -1573,7 +1572,7 @@ class _DashboardViewState extends State<DashboardView> {
                                     return DropdownButton<int>(
                                       value: vModel.userAge,
                                       hint: Text(
-                                        'Age (yrs)',
+                                        S.of(context)!.ageYrs,
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: const Color.fromARGB(
@@ -1598,13 +1597,13 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ),
                           kCommonSpaceV20,
-                          _text('Cervical Cancer Vaccine', 14),
+                          _text(S.of(context)!.cervicalCancerVaccine, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Wrap(
                               children: [
                                 _radioBtn(
-                                  'Dose 1',
+                                  S.of(context)!.dose1,
                                   1,
                                   vModel.isUserVaccinated,
                                   (value) {
@@ -1612,7 +1611,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'Dose 2',
+                                  S.of(context)!.dose2,
                                   2,
                                   vModel.isUserVaccinated,
                                   (value) {
@@ -1620,7 +1619,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'None',
+                                  S.of(context)!.none,
                                   0,
                                   vModel.isUserVaccinated,
                                   (value) {
@@ -1632,13 +1631,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text('HPV Vaccine', 14),
+                          _text(S.of(context)!.hpvVaccine, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Wrap(
                               children: [
                                 _radioBtn(
-                                  'Dose 1',
+                                  S.of(context)!.dose1,
                                   1,
                                   vModel.isUserHpvVaccinated,
                                   (value) {
@@ -1646,7 +1645,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'Dose 2',
+                                  S.of(context)!.dose2,
                                   2,
                                   vModel.isUserHpvVaccinated,
                                   (value) {
@@ -1654,7 +1653,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'Dose 3',
+                                  S.of(context)!.dose3,
                                   3,
                                   vModel.isUserHpvVaccinated,
                                   (value) {
@@ -1662,7 +1661,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'None',
+                                  S.of(context)!.none,
                                   0,
                                   vModel.isUserHpvVaccinated,
                                   (value) {
@@ -1673,13 +1672,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text('Do you have kids?', 14),
+                          _text(S.of(context)!.doYouHaveKids, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Wrap(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.haveKids,
                                   (value) {
@@ -1687,7 +1686,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.haveKids,
                                   (value) {
@@ -1700,13 +1699,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text('Are you pregnant?', 14),
+                          _text(S.of(context)!.areYouPregnant, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.isPregnant,
                                   (value) {
@@ -1714,7 +1713,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.isPregnant,
                                   (value) {
@@ -1741,7 +1740,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Switch to Pregnancy Mode',
+                                  S.of(context)!.switchtoPregnancyMode,
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -1752,13 +1751,13 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ),
                           kCommonSpaceV20,
-                          _text('Are you trying to get pregnant?', 14),
+                          _text(S.of(context)!.areYouTryingToGetPregnant, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.tryPregnant,
                                   (value) {
@@ -1766,7 +1765,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.tryPregnant,
                                   (value) {
@@ -1777,15 +1776,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text(
-                              'Have you been trying since 12 months or more than that?',
-                              14),
+                          _text(S.of(context)!.tryingSince12MonthsOrMore, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.willPregnant,
                                   (value) {
@@ -1793,7 +1790,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.willPregnant,
                                   (value) {
@@ -1804,15 +1801,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text(
-                              'If you\’re 21 years or more, have you gotten a Pap smear in the past six months?',
-                              14),
+                          _text(S.of(context)!.ifYouAre21YearsOrMore, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.papSmear,
                                   (value) {
@@ -1820,7 +1815,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.papSmear,
                                   (value) {
@@ -1831,15 +1826,13 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text(
-                              'If you\'re 50 yrs or more, have you had any periods in the last year?',
-                              14),
+                          _text(S.of(context)!.ifYouAre50YearsOrMore, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.hadPeriod,
                                   (value) {
@@ -1847,7 +1840,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.hadPeriod,
                                   (value) {
@@ -1858,7 +1851,7 @@ class _DashboardViewState extends State<DashboardView> {
                             );
                           }),
                           kCommonSpaceV20,
-                          _text('Do you experience:', 14),
+                          _text(S.of(context)!.doYouExperience, 14),
                           Consumer<DashBoardViewModel>(
                             builder: (context, vModel, child) {
                               return Column(
@@ -1867,8 +1860,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Hot Flushes',
+                                    title: Text(
+                                      S.of(context)!.hotFlushes,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1882,8 +1875,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Tiredness',
+                                    title: Text(
+                                      S.of(context)!.tiredness,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1897,8 +1890,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Mood Swings',
+                                    title: Text(
+                                      S.of(context)!.moodSwings,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1912,8 +1905,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Vaginal Dryness',
+                                    title: Text(
+                                      S.of(context)!.vaginalDryness,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1927,8 +1920,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Decreased Libido',
+                                    title: Text(
+                                      S.of(context)!.decreasedLibido,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1942,8 +1935,8 @@ class _DashboardViewState extends State<DashboardView> {
                                     contentPadding: EdgeInsets.zero,
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
-                                    title: const Text(
-                                      'Joint Pain',
+                                    title: Text(
+                                      S.of(context)!.jointPain,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     value: vModel.isExperienceSelected(
@@ -1960,15 +1953,14 @@ class _DashboardViewState extends State<DashboardView> {
                           // _displayBox(150,
                           //     'If you’re experiencing above symptoms mentioned above, do not worry these are menopausal symptoms due to estrogen deficiency, consult a gynaecologist to start HRT (Hormone Replacement Therapy) to relieve these symptoms.'),
                           kCommonSpaceV20,
-                          _text(
-                              'Have you experienced postmenopausal spotting/bleeding after 1 year of stoppage of periods?',
+                          _text(S.of(context)!.haveyouExpPostmenopausalSpotting,
                               14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
                             return Row(
                               children: [
                                 _radioBtn(
-                                  'Yes',
+                                  S.of(context)!.yes,
                                   1,
                                   vModel.expPostmenopausal,
                                   (value) {
@@ -1976,7 +1968,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   },
                                 ),
                                 _radioBtn(
-                                  'No',
+                                  S.of(context)!.no,
                                   0,
                                   vModel.expPostmenopausal,
                                   (value) {
@@ -2002,7 +1994,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 foregroundColor: WidgetStateProperty.all<Color>(
                                     Colors.white),
                               ),
-                              child: Text('Submit',
+                              child: Text(S.of(context)!.submit,
                                   style: TextStyle(fontSize: 16)),
                             ),
                           ),
