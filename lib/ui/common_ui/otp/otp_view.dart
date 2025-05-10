@@ -86,9 +86,14 @@ class _OTPViewState extends State<OTPView> with CodeAutoFill {
                 PinFieldAutoFill(
                   controller: otpController,
                   decoration: BoxLooseDecoration(
-                    textStyle:
-                        const TextStyle(fontSize: 20, color: Colors.black),
-                    strokeColorBuilder: FixedColorBuilder(Colors.black),
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: CommonColors.primaryColor,
+                    ),
+                    strokeColorBuilder: FixedColorBuilder(
+                      Colors.black,
+                    ),
                   ),
                   currentCode: otp,
                   onCodeSubmitted: (code) {

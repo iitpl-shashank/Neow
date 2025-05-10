@@ -458,4 +458,5 @@ class LocalImages {
 
 class LocalSvgs {
   static const String womanFeeding = 'assets/svgs/woman_feeding.svg';
+  static const String backButton = 'assets/svgs/backbutton.svg';
 }

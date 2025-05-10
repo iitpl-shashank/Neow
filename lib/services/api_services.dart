@@ -12,6 +12,7 @@ import 'package:naveli_2023/models/monthly_reminder_master.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/services/api_url.dart';
+import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/model/ai_chatbot_model.dart';
 
 import '../models/about_your_cycle_master.dart';
 import '../models/all_about_periods_details_master.dart';
@@ -64,9 +65,6 @@ class ApiServices extends BaseServices {
     dynamic response = await appBaseClient.postApiWithTokenCall(
       url: ApiUrl.SIGN_UP,
       postParams: params,
-      // onFailed: (String message) {
-      //   CommonUtils.showToastMessage(message);
-      // },
     );
     if (response != null) {
       try {
@@ -1411,6 +1409,32 @@ class ApiServices extends BaseServices {
         try {
           debugPrint("Vaccination Data: $response");
           return VaccinationModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<AiChatBotModel?> startChatbotApi(
+      {required Map<String, dynamic> params}) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.startChatbot,
+        postParams: params,
+      );
+      debugPrint("CHAT BOT Data: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("CHATBOT Data: $response");
+          return AiChatBotModel.fromJson(response);
         } on Exception catch (e) {
           log("Exception :: $e");
           return null;

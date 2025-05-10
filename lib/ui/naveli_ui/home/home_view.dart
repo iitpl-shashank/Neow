@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
@@ -587,8 +588,12 @@ class _HomeViewState extends State<HomeView> {
                                                   kCommonSpaceV10,
                                                   ElevatedButton(
                                                     onPressed: () {
+                                                      // TODO : Change here from old chatbot to new ai chatbot
+                                                      // push(
+                                                      //     const SymptomsBotView());
                                                       push(
-                                                          const SymptomsBotView());
+                                                        AiChatBotScreen(),
+                                                      );
                                                     },
                                                     style: ButtonStyle(
                                                       padding:

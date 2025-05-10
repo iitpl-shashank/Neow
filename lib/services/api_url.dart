@@ -109,4 +109,5 @@ class ApiUrl {
       "${BASE_URL}vaccination-update-details";
   static const String getUserSymptomsReport =
       "${BASE_URL}userReportSymptomsLogs";
+  static const String startChatbot = "${BASE_URL}chatbot";
 }

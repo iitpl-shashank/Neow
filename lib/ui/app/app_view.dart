@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/monthly_reminders_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -201,6 +202,7 @@ class AppState extends State<App> {
             create: (_) => YourNaveliViewModel()),
         ChangeNotifierProvider<ReportsViewModel>(
             create: (_) => ReportsViewModel()),
+        ChangeNotifierProvider(create: (_) => AiChatBotViewModel()),
       ],
       child: Consumer<AppModel>(
         builder: (context, value, child) => MaterialApp(
