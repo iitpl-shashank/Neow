@@ -17,7 +17,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1200),
+      duration: Duration(milliseconds: 1000),
     )..repeat();
 
     _animations = List.generate(3, (index) {
@@ -53,20 +53,23 @@ class _TypingIndicatorState extends State<TypingIndicator>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: List.generate(3, (index) {
-            return AnimatedBuilder(
-              animation: _animations[index],
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, _animations[index].value),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Dot(),
-                  ),
-                );
-              },
-            );
-          }),
+          children: List.generate(
+            3,
+            (index) {
+              return AnimatedBuilder(
+                animation: _animations[index],
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, _animations[index].value),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Dot(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

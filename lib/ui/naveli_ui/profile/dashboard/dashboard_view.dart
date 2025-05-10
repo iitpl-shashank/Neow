@@ -1129,7 +1129,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         userReports.take(5).toList();
 
                                     return SymptomsCard(
-                                      title: 'Flow',
+                                      title: S.of(context)!.flow,
                                       symptoms: latestReports.reversed
                                           .toList()
                                           .map((report) =>
@@ -1156,7 +1156,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         userReports.take(5).toList();
 
                                     return SymptomsCard(
-                                      title: 'Pain',
+                                      title: S.of(context)!.pain,
                                       symptoms: latestReports.reversed
                                           .toList()
                                           .map((report) =>
@@ -1194,7 +1194,7 @@ class _DashboardViewState extends State<DashboardView> {
                                       stressLogs = stressLogs.take(5).toList();
                                     }
                                     return StressLogCard(
-                                      title: 'Stress',
+                                      title: S.of(context)!.stress,
                                       logs: stressLogs,
                                     );
                                   },
@@ -1217,7 +1217,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         userReports.take(5).toList();
 
                                     return SymptomsCard(
-                                      title: 'Acne',
+                                      title: S.of(context)!.acne,
                                       symptoms: latestReports.reversed
                                           .toList()
                                           .map((report) =>

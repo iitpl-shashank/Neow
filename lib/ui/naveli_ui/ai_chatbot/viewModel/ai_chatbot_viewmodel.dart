@@ -18,6 +18,25 @@ class AiChatBotViewModel with ChangeNotifier {
   List<int> get visibleIndexes => _visibleIndexes;
   bool get showTypingIndicator => _showTypingIndicator;
 
+  bool get isLastQuestionVisible {
+    return visibleIndexes.isNotEmpty &&
+        visibleIndexes.last == (chatBotData?.questions?.length ?? 0) - 1;
+  }
+
+  List<Option> get lastQuestionOptions {
+    if (chatBotData == null || chatBotData!.questions!.isEmpty) {
+      return [];
+    }
+    final lastQuestion = chatBotData!.questions!.last;
+    return lastQuestion.options ?? [];
+  }
+
+  void handleOptionSelection(Option option) {
+    // Handle the selected option
+    debugPrint('Selected option: ${option.text}');
+    // Add your logic here (e.g., send the answer to the server)
+  }
+
   void setLoading(bool value) {
     _isLoading = value;
     notifyListeners();

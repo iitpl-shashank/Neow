@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
+import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/widgets/custom_option_button.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,28 @@ class AiChatBotScreen extends StatefulWidget {
 
 class _AiChatBotScreenState extends State<AiChatBotScreen> {
   late AiChatBotViewModel viewModel;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    viewModel = Provider.of<AiChatBotViewModel>(context);
+    viewModel.addListener(() {
+      if (viewModel.visibleIndexes.isNotEmpty) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -68,29 +91,66 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
               ? Center(child: Text(viewModel.errorMessage))
               : viewModel.chatBotData == null
                   ? const Center(child: Text('No data available'))
-                  : ListView.builder(
-                      itemCount: viewModel.visibleIndexes.length +
-                          (viewModel.showTypingIndicator ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (viewModel.showTypingIndicator &&
-                            index == viewModel.visibleIndexes.length) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                  : Stack(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 60),
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: viewModel.visibleIndexes.length +
+                                (viewModel.showTypingIndicator ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (viewModel.showTypingIndicator &&
+                                  index == viewModel.visibleIndexes.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  child: TypingIndicator(),
+                                );
+                              }
+                              final question = viewModel.chatBotData!
+                                  .questions![viewModel.visibleIndexes[index]];
+                              return ListTile(
+                                title: customMessage(
+                                    text: question.text ?? '',
+                                    imageUrl: question.imagePath ?? ''),
+                              );
+                            },
+                          ),
+                        ),
+                        if (viewModel.isLastQuestionVisible)
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              color: CommonColors.mTransparent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: viewModel.lastQuestionOptions.map(
+                                  (option) {
+                                    return Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: CustomOptionButton(
+                                          text: option.text ?? '',
+                                          onTap: () => viewModel
+                                              .handleOptionSelection(option),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
                             ),
-                            child: TypingIndicator(),
-                          );
-                        }
-
-                        final question = viewModel.chatBotData!
-                            .questions![viewModel.visibleIndexes[index]];
-                        return ListTile(
-                          title: customMessage(
-                              text: question.text ?? '',
-                              imageUrl: question.imagePath ?? ''),
-                        );
-                      },
+                          ),
+                      ],
                     ),
     );
   }
