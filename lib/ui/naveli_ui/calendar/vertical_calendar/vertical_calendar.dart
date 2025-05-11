@@ -10,6 +10,7 @@ import 'package:naveli_2023/utils/date_utils.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/i18n.dart';
 import '../../../../models/date_model.dart';
 import '../../home/home_view_model.dart';
 
@@ -393,39 +394,34 @@ class _MonthViewState extends State<_MonthView> {
               // DateTime now = DateTime.now();
               // int currentYear = now.year;
               peroidCustomeList.forEach((element) {
-                element.periodData!.forEach((periodDates){
+                element.periodData!.forEach((periodDates) {
                   for (DateTime start =
-                  DateTime.parse(periodDates.periodStartDate);
-                  start.isSameDayOrBefore(
-                      DateTime.parse(periodDates.periodEndDate));
-                  start = start.add(Duration(days: 1))) {
+                          DateTime.parse(periodDates.periodStartDate);
+                      start.isSameDayOrBefore(
+                          DateTime.parse(periodDates.periodEndDate));
+                      start = start.add(Duration(days: 1))) {
                     loggedPeriodDates.add(start);
-
                   }
                 });
 
                 element.predictions!.forEach((predictions) {
                   for (DateTime start =
-                  DateTime.parse(predictions.predictedStart);
-                  start.isSameDayOrBefore(
-                      DateTime.parse(predictions.predictedEnd));
-                  start = start.add(Duration(days: 1))) {
+                          DateTime.parse(predictions.predictedStart);
+                      start.isSameDayOrBefore(
+                          DateTime.parse(predictions.predictedEnd));
+                      start = start.add(Duration(days: 1))) {
                     predictedPeriodDates.add(start);
-
                   }
                   for (DateTime start =
-                  DateTime.parse(predictions.fertileWindowStart);
-                  start.isSameDayOrBefore(
-                      DateTime.parse(predictions.fertileWindowEnd));
-                  start = start.add(Duration(days: 1))) {
+                          DateTime.parse(predictions.fertileWindowStart);
+                      start.isSameDayOrBefore(
+                          DateTime.parse(predictions.fertileWindowEnd));
+                      start = start.add(Duration(days: 1))) {
                     fertileDates.add(start);
-
                   }
 
                   ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-
                 });
-
               });
 
               // for (var dateRange in peroidCustomeList) {
@@ -579,8 +575,6 @@ class _MonthViewState extends State<_MonthView> {
               //   }
               // }
 
-
-
 // Checking if the given `date` falls in the calculated dates
               if (loggedPeriodDates.contains(date)) {
                 isSelected = true;
@@ -595,7 +589,7 @@ class _MonthViewState extends State<_MonthView> {
               }
               ovulationDates.removeAt(ovulationDates.length - 1);
               if (ovulationDates.contains(date)) {
-                if(date.year<date.year + 1) {
+                if (date.year < date.year + 1) {
                   isOvulation = true;
                 }
               }
@@ -700,10 +694,14 @@ class _MonthViewState extends State<_MonthView> {
                                           });
                                         },
                                         child: DottedBorder(
-                                          color: isPredictedDate?Colors.red:Colors.transparent,
+                                          color: isPredictedDate
+                                              ? Colors.red
+                                              : Colors.transparent,
                                           dashPattern: [4, 3],
                                           strokeWidth:
-                                          (isFirtile || isPredictedDate) ? 2 : 0,
+                                              (isFirtile || isPredictedDate)
+                                                  ? 2
+                                                  : 0,
                                           borderType: BorderType.Circle,
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -837,27 +835,12 @@ class _DefaultMonthView extends StatelessWidget {
 
   _DefaultMonthView({required this.month, required this.year});
 
-  final months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
       child: Text(
-        '${months[month - 1]} $year',
+        '${S.of(context)?.months[month - 1]} $year',
         style: getAppStyle(
             color: CommonColors.blackColor,
             fontSize: 18.0,
@@ -873,9 +856,7 @@ typedef DayBuilder = Widget Function(BuildContext context, DateTime date);
 
 typedef OnMonthLoaded = void Function(int year, int month);
 
-
 List<Map<String, String>> groupedDates = [];
-
 
 List<Map<String, String>> groupConsecutiveDates(List<DateTime> dates) {
   dates.sort(); // Ensure they are in order

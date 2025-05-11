@@ -1235,6 +1235,21 @@ class S implements WidgetsLocalizations {
       "Welcome to your journey to becoming a parent!";
 
   String get howMany => "How Many?";
+
+  List<String> get months => [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
 }
 
 class $en extends S {
@@ -1245,6 +1260,28 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  List<String> get months => [
+        'जनवरी',
+        'फरवरी',
+        'मार्च',
+        'अप्रैल',
+        'मई',
+        'जून',
+        'जुलाई',
+        'अगस्त',
+        'सितंबर',
+        'अक्टूबर',
+        'नवंबर',
+        'दिसंबर',
+      ];
+
+  @override
+  String get month => "महीना";
+
+  @override
+  String get year => "वर्ष";
+
   @override
   String get howMany => "कितने?";
 
