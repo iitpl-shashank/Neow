@@ -132,4 +132,6 @@ class ApiParams {
   static const String period_deleted_month = "period_deleted_month";
   static const String chatbot_question_id = "question_id";
   static const String chatbot_answer = "answer";
+  static const String post_id = "post_id";
+  static const String is_saved = "is_saved";
 }

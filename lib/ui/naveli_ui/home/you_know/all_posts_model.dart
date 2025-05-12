@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:naveli_2023/models/post_model.dart';
 
 import '../../../../database/app_preferences.dart';
 import '../../../../models/all_posts_master.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
-import '../../../../utils/common_utils.dart'; 
+import '../../../../utils/common_utils.dart';
 
 class AllPostsModel with ChangeNotifier {
   late BuildContext context;
@@ -14,6 +15,19 @@ class AllPostsModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    notifyListeners();
+  }
+
+  Future<void> saveUserPostApi({required Map<String, dynamic> params}) async {
+    CommonUtils.showProgressDialog();
+    PostModel? master = await _services.api!.savePostApi(params: params);
+    CommonUtils.hideProgressDialog();
+    if (master.success == false) {
+      CommonUtils.showSnackBar(
+        master.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (master.success == true) {}
     notifyListeners();
   }
 

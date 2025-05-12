@@ -8,6 +8,7 @@ import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../generated/i18n.dart';
+import '../../../../services/api_para.dart';
 import '../../../../utils/common_colors.dart';
 import '../../health_mix/video_particular.dart';
 
@@ -288,7 +289,14 @@ class _YouKnowViewState extends State<YouKnowView> {
                                         kCommonSpaceH3,
                                         kCommonSpaceH3,
                                         IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              mViewModel
+                                                  .saveUserPostApi(params: {
+                                                ApiParams.post_id: mViewModel
+                                                    .postsList[index].id,
+                                                ApiParams.is_saved: 1,
+                                              });
+                                            },
                                             icon: Icon(
                                                 Icons.bookmark_outline_rounded,
                                                 color:

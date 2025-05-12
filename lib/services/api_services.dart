@@ -34,6 +34,7 @@ import '../models/health_mix_posts_master.dart';
 import '../models/healthmix_category_model.dart';
 import '../models/madication_master.dart';
 import '../models/monthly_mission_master.dart';
+import '../models/post_model.dart';
 import '../models/question_answer_master.dart';
 import '../models/question_of_day_master.dart';
 import '../models/quiz_master.dart';
@@ -1445,6 +1446,31 @@ class ApiServices extends BaseServices {
     } on Exception catch (e) {
       log("Exception api:: $e");
       return null;
+    }
+  }
+
+  @override
+  Future<PostModel> savePostApi({required Map<String, dynamic> params}) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.savePost,
+        postParams: params,
+      );
+      debugPrint("POST API Data: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("POST API Data: $response");
+          return PostModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return PostModel();
+        }
+      } else {
+        return PostModel();
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
+      return PostModel();
     }
   }
 }

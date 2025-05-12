@@ -45,6 +45,122 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
     });
   }
 
+//   @override
+//   Widget build(BuildContext context) {
+//     viewModel = Provider.of<AiChatBotViewModel>(context);
+
+//     return SafeArea(
+//       child: Scaffold(
+//         backgroundColor: CommonColors.mWhite,
+//         appBar: AppBar(
+//           backgroundColor: CommonColors.bgGrey,
+//           leading: IconButton(
+//             icon: const Icon(
+//               Icons.arrow_back_ios_rounded,
+//               color: Colors.black,
+//               size: 20,
+//             ),
+//             onPressed: () => Navigator.pop(context),
+//           ),
+//           title: Center(
+//             child: Transform.translate(
+//               offset: const Offset(-30, 0),
+//               child: Text('Neowme',
+//                   style: TextStyle(
+//                     color: CommonColors.blackColor,
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w600,
+//                   )),
+//             ),
+//           ),
+//         ),
+//         body: viewModel.isLoading
+//             ? Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(
+//                       horizontal: 16,
+//                       vertical: 8,
+//                     ),
+//                     child: TypingIndicator(),
+//                   ),
+//                 ],
+//               )
+//             : viewModel.errorMessage.isNotEmpty
+//                 ? Center(child: Text(viewModel.errorMessage))
+//                 : viewModel.chatBotData == null
+//                     ? const Center(child: Text('No data available'))
+//                     : Stack(
+//                         children: [
+//                           Container(
+//                             margin: const EdgeInsets.only(bottom: 60),
+//                             child: ListView.builder(
+//                               controller: _scrollController,
+//                               itemCount: viewModel.visibleIndexes.length +
+//                                   (viewModel.showTypingIndicator ? 1 : 0),
+//                               itemBuilder: (context, index) {
+//                                 if (viewModel.showTypingIndicator &&
+//                                     index == viewModel.visibleIndexes.length) {
+//                                   return Padding(
+//                                     padding: const EdgeInsets.symmetric(
+//                                       horizontal: 16,
+//                                       vertical: 8,
+//                                     ),
+//                                     child: TypingIndicator(),
+//                                   );
+//                                 }
+//                                 final question =
+//                                     viewModel.chatBotData!.questions![
+//                                         viewModel.visibleIndexes[index]];
+//                                 return ListTile(
+//                                   title: customMessage(
+//                                     question: question.text ?? '',
+//                                     imageUrl: question.imagePath ?? '',
+//                                     answer: question.userAnswer,
+//                                   ),
+//                                 );
+//                               },
+//                             ),
+//                           ),
+//                           if (viewModel.isLastQuestionVisible)
+//                             Positioned(
+//                               bottom: 0,
+//                               left: 0,
+//                               right: 0,
+//                               child: Container(
+//                                 color: CommonColors.mTransparent,
+//                                 padding: const EdgeInsets.symmetric(
+//                                     horizontal: 16, vertical: 8),
+//                                 child: Row(
+//                                   mainAxisAlignment:
+//                                       MainAxisAlignment.spaceEvenly,
+//                                   children: viewModel.lastQuestionOptions.map(
+//                                     (option) {
+//                                       return Flexible(
+//                                         child: Padding(
+//                                           padding: const EdgeInsets.symmetric(
+//                                               horizontal: 4),
+//                                           child: CustomOptionButton(
+//                                             text: option.text ?? '',
+//                                             onTap: () => viewModel
+//                                                 .handleOptionSelection(option),
+//                                           ),
+//                                         ),
+//                                       );
+//                                     },
+//                                   ).toList(),
+//                                 ),
+//                               ),
+//                             ),
+//                         ],
+//                       ),
+//       ),
+//     );
+//   }
+// }
+
   @override
   Widget build(BuildContext context) {
     viewModel = Provider.of<AiChatBotViewModel>(context);
@@ -90,7 +206,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
               )
             : viewModel.errorMessage.isNotEmpty
                 ? Center(child: Text(viewModel.errorMessage))
-                : viewModel.chatBotData == null
+                : viewModel.chatMessages.isEmpty
                     ? const Center(child: Text('No data available'))
                     : Stack(
                         children: [
@@ -98,11 +214,11 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                             margin: const EdgeInsets.only(bottom: 60),
                             child: ListView.builder(
                               controller: _scrollController,
-                              itemCount: viewModel.visibleIndexes.length +
+                              itemCount: viewModel.chatMessages.length +
                                   (viewModel.showTypingIndicator ? 1 : 0),
                               itemBuilder: (context, index) {
                                 if (viewModel.showTypingIndicator &&
-                                    index == viewModel.visibleIndexes.length) {
+                                    index == viewModel.chatMessages.length) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16,
@@ -111,9 +227,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                     child: TypingIndicator(),
                                   );
                                 }
-                                final question =
-                                    viewModel.chatBotData!.questions![
-                                        viewModel.visibleIndexes[index]];
+                                final question = viewModel.chatMessages[index];
                                 return ListTile(
                                   title: customMessage(
                                     question: question.text ?? '',
