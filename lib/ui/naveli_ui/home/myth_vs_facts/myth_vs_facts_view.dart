@@ -9,6 +9,7 @@ import '../../../../utils/local_images.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/scaffold_bg.dart';
 import '../../health_mix/video_particular.dart';
+import '../all_about_periods/saved_post_screen.dart';
 import '../you_know/all_posts_model.dart';
 import '../you_know/you_know_view.dart';
 
@@ -33,7 +34,12 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
     'Senior Year',
     'Others',
   ];
-  final List<String> type = ['Popular', 'Latest', 'Oldest', 'Saved'];
+  final List<String> type = [
+    'Popular',
+    'Latest',
+    'Oldest',
+    'Saved',
+  ];
   @override
   void initState() {
     super.initState();
@@ -71,6 +77,19 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.bookmark_border,
+                size: 28,
+              ),
+              onPressed: () {
+                push(
+                  SavedPostScreen(),
+                );
+              },
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -78,25 +97,6 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /*Text(
-                  S.of(context)!.uncoveringTruth,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: getAppStyle(
-                    color: CommonColors.black87,
-                    fontSize: 18,
-                    height: 1,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                kCommonSpaceV20,
-                 Image.asset(
-                  LocalImages.img_myth_vs_fect,
-                  height: kDeviceHeight / 5,
-                  fit: BoxFit.contain,
-                ),
-                kCommonSpaceV20, */
                 SizedBox(
                     height: 40,
                     child: Container(

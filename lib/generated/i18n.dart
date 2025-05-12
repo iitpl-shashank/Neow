@@ -108,7 +108,7 @@ class S implements WidgetsLocalizations {
 
   String get oops => "Network Error";
 
-  String get allAboutPeriods => "All about periods";
+  String get allAboutPeriods => "All about Periods";
 
   String get plEnter10DigitsMobile => "Please enter 10 Digits mobile no.";
 
@@ -1258,6 +1258,20 @@ class S implements WidgetsLocalizations {
   String get detailsSavedSuccess => "Details saved successfully!";
 
   String get detailsSavedfailed => "Error in saving details!";
+
+  String get puberty => "Puberty";
+
+  String get perimenopause => "Perimenopause";
+
+  String get menopause => "Menopause";
+
+  String get postMenopause => "Post menopause";
+
+  String get seniorYears => "Senior Years";
+
+  String get others => "Others";
+
+  String get savedPosts => "Saved Posts";
 }
 
 class $en extends S {
@@ -1268,6 +1282,27 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get savedPosts => "सहेजे गए पोस्ट";
+
+  @override
+  String get others => "अन्य";
+
+  @override
+  String get seniorYears => "वृद्धावस्था";
+
+  @override
+  String get postMenopause => "मेनोपॉज़ के बाद की स्थिति";
+
+  @override
+  String get menopause => "मेनोपॉज़- मासिक धर्म की समाप्ति";
+
+  @override
+  String get puberty => "किशोरावस्था";
+
+  @override
+  String get perimenopause => "मेनोपॉज़- पूर्वावस्था";
+
   @override
   String get detailsSavedfailed => "विवरण सहेजने में त्रुटि!";
 
@@ -2034,7 +2069,7 @@ class $mr extends S {
   String get oops => "उफ़! कुछ गलत हो गया।";
 
   @override
-  String get allAboutPeriods => "मासिक धर्म  को समझें";
+  String get allAboutPeriods => "पीरियड्स";
 
   @override
   String get plEnter10DigitsMobile =>
@@ -2271,7 +2306,7 @@ class $mr extends S {
   String get phone => "फोन नंबर.";
 
   @override
-  String get submit => "प्रस्तुत करें";
+  String get submit => "सेव करें";
 
   @override
   String get willAsk =>
@@ -2293,7 +2328,7 @@ class $mr extends S {
   String get beforeWeGet => "शुरुआत करने से पहले";
 
   @override
-  String get yatriGanDhyanDe => "नियम और शर्तें, यात्रीगण कृपया ध्यान दें";
+  String get yatriGanDhyanDe => "नियम और शर्तें,\nयात्रीगण कृपया ध्यान दें";
 
   @override
   String get pleaseAsk =>

@@ -62,14 +62,6 @@ class _AllAboutPeriodsDetailsViewState
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  // shadows: [
-                  //   BoxShadow(
-                  //     color: Color(0x3F000000),
-                  //     blurRadius: 8,
-                  //     offset: Offset(0, 2),
-                  //     spreadRadius: 0,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
