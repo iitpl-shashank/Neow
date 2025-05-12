@@ -1250,6 +1250,14 @@ class S implements WidgetsLocalizations {
         'November',
         'December',
       ];
+
+  String get loginSuccessfull => "Login Successfull";
+
+  String get loginFailed => "Login Failed";
+
+  String get detailsSavedSuccess => "Details saved successfully!";
+
+  String get detailsSavedfailed => "Error in saving details!";
 }
 
 class $en extends S {
@@ -1260,6 +1268,18 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get detailsSavedfailed => "विवरण सहेजने में त्रुटि!";
+
+  @override
+  String get detailsSavedSuccess => "विवरण सफलतापूर्वक सहेजा गया!";
+
+  @override
+  String get loginSuccessfull => "लॉग इन सफल";
+
+  @override
+  String get loginFailed => "लॉगिन विफल";
+
   @override
   List<String> get months => [
         'जनवरी',

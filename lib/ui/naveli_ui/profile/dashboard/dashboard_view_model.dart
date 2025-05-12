@@ -222,12 +222,12 @@ class DashBoardViewModel with ChangeNotifier {
           "................................dashboard oops.............................");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
-        master.message ?? "--",
+        S.of(context)!.detailsSavedSuccess,
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
       CommonUtils.showSnackBar(
-        master.message,
+        S.of(context)!.detailsSavedSuccess,
         color: CommonColors.greenColor,
       );
     }

@@ -49,115 +49,121 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
   Widget build(BuildContext context) {
     viewModel = Provider.of<AiChatBotViewModel>(context);
 
-    return Scaffold(
-      backgroundColor: CommonColors.mWhite,
-      appBar: AppBar(
-        backgroundColor: CommonColors.bgGrey,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.black,
-            size: 20,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: CommonColors.mWhite,
+        appBar: AppBar(
+          backgroundColor: CommonColors.bgGrey,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Colors.black,
+              size: 20,
+            ),
+            onPressed: () => Navigator.pop(context),
           ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Center(
-          child: Transform.translate(
-            offset: const Offset(-30, 0),
-            child: Text('Neowme',
-                style: TextStyle(
-                  color: CommonColors.blackColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                )),
+          title: Center(
+            child: Transform.translate(
+              offset: const Offset(-30, 0),
+              child: Text('Neowme',
+                  style: TextStyle(
+                    color: CommonColors.blackColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  )),
+            ),
           ),
         ),
-      ),
-      body: viewModel.isLoading
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+        body: viewModel.isLoading
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TypingIndicator(),
                   ),
-                  child: TypingIndicator(),
-                ),
-              ],
-            )
-          : viewModel.errorMessage.isNotEmpty
-              ? Center(child: Text(viewModel.errorMessage))
-              : viewModel.chatBotData == null
-                  ? const Center(child: Text('No data available'))
-                  : Stack(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 60),
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            itemCount: viewModel.visibleIndexes.length +
-                                (viewModel.showTypingIndicator ? 1 : 0),
-                            itemBuilder: (context, index) {
-                              if (viewModel.showTypingIndicator &&
-                                  index == viewModel.visibleIndexes.length) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
+                ],
+              )
+            : viewModel.errorMessage.isNotEmpty
+                ? Center(child: Text(viewModel.errorMessage))
+                : viewModel.chatBotData == null
+                    ? const Center(child: Text('No data available'))
+                    : Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 60),
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: viewModel.visibleIndexes.length +
+                                  (viewModel.showTypingIndicator ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (viewModel.showTypingIndicator &&
+                                    index == viewModel.visibleIndexes.length) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    child: TypingIndicator(),
+                                  );
+                                }
+                                final question =
+                                    viewModel.chatBotData!.questions![
+                                        viewModel.visibleIndexes[index]];
+                                return ListTile(
+                                  title: customMessage(
+                                    question: question.text ?? '',
+                                    imageUrl: question.imagePath ?? '',
+                                    answer: question.userAnswer,
                                   ),
-                                  child: TypingIndicator(),
                                 );
-                              }
-                              final question = viewModel.chatBotData!
-                                  .questions![viewModel.visibleIndexes[index]];
-                              return ListTile(
-                                title: customMessage(
-                                    text: question.text ?? '',
-                                    imageUrl: question.imagePath ?? ''),
-                              );
-                            },
-                          ),
-                        ),
-                        if (viewModel.isLastQuestionVisible)
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              color: CommonColors.mTransparent,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: viewModel.lastQuestionOptions.map(
-                                  (option) {
-                                    return Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: CustomOptionButton(
-                                          text: option.text ?? '',
-                                          onTap: () => viewModel
-                                              .handleOptionSelection(option),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              ),
+                              },
                             ),
                           ),
-                      ],
-                    ),
+                          if (viewModel.isLastQuestionVisible)
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: CommonColors.mTransparent,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: viewModel.lastQuestionOptions.map(
+                                    (option) {
+                                      return Flexible(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4),
+                                          child: CustomOptionButton(
+                                            text: option.text ?? '',
+                                            onTap: () => viewModel
+                                                .handleOptionSelection(option),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).toList(),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+      ),
     );
   }
 }
 
-Widget customMessage({required String text, String? imageUrl}) {
-  if (text == "Display image" && imageUrl != null) {
+Widget customMessage(
+    {required String question, String? imageUrl, String? answer}) {
+  if (question == "Display image" && imageUrl != null) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -166,6 +172,27 @@ Widget customMessage({required String text, String? imageUrl}) {
       ),
     );
   }
+
+  if (answer != null) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: CommonColors.primaryColor,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Text(
+          answer,
+          style: const TextStyle(
+            fontSize: 15,
+            color: CommonColors.mWhite,
+          ),
+        ),
+      ),
+    );
+  }
+
   return Align(
     alignment: Alignment.centerLeft,
     child: Container(
@@ -175,7 +202,7 @@ Widget customMessage({required String text, String? imageUrl}) {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
-        text,
+        question,
         style: TextStyle(
           fontSize: 15,
           color: CommonColors.blackColor,

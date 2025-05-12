@@ -17,6 +17,8 @@ class AiChatBotViewModel with ChangeNotifier {
   String get errorMessage => _errorMessage;
   List<int> get visibleIndexes => _visibleIndexes;
   bool get showTypingIndicator => _showTypingIndicator;
+  List<Question> _chatMessages = [];
+  List<Question> get chatMessages => _chatMessages;
 
   bool get isLastQuestionVisible {
     return visibleIndexes.isNotEmpty &&
@@ -31,10 +33,24 @@ class AiChatBotViewModel with ChangeNotifier {
     return lastQuestion.options ?? [];
   }
 
-  void handleOptionSelection(Option option) {
-    // Handle the selected option
+  Future<void> handleOptionSelection(Option option) async {
     debugPrint('Selected option: ${option.text}');
-    // Add your logic here (e.g., send the answer to the server)
+
+    int answerId = option.id ?? 0;
+    int? questionId = chatBotData?.questions?.isNotEmpty == true
+        ? chatBotData?.questions?.last.id
+        : null;
+
+    Map<String, dynamic> myParams = {
+      'answers': [
+        {
+          ApiParams.chatbot_question_id: questionId,
+          ApiParams.chatbot_answer: answerId,
+        }
+      ],
+      ApiParams.language: AppPreferences.instance.getLanguageCode(),
+    };
+    await fetchChatBotData(myParams: myParams);
   }
 
   void setLoading(bool value) {
@@ -62,7 +78,7 @@ class AiChatBotViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchChatBotData() async {
+  Future<void> fetchChatBotData({Map<String, dynamic>? myParams}) async {
     setLoading(true);
     try {
       Map<String, dynamic> params = {
@@ -70,9 +86,10 @@ class AiChatBotViewModel with ChangeNotifier {
         ApiParams.language: AppPreferences.instance.getLanguageCode(),
       };
       AiChatBotModel? chatBotData =
-          await _services.api!.startChatbotApi(params: params);
+          await _services.api!.startChatbotApi(params: myParams ?? params);
 
       if (chatBotData != null) {
+        _chatMessages.addAll(chatBotData.questions ?? []);
         _chatBotData = chatBotData;
         clearVisibleIndexes();
         showMessagesWithDelay();

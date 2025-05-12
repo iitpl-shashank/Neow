@@ -5,6 +5,7 @@ import 'package:naveli_2023/models/common_master.dart';
 import 'package:naveli_2023/ui/common_ui/splash/splash_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/cycle_info/welcom_gif_view.dart';
 
+import '../../../generated/i18n.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
 import '../../../utils/common_colors.dart';
@@ -45,7 +46,6 @@ class CycleInfoViewModel with ChangeNotifier {
     String? averagePeriodLength,
     String? humAapkeHeKon,
   }) async {
-
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.role_id: roleId,
@@ -76,18 +76,18 @@ class CycleInfoViewModel with ChangeNotifier {
           "................................Cycle info oops.............................");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
-        master.message ?? "--",
+        S.of(context)!.detailsSavedfailed,
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
       CommonUtils.showSnackBar(
-        master.message,
+        S.of(context)!.detailsSavedSuccess,
         color: CommonColors.greenColor,
       );
       if (isFromCycle) {
         if (gUserType == AppConstants.NEOWME ||
             gUserType == AppConstants.CYCLE_EXPLORER) {
-          (roleId ?? "").isNotEmpty? gUserType = roleId ?? "":null;
+          (roleId ?? "").isNotEmpty ? gUserType = roleId ?? "" : null;
           SplashViewModel().getUserDetails().whenComplete(
                 () => pushReplacement(
                   WelComeGifView(
