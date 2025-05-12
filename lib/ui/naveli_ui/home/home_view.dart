@@ -480,6 +480,7 @@ class _HomeViewState extends State<HomeView> {
                                                             .contains("black")
                                                         ? Colors.black
                                                         : Colors.white),
+                                                textAlign: TextAlign.center,
                                               ),
                                             ),
                                           ),

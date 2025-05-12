@@ -9,21 +9,26 @@ class SearchBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 6,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Container(
-              height: 40,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(color: Colors.grey.shade300),
               ),
               child: Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.center, // Align children vertically
                 children: [
-                  const SizedBox(width: 13),
+                  const SizedBox(
+                    width: 13,
+                  ),
                   Icon(Icons.search, color: Colors.grey.shade500),
                   const SizedBox(
                     width: 10,
@@ -32,6 +37,9 @@ class SearchBarWidget extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10, // Adjust vertical padding
+                        ),
                       ),
                     ),
                   ),
