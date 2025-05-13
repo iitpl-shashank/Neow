@@ -165,73 +165,55 @@ class _HealthMixViewState extends State<HealthMixView>
                 height: 25,
               ),
               SizedBox(
-                  height: 50,
-                  child: Container(
-                      child: ListView.builder(
-                          itemCount: subHeadings.length,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            var txtColor = selectedTabIndex2 == index
-                                ? CommonColors.primaryColor
-                                : CommonColors.blackColor;
-                            return (GestureDetector(
-                                onTap: () {
-                                  onButtonPressed2(index);
-                                },
+                height: 50,
+                child: Container(
+                  child: ListView.builder(
+                    itemCount: subHeadings.length,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      var txtColor = selectedTabIndex2 == index
+                          ? CommonColors.primaryColor
+                          : CommonColors.blackColor;
+                      return (GestureDetector(
+                        onTap: () {
+                          onButtonPressed2(index);
+                        },
+                        child: Container(
+                          height: 70,
+                          padding: const EdgeInsets.only(
+                            left: 0,
+                            right: 15,
+                          ),
+                          margin: const EdgeInsets.only(left: 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(subHeadings[index],
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: txtColor,
+                                      )),
+                                ],
+                              ),
+                              Visibility(
+                                visible: selectedTabIndex2 == index,
                                 child: Container(
-                                    height: 70,
-                                    padding: const EdgeInsets.only(
-                                      left: 0,
-                                      right: 15,
-                                    ),
-                                    margin: const EdgeInsets.only(left: 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(subHeadings[index],
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: txtColor,
-                                                )),
-                                          ],
-                                        ),
-                                        Visibility(
-                                          visible: selectedTabIndex2 == index,
-                                          child: Container(
-                                              height: 3,
-                                              width: 80,
-                                              color: txtColor),
-                                        )
-                                      ],
-                                    ))));
-                          }))),
-              /* Text(
-                  "Testing code",
-                ), */
-              // TabBar(
-              //     controller: tabController2,
-              //     tabs: subHeadings.map((title) {
-              //   return Tab(
-              //
-              //     child: Text(
-              //       title.toUpperCase(),
-              //       style: TextStyle(
-              //         color: CommonColors.blackColor,
-              //         fontSize: 15,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //   );
-              // }).toList()),
-              // kCommonSpaceV20,
+                                    height: 3, width: 80, color: txtColor),
+                              )
+                            ],
+                          ),
+                        ),
+                      ));
+                    },
+                  ),
+                ),
+              ),
               Expanded(
                 child: mViewModel.healthPostsList.length != 0
                     ? SingleChildScrollView(
@@ -248,7 +230,7 @@ class _HealthMixViewState extends State<HealthMixView>
                                   ? item.media
                                   : (item.thumbnail!.contains(".png")
                                       ? item.thumbnail
-                                      : "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png");
+                                      : "https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg");
 
                               return GestureDetector(
                                 onTap: () {

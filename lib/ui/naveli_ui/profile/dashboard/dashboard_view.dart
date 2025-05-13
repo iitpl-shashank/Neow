@@ -1253,176 +1253,177 @@ class _DashboardViewState extends State<DashboardView> {
                     }),
                   ),
                 kCommonSpaceV20,
-                Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFFFBED),
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1, color: CommonColors.blackColor))),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          track = !track;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(LocalImages.imgTrack, height: 25),
-                              kCommonSpaceH10,
-                              Text(
-                                S.of(context)!.track,
-                                style: TextStyle(
-                                  color: CommonColors.blackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: CommonColors.blackColor,
-                            size: 25,
-                          ),
-                        ],
-                      ),
-                    )),
-                if (track)
-                  Container(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 10,
-                      right: 10,
-                      bottom: 20,
-                    ),
-                    color: CommonColors.mGrey200,
-                    child: Column(
-                      children: [
-                        //  mViewModelMedication.storedOtherMedicineList
+                // TODO  Track is hidden now in profile
+                // Container(
+                //     padding: const EdgeInsets.all(10),
+                //     decoration: BoxDecoration(
+                //         color: Color(0xFFFFFBED),
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1, color: CommonColors.blackColor))),
+                //     child: InkWell(
+                //       onTap: () {
+                //         setState(() {
+                //           track = !track;
+                //         });
+                //       },
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: [
+                //           Row(
+                //             children: [
+                //               Image.asset(LocalImages.imgTrack, height: 25),
+                //               kCommonSpaceH10,
+                //               Text(
+                //                 S.of(context)!.track,
+                //                 style: TextStyle(
+                //                   color: CommonColors.blackColor,
+                //                   fontSize: 16,
+                //                   fontWeight: FontWeight.bold,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //           Icon(
+                //             Icons.keyboard_arrow_down,
+                //             color: CommonColors.blackColor,
+                //             size: 25,
+                //           ),
+                //         ],
+                //       ),
+                //     )),
+                // if (track)
+                //   Container(
+                //     padding: const EdgeInsets.only(
+                //       top: 20,
+                //       left: 10,
+                //       right: 10,
+                //       bottom: 20,
+                //     ),
+                //     color: CommonColors.mGrey200,
+                //     child: Column(
+                //       children: [
+                //         //  mViewModelMedication.storedOtherMedicineList
 
-                        for (int index = 0;
-                            index <
-                                mAilmentsViewModel
-                                    .storedOtherAilmentsList.length;
-                            index++)
-                          _track(
-                              context,
-                              'Medication',
-                              mAilmentsViewModel.storedOtherAilmentsList[index]
-                                  .toString(),
-                              '',
-                              '',
-                              LocalImages.img_pill,
-                              '0.50mg, once a day, 5 month course'),
-                        _track(
-                            context,
-                            'Prescription',
-                            'Thyroid prescription.jpg',
-                            LocalImages.view,
-                            LocalImages.download,
-                            '',
-                            ''),
-                        _weight_bmi(context, 'Weight & BMI',
-                            mViewModelWeight.weightHistory),
-                        kCommonSpaceV20,
-                        Text(
-                          'Sleep Cycle Overview',
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 14,
-                          ),
-                        ),
-                        kCommonSpaceV20,
-                        SleepBarData.length != 0
-                            ? SizedBox(
-                                height: 160,
-                                child: BarChart(
-                                  BarChartData(
-                                    borderData: FlBorderData(
-                                      border: const Border(
-                                        top: BorderSide.none,
-                                        right: BorderSide.none,
-                                        left: BorderSide(width: 1),
-                                        bottom: BorderSide(width: 1),
-                                      ),
-                                    ),
-                                    groupsSpace: 10,
-                                    barGroups: [
-                                      for (var bdata in SleepBarData)
-                                        BarChartGroupData(
-                                          x: bdata.xdata,
-                                          barRods: [
-                                            BarChartRodData(
-                                              fromY: 0,
-                                              toY: double.parse(bdata.ydata),
-                                              width: 15,
-                                              color: const Color.fromARGB(
-                                                  255, 111, 64, 133),
-                                              borderRadius: BorderRadius
-                                                  .zero, // Remove radius by setting to zero
-                                            ),
-                                          ],
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : kCommonSpaceV20,
-                        kCommonSpaceV20,
-                        kCommonSpaceV20,
-                        Text(
-                          'Water Intake',
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 14,
-                          ),
-                        ),
-                        kCommonSpaceV20,
-                        WaterInteke.length != 0
-                            ? SizedBox(
-                                height: 160,
-                                child: BarChart(
-                                  BarChartData(
-                                    borderData: FlBorderData(
-                                        border: const Border(
-                                      top: BorderSide.none,
-                                      right: BorderSide.none,
-                                      left: BorderSide(width: 1),
-                                      bottom: BorderSide(width: 1),
-                                    )),
-                                    groupsSpace: 10,
-                                    barGroups: [
-                                      for (var bdata in WaterInteke)
-                                        BarChartGroupData(
-                                          x: bdata
-                                              .xdata, // Use a numeric index for X-axis
-                                          barRods: [
-                                            BarChartRodData(
-                                              fromY: 0,
-                                              toY: int.parse(bdata.ydata)
-                                                  .toDouble(),
-                                              // Water intake value
-                                              width: 15,
-                                              color: const Color.fromARGB(
-                                                  255, 111, 64, 133),
-                                              borderRadius: BorderRadius.zero,
-                                            ),
-                                          ],
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : kCommonSpaceV20,
-                        kCommonSpaceV20,
-                      ],
-                    ),
-                  ),
-                kCommonSpaceV20,
+                //         for (int index = 0;
+                //             index <
+                //                 mAilmentsViewModel
+                //                     .storedOtherAilmentsList.length;
+                //             index++)
+                //           _track(
+                //               context,
+                //               'Medication',
+                //               mAilmentsViewModel.storedOtherAilmentsList[index]
+                //                   .toString(),
+                //               '',
+                //               '',
+                //               LocalImages.img_pill,
+                //               '0.50mg, once a day, 5 month course'),
+                //         _track(
+                //             context,
+                //             'Prescription',
+                //             'Thyroid prescription.jpg',
+                //             LocalImages.view,
+                //             LocalImages.download,
+                //             '',
+                //             ''),
+                //         _weight_bmi(context, 'Weight & BMI',
+                //             mViewModelWeight.weightHistory),
+                //         kCommonSpaceV20,
+                //         Text(
+                //           'Sleep Cycle Overview',
+                //           style: getAppStyle(
+                //             color: const Color.fromARGB(255, 0, 0, 0),
+                //             fontSize: 14,
+                //           ),
+                //         ),
+                //         kCommonSpaceV20,
+                //         SleepBarData.length != 0
+                //             ? SizedBox(
+                //                 height: 160,
+                //                 child: BarChart(
+                //                   BarChartData(
+                //                     borderData: FlBorderData(
+                //                       border: const Border(
+                //                         top: BorderSide.none,
+                //                         right: BorderSide.none,
+                //                         left: BorderSide(width: 1),
+                //                         bottom: BorderSide(width: 1),
+                //                       ),
+                //                     ),
+                //                     groupsSpace: 10,
+                //                     barGroups: [
+                //                       for (var bdata in SleepBarData)
+                //                         BarChartGroupData(
+                //                           x: bdata.xdata,
+                //                           barRods: [
+                //                             BarChartRodData(
+                //                               fromY: 0,
+                //                               toY: double.parse(bdata.ydata),
+                //                               width: 15,
+                //                               color: const Color.fromARGB(
+                //                                   255, 111, 64, 133),
+                //                               borderRadius: BorderRadius
+                //                                   .zero, // Remove radius by setting to zero
+                //                             ),
+                //                           ],
+                //                         ),
+                //                     ],
+                //                   ),
+                //                 ),
+                //               )
+                //             : kCommonSpaceV20,
+                //         kCommonSpaceV20,
+                //         kCommonSpaceV20,
+                //         Text(
+                //           'Water Intake',
+                //           style: getAppStyle(
+                //             color: const Color.fromARGB(255, 0, 0, 0),
+                //             fontSize: 14,
+                //           ),
+                //         ),
+                //         kCommonSpaceV20,
+                //         WaterInteke.length != 0
+                //             ? SizedBox(
+                //                 height: 160,
+                //                 child: BarChart(
+                //                   BarChartData(
+                //                     borderData: FlBorderData(
+                //                         border: const Border(
+                //                       top: BorderSide.none,
+                //                       right: BorderSide.none,
+                //                       left: BorderSide(width: 1),
+                //                       bottom: BorderSide(width: 1),
+                //                     )),
+                //                     groupsSpace: 10,
+                //                     barGroups: [
+                //                       for (var bdata in WaterInteke)
+                //                         BarChartGroupData(
+                //                           x: bdata
+                //                               .xdata, // Use a numeric index for X-axis
+                //                           barRods: [
+                //                             BarChartRodData(
+                //                               fromY: 0,
+                //                               toY: int.parse(bdata.ydata)
+                //                                   .toDouble(),
+                //                               // Water intake value
+                //                               width: 15,
+                //                               color: const Color.fromARGB(
+                //                                   255, 111, 64, 133),
+                //                               borderRadius: BorderRadius.zero,
+                //                             ),
+                //                           ],
+                //                         ),
+                //                     ],
+                //                   ),
+                //                 ),
+                //               )
+                //             : kCommonSpaceV20,
+                //         kCommonSpaceV20,
+                //       ],
+                //     ),
+                //   ),
+                // kCommonSpaceV20,
                 Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(

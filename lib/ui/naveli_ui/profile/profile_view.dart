@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/reports/reports_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/settings/settings_view.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
@@ -214,30 +215,40 @@ class _ProfileViewState extends State<ProfileView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image.asset(
-                    LocalImages.img_facebook,
-                    height: 40,
+                  SvgPicture.asset(
+                    LocalSvgs.icFacebook,
+                    height: 35,
                   ),
-                  Image.asset(LocalImages.img_instagram, height: 40),
+                  SvgPicture.asset(
+                    LocalSvgs.icInstagram,
+                    height: 35,
+                  ),
                   GestureDetector(
-                      onTap: () {
-                        launchUrl(
-                            "https://x.com/NeowIndia/status/1766148501074039162?t=rtFG5ewFmhjeSCeUcQbBLw&s=08");
-                      },
-                      child: Image.asset(LocalImages.img_twitter, height: 40)),
+                    onTap: () {
+                      launchUrl(
+                          "https://x.com/NeowIndia/status/1766148501074039162?t=rtFG5ewFmhjeSCeUcQbBLw&s=08");
+                    },
+                    child: SvgPicture.asset(
+                      LocalSvgs.icTwitter,
+                      height: 30,
+                    ),
+                  ),
                   GestureDetector(
-                      onTap: () {
-                        launchUrl("https://www.youtube.com/@NeowIndia");
-                      },
-                      child: Image.asset(LocalImages.img_youtube, height: 40)),
-                  Image.asset(LocalImages.img_blog, height: 40),
+                    onTap: () {
+                      launchUrl("https://www.youtube.com/@NeowIndia");
+                    },
+                    child: SvgPicture.asset(
+                      LocalSvgs.icYoutube,
+                      height: 30,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       launchUrl("https://www.neowindia.com/");
                     },
-                    child: Image.asset(
-                      LocalImages.web,
-                      height: 40,
+                    child: SvgPicture.asset(
+                      LocalSvgs.icWhatsapp,
+                      height: 35,
                     ),
                   ),
                 ],

@@ -1084,6 +1084,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   bool isDateWiseTextLoading = false;
+  bool isDateWiseTextLoader = false;
   Future<void> getDateWiseText() async {
     isDateWiseTextLoading = true;
     notifyListeners();

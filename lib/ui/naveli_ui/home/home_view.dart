@@ -343,6 +343,20 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    mViewModel = Provider.of<HomeViewModel>(context, listen: false);
+    mViewModel.isDateWiseTextLoader = true;
+    Future.delayed(const Duration(seconds: 4), () {
+      if (mounted) {
+        setState(() {
+          mViewModel.isDateWiseTextLoader = false;
+        });
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _timer.cancel();
     vdo_Controller.dispose();
@@ -390,7 +404,7 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    push(const NotificationScreen());
+                    push(NotificationScreen());
                   },
                 ),
                 IconButton(
@@ -427,7 +441,7 @@ class _HomeViewState extends State<HomeView> {
                         Container(
                           padding: const EdgeInsets.only(left: 12, right: 12),
                           decoration: BoxDecoration(
-                            color: Color(bgColor),
+                            color: CommonColors.appBackground,
                             // width:500,
                             borderRadius: BorderRadius.vertical(
                                 bottom: Radius.elliptical(
@@ -444,19 +458,29 @@ class _HomeViewState extends State<HomeView> {
                               print(
                                   "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
                               return Container(
+                                width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0XFFFBF5F7),
+                                  color: CommonColors.appBackground,
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.elliptical(
+                                          MediaQuery.of(context).size.width,
+                                          90.0)),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    vModel.isDateWiseTextLoading
-                                        ? Image.asset(
-                                            LocalImages.syncing_vibe,
-                                            width: 150,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Container(
+                                child: (vModel.isDateWiseTextLoading ||
+                                        vModel.isDateWiseTextLoader)
+                                    ? Container(
+                                        child: Image.asset(
+                                          LocalImages.syncing_vibe,
+                                          height: 200,
+                                          width: 180,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
                                             width: 150,
                                             height: 150,
                                             decoration: BoxDecoration(
@@ -487,52 +511,57 @@ class _HomeViewState extends State<HomeView> {
                                               ),
                                             ),
                                           ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                      vModel.dateWiseTextList
+                                                          .msg.description,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: CommonColors
+                                                              .darkPrimaryColor,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          kCommonSpaceV5,
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              navigateToCalendarView();
+                                            },
+                                            style: ButtonStyle(
+                                              fixedSize:
+                                                  WidgetStateProperty.all<Size>(
+                                                Size(lang == 'hi' ? 170 : 120.0,
+                                                    30.0), // Button width and height
+                                              ),
+                                              backgroundColor:
+                                                  WidgetStateProperty
+                                                      .all<Color>(CommonColors
+                                                          .primaryColor),
+                                              foregroundColor:
+                                                  WidgetStateProperty.all<
+                                                      Color>(Colors.white),
+                                            ),
                                             child: Text(
-                                                vModel.dateWiseTextList.msg
-                                                    .description,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: CommonColors
-                                                        .darkPrimaryColor,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
+                                              S.of(context)!.logPeriod,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    kCommonSpaceV5,
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        navigateToCalendarView();
-                                      },
-                                      style: ButtonStyle(
-                                        fixedSize:
-                                            WidgetStateProperty.all<Size>(
-                                          Size(lang == 'hi' ? 170 : 120.0,
-                                              30.0), // Button width and height
-                                        ),
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                                CommonColors.primaryColor),
-                                        foregroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                                Colors.white),
-                                      ),
-                                      child: Text(
-                                        S.of(context)!.logPeriod,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               );
                             },
                           ),
@@ -1273,9 +1302,12 @@ class _HomeViewState extends State<HomeView> {
                         GestureDetector(
                           onTap: () {
                             // Define the action when the text is clicked
-                            push(ShortsView(
+                            push(
+                              ShortsView(
                                 healthPostsList:
-                                    mViewHealthMixModel.healthPostsList));
+                                    mViewHealthMixModel.healthPostsList,
+                              ),
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -1332,7 +1364,7 @@ class _HomeViewState extends State<HomeView> {
                           mViewHealthMixModel.healthLatestPostsList[index];
                       return LatestVideoCard(
                         imageUrl: post.media!.contains("youtube")
-                            ? "https://cdn.pixabay.com/photo/2020/11/22/04/10/youtube-5765608_640.png"
+                            ? "https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg"
                             : post.media ??
                                 "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
                         title: post.description ?? "Unknown Description",

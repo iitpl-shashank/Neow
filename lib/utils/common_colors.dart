@@ -34,6 +34,7 @@ class CommonColors {
   static const purple = Color(0xFFF6F4085);
   static const bgGrey = Color(0xFFF6F6F6);
   static const dotColor = Color(0xFF999898);
+  static const appBackground = Color(0XFFFBF5F7);
 
   static const pastalGreen = Color.fromRGBO(187, 236, 175, 0.812);
 }

@@ -460,4 +460,9 @@ class LocalImages {
 
 class LocalSvgs {
   static const String womanFeeding = 'assets/svgs/woman_feeding.svg';
+  static const String icInstagram = 'assets/svgs/ic_instagram.svg';
+  static const String icFacebook = 'assets/svgs/ic_facebook.svg';
+  static const String icTwitter = 'assets/svgs/ic_twitter.svg';
+  static const String icYoutube = 'assets/svgs/ic_youtube.svg';
+  static const String icWhatsapp = 'assets/svgs/ic_whatsapp.svg';
 }

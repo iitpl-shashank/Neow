@@ -1350,7 +1350,7 @@ class $mr extends S {
   String get month => "महीना";
 
   @override
-  String get year => "वर्ष";
+  String get year => "साल";
 
   @override
   String get howMany => "कितने?";
