@@ -1272,6 +1272,12 @@ class S implements WidgetsLocalizations {
   String get others => "Others";
 
   String get savedPosts => "Saved Posts";
+
+  String get profession => "Profession";
+
+  String get tellUsProfession => "Tell us your profession";
+
+  String get pleaseEnterProfession => "Please enter your profession";
 }
 
 class $en extends S {
@@ -1282,6 +1288,15 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get pleaseEnterProfession => "कृपया अपना पेशा दर्ज करें";
+
+  @override
+  String get profession => "पेशा";
+
+  @override
+  String get tellUsProfession => "हमें अपना पेशा बताएं";
+
   @override
   String get savedPosts => "सहेजे गए पोस्ट";
 

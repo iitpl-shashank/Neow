@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gif_view/gif_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:naveli_2023/ui/common_ui/welcome/views/profession_screen.dart';
 import 'package:naveli_2023/ui/common_ui/welcome/widgets/custom_alert_dialog.dart';
 import 'package:naveli_2023/ui/common_ui/welcome/widgets/menopause_alert_dialog.dart';
 import 'package:naveli_2023/utils/images_route.dart';
@@ -112,23 +113,24 @@ class _WelcomeViewState extends State<WelcomeView> {
           int age = calculateAge(mDateController.text);
           mViewModel.setAge(age);
           debugPrint("Age===>: $age");
-
-          if (age >= 9 && age <= 25) {
-            handle9To25Dialogs(context);
-            singInViewModel.userRoleId = "2";
-            gUserType = AppConstants.NEOWME;
-          } else if (age > 25 && age <= 45) {
-            handle25To45Dialogs(context);
-            //TODO : user role id is for what ?
-            singInViewModel.userRoleId = "2";
-            gUserType = AppConstants.NEOWME;
-          } else if (age > 45 && age <= 50) {
-            handle45To50Dialogs(context);
-            singInViewModel.userRoleId = "2";
-            gUserType = AppConstants.NEOWME;
-          } else if (age > 50) {
-            // await handle50PlusDialogs(context);
-            handle50PlusDialogs(context);
+          if (gUserType == AppConstants.NEOWME) {
+            print("Inside NEOWME");
+            if (age >= 9 && age <= 25) {
+              handle9To25Dialogs(context);
+              singInViewModel.userRoleId = "2";
+              gUserType = AppConstants.NEOWME;
+            } else if (age > 25 && age <= 45) {
+              handle25To45Dialogs(context);
+              //TODO : user role id is for what ?
+              singInViewModel.userRoleId = "2";
+              gUserType = AppConstants.NEOWME;
+            } else if (age > 45 && age <= 50) {
+              handle45To50Dialogs(context);
+              singInViewModel.userRoleId = "2";
+              gUserType = AppConstants.NEOWME;
+            } else if (age > 50) {
+              handle50PlusDialogs(context);
+            }
           }
         });
       });
@@ -1096,8 +1098,11 @@ class _WelcomeViewState extends State<WelcomeView> {
                         ),
                         const Spacer(),
                         SizedBox(
-                            height: Screen.width() / 1.6,
-                            child: Image.asset(LocalImages.img_quick_survey)),
+                          height: Screen.width() / 1.6,
+                          child: Image.asset(
+                            LocalImages.img_quick_survey,
+                          ),
+                        ),
                         const Spacer()
                       ],
                     ),
@@ -1114,7 +1119,8 @@ class _WelcomeViewState extends State<WelcomeView> {
                       onPress: () {
                         debugPrint("currentIndex: $currentIndex");
                         if (isValid()) {
-                          if (currentIndex == 4) {
+                          if (currentIndex == 4 &&
+                              gUserType == AppConstants.NEOWME) {
                             mViewModel.callVaccinationUpdateApi();
                           }
                           if (currentIndex == 3) {
@@ -1296,19 +1302,21 @@ class _WelcomeViewState extends State<WelcomeView> {
                             allData['birthdate'] = mDateController.text.trim();
                             if (currentIndex == 5 &&
                                 gUserType == AppConstants.NEOWME) {
+                              // TODO : Here is the logic for the cycle explorer
                               push(CycleInfoView(welcomeData: allData));
                             } else if (currentIndex == 4 &&
                                 gUserType == AppConstants.CYCLE_EXPLORER) {
                               print("cycle...");
-                              CycleInfoViewModel().userUpdateDetailsApi(
-                                isFromCycle: true,
-                                roleId: "4",
-                                name: allData['name'],
-                                birthdate: allData['birthdate'],
-                                gender: allData['gender'],
-                                genderType: allData['otherGender'],
-                                relationshipStatus: allData['relation'],
-                              );
+                              push(ProfessionScreen(welcomeData: allData));
+                              // CycleInfoViewModel().userUpdateDetailsApi(
+                              //   isFromCycle: true,
+                              //   roleId: "4",
+                              //   name: allData['name'],
+                              //   birthdate: allData['birthdate'],
+                              //   gender: allData['gender'],
+                              //   genderType: allData['otherGender'],
+                              //   relationshipStatus: allData['relation'],
+                              // );
                             }
                           }
                           if (currentIndex == 6 &&
@@ -1360,6 +1368,8 @@ class _WelcomeViewState extends State<WelcomeView> {
   }
 
   bool isValid() {
+    print("SG: $selectedGender");
+    print("UT: $gUserType");
     if (currentIndex == 1 && mNameController.text.trim().isEmpty) {
       CommonUtils.showSnackBar(
         S.of(context)!.plEnterName,

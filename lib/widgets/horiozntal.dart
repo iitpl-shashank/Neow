@@ -182,12 +182,11 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                           debugPrint(
                               "Selected Date: ${widget.mViewModel.selectedDate}");
                           widget.mViewModel.updateSelectedDate(date);
-                          // widget.mViewModel.getCycleDayOrDaysToGo(selectedDate);
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal:
-                                (isFirtile || isPredictedDate) ? 10.0 : 8.0,
+                                (isFirtile || isPredictedDate) ? 5.0 : 3.0,
                           ),
                           child: DottedBorder(
                             color: isFirtile

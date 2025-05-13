@@ -53,8 +53,14 @@ class PeriodObj {
 
   factory PeriodObj.fromJson(Map<String, dynamic> json) {
     return PeriodObj(
-      periodData: (json['periods_info'] as List?)?.map((e) => PeriodData.fromJson(e)).toList() ?? [],
-      predictions: (json['predictions'] as List?)?.map((e) => PredictionData.fromJson(e)).toList() ?? [],
+      periodData: (json['periods_info'] as List?)
+              ?.map((e) => PeriodData.fromJson(e))
+              .toList() ??
+          [],
+      predictions: (json['predictions'] as List?)
+              ?.map((e) => PredictionData.fromJson(e))
+              .toList() ??
+          [],
       avgCycleLength: json['avg_cycle_length']?.toString() ?? "",
       avgPeriodLength: json['avg_period_length']?.toString() ?? "",
       diffInDays: json['diff_in_days'] ?? 0,
@@ -143,13 +149,6 @@ class PredictionData {
     };
   }
 }
-
-
-
-
-
-
-
 
 bool connectivity = true, isNotifyConnectivity = false;
 String languageCode = "en";
