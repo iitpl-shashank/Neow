@@ -73,6 +73,7 @@ class ApiParams {
   static const String bmi_type = "bmi_type";
   static const String hum_apke_he_kon = "hum_apke_he_kon";
   static const String birthdate = "birthdate";
+  static const String profession = "profession";
   static const String gender = "gender";
   static const String gender_type = "gender_type";
   static const String relationship_status = "relationship_status";

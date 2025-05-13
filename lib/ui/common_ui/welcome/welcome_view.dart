@@ -405,6 +405,16 @@ class _WelcomeViewState extends State<WelcomeView> {
                 AppPreferences.instance.setUserDetails(jsonEncode(userMaster));
                 gUserType = singInViewModel.userRoleId.toString();
 
+                print("cycle...");
+                allData['name'] = mNameController.text.trim();
+                allData['gender'] = selectedGender.toString();
+                if (mOtherController.text.trim().isNotEmpty) {
+                  allData['otherGender'] = mOtherController.text.trim();
+                }
+                allData['relation'] = selectedRelation.toString();
+                allData['birthdate'] = mDateController.text.trim();
+                push(ProfessionScreen(welcomeData: allData));
+
                 debugPrint("Role ID: ${singInViewModel.userRoleId}");
                 debugPrint("Role ID: ${userMaster.toJson()}");
               });
@@ -1307,16 +1317,16 @@ class _WelcomeViewState extends State<WelcomeView> {
                             } else if (currentIndex == 4 &&
                                 gUserType == AppConstants.CYCLE_EXPLORER) {
                               print("cycle...");
+                              allData['name'] = mNameController.text.trim();
+                              allData['gender'] = selectedGender.toString();
+                              if (mOtherController.text.trim().isNotEmpty) {
+                                allData['otherGender'] =
+                                    mOtherController.text.trim();
+                              }
+                              allData['relation'] = selectedRelation.toString();
+                              allData['birthdate'] =
+                                  mDateController.text.trim();
                               push(ProfessionScreen(welcomeData: allData));
-                              // CycleInfoViewModel().userUpdateDetailsApi(
-                              //   isFromCycle: true,
-                              //   roleId: "4",
-                              //   name: allData['name'],
-                              //   birthdate: allData['birthdate'],
-                              //   gender: allData['gender'],
-                              //   genderType: allData['otherGender'],
-                              //   relationshipStatus: allData['relation'],
-                              // );
                             }
                           }
                           if (currentIndex == 6 &&

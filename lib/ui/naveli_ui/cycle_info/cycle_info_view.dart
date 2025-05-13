@@ -677,101 +677,13 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                           ),
                         ),
                         kCommonSpaceV50,
-                        // kCommonSpaceV50,
-                        /* Expanded(
-                            child: RotatedBox(
-                              quarterTurns: 1,
-                              child: ListWheelScrollView(
-                                itemExtent: 100,
-                                diameterRatio: .8,
-                                physics: const FixedExtentScrollPhysics(),
-                                perspective: 0.005,
-                                controller: scrollController,
-                                onSelectedItemChanged: (value) {
-                                  // DateTime selectedDate = DateTime.now().subtract(Duration(days: value));
-                                  // selectedPreviousPeriodDate = selectedDate.day;
-                                  DateTime selectedDate = DateTime.now()
-                                      .subtract(Duration(days: value));
-                                  selectedPreviousPeriodDate =
-                                      '${selectedDate.year}, ${selectedDate.month}, ${selectedDate.day}';
-                                },
-                                children: List.generate(
-                                  60,
-                                  (index) {
-                                    DateTime date = DateTime.now()
-                                        .subtract(Duration(days: index));
-                                    String formattedDate =
-                                        DateFormat('d MMM yyyy').format(date);
-            
-                                    return Container(
-                                      height: 120,
-                                      width: 120,
-                                      decoration: const BoxDecoration(
-                                        color: CommonColors.A43786,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: RotatedBox(
-                                        quarterTurns: -1,
-                                        child: Text(
-                                          formattedDate,
-                                          textAlign: TextAlign.center,
-                                          style: getAppStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: CommonColors.mWhite,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ), */
 
-                        // Expanded(
-                        //   child: LabelTextField(
-                        //     onTap: () async {
-                        //       DateTime? picked = await showDatePicker(
-                        //           context: mainNavKey.currentContext!,
-                        //           initialDate: DateTime.now(),
-                        //           firstDate: new DateTime(2016),
-                        //           lastDate: new DateTime(2222));
-                        //       if (picked != null) {
-                        //         setState(() {
-                        //           mDateController.text =
-                        //               CommonUtils.dateFormatddMMYYYY(
-                        //                   picked.toString());
-                        //         });
-                        //       } else {
-                        //         print(picked);
-                        //       }
-                        //     },
-                        //     hintText: S.of(context)!.selectDate,
-                        //     controller: mDateController,
-                        //     readOnly: true,
-                        //   ),
-                        // ),
-                        // kCommonSpaceV10,
-                        // Text(
-                        //   S.of(context)!.date,
-                        //   style: getAppStyle(
-                        //     color: CommonColors.mGrey,
-                        //     fontSize: 20,
-                        //     fontWeight: FontWeight.w500,
-                        //   ),
-                        // ),
                         Spacer(),
                         PrimaryButton(
                           width: kDeviceWidth / 1.3,
                           label: S.of(context)!.next,
                           borderRadius: BorderRadius.circular(50),
                           onPress: () {
-                            // if(isValid()){
-                            //   print(selectedPreviousPeriodMonth);
-                            //   print(selectedPreviousPeriodDate);
-                            // }
                             if (isValid()) {
                               // print(selectedPreviousPeriodDate);
                               cycleData['previousPeriodDate'] =
@@ -825,11 +737,6 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                         ),
                       ),
                     ),
-                    /*  GifView.asset(
-                        LocalImages.gif_star,
-                        // height: kDeviceHeight / 2,
-                        // width: kDeviceWidth / 2,
-                      ), */
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -853,11 +760,6 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                             )
                           ],
                         ),
-                        /* Image.asset(
-                            LocalImages.img_sprinkle,
-                            width: kDeviceWidth / 1.3,
-                            fit: BoxFit.cover,
-                          ), */
                         kCommonSpaceV20,
                         Text(
                           S.of(context)!.personalisingExp,
@@ -868,142 +770,6 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        // kCommonSpaceV50,
-                        // PrimaryButton(
-                        //   width: kDeviceWidth / 1.3,
-                        //   label: S.of(context)!.next,
-                        //   borderRadius: BorderRadius.circular(50),
-                        //   onPress: () async {
-                        //
-                        //
-                        //
-                        //     // mViewModel.userUpdateDetailsApi(
-                        //     //   isFromCycle: true,
-                        //     //   name: widget.welcomeData['name'],
-                        //     //   birthdate: widget.welcomeData['birthdate'],
-                        //     //   gender: widget.welcomeData['gender'],
-                        //     //   genderType: widget.welcomeData['otherGender'],
-                        //     //   relationshipStatus: widget.welcomeData['relation'],
-                        //     //   averageCycleLength: cycleData['cycleLength'],
-                        //     //   previousPeriodsBegin:
-                        //     //   cycleData['previousPeriodDate'],
-                        //     //   previousPeriodsMonth:
-                        //     //   cycleData['previousPeriodMonth'],
-                        //     //   averagePeriodLength: cycleData['periodsLength'],
-                        //     // );
-                        //
-                        //
-                        //
-                        //
-                        //
-                        //     // if ( calculateAge(widget
-                        //     //     .welcomeData['birthdate']) >=
-                        //     //     55 ) {
-                        //     //
-                        //     //   debugPrint("IN  if ");
-                        //     //    if(isPeriodsOnAfter55){
-                        //     //   mViewModel.userUpdateDetailsApi(
-                        //     //     isFromCycle: true,
-                        //     //     name: widget.welcomeData['name'],
-                        //     //     birthdate: widget.welcomeData['birthdate'],
-                        //     //     gender: widget.welcomeData['gender'],
-                        //     //     genderType: widget.welcomeData['otherGender'],
-                        //     //     relationshipStatus: widget.welcomeData['relation'],
-                        //     //     averageCycleLength: cycleData['cycleLength'],
-                        //     //     previousPeriodsBegin:
-                        //     //     cycleData['previousPeriodDate'],
-                        //     //     previousPeriodsMonth:
-                        //     //     cycleData['previousPeriodMonth'],
-                        //     //     averagePeriodLength: cycleData['periodsLength'],
-                        //     //   );
-                        //     //    } else {
-                        //     //      // debugPrint("IN  else ");
-                        //     //      // debugPrint("IN IF Condition");
-                        //     //      singInViewModel.userRoleId = "4";
-                        //     //      globalUserMaster = AppPreferences.instance
-                        //     //          .getUserDetails();
-                        //     //
-                        //     //      UserMaster userMaster = UserMaster(
-                        //     //          id: globalUserMaster!.id,
-                        //     //          name: globalUserMaster!.name,
-                        //     //          email: globalUserMaster!.email,
-                        //     //          roleId : int.parse(singInViewModel.userRoleId),
-                        //     //          uuId: globalUserMaster!.uuId,
-                        //     //          birthdate: globalUserMaster!.birthdate,
-                        //     //          age: globalUserMaster!.age,
-                        //     //          height: globalUserMaster!.height,
-                        //     //          weight: globalUserMaster!.weight,
-                        //     //          bmiScore: globalUserMaster!.bmiScore,
-                        //     //          bmiType: globalUserMaster!.bmiType,
-                        //     //          badTime: globalUserMaster!.badTime,
-                        //     //          wakeUpTime: globalUserMaster!.wakeUpTime,
-                        //     //          totalSleepTime: globalUserMaster!.totalSleepTime,
-                        //     //          waterMl: globalUserMaster!.waterMl,
-                        //     //          gender: globalUserMaster!.gender,
-                        //     //          genderType: globalUserMaster!.genderType,
-                        //     //          mobile: globalUserMaster!.mobile,
-                        //     //          deviceToken: globalUserMaster!.deviceToken,
-                        //     //          image: globalUserMaster!.image,
-                        //     //          relationshipStatus: globalUserMaster!.relationshipStatus,
-                        //     //          averageCycleLength: cycleData['cycleLength'],
-                        //     //          previousPeriodsBegin: cycleData['previousPeriodDate'],
-                        //     //          previousPeriodsMonth: cycleData['previousPeriodMonth'],
-                        //     //          averagePeriodLength: cycleData['periodsLength'],
-                        //     //          humApkeHeKon: globalUserMaster!.humApkeHeKon,
-                        //     //          status: globalUserMaster!.status,
-                        //     //          state: globalUserMaster!.state,
-                        //     //          city: globalUserMaster!.city
-                        //     //      );
-                        //     //
-                        //     //      AppPreferences.instance.setUserDetails(
-                        //     //          jsonEncode(userMaster));
-                        //     //      gUserType = singInViewModel.userRoleId.toString();
-                        //     //
-                        //     //
-                        //     //
-                        //     //      mViewModel.userUpdateDetailsApi(
-                        //     //        isFromCycle: true,
-                        //     //        name: widget.welcomeData['name'],
-                        //     //        roleId: "4",
-                        //     //        birthdate: widget.welcomeData['birthdate'],
-                        //     //        gender: widget.welcomeData['gender'],
-                        //     //        genderType: widget.welcomeData['otherGender'],
-                        //     //        relationshipStatus: widget.welcomeData['relation'],
-                        //     //        averageCycleLength: cycleData['cycleLength'],
-                        //     //        previousPeriodsBegin:
-                        //     //        cycleData['previousPeriodDate'],
-                        //     //        previousPeriodsMonth:
-                        //     //        cycleData['previousPeriodMonth'],
-                        //     //        averagePeriodLength: cycleData['periodsLength'],
-                        //     //      ).whenComplete(() {
-                        //     //        // SplashViewModel().checkGlobalUserData();
-                        //     //      });
-                        //     //    }
-                        //     //
-                        //     // }
-                        //     // else  {
-                        //     //
-                        //     //   mViewModel.userUpdateDetailsApi(
-                        //     //     isFromCycle: true,
-                        //     //     name: widget.welcomeData['name'],
-                        //     //     birthdate: widget.welcomeData['birthdate'],
-                        //     //     gender: widget.welcomeData['gender'],
-                        //     //     genderType: widget.welcomeData['otherGender'],
-                        //     //     relationshipStatus: widget.welcomeData['relation'],
-                        //     //     averageCycleLength: cycleData['cycleLength'],
-                        //     //     previousPeriodsBegin:
-                        //     //     cycleData['previousPeriodDate'],
-                        //     //     previousPeriodsMonth:
-                        //     //     cycleData['previousPeriodMonth'],
-                        //     //     averagePeriodLength: cycleData['periodsLength'],
-                        //     //   );
-                        //     //
-                        //     //
-                        //     // }
-                        //
-                        //
-                        //   },
-                        // ),
                       ],
                     ),
                   ],

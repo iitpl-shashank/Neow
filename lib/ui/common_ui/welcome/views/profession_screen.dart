@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:naveli_2023/ui/common_ui/welcome/views/personalising_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/custome_header_view.dart';
 import 'package:naveli_2023/widgets/common_text_field.dart';
@@ -12,6 +13,7 @@ import '../../../../utils/constant.dart';
 import '../../../../utils/local_images.dart';
 import '../../../../widgets/primary_button.dart';
 import '../../../app/app_model.dart';
+import '../../../naveli_ui/cycle_info/cycle_info_view_model.dart';
 
 class ProfessionScreen extends StatefulWidget {
   Map<String, dynamic> welcomeData;
@@ -23,9 +25,20 @@ class ProfessionScreen extends StatefulWidget {
 
 class _ProfessionScreenState extends State<ProfessionScreen> {
   final mProfessionController = TextEditingController();
+  late CycleInfoViewModel mViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      mViewModel = Provider.of<CycleInfoViewModel>(context, listen: false);
+      mViewModel.attachedContext(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<CycleInfoViewModel>(context);
     return SafeArea(child: ScaffoldBG(
       child: Builder(builder: (context) {
         var lang = Provider.of<AppModel>(context).locale;
@@ -76,7 +89,7 @@ class _ProfessionScreenState extends State<ProfessionScreen> {
                         children: [
                           kCommonSpaceV15,
                           Text(
-                            S.of(context)!.yourFabulousName,
+                            S.of(context)!.tellUsProfession,
                             style: TextStyle(
                               color: CommonColors.blackColor,
                               fontSize: 16,
@@ -109,11 +122,17 @@ class _ProfessionScreenState extends State<ProfessionScreen> {
                           color: CommonColors.mRed,
                         );
                       } else {
-                        // widget.welcomeData['profession'] =
-                        //     mProfessionController.text;
-                        // Provider.of<AppModel>(context, listen: false)
-                        //     .setWelcomeData(widget.welcomeData);
-                        // Navigator.pushNamed(context, Routes.kCycleInfoScreen);
+                        mViewModel.userUpdateDetailsApi(
+                          isFromCycle: true,
+                          roleId: "4",
+                          name: widget.welcomeData['name'],
+                          birthdate: widget.welcomeData['birthdate'],
+                          gender: widget.welcomeData['gender'],
+                          genderType: widget.welcomeData['otherGender'],
+                          relationshipStatus: widget.welcomeData['relation'],
+                          profession: mProfessionController.text,
+                        );
+                        push(const PersonalisingScreen());
                       }
                     },
                   ),
@@ -126,13 +145,3 @@ class _ProfessionScreenState extends State<ProfessionScreen> {
     ));
   }
 }
-
- // CycleInfoViewModel().userUpdateDetailsApi(
-                              //   isFromCycle: true,
-                              //   roleId: "4",
-                              //   name: allData['name'],
-                              //   birthdate: allData['birthdate'],
-                              //   gender: allData['gender'],
-                              //   genderType: allData['otherGender'],
-                              //   relationshipStatus: allData['relation'],
-                              // );

@@ -110,7 +110,10 @@ class _HomeViewState extends State<HomeView> {
 
       mViewModel.attachedContext(context);
       mViewHealthMixModel.getHealthMixLatestPosts();
-      mViewModel.getPeriodInfoList();
+
+      if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
+        mViewModel.getPeriodInfoList();
+      }
 
       //TODO  First and Second block to be in hindi or not !!!!
       await handleFirstBloc();

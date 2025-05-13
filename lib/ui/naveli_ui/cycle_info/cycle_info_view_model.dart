@@ -12,7 +12,6 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
-import '../../common_ui/singin/signin_view_model.dart';
 
 class CycleInfoViewModel with ChangeNotifier {
   late BuildContext context;
@@ -45,6 +44,7 @@ class CycleInfoViewModel with ChangeNotifier {
     String? previousPeriodsMonth,
     String? averagePeriodLength,
     String? humAapkeHeKon,
+    String? profession,
   }) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
@@ -63,6 +63,7 @@ class CycleInfoViewModel with ChangeNotifier {
       if (averagePeriodLength != null)
         ApiParams.average_period_length: averagePeriodLength,
       if (humAapkeHeKon != null) ApiParams.hum_apke_he_kon: humAapkeHeKon,
+      if (profession != null) ApiParams.profession: profession,
     };
     log(params.toString());
 
@@ -97,7 +98,6 @@ class CycleInfoViewModel with ChangeNotifier {
               );
         }
       }
-      // AppPreferences.instance.setUserDetails(jsonEncode(master.data));
     }
     notifyListeners();
   }
