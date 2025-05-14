@@ -73,7 +73,7 @@ class Question {
   final String? text;
   final int? isInformational;
   final List<Option>? options;
-  final dynamic userAnswer;
+  dynamic userAnswer;
   final String? imagePath;
 
   Question({

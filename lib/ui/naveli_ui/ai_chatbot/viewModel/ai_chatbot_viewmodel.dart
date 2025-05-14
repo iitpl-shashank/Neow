@@ -50,10 +50,18 @@ class AiChatBotViewModel with ChangeNotifier {
       ],
       ApiParams.language: AppPreferences.instance.getLanguageCode(),
     };
+    addAnswerToLastQuestion(option);
     await fetchChatBotData(
       myParams: myParams,
       isStarting: false,
     );
+  }
+
+  void addAnswerToLastQuestion(Option answer) {
+    if (_chatMessages.isNotEmpty) {
+      _chatMessages.last.userAnswer = answer.text;
+      notifyListeners();
+    }
   }
 
   void setLoading(bool value) {
