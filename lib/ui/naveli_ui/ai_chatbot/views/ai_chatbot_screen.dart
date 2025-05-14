@@ -104,7 +104,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                   (viewModel.showTypingIndicator ? 1 : 0),
                               itemBuilder: (context, index) {
                                 if (viewModel.showTypingIndicator &&
-                                    index == viewModel.chatMessages.length) {
+                                    index == viewModel.visibleIndexes.length) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16,
@@ -113,14 +113,18 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                     child: TypingIndicator(),
                                   );
                                 }
-                                final question = viewModel.chatMessages[index];
-                                return ListTile(
-                                  title: customMessage(
+                                if (index < viewModel.visibleIndexes.length &&
+                                    viewModel.visibleIndexes[index] <
+                                        viewModel.chatMessages.length) {
+                                  final question = viewModel.chatMessages[
+                                      viewModel.visibleIndexes[index]];
+                                  return customMessage(
                                     question: question.text ?? '',
                                     imageUrl: question.imagePath ?? '',
                                     answer: question.userAnswer,
-                                  ),
-                                );
+                                  );
+                                }
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
@@ -174,62 +178,68 @@ Widget customMessage(
   }
 
   if (answer != null) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            margin: const EdgeInsets.only(bottom: 4),
-            decoration: BoxDecoration(
-              color: CommonColors.bgGrey,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              question,
-              style: const TextStyle(
-                fontSize: 15,
-                color: CommonColors.blackColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              margin: const EdgeInsets.only(bottom: 4),
+              decoration: BoxDecoration(
+                color: CommonColors.bgGrey,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                question,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: CommonColors.blackColor,
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            decoration: BoxDecoration(
-              color: CommonColors.primaryColor,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Text(
-              answer,
-              style: const TextStyle(
-                fontSize: 15,
-                color: CommonColors.mWhite,
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: CommonColors.primaryColor,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Text(
+                answer,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: CommonColors.mWhite,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: CommonColors.bgGrey,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        question,
-        style: TextStyle(
-          fontSize: 15,
-          color: CommonColors.blackColor,
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: CommonColors.bgGrey,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          question,
+          style: TextStyle(
+            fontSize: 15,
+            color: CommonColors.blackColor,
+          ),
         ),
       ),
     ),

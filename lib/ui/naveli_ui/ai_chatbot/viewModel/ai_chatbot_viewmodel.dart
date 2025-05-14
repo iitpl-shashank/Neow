@@ -26,7 +26,7 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   List<Option> get lastQuestionOptions {
-    if (chatBotData == null || chatMessages.isEmpty) {
+    if (chatMessages.isEmpty) {
       return [];
     }
     final lastQuestion = chatMessages.last;
@@ -95,13 +95,12 @@ class AiChatBotViewModel with ChangeNotifier {
           await _services.api!.startChatbotApi(params: myParams ?? params);
       if (isStarting) {
         _chatMessages.clear();
+        clearVisibleIndexes();
       }
       if (chatBotData != null) {
         _chatMessages.addAll(chatBotData.questions ?? []);
         _chatBotData = chatBotData;
-        if (isStarting) {
-          clearVisibleIndexes();
-        }
+
         showMessagesWithDelay(isStarting: isStarting);
       } else {
         setErrorMessage('Failed to fetch chatbot data: No data received');
@@ -114,32 +113,43 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   Future<void> showMessagesWithDelay({bool isStarting = false}) async {
-    if (_chatBotData?.questions == null || _chatBotData!.questions!.isEmpty)
-      return;
+    if (chatMessages.isEmpty) return;
 
     if (isStarting) {
       int lastAnsweredIndex = -1;
-      for (int i = 0; i < _chatBotData!.questions!.length; i++) {
-        if (_chatBotData!.questions![i].userAnswer != null) {
+      for (int i = 0; i < chatMessages.length; i++) {
+        if (chatMessages[i].userAnswer != null) {
           lastAnsweredIndex = i;
         }
       }
 
-      for (int i = 0; i <= lastAnsweredIndex; i++) {
-        addVisibleIndex(i);
-      }
+      print("Last answered index: $lastAnsweredIndex");
 
-      int nextQuestionIndex = lastAnsweredIndex + 1;
-      if (nextQuestionIndex < _chatBotData!.questions!.length) {
-        setShowTypingIndicator(true);
-        await Future.delayed(const Duration(seconds: 2));
-        setShowTypingIndicator(false);
-        addVisibleIndex(nextQuestionIndex);
+      if (lastAnsweredIndex == -1) {
+        for (int i = 0; i < chatMessages.length; i++) {
+          setShowTypingIndicator(true);
+          await Future.delayed(const Duration(seconds: 2));
+          setShowTypingIndicator(false);
+          addVisibleIndex(i);
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+      } else {
+        // Show all answered messages instantly
+        for (int i = 0; i <= lastAnsweredIndex; i++) {
+          addVisibleIndex(i);
+        }
+
+        int nextQuestionIndex = lastAnsweredIndex + 1;
+        if (nextQuestionIndex < chatMessages.length) {
+          setShowTypingIndicator(true);
+          await Future.delayed(const Duration(seconds: 2));
+          setShowTypingIndicator(false);
+          addVisibleIndex(nextQuestionIndex);
+        }
       }
     } else {
-      // Default: show all new questions with typing indicator
       int start = _visibleIndexes.isEmpty ? 0 : _visibleIndexes.last + 1;
-      for (int i = start; i < _chatBotData!.questions!.length; i++) {
+      for (int i = start; i < chatMessages.length; i++) {
         setShowTypingIndicator(true);
         await Future.delayed(const Duration(seconds: 2));
         setShowTypingIndicator(false);
