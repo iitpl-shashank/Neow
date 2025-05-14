@@ -129,6 +129,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                   final question = viewModel.chatMessages[
                                       viewModel.visibleIndexes[index]];
                                   return customMessage(
+                                    context: context,
                                     question: question.text ?? '',
                                     imageUrl: question.imagePath ?? '',
                                     answer: question.userAnswer,
@@ -176,13 +177,17 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
 }
 
 Widget customMessage(
-    {required String question, String? imageUrl, String? answer}) {
+    {required String question,
+    String? imageUrl,
+    String? answer,
+    required BuildContext context}) {
   if (question == "Display image" && imageUrl != null) {
     return Column(
       children: [
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
+            width: MediaQuery.of(context).size.width * 0.66,
             margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: CustomImageLoader(imageUrl: imageUrl),
           ),

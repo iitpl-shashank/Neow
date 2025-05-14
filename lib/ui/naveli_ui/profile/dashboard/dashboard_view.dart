@@ -656,6 +656,16 @@ class _DashboardViewState extends State<DashboardView> {
                               vModel.updateRelationshipStatus(selectedState);
                             },
                           ),
+                          if (gUserType == AppConstants.CYCLE_EXPLORER)
+                            kCommonSpaceV5,
+                          if (gUserType == AppConstants.CYCLE_EXPLORER)
+                            CustomTextFieldContainer(
+                              textColor: CommonColors.blackColor,
+                              color: Color(0xFFF5F5F5),
+                              labelText: S.of(context)!.profession,
+                              controller: vModel.userProfessionController,
+                              border: true,
+                            ),
                           kCommonSpaceV5,
                           kCommonSpaceV20,
                           PrimaryButton(
@@ -690,11 +700,6 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           Row(
                             children: [
-                              /*Icon(
-                                Icons.recycling,
-                                color: CommonColors.blackColor,
-                                size: 25,
-                              ),*/
                               Image.asset(LocalImages.imgAboutYourCycle,
                                   height: 25),
                               kCommonSpaceH10,

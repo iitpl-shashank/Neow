@@ -797,9 +797,11 @@ class DashBoardViewModel with ChangeNotifier {
     userAgeGroupController.clear();
     userAgeController.clear();
     notifyListeners();
+    userProfessionController.clear();
   }
 
   TextEditingController userNameController = TextEditingController();
+  TextEditingController userProfessionController = TextEditingController();
   TextEditingController userMobileController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userStateController = TextEditingController();
@@ -811,6 +813,11 @@ class DashBoardViewModel with ChangeNotifier {
 
   void updateUserProfileAge(String age) {
     userAgeController.text = age;
+    notifyListeners();
+  }
+
+  void updateUserProfession(String profession) {
+    userProfessionController.text = profession;
     notifyListeners();
   }
 
