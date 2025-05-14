@@ -16,35 +16,45 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
   late AiChatBotViewModel viewModel;
   final ScrollController _scrollController = ScrollController();
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    viewModel = Provider.of<AiChatBotViewModel>(context);
-    viewModel.addListener(() {
-      if (viewModel.visibleIndexes.isNotEmpty) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  late VoidCallback _scrollListener;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      viewModel.fetchChatBotData(
-        isStarting: true,
-      );
-    });
+    _scrollListener = () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        if (_scrollController.hasClients &&
+            viewModel.visibleIndexes.isNotEmpty &&
+            maxScroll > 0) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        }
+      });
+    };
+  }
+
+  bool _isFirstBuild = true;
+  @override
+  void didChangeDependencies() {
+    if (_isFirstBuild) {
+      _isFirstBuild = false;
+      viewModel.fetchChatBotData(isStarting: true);
+    }
+    super.didChangeDependencies();
+    viewModel = Provider.of<AiChatBotViewModel>(context);
+    viewModel.removeListener(_scrollListener); // Prevent duplicates
+    viewModel.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    viewModel.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -177,27 +187,25 @@ Widget customMessage(
             child: CustomImageLoader(imageUrl: imageUrl),
           ),
         ),
-        if (answer != null || answer != "")
+        if (answer != null) const SizedBox(height: 8),
+        if (answer != null)
           Align(
             alignment: Alignment.centerRight,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              margin: const EdgeInsets.only(bottom: 4),
               decoration: BoxDecoration(
                 color: CommonColors.primaryColor,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text(
-                answer!,
+                answer,
                 style: const TextStyle(
                   fontSize: 15,
                   color: CommonColors.mWhite,
                 ),
               ),
             ),
-          )
-        else
-          const SizedBox.shrink(),
+          ),
       ],
     );
   }

@@ -67,8 +67,7 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   void setLoading(bool value) {
-    // _isLoading = value;
-    _showTypingIndicator = value;
+    _isLoading = value;
     notifyListeners();
   }
 
@@ -96,7 +95,11 @@ class AiChatBotViewModel with ChangeNotifier {
     Map<String, dynamic>? myParams,
     bool isStarting = false,
   }) async {
-    setLoading(true);
+    if (isStarting) {
+      setLoading(true);
+    } else {
+      setShowTypingIndicator(true);
+    }
     try {
       Map<String, dynamic> params = {
         'answers': [],
@@ -119,11 +122,15 @@ class AiChatBotViewModel with ChangeNotifier {
     } catch (e) {
       setErrorMessage('Failed to fetch chatbot data: $e');
     } finally {
-      setLoading(false);
+      if (isStarting) {
+        setLoading(false);
+      } else {
+        setShowTypingIndicator(false);
+      }
     }
   }
 
-  Future<void> showMessagesWithDelay({bool isStarting = false}) async {
+  Future<void> showMessagesWithDelay({required bool isStarting}) async {
     if (chatMessages.isEmpty) return;
 
     if (isStarting) {
@@ -135,6 +142,7 @@ class AiChatBotViewModel with ChangeNotifier {
       }
 
       print("Last answered index: $lastAnsweredIndex");
+      print("Chat Msg Length: ${chatMessages.length}");
 
       if (lastAnsweredIndex == -1) {
         for (int i = 0; i < chatMessages.length; i++) {
@@ -145,17 +153,18 @@ class AiChatBotViewModel with ChangeNotifier {
           await Future.delayed(const Duration(milliseconds: 500));
         }
       } else {
-        // Show all answered messages instantly
         for (int i = 0; i <= lastAnsweredIndex; i++) {
           addVisibleIndex(i);
         }
 
         int nextQuestionIndex = lastAnsweredIndex + 1;
         if (nextQuestionIndex < chatMessages.length) {
-          setShowTypingIndicator(true);
-          await Future.delayed(const Duration(seconds: 2));
-          setShowTypingIndicator(false);
-          addVisibleIndex(nextQuestionIndex);
+          for (int j = nextQuestionIndex; j < chatMessages.length; j++) {
+            setShowTypingIndicator(true);
+            await Future.delayed(const Duration(seconds: 2));
+            setShowTypingIndicator(false);
+            addVisibleIndex(j);
+          }
         }
       }
     } else {
