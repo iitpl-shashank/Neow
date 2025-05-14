@@ -34,6 +34,7 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   Future<void> handleOptionSelection(Option option) async {
+    setLoading(true);
     debugPrint('Selected option: ${option.text}');
 
     int answerId = option.id ?? 0;
@@ -55,6 +56,7 @@ class AiChatBotViewModel with ChangeNotifier {
       myParams: myParams,
       isStarting: false,
     );
+    setLoading(false);
   }
 
   void addAnswerToLastQuestion(Option answer) {
@@ -65,7 +67,8 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   void setLoading(bool value) {
-    _isLoading = value;
+    // _isLoading = value;
+    _showTypingIndicator = value;
     notifyListeners();
   }
 

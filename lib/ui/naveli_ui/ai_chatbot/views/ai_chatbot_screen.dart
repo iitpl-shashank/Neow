@@ -168,12 +168,37 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
 Widget customMessage(
     {required String question, String? imageUrl, String? answer}) {
   if (question == "Display image" && imageUrl != null) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-        child: CustomImageLoader(imageUrl: imageUrl),
-      ),
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            child: CustomImageLoader(imageUrl: imageUrl),
+          ),
+        ),
+        if (answer != null || answer != "")
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              margin: const EdgeInsets.only(bottom: 4),
+              decoration: BoxDecoration(
+                color: CommonColors.primaryColor,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Text(
+                answer!,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: CommonColors.mWhite,
+                ),
+              ),
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+      ],
     );
   }
 
