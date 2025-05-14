@@ -22,14 +22,14 @@ class AiChatBotViewModel with ChangeNotifier {
 
   bool get isLastQuestionVisible {
     return visibleIndexes.isNotEmpty &&
-        visibleIndexes.last == (chatBotData?.questions?.length ?? 0) - 1;
+        visibleIndexes.last == (chatMessages.length) - 1;
   }
 
   List<Option> get lastQuestionOptions {
-    if (chatBotData == null || chatBotData!.questions!.isEmpty) {
+    if (chatBotData == null || chatMessages.isEmpty) {
       return [];
     }
-    final lastQuestion = chatBotData!.questions!.last;
+    final lastQuestion = chatMessages.last;
     return lastQuestion.options ?? [];
   }
 
@@ -50,7 +50,10 @@ class AiChatBotViewModel with ChangeNotifier {
       ],
       ApiParams.language: AppPreferences.instance.getLanguageCode(),
     };
-    await fetchChatBotData(myParams: myParams);
+    await fetchChatBotData(
+      myParams: myParams,
+      isStarting: false,
+    );
   }
 
   void setLoading(bool value) {
@@ -78,7 +81,10 @@ class AiChatBotViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchChatBotData({Map<String, dynamic>? myParams}) async {
+  Future<void> fetchChatBotData({
+    Map<String, dynamic>? myParams,
+    bool isStarting = false,
+  }) async {
     setLoading(true);
     try {
       Map<String, dynamic> params = {
@@ -87,12 +93,16 @@ class AiChatBotViewModel with ChangeNotifier {
       };
       AiChatBotModel? chatBotData =
           await _services.api!.startChatbotApi(params: myParams ?? params);
-
+      if (isStarting) {
+        _chatMessages.clear();
+      }
       if (chatBotData != null) {
         _chatMessages.addAll(chatBotData.questions ?? []);
         _chatBotData = chatBotData;
-        clearVisibleIndexes();
-        showMessagesWithDelay();
+        if (isStarting) {
+          clearVisibleIndexes();
+        }
+        showMessagesWithDelay(isStarting: isStarting);
       } else {
         setErrorMessage('Failed to fetch chatbot data: No data received');
       }
@@ -103,16 +113,38 @@ class AiChatBotViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> showMessagesWithDelay() async {
-    if (_chatBotData?.questions != null) {
+  Future<void> showMessagesWithDelay({bool isStarting = false}) async {
+    if (_chatBotData?.questions == null || _chatBotData!.questions!.isEmpty)
+      return;
+
+    if (isStarting) {
+      int lastAnsweredIndex = -1;
       for (int i = 0; i < _chatBotData!.questions!.length; i++) {
+        if (_chatBotData!.questions![i].userAnswer != null) {
+          lastAnsweredIndex = i;
+        }
+      }
+
+      for (int i = 0; i <= lastAnsweredIndex; i++) {
+        addVisibleIndex(i);
+      }
+
+      int nextQuestionIndex = lastAnsweredIndex + 1;
+      if (nextQuestionIndex < _chatBotData!.questions!.length) {
         setShowTypingIndicator(true);
-        await Future.delayed(
-            const Duration(seconds: 2)); // Show typing indicator for 2 seconds
+        await Future.delayed(const Duration(seconds: 2));
+        setShowTypingIndicator(false);
+        addVisibleIndex(nextQuestionIndex);
+      }
+    } else {
+      // Default: show all new questions with typing indicator
+      int start = _visibleIndexes.isEmpty ? 0 : _visibleIndexes.last + 1;
+      for (int i = start; i < _chatBotData!.questions!.length; i++) {
+        setShowTypingIndicator(true);
+        await Future.delayed(const Duration(seconds: 2));
         setShowTypingIndicator(false);
         addVisibleIndex(i);
-        await Future.delayed(
-            const Duration(milliseconds: 500)); // Delay between messages
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     }
   }

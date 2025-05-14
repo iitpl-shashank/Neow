@@ -41,7 +41,9 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      viewModel.fetchChatBotData();
+      viewModel.fetchChatBotData(
+        isStarting: true,
+      );
     });
   }
 
