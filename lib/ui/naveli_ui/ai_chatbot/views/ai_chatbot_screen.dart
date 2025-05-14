@@ -40,14 +40,14 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
   bool _isFirstBuild = true;
   @override
   void didChangeDependencies() {
-    if (_isFirstBuild) {
-      _isFirstBuild = false;
-      viewModel.fetchChatBotData(isStarting: true);
-    }
     super.didChangeDependencies();
     viewModel = Provider.of<AiChatBotViewModel>(context);
     viewModel.removeListener(_scrollListener); // Prevent duplicates
     viewModel.addListener(_scrollListener);
+    if (_isFirstBuild) {
+      _isFirstBuild = false;
+      viewModel.fetchChatBotData(isStarting: true);
+    }
   }
 
   @override

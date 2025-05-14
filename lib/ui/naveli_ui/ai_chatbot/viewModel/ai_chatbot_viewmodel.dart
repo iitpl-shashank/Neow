@@ -34,7 +34,7 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   Future<void> handleOptionSelection(Option option) async {
-    setLoading(true);
+    setShowTypingIndicator(true);
     debugPrint('Selected option: ${option.text}');
 
     int answerId = option.id ?? 0;
@@ -56,7 +56,7 @@ class AiChatBotViewModel with ChangeNotifier {
       myParams: myParams,
       isStarting: false,
     );
-    setLoading(false);
+    setShowTypingIndicator(false);
   }
 
   void addAnswerToLastQuestion(Option answer) {
@@ -95,7 +95,7 @@ class AiChatBotViewModel with ChangeNotifier {
     Map<String, dynamic>? myParams,
     bool isStarting = false,
   }) async {
-    if (isStarting) {
+    if (isStarting == true) {
       setLoading(true);
     } else {
       setShowTypingIndicator(true);
@@ -122,7 +122,7 @@ class AiChatBotViewModel with ChangeNotifier {
     } catch (e) {
       setErrorMessage('Failed to fetch chatbot data: $e');
     } finally {
-      if (isStarting) {
+      if (isStarting == true) {
         setLoading(false);
       } else {
         setShowTypingIndicator(false);
