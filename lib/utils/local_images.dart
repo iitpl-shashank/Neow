@@ -456,6 +456,10 @@ class LocalImages {
   static const String pregnancy = 'assets/images/pregnancy.png';
   static const String back = 'assets/images/back.png';
   static const String professionImg = 'assets/images/profession_img.png';
+  static const String ourMissionImg = 'assets/images/our_mission_img.png';
+  static const String ourTeamImg = 'assets/images/our_team_img.png';
+  static const String privacyImg = 'assets/images/privacy_img.png';
+  static const String termsImg = 'assets/images/terms_img.png';
 }
 
 class LocalSvgs {
