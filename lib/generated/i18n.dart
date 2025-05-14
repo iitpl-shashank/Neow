@@ -1278,6 +1278,8 @@ class S implements WidgetsLocalizations {
   String get tellUsProfession => "Tell us your profession";
 
   String get pleaseEnterProfession => "Please enter your profession";
+
+  String get readMore => "Read More";
 }
 
 class $en extends S {
@@ -1288,6 +1290,9 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get readMore => "आगे पढ़ें और जानें!";
+
   @override
   String get pleaseEnterProfession => "कृपया अपना पेशा दर्ज करें";
 

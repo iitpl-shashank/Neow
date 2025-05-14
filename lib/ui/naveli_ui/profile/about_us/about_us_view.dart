@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/local_images.dart';
@@ -146,7 +142,9 @@ class InfoCard extends StatelessWidget {
                         vertical: 4,
                       ),
                     ),
-                    child: const Text('Read more'),
+                    child: Text(
+                      S.of(context)!.readMore,
+                    ),
                   ),
                 ),
               ],
@@ -154,11 +152,11 @@ class InfoCard extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           SizedBox(
-            height: 80,
-            width: 80,
+            height: 120,
+            width: 120,
             child: Image.asset(
               imagePath,
-              fit: BoxFit.contain,
+              fit: BoxFit.fitHeight,
             ),
           ),
         ],

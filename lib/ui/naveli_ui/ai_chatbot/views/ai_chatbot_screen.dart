@@ -148,13 +148,13 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                 color: CommonColors.mTransparent,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: viewModel.lastQuestionOptions.map(
-                                    (option) {
-                                      return Flexible(
-                                        child: Padding(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const BouncingScrollPhysics(),
+                                  child: Row(
+                                    children: viewModel.lastQuestionOptions.map(
+                                      (option) {
+                                        return Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 4),
                                           child: CustomOptionButton(
@@ -162,10 +162,10 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                             onTap: () => viewModel
                                                 .handleOptionSelection(option),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
                                 ),
                               ),
                             ),
