@@ -148,25 +148,40 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                                 color: CommonColors.mTransparent,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  child: Row(
-                                    children: viewModel.lastQuestionOptions.map(
-                                      (option) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4),
-                                          child: CustomOptionButton(
-                                            text: option.text ?? '',
-                                            onTap: () => viewModel
-                                                .handleOptionSelection(option),
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ),
+                                child: viewModel.lastQuestionOptions.length == 1
+                                    ? SizedBox(
+                                        width: double.infinity,
+                                        child: CustomOptionButton(
+                                          text: viewModel.lastQuestionOptions
+                                                  .first.text ??
+                                              '',
+                                          onTap: () => viewModel
+                                              .handleOptionSelection(viewModel
+                                                  .lastQuestionOptions.first),
+                                        ),
+                                      )
+                                    : SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        physics: const BouncingScrollPhysics(),
+                                        child: Row(
+                                          children:
+                                              viewModel.lastQuestionOptions.map(
+                                            (option) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4),
+                                                child: CustomOptionButton(
+                                                  text: option.text ?? '',
+                                                  onTap: () => viewModel
+                                                      .handleOptionSelection(
+                                                          option),
+                                                ),
+                                              );
+                                            },
+                                          ).toList(),
+                                        ),
+                                      ),
                               ),
                             ),
                         ],
