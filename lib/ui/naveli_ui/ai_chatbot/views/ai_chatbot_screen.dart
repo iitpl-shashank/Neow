@@ -4,7 +4,9 @@ import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/widgets/custom_option_button
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/i18n.dart';
 import '../widgets/custom_image_loader.dart';
+import '../widgets/custom_option_multi_button.dart';
 import '../widgets/typing_indicator.dart';
 
 class AiChatBotScreen extends StatefulWidget {
@@ -23,15 +25,19 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
     super.initState();
     _scrollListener = () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final maxScroll = _scrollController.position.maxScrollExtent;
-        if (_scrollController.hasClients &&
-            viewModel.visibleIndexes.isNotEmpty &&
-            maxScroll > 0) {
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
+        try {
+          final maxScroll = _scrollController.position.maxScrollExtent;
+          if (_scrollController.hasClients &&
+              viewModel.visibleIndexes.isNotEmpty &&
+              maxScroll > 0) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
+        } catch (e) {
+          debugPrint('Scroll error: $e');
         }
       });
     };
@@ -46,7 +52,9 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
     viewModel.addListener(_scrollListener);
     if (_isFirstBuild) {
       _isFirstBuild = false;
-      viewModel.fetchChatBotData(isStarting: true);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        viewModel.fetchChatBotData(isStarting: true);
+      });
     }
   }
 
@@ -60,7 +68,6 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
   @override
   Widget build(BuildContext context) {
     viewModel = Provider.of<AiChatBotViewModel>(context);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: CommonColors.mWhite,
@@ -86,6 +93,103 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
             ),
           ),
         ),
+        // body: viewModel.isLoading
+        //     ? Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //           Padding(
+        //             padding: const EdgeInsets.symmetric(
+        //               horizontal: 16,
+        //               vertical: 8,
+        //             ),
+        //             child: TypingIndicator(),
+        //           ),
+        //         ],
+        //       )
+        //     : viewModel.errorMessage.isNotEmpty
+        //         ? Center(child: Text(viewModel.errorMessage))
+        //         : viewModel.chatMessages.isEmpty
+        //             ? Center(
+        //                 child: Text(
+        //                   S.of(context)!.noDataAvailable,
+        //                 ),
+        //               )
+        //             : Stack(
+        //                 children: [
+        //                   Container(
+        //                     margin: const EdgeInsets.only(bottom: 60),
+        //                     child: ListView.builder(
+        //                       controller: _scrollController,
+        //                       itemCount: viewModel.chatMessages.length +
+        //                           (viewModel.showTypingIndicator ? 1 : 0),
+        //                       itemBuilder: (context, index) {
+        //                         if (viewModel.showTypingIndicator &&
+        //                             index == viewModel.visibleIndexes.length) {
+        //                           return Padding(
+        //                             padding: const EdgeInsets.symmetric(
+        //                               horizontal: 16,
+        //                               vertical: 8,
+        //                             ),
+        //                             child: TypingIndicator(),
+        //                           );
+        //                         }
+        //                         if (index < viewModel.visibleIndexes.length &&
+        //                             viewModel.visibleIndexes[index] <
+        //                                 viewModel.chatMessages.length) {
+        //                           final question = viewModel.chatMessages[
+        //                               viewModel.visibleIndexes[index]];
+        //                           return customMessage(
+        //                             context: context,
+        //                             question: question.text ?? '',
+        //                             imageUrl: question.imagePath ?? '',
+        //                             answer: question.userAnswer,
+        //                           );
+        //                         }
+        //                         return const SizedBox.shrink();
+        //                       },
+        //                     ),
+        //                   ),
+        //                   if (viewModel.isLastQuestionVisible)
+        //                     Positioned(
+        //                       bottom: 0,
+        //                       left: 0,
+        //                       right: 0,
+        //                       child: Container(
+        //                         color: CommonColors.mTransparent,
+        //                         padding: const EdgeInsets.symmetric(
+        //                             horizontal: 16, vertical: 8),
+        //                         child: viewModel.lastQuestionOptions.length == 1
+        //                             ? SizedBox(
+        //                                 width: double.infinity,
+        //                                 child: CustomOptionButton(
+        //                                   text: viewModel.lastQuestionOptions
+        //                                           .first.text ??
+        //                                       '',
+        //                                   onTap: () => viewModel
+        //                                       .handleOptionSelection(viewModel
+        //                                           .lastQuestionOptions.first),
+        //                                 ),
+        //                               )
+        //                             : Wrap(
+        //                                 alignment: WrapAlignment.center,
+        //                                 spacing: 8,
+        //                                 runSpacing: 8,
+        //                                 children: viewModel.lastQuestionOptions
+        //                                     .map(
+        //                                       (option) => CustomOptionButton(
+        //                                         text: option.text ?? '',
+        //                                         onTap: () => viewModel
+        //                                             .handleOptionSelection(
+        //                                                 option),
+        //                                       ),
+        //                                     )
+        //                                     .toList(),
+        //                               ),
+        //                       ),
+        //                     ),
+        //                 ],
+        //               ),
         body: viewModel.isLoading
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,86 +207,84 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
             : viewModel.errorMessage.isNotEmpty
                 ? Center(child: Text(viewModel.errorMessage))
                 : viewModel.chatMessages.isEmpty
-                    ? const Center(child: Text('No data available'))
-                    : Stack(
+                    ? Center(
+                        child: Text(
+                          S.of(context)!.noDataAvailable,
+                        ),
+                      )
+                    : Column(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 60),
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              itemCount: viewModel.chatMessages.length +
-                                  (viewModel.showTypingIndicator ? 1 : 0),
-                              itemBuilder: (context, index) {
-                                if (viewModel.showTypingIndicator &&
-                                    index == viewModel.visibleIndexes.length) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 8,
-                                    ),
-                                    child: TypingIndicator(),
-                                  );
-                                }
-                                if (index < viewModel.visibleIndexes.length &&
-                                    viewModel.visibleIndexes[index] <
-                                        viewModel.chatMessages.length) {
-                                  final question = viewModel.chatMessages[
-                                      viewModel.visibleIndexes[index]];
-                                  return customMessage(
-                                    context: context,
-                                    question: question.text ?? '',
-                                    imageUrl: question.imagePath ?? '',
-                                    answer: question.userAnswer,
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 0),
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                itemCount: viewModel.chatMessages.length +
+                                    (viewModel.showTypingIndicator ? 1 : 0),
+                                itemBuilder: (context, index) {
+                                  if (viewModel.showTypingIndicator &&
+                                      index ==
+                                          viewModel.visibleIndexes.length) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 8,
+                                      ),
+                                      child: TypingIndicator(),
+                                    );
+                                  }
+                                  if (index < viewModel.visibleIndexes.length &&
+                                      viewModel.visibleIndexes[index] <
+                                          viewModel.chatMessages.length) {
+                                    final question = viewModel.chatMessages[
+                                        viewModel.visibleIndexes[index]];
+                                    return customMessage(
+                                      context: context,
+                                      question: question.text ?? '',
+                                      imageUrl: question.imagePath ?? '',
+                                      answer: question.userAnswer,
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                              ),
                             ),
                           ),
                           if (viewModel.isLastQuestionVisible)
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                color: CommonColors.mTransparent,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: viewModel.lastQuestionOptions.length == 1
-                                    ? SizedBox(
-                                        width: double.infinity,
-                                        child: CustomOptionButton(
-                                          text: viewModel.lastQuestionOptions
-                                                  .first.text ??
-                                              '',
-                                          onTap: () => viewModel
-                                              .handleOptionSelection(viewModel
-                                                  .lastQuestionOptions.first),
-                                        ),
-                                      )
-                                    : SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        physics: const BouncingScrollPhysics(),
-                                        child: Row(
-                                          children:
-                                              viewModel.lastQuestionOptions.map(
-                                            (option) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4),
-                                                child: CustomOptionButton(
-                                                  text: option.text ?? '',
-                                                  onTap: () => viewModel
-                                                      .handleOptionSelection(
-                                                          option),
-                                                ),
-                                              );
-                                            },
-                                          ).toList(),
-                                        ),
+                            Container(
+                              color: CommonColors.mTransparent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: viewModel.lastQuestionOptions.length == 1
+                                  ? SizedBox(
+                                      width: double.infinity,
+                                      child: CustomOptionButton(
+                                        text: viewModel.lastQuestionOptions
+                                                .first.text ??
+                                            '',
+                                        onTap: () => viewModel
+                                            .handleOptionSelection(viewModel
+                                                .lastQuestionOptions.first),
                                       ),
-                              ),
+                                    )
+                                  : Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: 8,
+                                      runSpacing: 8,
+                                      children:
+                                          viewModel.lastQuestionOptions.map(
+                                        (option) {
+                                          print(
+                                              '------${option.text}: ${option.isSelected}------');
+                                          return CustomOptionMultiButton(
+                                            isSelected: option.isSelected,
+                                            text: option.text ?? '',
+                                            onTap: () => viewModel
+                                                .handleOptionSelection(option),
+                                          );
+                                        },
+                                      ).toList(),
+                                    ),
                             ),
                         ],
                       ),
@@ -209,19 +311,23 @@ Widget customMessage(
         ),
         if (answer != null) const SizedBox(height: 8),
         if (answer != null)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              decoration: BoxDecoration(
-                color: CommonColors.primaryColor,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Text(
-                answer,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: CommonColors.mWhite,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: CommonColors.primaryColor,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Text(
+                  answer,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: CommonColors.mWhite,
+                  ),
                 ),
               ),
             ),

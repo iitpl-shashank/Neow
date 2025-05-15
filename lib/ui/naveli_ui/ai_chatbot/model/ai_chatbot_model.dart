@@ -113,10 +113,12 @@ class Question {
 class Option {
   final int? id;
   final String? text;
+  bool isSelected;
 
   Option({
     this.id,
     this.text,
+    this.isSelected = false,
   });
 
   factory Option.fromJson(Map<String, dynamic> json) {

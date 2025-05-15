@@ -34,6 +34,11 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   Future<void> handleOptionSelection(Option option) async {
+    for (var opt in lastQuestionOptions) {
+      opt.isSelected = false;
+    }
+    option.isSelected = true;
+    notifyListeners();
     setShowTypingIndicator(true);
     debugPrint('Selected option: ${option.text}');
 
