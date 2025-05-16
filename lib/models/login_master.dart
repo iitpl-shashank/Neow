@@ -109,7 +109,7 @@ class UserMaster {
   String? _humApkeHeKon;
   int? _status;
   String? _state;
-
+  String? _profession;
   String? _city;
 
   UserMaster({
@@ -142,9 +142,13 @@ class UserMaster {
     int? status,
     String? state,
     String? city,
+    String? profession,
   }) {
     if (id != null) {
       _id = id;
+    }
+    if (profession != null) {
+      _profession = profession;
     }
     if (name != null) {
       _name = name;
@@ -238,6 +242,10 @@ class UserMaster {
   set id(int? id) => _id = id;
 
   String? get name => _name;
+
+  String? get profession => _profession;
+
+  set profession(String? profession) => _profession = profession;
 
   set name(String? name) => _name = name;
 
@@ -359,6 +367,7 @@ class UserMaster {
     _id = json['id'] as int?;
     _name = json['name'] as String?;
     _email = json['email'] as String?;
+    _profession = json['profession'] as String?;
     _roleId = json['role_id'] as int?;
     _uuId = json['uuId'] as String?;
     _birthdate = json['birthdate'] as String?;
@@ -434,6 +443,7 @@ class UserMaster {
     data['hum_apke_he_kon'] = _humApkeHeKon;
     data['status'] = _status;
     data['state'] = _state;
+    data['profession'] = _profession;
     data['city'] = _city;
     return data;
   }

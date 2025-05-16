@@ -504,7 +504,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   labelText: S.of(context)!.age,
                                   controller: TextEditingController(
                                       text:
-                                          "${vModel.userAgeController.text} Years"),
+                                          "${vModel.userAgeController.text} ${S.of(context)!.years}"),
                                   isReadOnly: true,
                                   border: false,
                                 ),

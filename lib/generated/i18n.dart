@@ -1281,7 +1281,10 @@ class S implements WidgetsLocalizations {
 
   String get readMore => "Read More";
 
-  String get noDataAvailable => "No data available";
+  String get noChatBotDataAvailable =>
+      "Hi! I couldn't find any period predictions. Please log your period dates to get started.";
+
+  String get years => "Years";
 }
 
 class $en extends S {
@@ -1293,7 +1296,8 @@ class $mr extends S {
 
   // hindi words start //
   @override
-  String get noDataAvailable => "कोई डेटा मौजूद नहीं";
+  String get noChatBotDataAvailable =>
+      "नमस्ते! मुझे कोई भी पीरियड प्रेडिक्शन नहीं मिला। शुरू करने के लिए अपने पीरियड की तारीखें लॉग करो";
 
   @override
   String get readMore => "आगे पढ़ें और जानें!";
@@ -1358,6 +1362,9 @@ class $mr extends S {
 
   @override
   String get month => "महीना";
+
+  @override
+  String get years => "साल";
 
   @override
   String get year => "साल";

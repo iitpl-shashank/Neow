@@ -371,36 +371,37 @@ class _WelcomeViewState extends State<WelcomeView> {
               print('Scallback 4 onClick');
               setState(() {
                 print('Scallback 5 setState');
-                singInViewModel.userRoleId = "4"; // Assign role for menopause
+                singInViewModel.userRoleId = "4";
                 gUserType = AppConstants.CYCLE_EXPLORER;
                 globalUserMaster = AppPreferences.instance.getUserDetails();
 
                 UserMaster userMaster = UserMaster(
-                    id: globalUserMaster!.id,
-                    name: globalUserMaster!.name,
-                    email: globalUserMaster!.email,
-                    roleId: 4,
-                    uuId: globalUserMaster!.uuId,
-                    birthdate: globalUserMaster!.birthdate,
-                    age: globalUserMaster!.age,
-                    height: globalUserMaster!.height,
-                    weight: globalUserMaster!.weight,
-                    bmiScore: globalUserMaster!.bmiScore,
-                    bmiType: globalUserMaster!.bmiType,
-                    badTime: globalUserMaster!.badTime,
-                    wakeUpTime: globalUserMaster!.wakeUpTime,
-                    totalSleepTime: globalUserMaster!.totalSleepTime,
-                    waterMl: globalUserMaster!.waterMl,
-                    gender: globalUserMaster!.gender,
-                    genderType: globalUserMaster!.genderType,
-                    mobile: globalUserMaster!.mobile,
-                    deviceToken: globalUserMaster!.deviceToken,
-                    image: globalUserMaster!.image,
-                    relationshipStatus: globalUserMaster!.relationshipStatus,
-                    humApkeHeKon: globalUserMaster!.humApkeHeKon,
-                    status: globalUserMaster!.status,
-                    state: globalUserMaster!.state,
-                    city: globalUserMaster!.city);
+                  id: globalUserMaster!.id,
+                  name: globalUserMaster!.name,
+                  email: globalUserMaster!.email,
+                  roleId: 4,
+                  uuId: globalUserMaster!.uuId,
+                  birthdate: globalUserMaster!.birthdate,
+                  age: globalUserMaster!.age,
+                  height: globalUserMaster!.height,
+                  weight: globalUserMaster!.weight,
+                  bmiScore: globalUserMaster!.bmiScore,
+                  bmiType: globalUserMaster!.bmiType,
+                  badTime: globalUserMaster!.badTime,
+                  wakeUpTime: globalUserMaster!.wakeUpTime,
+                  totalSleepTime: globalUserMaster!.totalSleepTime,
+                  waterMl: globalUserMaster!.waterMl,
+                  gender: globalUserMaster!.gender,
+                  genderType: globalUserMaster!.genderType,
+                  mobile: globalUserMaster!.mobile,
+                  deviceToken: globalUserMaster!.deviceToken,
+                  image: globalUserMaster!.image,
+                  relationshipStatus: globalUserMaster!.relationshipStatus,
+                  humApkeHeKon: globalUserMaster!.humApkeHeKon,
+                  status: globalUserMaster!.status,
+                  state: globalUserMaster!.state,
+                  city: globalUserMaster!.city,
+                );
 
                 AppPreferences.instance.setUserDetails(jsonEncode(userMaster));
                 gUserType = singInViewModel.userRoleId.toString();
@@ -436,31 +437,32 @@ class _WelcomeViewState extends State<WelcomeView> {
                   globalUserMaster = AppPreferences.instance.getUserDetails();
 
                   UserMaster userMaster = UserMaster(
-                      id: globalUserMaster!.id,
-                      name: globalUserMaster!.name,
-                      email: globalUserMaster!.email,
-                      roleId: 4,
-                      uuId: globalUserMaster!.uuId,
-                      birthdate: globalUserMaster!.birthdate,
-                      age: globalUserMaster!.age,
-                      height: globalUserMaster!.height,
-                      weight: globalUserMaster!.weight,
-                      bmiScore: globalUserMaster!.bmiScore,
-                      bmiType: globalUserMaster!.bmiType,
-                      badTime: globalUserMaster!.badTime,
-                      wakeUpTime: globalUserMaster!.wakeUpTime,
-                      totalSleepTime: globalUserMaster!.totalSleepTime,
-                      waterMl: globalUserMaster!.waterMl,
-                      gender: globalUserMaster!.gender,
-                      genderType: globalUserMaster!.genderType,
-                      mobile: globalUserMaster!.mobile,
-                      deviceToken: globalUserMaster!.deviceToken,
-                      image: globalUserMaster!.image,
-                      relationshipStatus: globalUserMaster!.relationshipStatus,
-                      humApkeHeKon: globalUserMaster!.humApkeHeKon,
-                      status: globalUserMaster!.status,
-                      state: globalUserMaster!.state,
-                      city: globalUserMaster!.city);
+                    id: globalUserMaster!.id,
+                    name: globalUserMaster!.name,
+                    email: globalUserMaster!.email,
+                    roleId: 4,
+                    uuId: globalUserMaster!.uuId,
+                    birthdate: globalUserMaster!.birthdate,
+                    age: globalUserMaster!.age,
+                    height: globalUserMaster!.height,
+                    weight: globalUserMaster!.weight,
+                    bmiScore: globalUserMaster!.bmiScore,
+                    bmiType: globalUserMaster!.bmiType,
+                    badTime: globalUserMaster!.badTime,
+                    wakeUpTime: globalUserMaster!.wakeUpTime,
+                    totalSleepTime: globalUserMaster!.totalSleepTime,
+                    waterMl: globalUserMaster!.waterMl,
+                    gender: globalUserMaster!.gender,
+                    genderType: globalUserMaster!.genderType,
+                    mobile: globalUserMaster!.mobile,
+                    deviceToken: globalUserMaster!.deviceToken,
+                    image: globalUserMaster!.image,
+                    relationshipStatus: globalUserMaster!.relationshipStatus,
+                    humApkeHeKon: globalUserMaster!.humApkeHeKon,
+                    status: globalUserMaster!.status,
+                    state: globalUserMaster!.state,
+                    city: globalUserMaster!.city,
+                  );
 
                   AppPreferences.instance
                       .setUserDetails(jsonEncode(userMaster));

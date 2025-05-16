@@ -21,6 +21,8 @@ import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../utils/constant.dart';
+
 class User {
   int id;
   String name;
@@ -200,6 +202,14 @@ class DashBoardViewModel with ChangeNotifier {
         color: CommonColors.mRed,
       );
       return;
+    } else if (gUserType == AppConstants.CYCLE_EXPLORER) {
+      if (userProfessionController.text.isEmpty) {
+        CommonUtils.showSnackBar(
+          S.of(context)!.pleaseEnterProfession,
+          color: CommonColors.mRed,
+        );
+        return;
+      }
     }
 
     CommonUtils.showProgressDialog();
@@ -210,6 +220,8 @@ class DashBoardViewModel with ChangeNotifier {
       ApiParams.birthdate: userBirthDateController.text,
       ApiParams.state: stateId,
       ApiParams.city: cityId,
+      if (gUserType == AppConstants.CYCLE_EXPLORER)
+        ApiParams.profession: userProfessionController.text,
     };
 
     CommonMaster? master = await _services.api!.userUpdateDetails(
@@ -305,7 +317,6 @@ class DashBoardViewModel with ChangeNotifier {
     print("about =>${master?.data![0].periodLengthInterpretation}");
     // CommonUtils.hideProgressDialog();
     if (master == null) {
-      CommonUtils.oopsMSG();
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
@@ -571,6 +582,8 @@ class DashBoardViewModel with ChangeNotifier {
       userNameController.text = userPersonalInformation?.data?.name ?? '';
       userMobileController.text = userPersonalInformation?.data?.mobile ?? '';
       userEmailController.text = userPersonalInformation?.data?.email ?? '';
+      userProfessionController.text =
+          userPersonalInformation?.data?.profession ?? '';
 
       await getStateList();
       await getCityList(stateId: int.parse(master.data!.state!));
@@ -625,15 +638,15 @@ class DashBoardViewModel with ChangeNotifier {
     String ageGroup = '';
     if (age != null) {
       if (age >= 9 && age <= 15) {
-        ageGroup = "9-15 Year";
+        ageGroup = "9-15 ${S.of(context)!.year}";
       } else if (age >= 16 && age <= 25) {
-        ageGroup = "16-25 Year";
+        ageGroup = "16-25 ${S.of(context)!.year}";
       } else if (age >= 26 && age <= 45) {
-        ageGroup = "26-45 Year";
+        ageGroup = "26-45 ${S.of(context)!.year}";
       } else if (age >= 46 && age <= 60) {
-        ageGroup = "46-60 Year";
+        ageGroup = "46-60 ${S.of(context)!.year}";
       } else if (age > 60) {
-        ageGroup = "60+ Year";
+        ageGroup = "60+ ${S.of(context)!.year}";
       }
     }
     userAgeGroupController.text = ageGroup;

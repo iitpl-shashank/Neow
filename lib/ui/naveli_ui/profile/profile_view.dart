@@ -136,7 +136,8 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
                 child: Column(
                   children: [
-                    if (gUserType == AppConstants.NEOWME)
+                    if (gUserType == AppConstants.NEOWME ||
+                        gUserType == AppConstants.CYCLE_EXPLORER)
                       CommonProfileMenu(
                         color: Color(0xFFFAEEFF),
                         text: S.of(context)!.myHealthReports,
@@ -146,13 +147,6 @@ class _ProfileViewState extends State<ProfileView> {
                           push(const DashboardView());
                         },
                       ),
-                    /* CommonProfileMenu(
-                      text: S.of(context)!.reports,
-                      isLast: false,
-                      onTap: () {
-                        push(const ReportsView());
-                      },
-                    ), */
                     CommonProfileMenu(
                       color: Color(0xFFFFF1F1),
                       text: S.of(context)!.aboutUs,
