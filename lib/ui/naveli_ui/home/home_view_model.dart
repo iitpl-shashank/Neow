@@ -1101,7 +1101,7 @@ class HomeViewModel with ChangeNotifier {
           await _services.api!.getDateWiseText(params: body);
       debugPrint("response in main response====>${response}");
       dateWiseTextList = ApiResponse.fromJson(response);
-      debugPrint("dateWiseTextList ====>${dateWiseTextList}");
+      debugPrint("dateWiseTextList ====>${dateWiseTextList.toJson()}");
     } catch (e) {
       debugPrint("Error fetching date-wise text: $e");
     } finally {
