@@ -154,7 +154,7 @@ class S implements WidgetsLocalizations {
 
   String get hisutism => "Hirsutism";
 
-  String get dataNotFound => "data not found";
+  String get dataNotFound => "Data not found";
 
   String get contactNoNotAvailable => "Contact number not available.";
 
@@ -1261,6 +1261,8 @@ class S implements WidgetsLocalizations {
 
   String get puberty => "Puberty";
 
+  String get exploreAll => "Explore All";
+
   String get perimenopause => "Perimenopause";
 
   String get menopause => "Menopause";
@@ -1295,6 +1297,9 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get exploreAll => "सभी देखें";
+
   @override
   String get noChatBotDataAvailable =>
       "नमस्ते! मुझे कोई भी पीरियड प्रेडिक्शन नहीं मिला। शुरू करने के लिए अपने पीरियड की तारीखें लॉग करो";

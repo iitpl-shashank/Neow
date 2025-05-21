@@ -19,25 +19,21 @@ class _AboutUsState extends State<AboutUs> {
   final cardsData = [
     {
       'title': 'Our Mission & Vision',
-      'subtitle': 'Mission and vision text here',
       'image': LocalImages.ourMissionImg,
       'bgColor': const Color(0xFFF1E4FF),
     },
     {
       'title': 'Our Team',
-      'subtitle': 'Mission and values text here',
       'image': LocalImages.ourTeamImg,
       'bgColor': const Color(0xFFFFF0E7),
     },
     {
       'title': 'Privacy Policy',
-      'subtitle': 'Mission and values text here',
       'image': LocalImages.privacyImg,
       'bgColor': const Color(0xFFEAF6FF),
     },
     {
       'title': 'Terms of Use',
-      'subtitle': 'Mission and values text here',
       'image': LocalImages.termsImg,
       'bgColor': const Color(0xFFFFFBE7),
     },
@@ -70,7 +66,6 @@ class _AboutUsState extends State<AboutUs> {
               final data = cardsData[index];
               return InfoCard(
                 title: data['title'] as String,
-                subtitle: data['subtitle'] as String,
                 imagePath: data['image'] as String,
                 bgColor: data['bgColor'] as Color,
               );
@@ -84,14 +79,12 @@ class _AboutUsState extends State<AboutUs> {
 
 class InfoCard extends StatelessWidget {
   final String title;
-  final String subtitle;
   final String imagePath;
   final Color bgColor;
 
   const InfoCard({
     super.key,
     required this.title,
-    required this.subtitle,
     required this.imagePath,
     required this.bgColor,
   });
@@ -119,11 +112,6 @@ class InfoCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 8),
                 SizedBox(

@@ -161,9 +161,15 @@ class _ProfileViewState extends State<ProfileView> {
                       text: S.of(context)!.reminders,
                       text2: S.of(context)!.timelyReminders,
                       isLast: false,
-                      // onTap: () {
-                      //   push(SettingsView());
-                      // },
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              S.of(context)!.comingSoon,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     CommonProfileMenu(
                       color: Color(0xFFFFFBED),

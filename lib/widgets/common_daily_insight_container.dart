@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/utils/constant.dart';
 
+import '../generated/i18n.dart';
+
 class CommonDailyInsightContainer extends StatelessWidget {
   final String text;
   final String image;
@@ -142,7 +144,11 @@ class CommonDailyInsightContainer extends StatelessWidget {
                       child: Image.asset(
                         image,
                         fit: BoxFit.contain,
-                        width: 100,
+                        width: (text == S.of(context)!.deStress)
+                            ? 70
+                            : (text == S.of(context)!.articles)
+                                ? 85
+                                : 100,
                       ),
                     ),
                   ],

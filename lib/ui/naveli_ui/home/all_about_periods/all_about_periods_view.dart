@@ -23,16 +23,18 @@ class _AllAboutPeriodsViewState extends State<AllAboutPeriodsView> {
   late AllAboutPeriodsViewModel mViewModel;
   String dropdownValue = 'Newest';
   int selectedTabIndex = 0;
-  final List<String> titles = [
-    'Explore All',
-    'Puberty',
-    'Perimenopause',
-    'All About Periods',
-    'Monopause',
-    'Post Monopause',
-    'Senior Year',
-    'Others',
-  ];
+
+  List<String> get titles => [
+        S.of(context)!.exploreAll,
+        S.of(context)!.puberty,
+        S.of(context)!.perimenopause,
+        S.of(context)!.allAboutPeriods,
+        S.of(context)!.menopause,
+        S.of(context)!.postMenopause,
+        S.of(context)!.seniorYears,
+        S.of(context)!.others,
+      ];
+
   @override
   void initState() {
     super.initState();

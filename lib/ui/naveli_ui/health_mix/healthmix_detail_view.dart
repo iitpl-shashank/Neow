@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/health_mix_view_model.dart';
@@ -7,6 +8,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../generated/i18n.dart';
 import '../../../models/health_mix_posts_master.dart';
 import '../../../utils/common_colors.dart';
+import '../../../utils/common_utils.dart';
+import '../../../utils/constant.dart';
 import '../../../widgets/common_appbar.dart';
 
 class HealthmixDetailView extends StatefulWidget {
@@ -123,7 +126,61 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                       );
                     },
                   ),
-                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // mViewModel.likeHealthMixPostApi(
+                        //     healthMixId:
+                        //         mViewModel.healthPostsList[index].id,
+                        //     isLike:
+                        //         mViewModel.isLikedList[index] ? 0 : 1);
+                        // setState(() {
+                        //   mViewModel.isLikedList[index] =
+                        //       !mViewModel.isLikedList[index];
+                        // });
+                      },
+                      icon: Icon(
+                        // mViewModel.isLikedList[index]
+                        // ? CupertinoIcons.heart_fill  :
+                        CupertinoIcons.heart,
+                        color: CommonColors.primaryColor,
+                      ),
+                    ),
+                    kCommonSpaceH3,
+                    IconButton(
+                      onPressed: () {
+                        if (widget.post.mediaType == "link") {
+                          // print("File type link");
+                          share(
+                            widget.post.media,
+                            text: widget.post.description,
+                          );
+                        } else if (widget.post.mediaType == "image") {
+                          // print("File type image");
+                          shareNetworkImage(
+                            widget.post.media,
+                            text: widget.post.description,
+                          );
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.share_outlined,
+                        color: CommonColors.primaryColor,
+                      ),
+                    ),
+                    kCommonSpaceH3,
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.bookmark_outline_rounded,
+                        color: CommonColors.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
                 Text(
                   S.of(context)!.tags,
                   style: const TextStyle(

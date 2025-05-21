@@ -679,48 +679,49 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     );
                   }),
-                kCommonSpaceV20,
-                Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFFF1F1),
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1, color: CommonColors.blackColor))),
-                    child: InkWell(
-                      onTap: () {
-                        // CommonUtils.showProgressDialog();
-                        setState(() {
-                          isPersonal = false;
-                          isCycle = !isCycle;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(LocalImages.imgAboutYourCycle,
-                                  height: 25),
-                              kCommonSpaceH10,
-                              Text(
-                                S.of(context)!.aboutYouCycle,
-                                style: TextStyle(
-                                  color: CommonColors.blackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                if (gUserType == AppConstants.NEOWME) kCommonSpaceV20,
+                if (gUserType == AppConstants.NEOWME)
+                  Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFFF1F1),
+                          border: Border(
+                              bottom: BorderSide(
+                                  width: 1, color: CommonColors.blackColor))),
+                      child: InkWell(
+                        onTap: () {
+                          // CommonUtils.showProgressDialog();
+                          setState(() {
+                            isPersonal = false;
+                            isCycle = !isCycle;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(LocalImages.imgAboutYourCycle,
+                                    height: 25),
+                                kCommonSpaceH10,
+                                Text(
+                                  S.of(context)!.aboutYouCycle,
+                                  style: TextStyle(
+                                    color: CommonColors.blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: CommonColors.blackColor,
-                            size: 25,
-                          ),
-                        ],
-                      ),
-                    )),
+                              ],
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: CommonColors.blackColor,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      )),
                 if (isCycle && mViewModel.dataList.isNotEmpty)
                   IntrinsicHeight(
                     child: Container(
@@ -1055,8 +1056,9 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     ),
                   ),
-                kCommonSpaceV20,
-                Container(
+                if (gUserType == AppConstants.NEOWME) kCommonSpaceV20,
+                if (gUserType == AppConstants.NEOWME)
+                  Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Color(0xFFEAF6FF),
@@ -1074,11 +1076,6 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           Row(
                             children: [
-                              /*Icon(
-                                Icons.featured_play_list_outlined,
-                                color: CommonColors.blackColor,
-                                size: 25,
-                              ),*/
                               Image.asset(LocalImages.imgSymptons, height: 25),
                               kCommonSpaceH10,
                               Text(
@@ -1098,7 +1095,8 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ],
                       ),
-                    )),
+                    ),
+                  ),
                 if (symp)
                   Container(
                     color: CommonColors.mGrey200,

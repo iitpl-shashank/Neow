@@ -396,7 +396,6 @@ class _HomeViewState extends State<HomeView> {
         ),
       kCommonSpaceH10,
       CommonDailyInsightContainer(
-        isHorizontalView: false,
         onTap: () {
           push(const TrackView());
         },

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/constant.dart';
-import '../../../../utils/local_images.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/scaffold_bg.dart';
 import '../../health_mix/video_particular.dart';
@@ -25,21 +23,23 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
   late AllPostsModel mViewModel;
   int position;
   int selectedTabIndex = 0;
-  final List<String> titles = [
-    'Puberty',
-    'Perimenopause',
-    'All About Periods',
-    'Monopause',
-    'Post Monopause',
-    'Senior Year',
-    'Others',
-  ];
-  final List<String> type = [
-    'Popular',
-    'Latest',
-    'Oldest',
-    'Saved',
-  ];
+
+  List<String> get titles => [
+        S.of(context)!.puberty,
+        S.of(context)!.perimenopause,
+        S.of(context)!.allAboutPeriods,
+        S.of(context)!.menopause,
+        S.of(context)!.postMenopause,
+        S.of(context)!.seniorYears,
+        S.of(context)!.others,
+      ];
+
+  List<String> get type => [
+        S.of(context)!.popular,
+        S.of(context)!.latest,
+        S.of(context)!.oldest,
+        S.of(context)!.saved,
+      ];
   @override
   void initState() {
     super.initState();
