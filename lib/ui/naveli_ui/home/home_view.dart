@@ -371,6 +371,87 @@ class _HomeViewState extends State<HomeView> {
     mViewSymptomsModel = Provider.of<LogYourSymptomsModel>(context);
     mViewYourNaveliModel = Provider.of<YourNaveliViewModel>(context);
 
+    final List<Widget> insightWidgets = [
+      if (gUserType == AppConstants.NEOWME)
+        CommonDailyInsightContainer(
+          onTap: () {
+            if (mViewModel.dateWiseTextList.msg.periodMsg
+                    .contains("Period Day") ||
+                mViewModel.dateWiseTextList.msg.periodMsg
+                    .contains("पीरियड दिन")) {
+              push(const LogYourSymptoms());
+            } else {
+              CommonUtils.showToastMessage(
+                S.of(context)!.logOnlyOnPeriodDay,
+              );
+            }
+          },
+          text: S.of(context)!.logYourSymptoms,
+          image: LocalImages.img_log_symptoms,
+          gradientColors: const [
+            Color(0xFFFFFFFF),
+            Color(0xFFFFFFFF),
+          ],
+          borderColor: CommonColors.purple,
+        ),
+      kCommonSpaceH10,
+      CommonDailyInsightContainer(
+        isHorizontalView: false,
+        onTap: () {
+          push(const TrackView());
+        },
+        text: S.of(context)!.track,
+        image: LocalImages.img_track,
+        gradientColors: const [
+          Color(0xFF9E72C3),
+          Color(0xFF7338A0),
+        ],
+        borderColor: CommonColors.purple,
+      ),
+      kCommonSpaceH10,
+      CommonDailyInsightContainer(
+        onTap: () {
+          push(const AllAboutPeriodsView());
+        },
+        text: S.of(context)!.articles,
+        image: LocalImages.img_know_your_body,
+        gradientColors: const [
+          Color(0xFF9E72C3),
+          Color(0xFF7338A0),
+        ],
+        borderColor: CommonColors.purple,
+      ),
+      kCommonSpaceH10,
+      if (gUserType == AppConstants.NEOWME ||
+          gUserType == AppConstants.CYCLE_EXPLORER)
+        CommonDailyInsightContainer(
+          onTap: () {
+            push(const QuizView());
+          },
+          text: S.of(context)!.quickQuestion,
+          image: LocalImages.img_quick_question,
+          gradientColors: const [
+            Color(0xFF9E72C3),
+            Color(0xFF7338A0),
+          ],
+          borderColor: CommonColors.purple,
+        ),
+      kCommonSpaceH10,
+      CommonDailyInsightContainer(
+        onTap: () {
+          // showPopusDialog();
+          push(const DeStressView());
+        },
+        text: S.of(context)!.deStress,
+        image: LocalImages.img_de_stress,
+        gradientColors: const [
+          Color(0xFF9E72C3),
+          Color(0xFF7338A0),
+        ],
+        borderColor: CommonColors.purple,
+      ),
+    ];
+
     var calender2 = HorizontalCalendar(
       mViewModel: mViewModel,
     );
@@ -407,16 +488,17 @@ class _HomeViewState extends State<HomeView> {
                     push(NotificationScreen());
                   },
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_month,
-                    color: Colors.black,
+                if (gUserType == AppConstants.NEOWME)
+                  IconButton(
+                    icon: Icon(
+                      Icons.calendar_month,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      isLogEdit = false;
+                      push(CalendarView());
+                    },
                   ),
-                  onPressed: () {
-                    isLogEdit = false;
-                    push(CalendarView());
-                  },
-                ),
               ],
               backgroundColor: Color(bgColor),
             ),
@@ -572,7 +654,7 @@ class _HomeViewState extends State<HomeView> {
                   ],
                   if (gUserType == AppConstants.CYCLE_EXPLORER) ...[
                     SizedBox(
-                      height: 200,
+                      height: 250,
                       child: const VideoPlayerScreen(
                           link: "https://www.youtube.com/watch?v=VaVIvmQx_Xw"),
                     ),
@@ -694,120 +776,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                         ])),
                                   )
-                                :
-                                // ? Padding(
-                                //     padding: const EdgeInsets.only(
-                                //         left: 12, right: 12, bottom: 20),
-                                //     child: Container(
-                                //         padding: const EdgeInsets.only(
-                                //             left: 10, right: 10, top: 10),
-                                //         height: 160,
-                                //         clipBehavior: Clip.antiAlias,
-                                //         decoration: ShapeDecoration(
-                                //           color: Color(0xFFDDEBFF),
-                                //           shape: RoundedRectangleBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(10),
-                                //           ),
-                                //           shadows: const [
-                                //             BoxShadow(
-                                //               color: Color(0x3F000000),
-                                //               blurRadius: 5,
-                                //               offset: Offset(0, 2),
-                                //               spreadRadius: 0,
-                                //             )
-                                //           ],
-                                //         ),
-                                //         child: Stack(children: [
-                                //           Align(
-                                //             alignment: Alignment.topLeft,
-                                //             child: Column(
-                                //                 crossAxisAlignment:
-                                //                     CrossAxisAlignment
-                                //                         .start,
-                                //                 children: [
-                                //                   Text(
-                                //                     S
-                                //                         .of(context)!
-                                //                         .askADoctor,
-                                //                     style: TextStyle(
-                                //                       fontWeight:
-                                //                           FontWeight.bold,
-                                //                       fontSize: 18,
-                                //                     ),
-                                //                   ),
-                                //                   kCommonSpaceV10,
-                                //                   Text(
-                                //                     S
-                                //                         .of(context)!
-                                //                         .haveAnyQuestion,
-                                //                     style: TextStyle(
-                                //                       fontWeight:
-                                //                           FontWeight.w500,
-                                //                       fontSize: 14,
-                                //                       color:
-                                //                           Color(0xFF8B8B8B),
-                                //                     ),
-                                //                   ),
-                                //                   kCommonSpaceV10,
-                                //                   ElevatedButton(
-                                //                     onPressed: () {
-                                //                       push(
-                                //                           const SymptomsBotView());
-                                //                     },
-                                //                     style: ButtonStyle(
-                                //                       fixedSize:
-                                //                           WidgetStateProperty
-                                //                               .all<Size>(
-                                //                         Size(120.0,
-                                //                             25.0), // Button width and height
-                                //                       ),
-                                //                       backgroundColor:
-                                //                           WidgetStateProperty
-                                //                               .all<Color>(Color(
-                                //                                   0xFF3D73BF)),
-                                //                       foregroundColor:
-                                //                           WidgetStateProperty
-                                //                               .all<Color>(
-                                //                                   Colors
-                                //                                       .white),
-                                //                     ),
-                                //                     child: Text(
-                                //                       S
-                                //                           .of(context)!
-                                //                           .askDoctor,
-                                //                       style: TextStyle(
-                                //                         fontWeight:
-                                //                             lang == "hi"
-                                //                                 ? FontWeight
-                                //                                     .w500
-                                //                                 : FontWeight
-                                //                                     .bold,
-                                //                         fontSize: 12,
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                 ]),
-                                //           ),
-                                //           Align(
-                                //             alignment:
-                                //                 Alignment.bottomRight,
-                                //             child: InkWell(
-                                //               /* onTap: () {
-                                //                   push(const ReminderView());
-                                //                 }, */
-                                //               child: Image.asset(
-                                //                 LocalImages
-                                //                     .img_naveli_nurse,
-                                //                 fit: BoxFit.contain,
-                                //                 height: 150,
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ])),
-                                //   )
-                                // : index == 2
-                                Padding(
+                                : Padding(
                                     padding: const EdgeInsets.only(
                                         left: 12, right: 12, bottom: 20),
                                     child: Container(
@@ -909,121 +878,6 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                         ])),
                                   );
-                            // : Padding(
-                            //     padding: const EdgeInsets.only(
-                            //         left: 12, right: 12, bottom: 20),
-                            //     child: Container(
-                            //       padding: const EdgeInsets.only(
-                            //           left: 10, right: 10, top: 10),
-                            //       height: 160,
-                            //       clipBehavior: Clip.antiAlias,
-                            //       decoration: ShapeDecoration(
-                            //         color: Color(0XFFFFEEEE),
-                            //         shape: RoundedRectangleBorder(
-                            //           borderRadius:
-                            //               BorderRadius.circular(10),
-                            //         ),
-                            //         shadows: const [
-                            //           BoxShadow(
-                            //             color: Color(0x3F000000),
-                            //             blurRadius: 5,
-                            //             offset: Offset(0, 2),
-                            //             spreadRadius: 0,
-                            //           )
-                            //         ],
-                            //       ),
-                            //       child: Stack(
-                            //         children: [
-                            //           Align(
-                            //             alignment: Alignment.topLeft,
-                            //             child: Column(
-                            //                 crossAxisAlignment:
-                            //                     CrossAxisAlignment
-                            //                         .start,
-                            //                 children: [
-                            //                   Text(
-                            //                     S
-                            //                         .of(context)!
-                            //                         .grooveWithNeow,
-                            //                     style: TextStyle(
-                            //                       fontWeight:
-                            //                           FontWeight.bold,
-                            //                       fontSize: 18,
-                            //                     ),
-                            //                   ),
-                            //                   kCommonSpaceV10,
-                            //                   Text(
-                            //                     S
-                            //                         .of(context)!
-                            //                         .leadingLadies2,
-                            //                     style: TextStyle(
-                            //                       fontWeight:
-                            //                           FontWeight.w500,
-                            //                     ),
-                            //                   ),
-                            //                   kCommonSpaceV10,
-                            //                   ElevatedButton(
-                            //                     onPressed: () {
-                            //                       //TODO : Slider onTap required
-                            //                       push(PostList(
-                            //                         position: 0,
-                            //                         selectedTabIndex: 0,
-                            //                         postTitle: "Slider",
-                            //                       ));
-                            //                     },
-                            //                     style: ButtonStyle(
-                            //                       fixedSize:
-                            //                           WidgetStateProperty
-                            //                               .all<Size>(
-                            //                         Size(120.0,
-                            //                             25.0), // Button width and height
-                            //                       ),
-                            //                       backgroundColor:
-                            //                           WidgetStateProperty
-                            //                               .all<Color>(Color
-                            //                                   .fromARGB(
-                            //                                       255,
-                            //                                       175,
-                            //                                       34,
-                            //                                       34)),
-                            //                       foregroundColor:
-                            //                           WidgetStateProperty
-                            //                               .all<Color>(
-                            //                                   Colors
-                            //                                       .white),
-                            //                     ),
-                            //                     child: Text(
-                            //                       S
-                            //                           .of(context)!
-                            //                           .tapHere,
-                            //                       style: TextStyle(
-                            //                         fontWeight:
-                            //                             lang == "hi"
-                            //                                 ? FontWeight
-                            //                                     .w500
-                            //                                 : FontWeight
-                            //                                     .bold,
-                            //                         fontSize: 12,
-                            //                       ),
-                            //                     ),
-                            //                   ),
-                            //                 ]),
-                            //           ),
-                            //           Align(
-                            //             alignment:
-                            //                 Alignment.bottomRight,
-                            //             child: InkWell(
-                            //               child: Image.asset(
-                            //                 LocalImages.grovewithnew,
-                            //                 fit: BoxFit.contain,
-                            //                 height: 150,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   );
                           },
                         ),
                         Align(
@@ -1036,136 +890,76 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
-                  kCommonSpaceV30,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            S.of(context)!.trackAndLearn,
-                            style: TextStyle(
-                              fontWeight: lang == "hi"
-                                  ? FontWeight.w500
-                                  : FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              push(const TrackHealthViewAllView());
-                            },
+                  if (gUserType == AppConstants.NEOWME ||
+                      gUserType == AppConstants.BUDDY)
+                    kCommonSpaceV30,
+                  if (gUserType == AppConstants.NEOWME ||
+                      gUserType == AppConstants.BUDDY)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
                             child: Text(
-                              S.of(context)!.viewAll,
+                              S.of(context)!.trackAndLearn,
                               style: TextStyle(
                                 fontWeight: lang == "hi"
                                     ? FontWeight.w500
                                     : FontWeight.bold,
-                                fontSize: 16,
-                                color: Color(0xFF6F4085),
+                                fontSize: 18,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kCommonSpaceV20,
-                  SizedBox(
-                    height: 160,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(left: 12, right: 12),
-                      child: Row(
-                        children: <Widget>[
-                          if (gUserType == AppConstants.NEOWME)
-                            CommonDailyInsightContainer(
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
                               onTap: () {
-                                if (mViewModel.dateWiseTextList.msg.periodMsg
-                                        .contains("Period Day") ||
-                                    mViewModel.dateWiseTextList.msg.periodMsg
-                                        .contains("पीरियड दिन")) {
-                                  push(const LogYourSymptoms());
-                                } else {
-                                  CommonUtils.showToastMessage(
-                                    S.of(context)!.logOnlyOnPeriodDay,
-                                  );
-                                }
+                                push(const TrackHealthViewAllView());
                               },
-                              text: S.of(context)!.logYourSymptoms,
-                              image: LocalImages.img_log_symptoms,
-                              gradientColors: const [
-                                Color(0xFFFFFFFF),
-                                Color(0xFFFFFFFF),
-                              ],
-                              borderColor: CommonColors.bglightPinkColor,
+                              child: Text(
+                                S.of(context)!.viewAll,
+                                style: TextStyle(
+                                  fontWeight: lang == "hi"
+                                      ? FontWeight.w500
+                                      : FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Color(0xFF6F4085),
+                                ),
+                              ),
                             ),
-                          kCommonSpaceH10,
-                          CommonDailyInsightContainer(
-                            onTap: () {
-                              push(const TrackView());
-                            },
-                            text: S.of(context)!.track,
-                            image: LocalImages.img_track,
-                            gradientColors: const [
-                              Color(0xFF9E72C3),
-                              Color(0xFF7338A0),
-                            ],
-                            borderColor: CommonColors.bglightPinkColor,
-                          ),
-                          kCommonSpaceH10,
-                          CommonDailyInsightContainer(
-                            onTap: () {
-                              // push(const KnowYourBodyView());
-                              push(const AllAboutPeriodsView());
-                            },
-                            text: S.of(context)!.articles,
-                            image: LocalImages.img_know_your_body,
-                            gradientColors: const [
-                              Color(0xFF9E72C3),
-                              Color(0xFF7338A0),
-                            ],
-                            borderColor: CommonColors.bglightPinkColor,
-                          ),
-                          kCommonSpaceH10,
-                          if (gUserType == AppConstants.NEOWME ||
-                              gUserType == AppConstants.CYCLE_EXPLORER)
-                            CommonDailyInsightContainer(
-                              onTap: () {
-                                // showPopusDialog();
-                                // showSymptomsDialog(context);
-                                push(const QuizView());
-                              },
-                              text: S.of(context)!.quickQuestion,
-                              image: LocalImages.img_quick_question,
-                              gradientColors: const [
-                                Color(0xFF9E72C3),
-                                Color(0xFF7338A0),
-                              ],
-                              borderColor: CommonColors.bglightPinkColor,
-                            ),
-                          kCommonSpaceH10,
-                          CommonDailyInsightContainer(
-                            onTap: () {
-                              // showPopusDialog();
-                              push(const DeStressView());
-                            },
-                            text: S.of(context)!.deStress,
-                            image: LocalImages.img_de_stress,
-                            gradientColors: const [
-                              Color(0xFF9E72C3),
-                              Color(0xFF7338A0),
-                            ],
-                            borderColor: CommonColors.bglightPinkColor,
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  kCommonSpaceV20,
+                  if (gUserType == AppConstants.NEOWME ||
+                      gUserType == AppConstants.BUDDY)
+                    SizedBox(
+                      height: 160,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: Row(
+                          children: insightWidgets,
+                        ),
+                      ),
+                    )
+                  else if (gUserType == AppConstants.CYCLE_EXPLORER)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                        childAspectRatio: 1.5,
+                        children: insightWidgets
+                            .where((w) => w is CommonDailyInsightContainer)
+                            .toList(),
+                      ),
+                    ),
                   kCommonSpaceV20,
                   // kCommonSpaceV30,
                   Padding(
