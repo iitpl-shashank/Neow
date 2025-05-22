@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/widgets/full_screen_image.dart';
+import 'package:naveli_2023/utils/constant.dart';
 
 class CustomImageLoader extends StatelessWidget {
   final String imageUrl;
@@ -93,99 +94,29 @@ class _MultiImageViewerState extends State<_MultiImageViewer> {
     });
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final url = widget.urls[currentIndex];
-//     return Stack(
-//       children: [
-//         GestureDetector(
-//           onTap: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                 builder: (_) => FullscreenImage(imageUrl: url),
-//               ),
-//             );
-//           },
-//           child: CachedNetworkImage(
-//             imageUrl: url,
-//             fit: BoxFit.contain,
-//             height: 200,
-//             width: double.infinity,
-//             progressIndicatorBuilder: (context, url, downloadProgress) {
-//               return Stack(
-//                 alignment: Alignment.center,
-//                 children: [
-//                   Container(
-//                     height: 200,
-//                     width: double.infinity,
-//                     color: Colors.grey[100],
-//                   ),
-//                   SizedBox(
-//                     width: 50,
-//                     height: 50,
-//                     child: CircularProgressIndicator(
-//                       value: downloadProgress.progress,
-//                       strokeWidth: 4,
-//                     ),
-//                   ),
-//                   Positioned(
-//                     bottom: 12,
-//                     child: Text(
-//                       '${(downloadProgress.progress ?? 0) * 100 ~/ 1}%',
-//                       style: TextStyle(fontWeight: FontWeight.w500),
-//                     ),
-//                   )
-//                 ],
-//               );
-//             },
-//             errorWidget: (context, url, error) => Icon(Icons.error),
-//           ),
-//         ),
-//         // Left button
-//         Positioned(
-//           top: 8,
-//           left: 8,
-//           child: IconButton(
-//             icon: Icon(Icons.arrow_back_ios, color: Colors.black54),
-//             onPressed: _showPrev,
-//             tooltip: 'Previous Image',
-//           ),
-//         ),
-//         // Right button
-//         Positioned(
-//           top: 8,
-//           right: 8,
-//           child: IconButton(
-//             icon: Icon(Icons.arrow_forward_ios, color: Colors.black54),
-//             onPressed: _showNext,
-//             tooltip: 'Next Image',
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
   @override
   Widget build(BuildContext context) {
     final url = widget.urls[currentIndex];
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Colors.grey.shade300,
-            width: 1,
-          ),
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 0,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.grey.shade300,
+          width: 1,
         ),
-        width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Navigation buttons row
-            Row(
+      ),
+      width: kDeviceWidth,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
@@ -201,53 +132,53 @@ class _MultiImageViewerState extends State<_MultiImageViewer> {
                 ),
               ],
             ),
-            // Image
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => FullscreenImage(imageUrl: url),
-                  ),
+          ),
+          // Image
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => FullscreenImage(imageUrl: url),
+                ),
+              );
+            },
+            child: CachedNetworkImage(
+              imageUrl: url,
+              fit: BoxFit.contain,
+              height: 200,
+              width: kDeviceWidth,
+              progressIndicatorBuilder: (context, url, downloadProgress) {
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 200,
+                      width: kDeviceWidth,
+                      color: Colors.grey[100],
+                    ),
+                    SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                        strokeWidth: 4,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 12,
+                      child: Text(
+                        '${(downloadProgress.progress ?? 0) * 100 ~/ 1}%',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    )
+                  ],
                 );
               },
-              child: CachedNetworkImage(
-                imageUrl: url,
-                fit: BoxFit.contain,
-                height: 200,
-                width: double.infinity,
-                progressIndicatorBuilder: (context, url, downloadProgress) {
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: 200,
-                        width: double.infinity,
-                        color: Colors.grey[100],
-                      ),
-                      SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CircularProgressIndicator(
-                          value: downloadProgress.progress,
-                          strokeWidth: 4,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 12,
-                        child: Text(
-                          '${(downloadProgress.progress ?? 0) * 100 ~/ 1}%',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      )
-                    ],
-                  );
-                },
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
