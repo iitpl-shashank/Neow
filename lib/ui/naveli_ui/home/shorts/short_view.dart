@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
+import '../../../../widgets/common_appbar.dart';
+import '../../health_mix/health_mix_view_model.dart';
 
 class ShortsView extends StatefulWidget {
-  final healthPostsList;
-
-  const ShortsView({super.key, required this.healthPostsList});
+  const ShortsView({
+    super.key,
+  });
 
   @override
   State<ShortsView> createState() => _ShortsViewState();
 }
 
 class _ShortsViewState extends State<ShortsView> {
+  late HealthMixViewModel mViewHealthMixModel;
+  late HealthMixViewModel mViewModel;
+
   @override
-  static const value = 1;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      mViewModel.attachedContext(context);
+      mViewHealthMixModel =
+          Provider.of<HealthMixViewModel>(context, listen: false);
+      mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "latest");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<HealthMixViewModel>(context);
+    final List<Map<String, dynamic>> tabOptions = [
+      {"titleKey": S.of(context)!.latest, "titleId": 1, "type": "latest"},
+      {"titleKey": S.of(context)!.popular, "titleId": 2, "type": "popular"},
+      {"titleKey": S.of(context)!.oldest, "titleId": 3, "type": "oldest"},
+    ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context)!.shorts),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CommonAppBar(
+        title: S.of(context)!.shorts,
       ),
       body: Column(
         children: [
@@ -34,11 +48,36 @@ class _ShortsViewState extends State<ShortsView> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildTabButton(S.of(context)!.latest, true),
-                _buildTabButton(S.of(context)!.popular, false),
-                _buildTabButton(S.of(context)!.oldest, false),
-              ],
+              children: List.generate(
+                tabOptions.length,
+                (index) {
+                  String title = "";
+                  switch (tabOptions[index]["titleKey"]) {
+                    case "latest":
+                      title = S.of(context)!.latest;
+                      break;
+                    case "popular":
+                      title = S.of(context)!.popular;
+                      break;
+                    case "oldest":
+                      title = S.of(context)!.oldest;
+                      break;
+                  }
+                  return _buildTabButton(
+                    title,
+                    isSelected == index,
+                    () {
+                      setState(() {
+                        selectedTabIndex = index;
+                      });
+                      mViewHealthMixModel.getHealthMixPostsApi(
+                        titleId: tabOptions[index]["titleId"],
+                        type: tabOptions[index]["type"],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
           // Grid of shorts
@@ -51,16 +90,17 @@ class _ShortsViewState extends State<ShortsView> {
                 mainAxisSpacing: 8.0,
                 childAspectRatio: 0.8,
               ),
-              itemCount: widget.healthPostsList.length,
+              itemCount: mViewModel.healthPostsList.length,
               itemBuilder: (context, index) {
                 return _buildShortCard(
                   context,
-                  widget.healthPostsList[index].hashtags ?? '',
-                  widget.healthPostsList[index].description ?? '',
-                  widget.healthPostsList[index].diffrenceTime ?? '',
-                  widget.healthPostsList[index].mediaType == 'image'
-                      ? widget.healthPostsList[index].media
-                      : 'https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg',
+                  mViewModel.healthPostsList[index].hashtags ?? '',
+                  mViewModel.healthPostsList[index].description ?? '',
+                  mViewModel.healthPostsList[index].diffrenceTime ?? '',
+                  mViewModel.healthPostsList[index].mediaType == 'image'
+                      ? mViewModel.healthPostsList[index].media ??
+                          "https://static.vecteezy.com/system/resources/thumbnails/047/580/461/small/youtube-popular-social-media-logo-free-png.png"
+                      : 'https://static.vecteezy.com/system/resources/thumbnails/047/580/461/small/youtube-popular-social-media-logo-free-png.png',
                 );
               },
             ),
@@ -70,7 +110,10 @@ class _ShortsViewState extends State<ShortsView> {
     );
   }
 
-  Widget _buildTabButton(String title, bool isSelected) {
+  Widget _buildTabButton(
+    String title,
+    bool isSelected,
+  ) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.0),
       child: ElevatedButton(
@@ -90,8 +133,13 @@ class _ShortsViewState extends State<ShortsView> {
     );
   }
 
-  Widget _buildShortCard(BuildContext context, String title, String subtitle,
-      String time, String imageAsset) {
+  Widget _buildShortCard(
+    BuildContext context,
+    String title,
+    String subtitle,
+    String time,
+    String imageAsset,
+  ) {
     return Container(
       height: 250,
       decoration: ShapeDecoration(
@@ -146,7 +194,7 @@ class _ShortsViewState extends State<ShortsView> {
                 ),
               ),
               Positioned(
-                top: 200, // Adjusted to prevent overflow
+                top: 200,
                 left: 15,
                 right: 15,
                 child: Container(

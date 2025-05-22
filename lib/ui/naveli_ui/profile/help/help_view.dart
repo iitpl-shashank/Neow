@@ -17,15 +17,6 @@ class HelpView extends StatefulWidget {
 class _HelpViewState extends State<HelpView> {
   late AboutUsViewModel mViewModel;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(Duration.zero, () {
-  //     mViewModel.attachedContext(context);
-  //     mViewModel.getAboutUsApi();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<AboutUsViewModel>(context);

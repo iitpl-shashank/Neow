@@ -1096,10 +1096,7 @@ class _HomeViewState extends State<HomeView> {
                           onTap: () {
                             // Define the action when the text is clicked
                             push(
-                              ShortsView(
-                                healthPostsList:
-                                    mViewHealthMixModel.healthPostsList,
-                              ),
+                              ShortsView(),
                             );
                           },
                           child: Container(

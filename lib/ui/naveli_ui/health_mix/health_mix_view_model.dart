@@ -112,8 +112,10 @@ class HealthMixViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getHealthMixPostsApi(
-      {required int titleId, required String type}) async {
+  Future<void> getHealthMixPostsApi({
+    required int titleId,
+    required String type,
+  }) async {
     debugPrint("");
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
