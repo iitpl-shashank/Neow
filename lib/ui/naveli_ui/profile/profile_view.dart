@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:naveli_2023/ui/naveli_ui/profile/rate_and_review/rate_and_review_screen.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/reports/reports_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/settings/settings_view.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
@@ -190,10 +191,14 @@ class _ProfileViewState extends State<ProfileView> {
                       },
                     ),
                     CommonProfileMenu(
-                        color: Color(0xFFF0EBFF),
-                        text: S.of(context)!.rateUs,
-                        text2: S.of(context)!.rateAndWriteReview,
-                        isLast: false),
+                      color: Color(0xFFF0EBFF),
+                      text: S.of(context)!.rateUs,
+                      text2: S.of(context)!.rateAndWriteReview,
+                      isLast: false,
+                      onTap: () {
+                        push(const RateAndReviewScreen());
+                      },
+                    ),
                     CommonProfileMenu(
                       color: Color(0xFFEAF6FF),
                       text: S.of(context)!.shareNeowApp,

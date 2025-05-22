@@ -460,6 +460,7 @@ class LocalImages {
   static const String ourTeamImg = 'assets/images/our_team_img.png';
   static const String privacyImg = 'assets/images/privacy_img.png';
   static const String termsImg = 'assets/images/terms_img.png';
+  static const String feedbackStar = 'assets/images/feedback_star.png';
 }
 
 class LocalSvgs {
