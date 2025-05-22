@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/rate_and_review/rate_and_review_screen.dart';
@@ -15,8 +17,6 @@ import '../../../widgets/common_appbar.dart';
 import '../../../widgets/common_profile_menu.dart';
 import '../../../widgets/scaffold_bg.dart';
 import 'about_us/about_us_view.dart';
-import 'chat/chat.dart';
-import 'chat/gradient_text.dart';
 import 'dashboard/dashboard_view.dart';
 import 'help/help_view.dart';
 
@@ -48,76 +48,7 @@ class _ProfileViewState extends State<ProfileView> {
         body: SingleChildScrollView(
           padding: kCommonScreenPadding,
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              /* Container(
-                  width: kDeviceWidth / 1.1,
-                  height: kDeviceHeight / 4.5,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFDDC1FE).withOpacity(0.6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    // shadows: [
-                    //   BoxShadow(
-                    //     color: Color(0x3F000000),
-                    //     blurRadius: 5,
-                    //     offset: Offset(0, 2),
-                    //     spreadRadius: 0,
-                    //   )
-                    // ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: kDeviceHeight / 8.5,
-                        // width: 100,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: CommonColors.darkPrimaryColor, width: 2),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(gUserType == AppConstants.NEOWME
-                                  ? LocalImages.img_neowme
-                                  : gUserType == AppConstants.BUDDY
-                                      ? LocalImages.img_buddy
-                                      : gUserType == AppConstants.CYCLE_EXPLORER
-                                          ? LocalImages.img_cycle_explorer
-                                          : LocalImages.img_app_logo),
-                              fit: BoxFit.contain),
-                        ),
-                      ),
-                      Text(
-                        "Neow ${globalUserMaster?.name ?? ''}",
-                        style: getAppStyle(
-                            color: CommonColors.darkPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  )), */
-              // Container(
-              //   width: 100,
-              //   height: 30,
-              //   decoration: ShapeDecoration(
-              //     color: Color(0x4C00849D),
-              //     shape: RoundedRectangleBorder(
-              //       side: BorderSide(width: 1, color: CommonColors.primaryColor),
-              //       borderRadius: BorderRadius.circular(30),
-              //     ),
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       'Edit Profile',
-              //       style: getAppStyle(
-              //         color: CommonColors.primaryColor,
-              //         fontSize: 15,
-              //         fontWeight: FontWeight.w400,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               kCommonSpaceV20,
               Container(
                 width: kDeviceWidth / 1.1,
@@ -126,14 +57,6 @@ class _ProfileViewState extends State<ProfileView> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  // shadows: [
-                  //   BoxShadow(
-                  //     color: Color(0x3F000000),
-                  //     blurRadius: 5,
-                  //     offset: Offset(0, 2),
-                  //     spreadRadius: 0,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -204,6 +127,23 @@ class _ProfileViewState extends State<ProfileView> {
                       text: S.of(context)!.shareNeowApp,
                       text2: S.of(context)!.shareAppWithFriends,
                       isLast: true,
+                      onTap: () {
+                        if (Platform.isAndroid) {
+                          CommonUtils.shareApp(
+                            link:
+                                "https://play.google.com/store/apps/details?id=com.naveli.naveli_2023",
+                          );
+                        } else if (Platform.isIOS) {
+                          CommonUtils.shareApp(
+                            // TODO : Add the ios app link
+                            //com.naveli.naveli_2023
+                            link:
+                                "https://apps.apple.com/app/idXXXXXXXXX", // Replace with your iOS App Store link
+                          );
+                        } else {
+                          CommonUtils.shareApp(); // fallback
+                        }
+                      },
                     ),
                   ],
                 ),

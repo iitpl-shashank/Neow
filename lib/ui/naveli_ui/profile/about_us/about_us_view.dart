@@ -16,28 +16,6 @@ class AboutUs extends StatefulWidget {
 
 class _AboutUsState extends State<AboutUs> {
   late AboutUsViewModel mViewModel;
-  final cardsData = [
-    {
-      'title': 'Our Mission & Vision',
-      'image': LocalImages.ourMissionImg,
-      'bgColor': const Color(0xFFF1E4FF),
-    },
-    {
-      'title': 'Our Team',
-      'image': LocalImages.ourTeamImg,
-      'bgColor': const Color(0xFFFFF0E7),
-    },
-    {
-      'title': 'Privacy Policy',
-      'image': LocalImages.privacyImg,
-      'bgColor': const Color(0xFFEAF6FF),
-    },
-    {
-      'title': 'Terms of Use',
-      'image': LocalImages.termsImg,
-      'bgColor': const Color(0xFFFFFBE7),
-    },
-  ];
 
   @override
   void initState() {
@@ -51,6 +29,28 @@ class _AboutUsState extends State<AboutUs> {
 
   @override
   Widget build(BuildContext context) {
+    final cardsData = [
+      {
+        'title': S.of(context)!.ourMissionAndVision,
+        'image': LocalImages.ourMissionImg,
+        'bgColor': const Color(0xFFF1E4FF),
+      },
+      {
+        'title': S.of(context)!.ourTeam,
+        'image': LocalImages.ourTeamImg,
+        'bgColor': const Color(0xFFFFF0E7),
+      },
+      {
+        'title': S.of(context)!.privacyPolicy,
+        'image': LocalImages.privacyImg,
+        'bgColor': const Color(0xFFEAF6FF),
+      },
+      {
+        'title': S.of(context)!.termsOfUse,
+        'image': LocalImages.termsImg,
+        'bgColor': const Color(0xFFFFFBE7),
+      },
+    ];
     mViewModel = Provider.of<AboutUsViewModel>(context);
     return SafeArea(
       child: ScaffoldBG(

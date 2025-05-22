@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
-import '../../../../utils/constant.dart';
-import '../../../../utils/local_images.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../about_us/about_us_view_model.dart';
 
@@ -21,103 +17,162 @@ class HelpView extends StatefulWidget {
 class _HelpViewState extends State<HelpView> {
   late AboutUsViewModel mViewModel;
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      mViewModel.attachedContext(context);
-      mViewModel.getAboutUsApi();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(Duration.zero, () {
+  //     mViewModel.attachedContext(context);
+  //     mViewModel.getAboutUsApi();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<AboutUsViewModel>(context);
     return ScaffoldBG(
       child: Scaffold(
+        appBar: CommonAppBar(
+          title: S.of(context)!.help,
+        ),
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 40),
               Text(
-                "Contact Us",
+                S.of(context)!.contactUs,
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
+                  color: CommonColors.purple,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 16),
               Text(
-                "Got a question, stuck on something, or\njust want to share your thoughts?",
+                S.of(context)!.gotAQuestion,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.black87),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 50),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                padding: const EdgeInsets.all(30),
                 decoration: BoxDecoration(
-                  color: Color(0xFF6A359C),
-                  borderRadius: BorderRadius.circular(10),
+                  color: CommonColors.purple,
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
                   children: [
                     Text(
-                      "Drop us a line!",
+                      S.of(context)!.dropUsALine,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
                     ),
-                    SizedBox(height: 12),
-                    Icon(Icons.email, color: Colors.white),
-                    SizedBox(height: 6),
-                    Text(
-                      "neowindia@gmail.com",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    const SizedBox(height: 35),
+                    const Icon(
+                      Icons.email,
+                      color: Colors.white,
+                      size: 28,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'neowindia@gmail.com',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 35),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          LocalSvgs.icFacebook,
+                        Container(
                           height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(
+                                0.15), // Optional: subtle background
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              FontAwesomeIcons.facebookF,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
                         ),
-                        SvgPicture.asset(
-                          LocalSvgs.icFacebook,
+                        SizedBox(width: 16),
+                        Container(
                           height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(
+                                0.15), // Optional: subtle background
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(FontAwesomeIcons.instagram,
+                                color: Colors.white, size: 20),
+                          ),
                         ),
-                        SvgPicture.asset(
-                          LocalSvgs.icFacebook,
+                        SizedBox(width: 16),
+                        Container(
                           height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(
+                                0.15), // Optional: subtle background
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(FontAwesomeIcons.xTwitter,
+                                color: Colors.white, size: 20),
+                          ),
                         ),
-                        SvgPicture.asset(
-                          LocalSvgs.icFacebook,
+                        SizedBox(width: 16),
+                        Container(
                           height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(
+                                0.15), // Optional: subtle background
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(FontAwesomeIcons.youtube,
+                                color: Colors.white, size: 20),
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 28),
               Text(
-                "We'd love to hear from you! 🥰",
+                S.of(context)!.weLoveToHearFromYou,
                 style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.w600,
                   fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF6A1B9A),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
-                "We promise to get back to you at the earliest—\nbecause helping you is what we do best.",
+                S.of(context)!.wePromiseToGetBack,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13, color: Colors.black87),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.black87,
+                ),
               ),
             ],
           ),

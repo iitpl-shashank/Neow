@@ -789,6 +789,15 @@ class CommonUtils {
     List<int> bytes = text.toString().codeUnits;
     return utf8.decode(bytes);
   }
+
+  static void shareApp({String? link}) {
+    final appLink = link ??
+        "https://play.google.com/store/apps/details?id=com.naveli.naveli_2023";
+    Share.share(
+      "Check out the Neow app!\n$appLink",
+      subject: "Neow App",
+    );
+  }
 }
 
 // void imagePickerOption(

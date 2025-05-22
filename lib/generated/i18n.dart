@@ -335,7 +335,7 @@ class S implements WidgetsLocalizations {
 
   String get iHaveReadClue => "I have read NeoW’s  ";
 
-  String get privacyPolicy => "Privacy Policy.";
+  String get privacyPolicy => "Privacy Policy";
 
   String get iAgreeProcessing =>
       "I agree to Clue processing the health data I choose to share with the app, so they can provide their service.";
@@ -1301,6 +1301,24 @@ class S implements WidgetsLocalizations {
   String get writeUsAReview => "Write us a review";
 
   String get thankYouForYourReview => "Thank you for your review";
+
+  String get contactUs => "Contact Us";
+
+  String get gotAQuestion =>
+      "Got a question, stuck on something, or\njust want to share your thoughts?";
+
+  String get dropUsALine => "Drop us a line!";
+
+  String get weLoveToHearFromYou => "We’d love to hear from you! 🥰";
+
+  String get wePromiseToGetBack =>
+      "We promise to get back to you at the earliest—\nbecause helping you is what we do best.";
+
+  String get ourMissionAndVision => "Our Mission & Vision";
+
+  String get ourTeam => "Our Team";
+
+  String get termsOfUse => "Terms of Use";
 }
 
 class $en extends S {
@@ -1311,6 +1329,32 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get termsOfUse => "उपयोग की शर्तें";
+
+  @override
+  String get ourTeam => "हमारी टीम";
+
+  @override
+  String get ourMissionAndVision => "हमारा मिशन और दृष्टि";
+
+  @override
+  String get wePromiseToGetBack =>
+      "हम वादा करते हैं कि जल्द से जल्द आपसे संपर्क करेंगे—\nक्योंकि आपकी मदद करना ही हमारा सबसे अच्छा काम है।";
+
+  @override
+  String get weLoveToHearFromYou => "हम आपसे सुनना पसंद करेंगे! 🥰";
+
+  @override
+  String get dropUsALine => "हमें लिखें!";
+
+  @override
+  String get contactUs => "हमसे संपर्क करें";
+
+  @override
+  String get gotAQuestion =>
+      "कोई सवाल है, किसी चीज़ में अटक गए हैं, या\nबस अपने विचार साझा करना चाहते हैं?";
+
   @override
   String get thankYouForYourReview => "आपकी समीक्षा के लिए धन्यवाद";
 
@@ -2474,7 +2518,7 @@ class $mr extends S {
       "मैं सहमत हूँ कि NeoW ऐप मुझे सूचनाएँ, अपडेट्स और महत्वपूर्ण जानकारी ईमेल के माध्यम से अवगत कराएगा।";
 
   @override
-  String get privacyPolicy => "";
+  String get privacyPolicy => "गोपनीयता नीति";
 
   @override
   String get iAgreeProcessing =>
