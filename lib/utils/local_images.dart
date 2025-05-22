@@ -461,6 +461,7 @@ class LocalImages {
   static const String privacyImg = 'assets/images/privacy_img.png';
   static const String termsImg = 'assets/images/terms_img.png';
   static const String feedbackStar = 'assets/images/feedback_star.png';
+  static const String heartFace = 'assets/images/heart_face.png';
 }
 
 class LocalSvgs {

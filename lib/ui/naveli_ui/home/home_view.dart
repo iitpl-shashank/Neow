@@ -11,6 +11,7 @@ import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
@@ -85,6 +86,8 @@ class _HomeViewState extends State<HomeView> {
       // mViewModel.getHindiTranslation(string: username);
 
       _startAutoSlide();
+      // TODO : Here is the InAPP Notification
+      showCustomDialog(context);
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
             ..initialize().then((_) {
@@ -195,6 +198,18 @@ class _HomeViewState extends State<HomeView> {
         AppPreferences.instance.setBuddyAccess(false);
       }
     }
+  }
+
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CustomNotification(
+        imagePath: LocalImages.heartFace,
+        titleText: 'Jiya dhadak dhadak,\nJiya dhadak dhadak dhadak jaye',
+        subtitleText: 'Your period is expected to start\nin 2 days.',
+        showImageText: true,
+      ),
+    );
   }
 
   void checkForCompulsorySymptoms() {

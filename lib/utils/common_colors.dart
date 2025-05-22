@@ -32,6 +32,7 @@ class CommonColors {
   static const blackArrow = Color(0xFF060606);
   static const blueShade = Color(0xFFFAEEFF);
   static const purple = Color(0xFFF6F4085);
+  static const textPurple = Color(0xFFF873AAB);
   static const bgGrey = Color(0xFFF6F6F6);
   static const dotColor = Color(0xFF999898);
   static const appBackground = Color(0XFFFBF5F7);
