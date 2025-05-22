@@ -5,17 +5,33 @@ import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/widgets/full_screen_image.da
 class CustomImageLoader extends StatelessWidget {
   final String imageUrl;
 
-  const CustomImageLoader({super.key, required this.imageUrl});
+  const CustomImageLoader({
+    super.key,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (imageUrl.contains(',')) {
+      final urls = imageUrl
+          .split(',')
+          .map((e) => e.trim().startsWith('http')
+              ? e.trim()
+              : 'https://neowindia.com/${e.trim()}')
+          .toList();
+
+      return _MultiImageViewer(urls: urls);
+    }
+
+    // Single image fallback
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => FullscreenImage(imageUrl: imageUrl),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (_) => FullscreenImage(imageUrl: imageUrl),
+          ),
+        );
       },
       child: CachedNetworkImage(
         imageUrl: imageUrl,
@@ -48,6 +64,190 @@ class CustomImageLoader extends StatelessWidget {
           );
         },
         errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+    );
+  }
+}
+
+class _MultiImageViewer extends StatefulWidget {
+  final List<String> urls;
+  const _MultiImageViewer({required this.urls});
+
+  @override
+  State<_MultiImageViewer> createState() => _MultiImageViewerState();
+}
+
+class _MultiImageViewerState extends State<_MultiImageViewer> {
+  int currentIndex = 0;
+
+  void _showPrev() {
+    setState(() {
+      currentIndex =
+          (currentIndex - 1 + widget.urls.length) % widget.urls.length;
+    });
+  }
+
+  void _showNext() {
+    setState(() {
+      currentIndex = (currentIndex + 1) % widget.urls.length;
+    });
+  }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final url = widget.urls[currentIndex];
+//     return Stack(
+//       children: [
+//         GestureDetector(
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (_) => FullscreenImage(imageUrl: url),
+//               ),
+//             );
+//           },
+//           child: CachedNetworkImage(
+//             imageUrl: url,
+//             fit: BoxFit.contain,
+//             height: 200,
+//             width: double.infinity,
+//             progressIndicatorBuilder: (context, url, downloadProgress) {
+//               return Stack(
+//                 alignment: Alignment.center,
+//                 children: [
+//                   Container(
+//                     height: 200,
+//                     width: double.infinity,
+//                     color: Colors.grey[100],
+//                   ),
+//                   SizedBox(
+//                     width: 50,
+//                     height: 50,
+//                     child: CircularProgressIndicator(
+//                       value: downloadProgress.progress,
+//                       strokeWidth: 4,
+//                     ),
+//                   ),
+//                   Positioned(
+//                     bottom: 12,
+//                     child: Text(
+//                       '${(downloadProgress.progress ?? 0) * 100 ~/ 1}%',
+//                       style: TextStyle(fontWeight: FontWeight.w500),
+//                     ),
+//                   )
+//                 ],
+//               );
+//             },
+//             errorWidget: (context, url, error) => Icon(Icons.error),
+//           ),
+//         ),
+//         // Left button
+//         Positioned(
+//           top: 8,
+//           left: 8,
+//           child: IconButton(
+//             icon: Icon(Icons.arrow_back_ios, color: Colors.black54),
+//             onPressed: _showPrev,
+//             tooltip: 'Previous Image',
+//           ),
+//         ),
+//         // Right button
+//         Positioned(
+//           top: 8,
+//           right: 8,
+//           child: IconButton(
+//             icon: Icon(Icons.arrow_forward_ios, color: Colors.black54),
+//             onPressed: _showNext,
+//             tooltip: 'Next Image',
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+  @override
+  Widget build(BuildContext context) {
+    final url = widget.urls[currentIndex];
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey.shade300,
+            width: 1,
+          ),
+        ),
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Navigation buttons row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                  onPressed: _showPrev,
+                  tooltip: 'Previous Image',
+                ),
+                IconButton(
+                  icon:
+                      const Icon(Icons.arrow_forward_ios, color: Colors.black),
+                  onPressed: _showNext,
+                  tooltip: 'Next Image',
+                ),
+              ],
+            ),
+            // Image
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => FullscreenImage(imageUrl: url),
+                  ),
+                );
+              },
+              child: CachedNetworkImage(
+                imageUrl: url,
+                fit: BoxFit.contain,
+                height: 200,
+                width: double.infinity,
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        color: Colors.grey[100],
+                      ),
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          strokeWidth: 4,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 12,
+                        child: Text(
+                          '${(downloadProgress.progress ?? 0) * 100 ~/ 1}%',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

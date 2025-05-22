@@ -1261,7 +1261,7 @@ class _DashboardViewState extends State<DashboardView> {
                       );
                     }),
                   ),
-                kCommonSpaceV20,
+                if (false) kCommonSpaceV20,
                 // TODO  Track is hidden now in profile
                 // Container(
                 //     padding: const EdgeInsets.all(10),
@@ -1433,49 +1433,51 @@ class _DashboardViewState extends State<DashboardView> {
                 //     ),
                 //   ),
                 // kCommonSpaceV20,
-                Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFF8FFF0),
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1, color: CommonColors.blackColor))),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          bodyq = !bodyq;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              /*Icon(
+                if (false) //TODO : Hidden as per client request
+                  Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFF8FFF0),
+                          border: Border(
+                              bottom: BorderSide(
+                                  width: 1, color: CommonColors.blackColor))),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            bodyq = !bodyq;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                /*Icon(
                                 Icons.sensor_occupied,
                                 color: CommonColors.blackColor,
                                 size: 25,
                               ),*/
-                              Image.asset(LocalImages.imgBodyQuiz, height: 25),
-                              kCommonSpaceH10,
-                              Text(
-                                S.of(context)!.quickQuestion,
-                                style: TextStyle(
-                                  color: CommonColors.blackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                Image.asset(LocalImages.imgBodyQuiz,
+                                    height: 25),
+                                kCommonSpaceH10,
+                                Text(
+                                  S.of(context)!.quickQuestion,
+                                  style: TextStyle(
+                                    color: CommonColors.blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: CommonColors.blackColor,
-                            size: 25,
-                          ),
-                        ],
-                      ),
-                    )),
+                              ],
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: CommonColors.blackColor,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      )),
                 if (bodyq)
                   Container(
                     padding: const EdgeInsets.only(

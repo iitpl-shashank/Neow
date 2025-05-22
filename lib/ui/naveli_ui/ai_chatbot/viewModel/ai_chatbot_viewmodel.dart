@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../../../../database/app_preferences.dart';
 import '../../../../services/api_para.dart';
@@ -118,6 +120,12 @@ class AiChatBotViewModel with ChangeNotifier {
       }
       if (chatBotData != null) {
         _chatMessages.addAll(chatBotData.questions ?? []);
+        for (var question in chatBotData.questions ?? []) {
+          log("==============================================");
+          log("Question: ${question.text}");
+          log("ImagePath: ${question.imagePath}");
+          log("Answer: ${question.userAnswer}");
+        }
         _chatBotData = chatBotData;
 
         showMessagesWithDelay(isStarting: isStarting);

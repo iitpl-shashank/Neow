@@ -264,6 +264,17 @@ Widget customMessage(
               ),
             ),
           ),
+          if (imageUrl != null && imageUrl.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.66,
+                margin: const EdgeInsets.symmetric(vertical: 6),
+                child: CustomImageLoader(imageUrl: imageUrl),
+              ),
+            ),
+          ],
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
@@ -292,17 +303,26 @@ Widget customMessage(
     child: Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: CommonColors.bgGrey,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Text(
-          question,
-          style: TextStyle(
-            fontSize: 15,
-            color: CommonColors.blackColor,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              question,
+              style: const TextStyle(
+                fontSize: 15,
+                color: CommonColors.blackColor,
+              ),
+            ),
+            if (imageUrl != null && imageUrl.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              CustomImageLoader(imageUrl: imageUrl),
+            ],
+          ],
         ),
       ),
     ),
