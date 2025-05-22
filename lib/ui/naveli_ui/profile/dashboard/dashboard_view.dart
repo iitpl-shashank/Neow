@@ -745,51 +745,47 @@ class _DashboardViewState extends State<DashboardView> {
                                 child: Table(
                                   border: TableBorder.all(
                                     width: 0.5,
-                                    color: const Color.fromARGB(255, 128, 127,
-                                        127), // Border color for the entire table
+                                    color: const Color.fromARGB(
+                                        255, 128, 127, 127),
                                   ),
                                   children: [
-                                    // Header Row with Background Color
                                     TableRow(
-                                      decoration: BoxDecoration(
-                                          // Background color for header row
-                                          ),
+                                      decoration: BoxDecoration(),
                                       children: [
                                         _tableCell(
-                                            'No.',
+                                            S.of(context)!.tableNo,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.5)),
                                         _tableCell(
-                                            'Period Date (start-end)',
+                                            S.of(context)!.tablePeriodDate,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
                                         _tableCell(
-                                            'Cycle Length (days)',
+                                            S.of(context)!.tableCycleLength,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.5)),
                                         _tableCell(
-                                            'Deviation (days)',
+                                            S.of(context)!.tableDeviation,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.5)),
                                         _tableCell(
-                                            'Interpretation',
+                                            S.of(context)!.tableInterpretation,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
                                         _tableCell(
-                                            'Period Length (days)',
+                                            S.of(context)!.tablePeriodLength,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
                                         _tableCell(
-                                            'Deviation (days)',
+                                            S.of(context)!.tableDeviation,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.5)),
                                         _tableCell(
-                                            'Interpretation',
+                                            S.of(context)!.tableInterpretation,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
                                       ],
                                     ),
-                                    // Data Rows
                                     for (int index = 0;
                                         index < mViewModel.dataList.length;
                                         index++)
@@ -872,186 +868,187 @@ class _DashboardViewState extends State<DashboardView> {
 
                           kCommonSpaceV20,
                           CycleInfoCard(),
-                          kCommonSpaceV20,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Last 3 Peroids",
-                                style: TextStyle(
-                                  color: CommonColors.blackColor,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                "Duration",
-                                style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(255, 139, 134, 134),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              kCommonSpaceV10,
-                              Container(
-                                height: 400,
-                                color: Colors.white,
-                                padding: EdgeInsets.all(25),
-                                child: LineChart(
-                                  LineChartData(
-                                    lineTouchData: LineTouchData(
-                                      handleBuiltInTouches:
-                                          true, // Enables tap/touch
-                                      touchTooltipData: LineTouchTooltipData(
-                                        tooltipRoundedRadius: 8,
-                                        fitInsideHorizontally: true,
-                                        fitInsideVertically: true,
-                                        getTooltipItems: (touchedSpots) {
-                                          return touchedSpots
-                                              .map((touchedSpot) {
-                                            const monthNames = [
-                                              '', // index 0 is unused to align 1-based month numbers
-                                              'Jan', 'Feb', 'Mar', 'Apr', 'May',
-                                              'Jun',
-                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                                              'Dec'
-                                            ];
+                          // TODO : Hidden as per client request
+                          // kCommonSpaceV20,
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Text(
+                          //       "Last 3 Peroids",
+                          //       style: TextStyle(
+                          //         color: CommonColors.blackColor,
+                          //         fontSize: 14,
+                          //       ),
+                          //     ),
+                          //     Text(
+                          //       "Duration",
+                          //       style: TextStyle(
+                          //         color:
+                          //             const Color.fromARGB(255, 139, 134, 134),
+                          //         fontSize: 12,
+                          //       ),
+                          //     ),
+                          //     kCommonSpaceV10,
+                          //     Container(
+                          //       height: 400,
+                          //       color: Colors.white,
+                          //       padding: EdgeInsets.all(25),
+                          //       child: LineChart(
+                          //         LineChartData(
+                          //           lineTouchData: LineTouchData(
+                          //             handleBuiltInTouches:
+                          //                 true, // Enables tap/touch
+                          //             touchTooltipData: LineTouchTooltipData(
+                          //               tooltipRoundedRadius: 8,
+                          //               fitInsideHorizontally: true,
+                          //               fitInsideVertically: true,
+                          //               getTooltipItems: (touchedSpots) {
+                          //                 return touchedSpots
+                          //                     .map((touchedSpot) {
+                          //                   const monthNames = [
+                          //                     '', // index 0 is unused to align 1-based month numbers
+                          //                     'Jan', 'Feb', 'Mar', 'Apr', 'May',
+                          //                     'Jun',
+                          //                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                          //                     'Dec'
+                          //                   ];
 
-                                            String monthLabel = '';
-                                            if (touchedSpot.x >= 1 &&
-                                                touchedSpot.x <= 12) {
-                                              monthLabel = monthNames[
-                                                  touchedSpot.x.toInt()];
-                                            }
-                                            return LineTooltipItem(
-                                              'Month: ${monthLabel}\nCycle Length: ${touchedSpot.y.toStringAsFixed(0)}',
-                                              const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            );
-                                          }).toList();
-                                        },
-                                      ),
-                                    ),
-                                    gridData: FlGridData(show: false),
-                                    // Hide grid lines
-                                    titlesData: FlTitlesData(
-                                      leftTitles: AxisTitles(
-                                        sideTitles: SideTitles(
-                                          showTitles:
-                                              true, // Hide left titles (labels)
-                                          reservedSize: 15,
-                                          interval: 5,
-                                          getTitlesWidget: (value, meta) {
-                                            return Text(
-                                              value.toStringAsFixed(0),
-                                              // Format Y-axis values
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      bottomTitles: AxisTitles(
-                                        sideTitles: SideTitles(
-                                          getTitlesWidget: (data, meta) {
-                                            const monthNames = [
-                                              '', // index 0 is unused to align 1-based month numbers
-                                              'Jan', 'Feb', 'Mar', 'Apr', 'May',
-                                              'Jun',
-                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                                              'Dec'
-                                            ];
+                          //                   String monthLabel = '';
+                          //                   if (touchedSpot.x >= 1 &&
+                          //                       touchedSpot.x <= 12) {
+                          //                     monthLabel = monthNames[
+                          //                         touchedSpot.x.toInt()];
+                          //                   }
+                          //                   return LineTooltipItem(
+                          //                     'Month: ${monthLabel}\nCycle Length: ${touchedSpot.y.toStringAsFixed(0)}',
+                          //                     const TextStyle(
+                          //                       color: Colors.white,
+                          //                       fontSize: 12,
+                          //                     ),
+                          //                   );
+                          //                 }).toList();
+                          //               },
+                          //             ),
+                          //           ),
+                          //           gridData: FlGridData(show: false),
+                          //           // Hide grid lines
+                          //           titlesData: FlTitlesData(
+                          //             leftTitles: AxisTitles(
+                          //               sideTitles: SideTitles(
+                          //                 showTitles:
+                          //                     true, // Hide left titles (labels)
+                          //                 reservedSize: 15,
+                          //                 interval: 5,
+                          //                 getTitlesWidget: (value, meta) {
+                          //                   return Text(
+                          //                     value.toStringAsFixed(0),
+                          //                     // Format Y-axis values
+                          //                     style: TextStyle(
+                          //                       color: Colors.grey,
+                          //                       fontSize: 12,
+                          //                     ),
+                          //                   );
+                          //                 },
+                          //               ),
+                          //             ),
+                          //             bottomTitles: AxisTitles(
+                          //               sideTitles: SideTitles(
+                          //                 getTitlesWidget: (data, meta) {
+                          //                   const monthNames = [
+                          //                     '', // index 0 is unused to align 1-based month numbers
+                          //                     'Jan', 'Feb', 'Mar', 'Apr', 'May',
+                          //                     'Jun',
+                          //                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                          //                     'Dec'
+                          //                   ];
 
-                                            String monthLabel = '';
-                                            if (data >= 1 && data <= 12) {
-                                              monthLabel =
-                                                  monthNames[data.toInt()];
-                                            }
+                          //                   String monthLabel = '';
+                          //                   if (data >= 1 && data <= 12) {
+                          //                     monthLabel =
+                          //                         monthNames[data.toInt()];
+                          //                   }
 
-                                            return Text(
-                                              monthLabel,
-                                              // Format X-axis values
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,
-                                              ),
-                                            );
-                                          },
-                                          reservedSize: 26,
-                                          showTitles:
-                                              true, // Hide bottom titles (labels)
-                                        ),
-                                      ),
-                                      topTitles: AxisTitles(
-                                        // Hide top titles if any
-                                        sideTitles: SideTitles(
-                                          showTitles:
-                                              false, // Hide top titles (labels)
-                                        ),
-                                      ),
-                                      rightTitles: AxisTitles(
-                                        // Hide right titles if any
-                                        sideTitles: SideTitles(
-                                          showTitles:
-                                              false, // Hide right titles (labels)
-                                        ),
-                                      ),
-                                    ),
-                                    borderData: FlBorderData(
-                                      show: true,
-                                      border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 204, 207, 209),
-                                        width: 0.5,
-                                      ),
-                                    ),
-                                    minX: 0,
-                                    maxX: 5,
-                                    minY: 0,
-                                    maxY: 45,
-                                    lineBarsData: [
-                                      LineChartBarData(
-                                        spots: mViewModel.scaledSpots,
-                                        isCurved: true,
-                                        color: CommonColors.primaryColor
-                                            .withOpacity(0.2),
-                                        dotData: FlDotData(
-                                            show: true,
-                                            getDotPainter:
-                                                (value, data, bardata, index) {
-                                              return FlDotCirclePainter(
-                                                radius: 4,
-                                                color: CommonColors.primaryColor
-                                                    .withOpacity(0.2),
-                                                strokeWidth: 2,
-                                                strokeColor: CommonColors
-                                                    .primaryColor
-                                                    .withOpacity(0.2),
-                                              );
-                                            }),
-                                        belowBarData: BarAreaData(
-                                          show: false,
-                                          color: CommonColors.primaryColor
-                                              .withOpacity(
-                                                  0.2), // Color below the line
-                                        ),
-                                        aboveBarData: BarAreaData(
-                                          show: false,
-                                          color: Colors.blue.withOpacity(
-                                              0.8), // Color above the line
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              kCommonSpaceV10,
-                            ],
-                          ),
-                          // Add more widgets if needed (e.g. LineChart or additional content)
+                          //                   return Text(
+                          //                     monthLabel,
+                          //                     // Format X-axis values
+                          //                     style: TextStyle(
+                          //                       color: Colors.grey,
+                          //                       fontSize: 12,
+                          //                     ),
+                          //                   );
+                          //                 },
+                          //                 reservedSize: 26,
+                          //                 showTitles:
+                          //                     true, // Hide bottom titles (labels)
+                          //               ),
+                          //             ),
+                          //             topTitles: AxisTitles(
+                          //               // Hide top titles if any
+                          //               sideTitles: SideTitles(
+                          //                 showTitles:
+                          //                     false, // Hide top titles (labels)
+                          //               ),
+                          //             ),
+                          //             rightTitles: AxisTitles(
+                          //               // Hide right titles if any
+                          //               sideTitles: SideTitles(
+                          //                 showTitles:
+                          //                     false, // Hide right titles (labels)
+                          //               ),
+                          //             ),
+                          //           ),
+                          //           borderData: FlBorderData(
+                          //             show: true,
+                          //             border: Border.all(
+                          //               color: const Color.fromARGB(
+                          //                   255, 204, 207, 209),
+                          //               width: 0.5,
+                          //             ),
+                          //           ),
+                          //           minX: 0,
+                          //           maxX: 5,
+                          //           minY: 0,
+                          //           maxY: 45,
+                          //           lineBarsData: [
+                          //             LineChartBarData(
+                          //               spots: mViewModel.scaledSpots,
+                          //               isCurved: true,
+                          //               color: CommonColors.primaryColor
+                          //                   .withOpacity(0.2),
+                          //               dotData: FlDotData(
+                          //                   show: true,
+                          //                   getDotPainter:
+                          //                       (value, data, bardata, index) {
+                          //                     return FlDotCirclePainter(
+                          //                       radius: 4,
+                          //                       color: CommonColors.primaryColor
+                          //                           .withOpacity(0.2),
+                          //                       strokeWidth: 2,
+                          //                       strokeColor: CommonColors
+                          //                           .primaryColor
+                          //                           .withOpacity(0.2),
+                          //                     );
+                          //                   }),
+                          //               belowBarData: BarAreaData(
+                          //                 show: false,
+                          //                 color: CommonColors.primaryColor
+                          //                     .withOpacity(
+                          //                         0.2), // Color below the line
+                          //               ),
+                          //               aboveBarData: BarAreaData(
+                          //                 show: false,
+                          //                 color: Colors.blue.withOpacity(
+                          //                     0.8), // Color above the line
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     kCommonSpaceV10,
+                          //   ],
+                          // ),
+                          // // Add more widgets if needed (e.g. LineChart or additional content)
                         ],
                       ),
                     ),
@@ -1103,11 +1100,17 @@ class _DashboardViewState extends State<DashboardView> {
                     child: Consumer<DashBoardViewModel>(
                         builder: (context, vModel, child) {
                       if (vModel.userReportList.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            "No data available. Please log your symptoms.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              S.of(context)!.noDataAvailableLogSymptoms,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         );
                       }
@@ -1185,7 +1188,8 @@ class _DashboardViewState extends State<DashboardView> {
                                         for (var logDate
                                             in log.logDates ?? []) {
                                           stressLogs.add(StressLog(
-                                            level: logDate.stress ?? 'No Data',
+                                            level: logDate.stress ??
+                                                S.of(context)!.noData,
                                             date: logDate.date ?? '',
                                           ));
                                         }
@@ -1223,8 +1227,10 @@ class _DashboardViewState extends State<DashboardView> {
                                       title: S.of(context)!.acne,
                                       symptoms: latestReports.reversed
                                           .toList()
-                                          .map((report) =>
-                                              "${report.acne} (${report.month})")
+                                          .map(
+                                            (report) =>
+                                                "${report.acne} (${report.month})",
+                                          )
                                           .toList(),
                                     );
                                   },

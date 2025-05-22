@@ -84,7 +84,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                       kCommonSpaceV10,
                       if (lang != "hi")
                         Text(
-                          "Terms & Conditions*",
+                          "Terms & Conditions",
                           style: TextStyle(
                             color: CommonColors.blackColor,
                             fontSize: 18,

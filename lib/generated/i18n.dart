@@ -859,7 +859,7 @@ class S implements WidgetsLocalizations {
       "By clicking the box below, you agree to our Terms and Conditions and Privacy Policy.";
 
   String get tcSubtitle =>
-      "In case you are younger than 16 years, please ask your parent/guardian to help you set up your NeoW account. Their permission is mandatory for you to use the NeoW app.";
+      "In case you are younger than 16 years, please ask your parent/guardian to help you set up your NeoW account. Their permission is mandatory for you to use NeoW app.";
 
   String get whereAreYouFrom => "Where are you from?";
 
@@ -1319,6 +1319,27 @@ class S implements WidgetsLocalizations {
   String get ourTeam => "Our Team";
 
   String get termsOfUse => "Terms of Use";
+
+  String get noDataAvailableLogSymptoms =>
+      "No data available. Please log your symptoms.";
+
+  String get noData => "No Data";
+
+  String get tableNo => "No.";
+
+  String get tablePeriodDate => "Period Date (start-end)";
+
+  String get tableCycleLength => "Cycle Length (days)";
+
+  String get tableDeviation => "Deviation (days)";
+
+  String get tableInterpretation => "Interpretation";
+
+  String get tablePeriodLength => "Period Length (days)";
+
+  String get normalAvgCycleRange => "Normal Avg Cycle Range: 21–35 Days";
+
+  String get normalAvgPeriodLength => "Normal Avg Period Length: 2–7 Days";
 }
 
 class $en extends S {
@@ -1329,6 +1350,37 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get normalAvgPeriodLength => "सामान्य औसत पीरियड अवधि: 2–7 दिन";
+
+  @override
+  String get normalAvgCycleRange => "सामान्य औसत चक्र सीमा: 21–35 दिन";
+
+  @override
+  String get tableNo => "क्रमांक";
+
+  @override
+  String get tablePeriodDate => "पीरियड तिथि (प्रारंभ-समाप्ति)";
+
+  @override
+  String get tableCycleLength => "चक्र अवधि (दिन)";
+
+  @override
+  String get tableDeviation => "विचलन (दिन)";
+
+  @override
+  String get tableInterpretation => "व्याख्या";
+
+  @override
+  String get tablePeriodLength => "पीरियड अवधि (दिन)";
+
+  @override
+  String get noData => "कोई डेटा नहीं";
+
+  @override
+  String get noDataAvailableLogSymptoms =>
+      "कोई डेटा उपलब्ध नहीं है। कृपया अपने लक्षण दर्ज करें।";
+
   @override
   String get termsOfUse => "उपयोग की शर्तें";
 

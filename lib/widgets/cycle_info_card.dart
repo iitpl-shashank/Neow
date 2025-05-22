@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../generated/i18n.dart';
+
 class CycleInfoCard extends StatelessWidget {
   const CycleInfoCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-  
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -15,14 +16,14 @@ class CycleInfoCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Row(
             children: [
               Icon(Icons.thumb_up, color: Colors.green),
               SizedBox(width: 5),
               Expanded(
                 child: Text(
-                  'Normal Avg Cycle Range: 21–35 Days',
+                  S.of(context)!.normalAvgCycleRange,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -35,7 +36,7 @@ class CycleInfoCard extends StatelessWidget {
               SizedBox(width: 5),
               Expanded(
                 child: Text(
-                  'Normal Avg Period Length: 2–7 Days',
+                  S.of(context)!.normalAvgPeriodLength,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ),
