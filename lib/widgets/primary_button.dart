@@ -6,6 +6,7 @@ class PrimaryButton extends StatelessWidget {
   final String? label;
   final Color? labelColor;
   final Color? buttonColor;
+  final Color? borderColor;
   final Function()? onPress;
   final double? height;
   final double? width;
@@ -27,6 +28,7 @@ class PrimaryButton extends StatelessWidget {
     this.boxshadow = false,
     this.lblSize,
     this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
@@ -38,6 +40,12 @@ class PrimaryButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       width: width ?? double.infinity,
       decoration: BoxDecoration(
+        border: borderColor != null
+            ? Border.all(
+                color: borderColor ?? CommonColors.mTransparent,
+                width: 1,
+              )
+            : null,
         color: buttonColor ?? CommonColors.primaryColor,
         borderRadius: borderRadius ?? BorderRadius.circular(30.0),
         boxShadow: boxshadow!

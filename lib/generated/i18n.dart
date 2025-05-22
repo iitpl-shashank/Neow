@@ -1346,6 +1346,24 @@ class S implements WidgetsLocalizations {
   String get savedFailed => "Error in saving!";
 
   String get somethingWentWrong => "Something went wrong!";
+
+  String get jiyaDhadakDhadak => "Jiya dhadak dhadak, Jiya dhadak dhadak jaye";
+
+  String get periodExpectedToStartIn2Days =>
+      "Your period is expected to start in 2 days. Get ready!";
+
+  String get periodExpectedToStartTomorrow =>
+      "Your period is expected to start tomorrow.";
+
+  String get bePrepared => "Be prepared!";
+
+  String get expectPeriodToday => "Expect your period to start today.";
+
+  String get getReady => "Get ready!";
+
+  String get hasPeriodStarted => "Has your period started?";
+
+  String get yesLogSymptoms => "Yes, log my symptoms";
 }
 
 class $en extends S {
@@ -1356,6 +1374,32 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get yesLogSymptoms => "हाँ, मेरे लक्षण दर्ज करें";
+
+  @override
+  String get getReady => "तैयार हो जाइए!";
+
+  @override
+  String get hasPeriodStarted => "क्या आपके पीरियड शुरू हो गए है?";
+
+  @override
+  String get expectPeriodToday => "आपके पीरियड आज शुरू होने की संभावना है।";
+
+  @override
+  String get bePrepared => "तैयार रहें!";
+
+  @override
+  String get periodExpectedToStartTomorrow =>
+      "आपके पीरियड कल शुरू होने की संभावना है।";
+
+  @override
+  String get periodExpectedToStartIn2Days =>
+      "आपके पीरियड शुरू होने में 2 दिन बाकी हैं।";
+
+  @override
+  String get jiyaDhadakDhadak => "जिया धड़क धड़क, जिया धड़क धड़क जाए।";
+
   @override
   String get savedSuccess => "सफलतापूर्वक सहेजा गया!";
 

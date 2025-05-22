@@ -87,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
 
       _startAutoSlide();
       // TODO : Here is the InAPP Notification
-      showCustomDialog(context);
+      if (gUserType == AppConstants.NEOWME) showCustomDialog(context, 4);
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
             ..initialize().then((_) {
@@ -200,16 +200,75 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void showCustomDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => CustomNotification(
-        imagePath: LocalImages.heartFace,
-        titleText: 'Jiya dhadak dhadak,\nJiya dhadak dhadak dhadak jaye',
-        subtitleText: 'Your period is expected to start\nin 2 days.',
-        showImageText: true,
-      ),
-    );
+  void showCustomDialog(BuildContext context, int day) {
+    if (day == 1) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.heartFace,
+          imageText: S.of(context)!.jiyaDhadakDhadak,
+          subtitleText: S.of(context)!.periodExpectedToStartIn2Days,
+        ),
+      );
+    } else if (day == 2) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.oldWomanEng,
+          height: 300,
+          width: 300,
+          subtitleText: S.of(context)!.periodExpectedToStartTomorrow,
+          isLeftShift: true,
+          prepareText: S.of(context)!.bePrepared,
+        ),
+      );
+    } else if (day == 3) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+            imagePath: LocalImages.alertPad,
+            imageText: "Hey NeoW Malz",
+            height: 120,
+            width: 120,
+            subtitleText: S.of(context)!.expectPeriodToday,
+            prepareText: S.of(context)!.getReady,
+            purpleLabel: S.of(context)!.logPeriod,
+            purpleOnPress: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    S.of(context)!.logPeriod,
+                  ),
+                ),
+              );
+            }),
+      );
+    } else if (day == 4) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.womanUnderground,
+          height: 250,
+          width: 280,
+          isLeftShift: true,
+          subtitleText: S.of(context)!.hasPeriodStarted,
+          purpleLabel: S.of(context)!.yesLogSymptoms,
+          purpleOnPress: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  S.of(context)!.yesLogSymptoms,
+                ),
+              ),
+            );
+          },
+          whiteLabel: S.of(context)!.no,
+          whiteOnPress: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      );
+    }
   }
 
   void checkForCompulsorySymptoms() {

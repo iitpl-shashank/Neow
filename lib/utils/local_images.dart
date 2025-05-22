@@ -462,6 +462,9 @@ class LocalImages {
   static const String termsImg = 'assets/images/terms_img.png';
   static const String feedbackStar = 'assets/images/feedback_star.png';
   static const String heartFace = 'assets/images/heart_face.png';
+  static const String oldWomanEng = 'assets/images/old_woman_eng.png';
+  static const String alertPad = 'assets/images/alert_pad.png';
+  static const String womanUnderground = 'assets/images/woman_underground.png';
 }
 
 class LocalSvgs {
