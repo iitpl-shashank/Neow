@@ -87,7 +87,8 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
         appBar: isFullScreen
             ? null
             : CommonAppBar(
-                title: S.of(context)!.postDetails,
+                // title: S.of(context)!.postDetails,
+                title: "",
                 bgColor: CommonColors.mTransparent,
                 iconColor: CommonColors.blackColor,
                 style: const TextStyle(
