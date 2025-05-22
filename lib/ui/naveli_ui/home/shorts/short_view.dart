@@ -17,6 +17,7 @@ class ShortsView extends StatefulWidget {
 class _ShortsViewState extends State<ShortsView> {
   late HealthMixViewModel mViewHealthMixModel;
   late HealthMixViewModel mViewModel;
+  int selectedTabIndex = 0;
 
   @override
   void initState() {
@@ -33,9 +34,21 @@ class _ShortsViewState extends State<ShortsView> {
   Widget build(BuildContext context) {
     mViewModel = Provider.of<HealthMixViewModel>(context);
     final List<Map<String, dynamic>> tabOptions = [
-      {"titleKey": S.of(context)!.latest, "titleId": 1, "type": "latest"},
-      {"titleKey": S.of(context)!.popular, "titleId": 2, "type": "popular"},
-      {"titleKey": S.of(context)!.oldest, "titleId": 3, "type": "oldest"},
+      {
+        "titleKey": S.of(context)!.latest,
+        "titleId": 1,
+        "type": "latest",
+      },
+      {
+        "titleKey": S.of(context)!.popular,
+        "titleId": 1,
+        "type": "popular",
+      },
+      {
+        "titleKey": S.of(context)!.oldest,
+        "titleId": 1,
+        "type": "oldest",
+      },
     ];
     return Scaffold(
       appBar: CommonAppBar(
@@ -52,7 +65,7 @@ class _ShortsViewState extends State<ShortsView> {
                 tabOptions.length,
                 (index) {
                   String title = "";
-                  switch (tabOptions[index]["titleKey"]) {
+                  switch (tabOptions[index]["type"]) {
                     case "latest":
                       title = S.of(context)!.latest;
                       break;
@@ -65,7 +78,7 @@ class _ShortsViewState extends State<ShortsView> {
                   }
                   return _buildTabButton(
                     title,
-                    isSelected == index,
+                    selectedTabIndex == index,
                     () {
                       setState(() {
                         selectedTabIndex = index;
@@ -113,13 +126,12 @@ class _ShortsViewState extends State<ShortsView> {
   Widget _buildTabButton(
     String title,
     bool isSelected,
+    VoidCallback onPressed,
   ) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.0),
       child: ElevatedButton(
-        onPressed: () {
-          // Handle tab selection logic here
-        },
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected ? Colors.purple : Colors.grey[300],
         ),
