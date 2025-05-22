@@ -444,7 +444,7 @@ class S implements WidgetsLocalizations {
 
   String get help => "Help";
 
-  String get rateUs => "Rate and Review";
+  String get rateUs => "Rate & Review";
 
   String get logout => "Logout";
 
@@ -1287,6 +1287,20 @@ class S implements WidgetsLocalizations {
       "Hi! I couldn't find any period predictions. Please log your period dates to get started.";
 
   String get years => "Years";
+
+  String get veryBad => "Very Bad";
+
+  String get bad => "Bad";
+
+  String get good => "Good";
+
+  String get excellent => "Excellent";
+
+  String get yourFeedbackIsAnonymous => "Your feedback is anonymous";
+
+  String get writeUsAReview => "Write us a review";
+
+  String get thankYouForYourReview => "Thank you for your review";
 }
 
 class $en extends S {
@@ -1297,6 +1311,27 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get thankYouForYourReview => "आपकी समीक्षा के लिए धन्यवाद";
+
+  @override
+  String get writeUsAReview => "हमें समीक्षा लिखें";
+
+  @override
+  String get yourFeedbackIsAnonymous => "आपकी प्रतिक्रिया गुमनाम है";
+
+  @override
+  String get veryBad => "बहुत खराब";
+
+  @override
+  String get bad => "खराब";
+
+  @override
+  String get good => "अच्छा";
+
+  @override
+  String get excellent => "उत्कृष्ट";
+
   @override
   String get exploreAll => "सभी देखें";
 
