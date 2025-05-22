@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import '../../../database/app_preferences.dart';
+import '../../../generated/i18n.dart';
 import '../../../models/common_master.dart';
 import '../../../models/health_mix_liked_post_master.dart';
 import '../../../models/health_mix_posts_master.dart';
@@ -20,6 +21,41 @@ class HealthMixViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    notifyListeners();
+  }
+
+  Future<void> saveHealthMixPost({
+    required int healthMixId,
+    required int isSaved,
+  }) async {
+    CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.health_mix_id: healthMixId,
+      ApiParams.is_saved: isSaved,
+    };
+    log("saveHealthMixPost params: $params");
+    try {
+      final result = await _services.api!.saveHealthMixPost(params: params);
+      CommonUtils.hideProgressDialog();
+      if (result.success == true) {
+        CommonUtils.showSnackBar(
+          S.of(context)!.savedSuccess,
+          color: CommonColors.greenColor,
+        );
+      } else {
+        CommonUtils.showSnackBar(
+          S.of(context)!.savedFailed,
+          color: CommonColors.mRed,
+        );
+      }
+    } catch (e) {
+      CommonUtils.hideProgressDialog();
+      CommonUtils.showSnackBar(
+        S.of(context)!.somethingWentWrong,
+        color: CommonColors.mRed,
+      );
+      log("Exception in saveHealthMixPost: $e");
+    }
     notifyListeners();
   }
 
@@ -72,12 +108,7 @@ class HealthMixViewModel with ChangeNotifier {
         master.message ?? "--",
         color: CommonColors.mRed,
       );
-    } else if (master.success == true) {
-      // CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
-    }
+    } else if (master.success == true) {}
     notifyListeners();
   }
 
@@ -106,7 +137,7 @@ class HealthMixViewModel with ChangeNotifier {
       );
     } else if (master.success == true) {
       healthPostsList = master.data?.healthMixPosts ?? [];
-      debugPrint("healthPostsList: $healthPostsList");
+
       await getLikedPostApi();
     }
     CommonUtils.hideProgressDialog();

@@ -236,6 +236,7 @@ class _HealthMixViewState extends State<HealthMixView>
                                 onTap: () {
                                   push(HealthmixDetailView(
                                     post: mViewModel.healthPostsList[index],
+                                    postIndex: index,
                                   ));
                                 },
                                 child: Container(

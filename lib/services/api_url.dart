@@ -111,5 +111,7 @@ class ApiUrl {
       "${BASE_URL}userReportSymptomsLogs";
   static const String startChatbot = "${BASE_URL}chatbot";
   static const String savePost = "${BASE_URL}userPostsSave";
-  static const String getSavedPost = "${BASE_URL}getSavepost";
+  static const String getSavedPost =
+      "${BASE_URL}getSavepost"; // TODO : Not implemented
+  static const String saveHealthMixPost = "${BASE_URL}userHealthMixSave";
 }

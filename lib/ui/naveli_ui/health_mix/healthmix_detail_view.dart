@@ -13,8 +13,13 @@ import '../../../utils/constant.dart';
 import '../../../widgets/common_appbar.dart';
 
 class HealthmixDetailView extends StatefulWidget {
-  const HealthmixDetailView({super.key, required this.post});
+  const HealthmixDetailView({
+    super.key,
+    required this.post,
+    required this.postIndex,
+  });
   final HealthMixPosts post;
+  final int postIndex;
 
   @override
   State<HealthmixDetailView> createState() => _HealthmixDetailViewState();
@@ -22,10 +27,14 @@ class HealthmixDetailView extends StatefulWidget {
 
 class _HealthmixDetailViewState extends State<HealthmixDetailView> {
   late YoutubePlayerController _youtubeController;
+  late HealthMixViewModel mViewModel;
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
     if (widget.post.mediaType == "link") {
       final videoId = YoutubePlayer.convertUrlToId(widget.post.media ?? "");
       _youtubeController = YoutubePlayerController(
@@ -69,6 +78,7 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
   @override
   Widget build(BuildContext context) {
     final isFullScreen = Provider.of<HealthMixViewModel>(context).isFullScreen;
+    mViewModel = Provider.of<HealthMixViewModel>(context);
 
     return ScaffoldBG(
       bgColor: CommonColors.mWhite,
@@ -132,20 +142,20 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        // mViewModel.likeHealthMixPostApi(
-                        //     healthMixId:
-                        //         mViewModel.healthPostsList[index].id,
-                        //     isLike:
-                        //         mViewModel.isLikedList[index] ? 0 : 1);
-                        // setState(() {
-                        //   mViewModel.isLikedList[index] =
-                        //       !mViewModel.isLikedList[index];
-                        // });
+                        mViewModel.likeHealthMixPostApi(
+                            healthMixId: widget.post.id,
+                            isLike: mViewModel.isLikedList[widget.postIndex]
+                                ? 0
+                                : 1);
+                        setState(() {
+                          mViewModel.isLikedList[widget.postIndex] =
+                              !mViewModel.isLikedList[widget.postIndex];
+                        });
                       },
                       icon: Icon(
-                        // mViewModel.isLikedList[index]
-                        // ? CupertinoIcons.heart_fill  :
-                        CupertinoIcons.heart,
+                        mViewModel.isLikedList[widget.postIndex]
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
                         color: CommonColors.primaryColor,
                       ),
                     ),
@@ -153,13 +163,11 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                     IconButton(
                       onPressed: () {
                         if (widget.post.mediaType == "link") {
-                          // print("File type link");
                           share(
                             widget.post.media,
                             text: widget.post.description,
                           );
                         } else if (widget.post.mediaType == "image") {
-                          // print("File type image");
                           shareNetworkImage(
                             widget.post.media,
                             text: widget.post.description,
@@ -173,9 +181,14 @@ class _HealthmixDetailViewState extends State<HealthmixDetailView> {
                     ),
                     kCommonSpaceH3,
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await mViewModel.saveHealthMixPost(
+                          healthMixId: widget.post.id ?? 0,
+                          isSaved: 1,
+                        );
+                      },
                       icon: Icon(
-                        Icons.bookmark_outline_rounded,
+                        Icons.bookmark,
                         color: CommonColors.primaryColor,
                       ),
                     ),

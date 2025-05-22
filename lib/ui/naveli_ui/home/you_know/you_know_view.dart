@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/you_know/all_posts_model.dart';
 import 'package:naveli_2023/utils/constant.dart';
-import 'package:naveli_2023/utils/local_images.dart';
 import 'package:naveli_2023/widgets/common_appbar.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../generated/i18n.dart';
 import '../../../../services/api_para.dart';
 import '../../../../utils/common_colors.dart';
 import '../../health_mix/video_particular.dart';

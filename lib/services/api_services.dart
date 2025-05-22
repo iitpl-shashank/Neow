@@ -406,6 +406,7 @@ class ApiServices extends BaseServices {
         url: ApiUrl.GET_HEALTH_MIX_POSTS, postParams: params);
     if (response != null) {
       try {
+        log("HealthMix Screen list : $response");
         return HealthMixPostMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
@@ -1470,6 +1471,32 @@ class ApiServices extends BaseServices {
       }
     } on Exception catch (e) {
       log("Exception api:: $e");
+      return PostModel();
+    }
+  }
+
+  @override
+  Future<PostModel> saveHealthMixPost({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.saveHealthMixPost,
+        postParams: params,
+      );
+      debugPrint("saveHealthMixPost Response: $response");
+      if (response != null) {
+        try {
+          return PostModel.fromJson(response);
+        } catch (e) {
+          log("Exception parsing PostModel: $e");
+          return PostModel();
+        }
+      } else {
+        return PostModel();
+      }
+    } catch (e) {
+      log("Exception in saveHealthMixPost: $e");
       return PostModel();
     }
   }

@@ -166,7 +166,11 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
                         child: GestureDetector(
                           onTap: () {
                             // Navigator.of(context)
-                            push(YouKnowView(position: index));
+                            push(
+                              YouKnowView(
+                                position: index,
+                              ),
+                            );
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,

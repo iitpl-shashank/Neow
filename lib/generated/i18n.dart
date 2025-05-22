@@ -1340,6 +1340,12 @@ class S implements WidgetsLocalizations {
   String get normalAvgCycleRange => "Normal Avg Cycle Range: 21–35 Days";
 
   String get normalAvgPeriodLength => "Normal Avg Period Length: 2–7 Days";
+
+  String get savedSuccess => "Saved Successfully";
+
+  String get savedFailed => "Error in saving!";
+
+  String get somethingWentWrong => "Something went wrong!";
 }
 
 class $en extends S {
@@ -1350,6 +1356,15 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get savedSuccess => "सफलतापूर्वक सहेजा गया!";
+
+  @override
+  String get savedFailed => "सहेजने में त्रुटि!";
+
+  @override
+  String get somethingWentWrong => "कुछ गलत हो गया!";
+
   @override
   String get normalAvgPeriodLength => "सामान्य औसत पीरियड अवधि: 2–7 दिन";
 

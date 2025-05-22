@@ -258,5 +258,7 @@ abstract class BaseServices {
 
   Future<PostModel> savePostApi({required Map<String, dynamic> params});
 
+  Future<PostModel> saveHealthMixPost({required Map<String, dynamic> params});
+
   // Future<PostModel> getSavedPostApi({required Map<String, dynamic> params});
 }
