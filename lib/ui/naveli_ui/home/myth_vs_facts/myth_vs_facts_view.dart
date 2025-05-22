@@ -139,6 +139,22 @@ class _MythVsFactsViewState extends State<MythVsFactsView> {
                                           )))));
                             }))),
                 kCommonSpaceV10,
+                mViewModel.postsList.length == 0
+                    ? Container(
+                        height: kDeviceHeight / 2,
+                        width: kDeviceWidth,
+                        child: Center(
+                          child: Text(
+                            S.of(context)!.noData,
+                            style: TextStyle(
+                              color: CommonColors.blackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: mViewModel.postsList.length,

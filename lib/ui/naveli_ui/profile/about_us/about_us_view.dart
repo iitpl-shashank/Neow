@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/profile/about_us/about_us_detail.dart';
+import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
@@ -22,8 +24,6 @@ class _AboutUsState extends State<AboutUs> {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      // TODO : Removed about api
-      // mViewModel.getAboutUsApi();
     });
   }
 
@@ -117,7 +117,13 @@ class InfoCard extends StatelessWidget {
                 SizedBox(
                   height: 28,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      push(
+                        AboutUsDetail(
+                          title: title,
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,

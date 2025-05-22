@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/home_view_model.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../models/common_master.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/global_variables.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_daily_insight_container.dart';
-import '../../../../widgets/common_symptoms_widget.dart';
 import '../../../../widgets/scaffold_bg.dart';
-import '../../../../widgets/primary_button.dart';
 import '../../profile/dashboard/quiz_view_report.dart';
 import '../all_about_periods/all_about_periods_view.dart';
 import '../de_stress/de_stress_view.dart';
@@ -30,6 +27,7 @@ class TrackHealthViewAllView extends StatefulWidget {
 class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
     with SingleTickerProviderStateMixin {
   LogYourSymptomsModel? mViewSymptomsModel;
+  late HomeViewModel mViewModel;
 
   @override
   void initState() {
@@ -37,11 +35,13 @@ class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
     Future.delayed(Duration.zero, () {
       mViewSymptomsModel =
           Provider.of<LogYourSymptomsModel>(context, listen: false);
+      mViewModel.attachedContext(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<HomeViewModel>(context);
     return ScaffoldBG(
       child: SafeArea(
         child: Scaffold(
@@ -65,10 +65,16 @@ class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
                   if (gUserType == AppConstants.NEOWME)
                     CommonDailyInsightContainer(
                       onTap: () {
-                        push(const LogYourSymptoms()).then((value) =>
-                            mViewSymptomsModel?.getUserSymptomsLogApi(
-                                date: globalUserMaster?.previousPeriodsBegin ??
-                                    ''));
+                        if (mViewModel.dateWiseTextList.msg.periodMsg
+                                .contains("Period Day") ||
+                            mViewModel.dateWiseTextList.msg.periodMsg
+                                .contains("पीरियड दिन")) {
+                          push(const LogYourSymptoms());
+                        } else {
+                          CommonUtils.showToastMessage(
+                            S.of(context)!.logOnlyOnPeriodDay,
+                          );
+                        }
                       },
                       isHorizontalView: true,
                       text: S.of(context)!.logYourSymptoms,
@@ -79,20 +85,21 @@ class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
                       ],
                       borderColor: CommonColors.bglightPinkColor,
                     ),
-                  kCommonSpaceV15,
-                  CommonDailyInsightContainer(
-                    onTap: () {
-                      push(const TrackView());
-                    },
-                    isHorizontalView: true,
-                    text: S.of(context)!.track,
-                    image: LocalImages.img_track,
-                    gradientColors: const [
-                      Color(0xFF9E72C3),
-                      Color(0xFF7338A0),
-                    ],
-                    borderColor: CommonColors.bglightPinkColor,
-                  ),
+                  if (false) kCommonSpaceV15,
+                  if (false)
+                    CommonDailyInsightContainer(
+                      onTap: () {
+                        push(const TrackView());
+                      },
+                      isHorizontalView: true,
+                      text: S.of(context)!.track,
+                      image: LocalImages.img_track,
+                      gradientColors: const [
+                        Color(0xFF9E72C3),
+                        Color(0xFF7338A0),
+                      ],
+                      borderColor: CommonColors.bglightPinkColor,
+                    ),
                   kCommonSpaceV15,
                   CommonDailyInsightContainer(
                     onTap: () {
@@ -108,9 +115,8 @@ class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
                     ],
                     borderColor: CommonColors.bglightPinkColor,
                   ),
-                  kCommonSpaceV15,
-                  if (gUserType == AppConstants.NEOWME ||
-                      gUserType == AppConstants.CYCLE_EXPLORER)
+                  if (false) kCommonSpaceV15,
+                  if (false)
                     CommonDailyInsightContainer(
                       onTap: () {
                         // showPopusDialog();

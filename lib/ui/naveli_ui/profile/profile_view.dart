@@ -160,18 +160,30 @@ class _ProfileViewState extends State<ProfileView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SvgPicture.asset(
-                    LocalSvgs.icFacebook,
-                    height: 35,
-                  ),
-                  SvgPicture.asset(
-                    LocalSvgs.icInstagram,
-                    height: 35,
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                          "https://www.facebook.com/share/vgDh7TDfbcB3crNt/?mibextid=LQQJ4d");
+                    },
+                    child: SvgPicture.asset(
+                      LocalSvgs.icFacebook,
+                      height: 35,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
                       launchUrl(
-                          "https://x.com/NeowIndia/status/1766148501074039162?t=rtFG5ewFmhjeSCeUcQbBLw&s=08");
+                          "https://www.instagram.com/neowindiaa?utm_source=qr");
+                    },
+                    child: SvgPicture.asset(
+                      LocalSvgs.icInstagram,
+                      height: 35,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                          "https://x.com/NeowIndia?t=zxTms01n1yiQ31W4qejuMA&s=08");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icTwitter,
@@ -180,7 +192,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      launchUrl("https://www.youtube.com/@NeowIndia");
+                      launchUrl("https://www.youtube.com/@neowindia");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icYoutube,
@@ -191,9 +203,9 @@ class _ProfileViewState extends State<ProfileView> {
                     onTap: () {
                       launchUrl("https://www.neowindia.com/");
                     },
-                    child: SvgPicture.asset(
-                      LocalSvgs.icWhatsapp,
-                      height: 35,
+                    child: Image.asset(
+                      LocalImages.web,
+                      height: 34,
                     ),
                   ),
                 ],

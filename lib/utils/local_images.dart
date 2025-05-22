@@ -191,9 +191,9 @@ class LocalImages {
   static const String img_energy_1 = 'assets/images/img_energy_1.png';
   static const String img_energy_2 = 'assets/images/img_energy_2.png';
   static const String img_energy_3 = 'assets/images/img_energy_3.png';
-  static const String irritability = 'assets/images/irritability.png';
+  static const String irritability = 'assets/images/irritated.png';
   static const String sad = 'assets/images/sad.png';
-  static const String laugh = 'assets/images/laugh.png';
+  static const String laugh = 'assets/images/relaxed.png';
   static const String img_quote = 'assets/images/img_quote.png';
 
   static const String img_water_reminder =

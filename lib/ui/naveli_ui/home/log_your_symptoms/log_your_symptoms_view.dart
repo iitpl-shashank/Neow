@@ -838,7 +838,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        CommonSymptomsBadge(
+                        CommonSymptomsWidget(
                           onTap: () {
                             showDialog(
                               barrierDismissible: false,
@@ -867,7 +867,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                           imagePath: LocalImages.laugh,
                           isSelected: mViewModel.selectedMood == 1,
                         ),
-                        CommonSymptomsBadge(
+                        CommonSymptomsWidget(
                           onTap: () {
                             mViewModel.updateMood(2);
                           },
@@ -876,7 +876,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                           imagePath: LocalImages.irritability,
                           isSelected: mViewModel.selectedMood == 2,
                         ),
-                        CommonSymptomsBadge(
+                        CommonSymptomsWidget(
                           onTap: () {
                             mViewModel.updateMood(3);
                           },
