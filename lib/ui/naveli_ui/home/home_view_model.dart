@@ -1023,12 +1023,18 @@ class HomeViewModel with ChangeNotifier {
     await Future.delayed(Duration(seconds: 1));
     if (master == null) {
       // CommonUtils.oopsMSG();
+
+      getDateWiseText();
+      notifyListeners();
       print(
           "................................period info list data oops.............................");
     } else if (master.success == false) {
       // CommonUtils.showSnackBar(
       //   master.message ?? "--",
       //   color: CommonColors.mRed,
+
+      getDateWiseText();
+      notifyListeners();
       // );
     } else if (master.success == true) {
       debugPrint("data master ====>${master.data!.toJson()}");
@@ -1074,6 +1080,7 @@ class HomeViewModel with ChangeNotifier {
       dateWiseTextList = ApiResponse.fromJson(response);
       debugPrint("dateWiseTextList ====>${dateWiseTextList.toJson()}");
     } catch (e) {
+      isDateWiseTextLoading = false;
       debugPrint("Error fetching date-wise text: $e");
     } finally {
       isDateWiseTextLoading = false;
@@ -1084,9 +1091,15 @@ class HomeViewModel with ChangeNotifier {
   DateTime previousDateLocal = DateTime.now();
 
   ApiResponse dateWiseTextList = ApiResponse(
-      status: 0,
-      msg: Message(
-          title: "", description: "", color: "", periodMsg: '', image: ''));
+    status: 0,
+    msg: Message(
+      title: "",
+      description: "",
+      color: "",
+      periodMsg: '',
+      image: '',
+    ),
+  );
 
   bool isLoading = false;
   Future<void> handleSecondBloc(

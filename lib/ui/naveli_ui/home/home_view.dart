@@ -499,9 +499,9 @@ class _HomeViewState extends State<HomeView> {
       if (gUserType == AppConstants.NEOWME)
         CommonDailyInsightContainer(
           onTap: () {
-            if (mViewModel.dateWiseTextList.msg.periodMsg
+            if (mViewModel.dateWiseTextList.msg.periodMsg!
                     .contains("Period Day") ||
-                mViewModel.dateWiseTextList.msg.periodMsg
+                mViewModel.dateWiseTextList.msg.periodMsg!
                     .contains("पीरियड दिन")) {
               push(const LogYourSymptoms());
             } else {
@@ -685,37 +685,38 @@ class _HomeViewState extends State<HomeView> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            width: 150,
-                                            height: 150,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: imageUrl != null &&
-                                                        imageUrl.isNotEmpty
-                                                    ? NetworkImage(imageUrl)
-                                                    : const AssetImage(
-                                                        LocalImages
-                                                            .syncing_vibe,
-                                                      ) as ImageProvider, // Fallback to placeholder
-                                                fit: BoxFit.contain,
+                                          if (imageUrl != null)
+                                            Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    imageUrl,
+                                                  ),
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  vModel.dateWiseTextList.msg
+                                                      .periodMsg!,
+                                                  style: TextStyle(
+                                                      color: vModel
+                                                              .dateWiseTextList
+                                                              .msg
+                                                              .color!
+                                                              .contains("black")
+                                                          ? Colors.black
+                                                          : Colors.white),
+                                                  textAlign: TextAlign.center,
+                                                ),
                                               ),
                                             ),
-                                            child: Center(
-                                              child: Text(
-                                                vModel.dateWiseTextList.msg
-                                                    .periodMsg,
-                                                style: TextStyle(
-                                                    color: vModel
-                                                            .dateWiseTextList
-                                                            .msg
-                                                            .color
-                                                            .contains("black")
-                                                        ? Colors.black
-                                                        : Colors.white),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                          if (imageUrl == null)
+                                            SizedBox(
+                                              height: 30,
                                             ),
-                                          ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Row(

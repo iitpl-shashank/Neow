@@ -24,11 +24,17 @@ class ApiResponse {
 class Message {
   final String title;
   final String description;
-  final String periodMsg;
-  final String image;
-  final String color;
+  final String? periodMsg;
+  final String? image;
+  final String? color;
 
- const Message({required this.title, required this.description, required this.image, required this.periodMsg,  required this.color});
+  const Message({
+    required this.title,
+    required this.description,
+    this.image,
+    this.periodMsg,
+    this.color,
+  });
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
@@ -36,7 +42,7 @@ class Message {
       description: json['description'] ?? "",
       image: json['image'],
       periodMsg: json['periodMsg'] ?? json['ovlOrNextPeriodMsg'],
-      color: json['textColor']
+      color: json['textColor'],
     );
   }
 
@@ -45,7 +51,7 @@ class Message {
       'title': title,
       'description': description,
       'image': image,
-      "textColor":color
+      "textColor": color
     };
   }
 }
