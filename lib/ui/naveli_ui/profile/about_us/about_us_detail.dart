@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:naveli_2023/ui/app/app_model.dart';
+import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../widgets/common_appbar.dart';
 
@@ -12,11 +16,13 @@ class AboutUsDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var lang = Provider.of<AppModel>(context).locale;
+
     String content;
     if (title == S.of(context)!.ourMissionAndVision) {
-      content = missionVisionHtml;
+      content = lang == 'hi' ? missionVisionHtmlHindi : missionVisionHtml;
     } else if (title == S.of(context)!.ourTeam) {
-      content = ourTeamHtml;
+      content = lang == 'hi' ? ourTeamHtmlHindi : ourTeamHtml;
     } else if (title == S.of(context)!.privacyPolicy) {
       content = privacyPolicyHtml;
     } else if (title == S.of(context)!.termsOfUse) {
@@ -283,4 +289,24 @@ Nothing herein contained under Article (30) shall be deemed to impair a Party to
 <b>APPLICATION OF INDIAN CONTRACT ACT ET. AL.</b> For matters not expressly set forth herein, provisions set forth under the Indian Contract Act {IX OF 1872}; Information Technology Act {XXI OF 2000} & Commercial Courts Act {IV OF 2016} shall apply.<br><br>
 
 <b>PUBLICATION OF POLICY.</b> This Privacy Policy may be published, in addition to the portion designated in the Mobile Application, to the website vis-à-vis Web Application, if any, on which Privacy Policy is ordinarily hosted by Data Fiduciary.<br>
+''';
+
+const String ourTeamHtmlHindi = '''
+<b>हमारी टीम</b><br>
+NeoW के पीछे एक समर्पित टीम है—चिकित्सा विशेषज्ञों, इनोवेटर्स और समाज-परिवर्तन के प्रति प्रतिबद्ध लोगों की, जो मिलकर महिलाओं के स्वास्थ्य को एक नई दिशा देने के लिए काम कर रहे हैं। शीर्ष संस्थानों से जुड़े डॉक्टरों और वेलनेस प्रोफेशनल्स के मार्गदर्शन में हमारा ऐप वैज्ञानिक तथ्यों पर आधारित है, जिससे हर फीचर विश्वसनीय और उपयोगी बनता है।<br><br>
+हमारी तकनीकी टीम—जो IIT और IIM जैसे अग्रणी संस्थानों से आती है—NeoW के विज़न को वास्तविकता में बदलती है। वे ऐसे डिजिटल अनुभव का निर्माण करते हैं जो न केवल सुरक्षित और स्मार्ट हो, बल्कि हर महिला के लिए सहज और सरल हो। हमारी डिज़ाइन फिलॉसफी महिलाओं की ज़िंदगी को समझते हुए, एक ऐसा यूज़र इंटरफेस पेश करती है जो उपयोगकर्ता की जरूरतों के साथ कदम से कदम मिलाए।<br><br>
+हम NeoW को सिर्फ एक प्रोडक्ट नहीं, बल्कि एक मिशन की तरह देखते हैं—और इसी सोच के साथ हमारा नेतृत्व प्रेरित होता है। हमारी टीम विविधता, सहयोग और साझा उद्देश्य में विश्वास रखती है। हम मानते हैं कि सबसे मजबूत समाधान तभी निकलते हैं जब भिन्न-भिन्न अनुभव और दृष्टिकोण मिलते हैं। हम एक ऐसा वातावरण बनाते हैं जहाँ विचारों को सुना जाए, बोलने की आज़ादी हो, और महिलाओं की ज़िंदगी को बेहतर बनाने का जुनून साझा किया जाए।
+''';
+
+const String missionVisionHtmlHindi = '''
+<b>विजन</b><br>
+हमारा सपना है एक ऐसी दुनिया का निर्माण करना, जहाँ हर महिला अपने स्वास्थ्य को लेकर न सिर्फ जागरूक हो, बल्कि आत्म-विश्वास से भरी, सशक्त और अपने निर्णयों में पूरी तरह स्वतंत्र हो। हमारा दृढ़ विश्वास है कि अच्छा स्वास्थ्य ही आत्म-विश्वास और आत्म-अभिव्यक्ति की असली नींव है। हम यह लक्ष्य लेकर चल रहे हैं कि महिलाओं के शारीरिक, मानसिक और भावनात्मक विकास को एक समग्र दृष्टिकोण से समर्थन देने वाला सबसे भरोसेमंद और सहज मंच बनें।<br><br>
+हम उन अदृश्य दीवारों को तोड़ना चाहते हैं जो अब तक महिलाओं को सही जानकारी, संसाधनों और सहयोग से दूर रखती आई हैं। हम नवाचार को संवेदनशीलता के साथ जोड़कर  एक बेहतर ग्रह के निर्माण की दिशा में एक सशक्त आंदोलन चला रहे हैं।<br><br>
+NeoW का मतलब है ‘New Woman’—एक ऐसी महिला जो अपनी शक्ति, अपनी पहचान और अपने स्वास्थ्य की जिम्मेदारी खुद संभालती है। यही हमारा उद्देश्य है—हर महिला को उसकी अंतर्निहित शक्ति से जोड़ना और उसे उसकी पूरी क्षमता तक पहुँचने में मदद करना।<br><br>
+
+<b>हमारा मिशन</b><br>
+NeoW का मिशन है—महिलाओं के स्वास्थ्य और वेलनेस को सरल, सुलभ और सशक्त बनाना। हमारा उद्देश्य है एक ऐसा स्मार्ट, समावेशी और सहज डिजिटल प्लेटफ़ॉर्म तैयार करना जो हर महिला को उसकी शर्तों पर अपनी सेहत संभालने का आत्मविश्वास दे।<br><br>
+हम चाहते हैं कि वेलनेस हर महिला की दिनचर्या का हिस्सा बने। हम एक ऐसा मंच बना रहे हैं जो महिलाओं की ज़िंदगी, उनके अनुभव और उनकी ज़रूरतों को गहराई से समझे।<br><br>
+NeoW का मानना है कि जब एक महिला अपने शरीर को समझती है और अपनी सेहत से जुड़े फैसले खुद लेती है, तभी वह सच में सशक्त होती है। हमारा प्लेटफ़ॉर्म हर पृष्ठभूमि की महिला को ध्यान में रखते हुए बनाया गया है—चाहे वह किसी गांव में हो या शहर में, छात्रा हो या मां। यह सिर्फ ऐप नहीं, एक साथी है जो हर कदम पर साथ है।<br><br>
+हम महिलाओं के स्वास्थ्य पर होने वाली बातचीत को सामान्य बनाना चाहते हैं—बिना शर्म, बिना झिझक। कहानियों, संवाद और सामूहिक ज्ञान के ज़रिए हम एक ऐसा स्पेस बना रहे हैं जहाँ महिलाएं न सिर्फ खुद को स्वीकारें, बल्कि खुलकर बोल सकें, सीख सकें और एक-दूसरे से जुड़ सकें। NeoW में, वेलनेस कोई ट्रेंड नहीं—बल्कि एक सोच है, एक जीवनशैली है जिसे अपनाना हर महिला का अधिकार है।
 ''';

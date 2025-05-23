@@ -1022,26 +1022,19 @@ class HomeViewModel with ChangeNotifier {
     ;
     await Future.delayed(Duration(seconds: 1));
     if (master == null) {
-      // CommonUtils.oopsMSG();
-
       getDateWiseText();
       notifyListeners();
       print(
           "................................period info list data oops.............................");
     } else if (master.success == false) {
-      // CommonUtils.showSnackBar(
-      //   master.message ?? "--",
-      //   color: CommonColors.mRed,
-
       getDateWiseText();
       notifyListeners();
-      // );
     } else if (master.success == true) {
-      debugPrint("data master ====>${master.data!.toJson()}");
+      log("data master ====>${master.data.toJson()}");
       peroidCustomeList.clear();
       int currentMonth = DateTime.now().month;
       log("currentMonth ====> $currentMonth");
-      var data = PeriodObj.fromJson(master.data!.toJson());
+      var data = PeriodObj.fromJson(master.data.toJson());
       peroidCustomeList.add(data);
       log("True check out check ====> $currentMonth");
       if (currentMonth == int.parse(data.predictions.first.month)) {
@@ -1079,6 +1072,15 @@ class HomeViewModel with ChangeNotifier {
       debugPrint("response in main response====>${response}");
       dateWiseTextList = ApiResponse.fromJson(response);
       debugPrint("dateWiseTextList ====>${dateWiseTextList.toJson()}");
+
+      try {
+        if (dateWiseTextList.msg.periodMsg!.contains("दिन लेट") ||
+            dateWiseTextList.msg.periodMsg!.contains("Period late by")) {
+          peroidCustomeList.clear();
+        }
+      } catch (e) {
+        print(e);
+      }
     } catch (e) {
       isDateWiseTextLoading = false;
       debugPrint("Error fetching date-wise text: $e");

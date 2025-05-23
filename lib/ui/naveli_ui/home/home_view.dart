@@ -659,6 +659,12 @@ class _HomeViewState extends State<HomeView> {
                             builder: (context, vModel, child) {
                               final imageUrl =
                                   vModel.dateWiseTextList.msg.image;
+                              if (vModel.dateWiseTextList.msg.periodMsg! ==
+                                      "Period late by 1" ||
+                                  vModel.dateWiseTextList.msg.periodMsg! ==
+                                      "पीरियड 1 दिन लेट।") {
+                                showCustomDayDialog(context, "", 5);
+                              }
 
                               print(
                                   "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
