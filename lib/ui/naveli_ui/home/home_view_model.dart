@@ -21,6 +21,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 
 class HomeViewModel with ChangeNotifier {
+  DateTime? parsedDate;
   late BuildContext context;
   PageController pageController = PageController(initialPage: 0);
   int currentPage = 0;
@@ -1016,66 +1017,36 @@ class HomeViewModel with ChangeNotifier {
 
   Future<void> getPeriodInfoList() async {
     peroidCustomeList = [];
-    //CommonUtils.showProgressDialog();
+
     PeriodInfoListResponse? master = await _services.api!.getPeriodInfoList();
-    //CommonUtils.hideProgressDialog();
-    // var data = jsonDecode(master.data.toString());
-    // debugPrint("data ====>$data");
+    ;
     await Future.delayed(Duration(seconds: 1));
     if (master == null) {
-      CommonUtils.oopsMSG();
+      // CommonUtils.oopsMSG();
       print(
           "................................period info list data oops.............................");
     } else if (master.success == false) {
-      CommonUtils.showSnackBar(
-        master.message ?? "--",
-        color: CommonColors.mRed,
-      );
+      // CommonUtils.showSnackBar(
+      //   master.message ?? "--",
+      //   color: CommonColors.mRed,
+      // );
     } else if (master.success == true) {
-      //  CommonUtils.hideProgressDialog();
       debugPrint("data master ====>${master.data!.toJson()}");
       peroidCustomeList.clear();
+      int currentMonth = DateTime.now().month;
+      log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data!.toJson());
       peroidCustomeList.add(data);
+      log("True check out check ====> $currentMonth");
+      if (currentMonth == int.parse(data.predictions.first.month)) {
+        log("True check in check ====> $currentMonth");
+        String predictedDate = data.predictions.first.predictedStart;
+        log("predictedDate ====> $predictedDate");
+        parsedDate = DateFormat('yyyy-MM-dd').parse(predictedDate);
+      }
       notifyListeners();
       getDateWiseText();
-      // if ((master.data!.periodData?.length ?? 0) > 0) {
-      //   for (int i = 0; i < (master.data!.periodData?.length ?? 0); i++) {
-      //
-      //
-      //   }
-      // }
-      //
-      // globalFertileWindowStart = master.fertile_window_start;
-      // globalFertileWindowEnd = master.fertile_window_end;
 
-      //check period whithin 14 days
-      if (peroidCustomeList.length > 1) {
-        // DateTime firstPeriodLastDate =
-        //     DateTime.parse(peroidCustomeList[0].period_end_date);
-        // DateTime secondPeriodStartDate =
-        //     DateTime.parse(peroidCustomeList[1].period_start_date);
-        // isWithinFourteenDays = firstPeriodLastDate
-        //         .difference(secondPeriodStartDate)
-        //         .inDays
-        //         .abs() <=
-        //     14;
-      }
-
-      // debugPrint(
-      //     "peroidCustomeList ====>${peroidCustomeList[(master.data!.periodData?.length ?? 0) - 1].period_cycle_length}");
-
-      // handleSecondBloc(master.data!.periodData![0].period_start_date);
-      /*peroidCustomeList.add( PeriodObj(
-          user_id: master.data!.user_id,
-          period_cycle_length: master.data!.period_cycle_length,
-          period_end_date: master.data!.predicated_period_end_date,
-          period_start_date: master.data!.predicated_period_start_date,
-          period_length: master.data!.period_length,
-          period_month_update: "324",
-          predicated_period_end_date: master.data!.predicated_period_end_date,
-          predicated_period_start_date:
-              master.data!.predicated_period_start_date));*/
       updateSelectedDate(DateTime.now());
       print("daaa =>${peroidCustomeList[0].predictions.length}");
       notifyListeners();

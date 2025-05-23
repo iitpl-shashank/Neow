@@ -208,10 +208,10 @@ class _CalendarViewState extends State<CalendarView> {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else {
-      CommonUtils.showSnackBar(master.message ?? "--",
-          color: (master.success ?? true)
-              ? CommonColors.greenColor
-              : CommonColors.mRed);
+      // CommonUtils.showSnackBar(master.message ?? "--",
+      //     color: (master.success ?? true)
+      //         ? CommonColors.greenColor
+      //         : CommonColors.mRed);
     }
 
     CommonUtils.hideProgressDialog();

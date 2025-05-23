@@ -21,6 +21,7 @@ import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 // import 'package:naveli_2023/ui/navaeli_ui/symptom_bot/symptom_bot_view.dart';
@@ -87,7 +88,12 @@ class _HomeViewState extends State<HomeView> {
 
       _startAutoSlide();
       // TODO : Here is the InAPP Notification
-      if (gUserType == AppConstants.NEOWME) showCustomDialog(context, 4);
+      if (gUserType == AppConstants.NEOWME)
+        showCustomDayDialog(
+          context,
+          username,
+          null,
+        );
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
             ..initialize().then((_) {
@@ -200,7 +206,38 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void showCustomDialog(BuildContext context, int day) {
+  void showCustomDayDialog(
+    BuildContext context,
+    String username,
+    int? day,
+  ) async {
+    if (day == null) day = 100;
+    if (mViewModel.parsedDate != null) {
+      DateTime today = DateTime.now();
+      int daysLeft = mViewModel.parsedDate!
+          .difference(DateTime(today.year, today.month, today.day))
+          .inDays;
+      if (daysLeft == 2) {
+        day = 1;
+      } else if (daysLeft == 1) {
+        day = 2;
+      } else if (daysLeft == 0) {
+        day = 3;
+      }
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now();
+    final key = 'custom_dialog_shown_day_$day';
+    final lastShown = prefs.getString(key);
+
+    final todayStr = "${today.year}-${today.month}-${today.day}";
+
+    if (lastShown == todayStr) {
+      return;
+    }
+    await prefs.setString(key, todayStr);
+
     if (day == 1) {
       showDialog(
         context: context,
@@ -227,20 +264,15 @@ class _HomeViewState extends State<HomeView> {
         context: context,
         builder: (context) => CustomNotification(
             imagePath: LocalImages.alertPad,
-            imageText: "Hey NeoW Malz",
+            imageText: "${S.of(context)!.heyNeoW} ${username}",
             height: 120,
             width: 120,
             subtitleText: S.of(context)!.expectPeriodToday,
             prepareText: S.of(context)!.getReady,
             purpleLabel: S.of(context)!.logPeriod,
             purpleOnPress: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    S.of(context)!.logPeriod,
-                  ),
-                ),
-              );
+              Navigator.of(context).pop();
+              navigateToCalendarView();
             }),
       );
     } else if (day == 4) {
@@ -254,18 +286,36 @@ class _HomeViewState extends State<HomeView> {
           subtitleText: S.of(context)!.hasPeriodStarted,
           purpleLabel: S.of(context)!.yesLogSymptoms,
           purpleOnPress: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  S.of(context)!.yesLogSymptoms,
-                ),
-              ),
+            Navigator.of(context).pop();
+            push(
+              const LogYourSymptoms(),
             );
           },
           whiteLabel: S.of(context)!.no,
           whiteOnPress: () {
             Navigator.of(context).pop();
+            showDialog(
+              context: context,
+              builder: (context) => CustomNotification(
+                imagePath: LocalImages.cryingWoman,
+                height: 250,
+                width: 270,
+                imageText: S.of(context)!.derNaHoJaye,
+                subtitleText: S.of(context)!.dontWorryWaitFewHours,
+              ),
+            );
           },
+        ),
+      );
+    } else if (day == 5) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.cryingWoman2,
+          isLeftShift: true,
+          height: 250,
+          width: 250,
+          subtitleText: S.of(context)!.periodSeemsDelayed,
         ),
       );
     }

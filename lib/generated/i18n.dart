@@ -1364,6 +1364,15 @@ class S implements WidgetsLocalizations {
   String get hasPeriodStarted => "Has your period started?";
 
   String get yesLogSymptoms => "Yes, log my symptoms";
+
+  String get heyNeoW => "Hey NeoW";
+
+  String get derNaHoJaye => "Der na ho jaaye,\nkahin der na ho jaaye";
+
+  String get dontWorryWaitFewHours =>
+      "Hey! Don't worry, Let's wait for few hours";
+
+  String get periodSeemsDelayed => "It seems your period \nis delayed.";
 }
 
 class $en extends S {
@@ -1374,6 +1383,20 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get periodSeemsDelayed =>
+      "ऐसा लगता है कि आपकी पीरियड \nदेरी से आ रही है।";
+
+  @override
+  String get dontWorryWaitFewHours =>
+      "कोई बात नहीं, कुछ घंटे का इंतजार करते हैं";
+
+  @override
+  String get derNaHoJaye => "देर ना हो जाए,\nकहीं देर ना हो जाए";
+
+  @override
+  String get heyNeoW => "हैलो NeoW";
+
   @override
   String get yesLogSymptoms => "हाँ, मेरे लक्षण दर्ज करें";
 
