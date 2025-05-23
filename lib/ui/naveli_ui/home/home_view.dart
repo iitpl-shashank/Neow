@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 import 'dart:math';
 
 // import 'package:widgets_easier/widgets_easier.dart';
@@ -88,12 +89,7 @@ class _HomeViewState extends State<HomeView> {
 
       _startAutoSlide();
       // TODO : Here is the InAPP Notification
-      if (gUserType == AppConstants.NEOWME)
-        showCustomDayDialog(
-          context,
-          username,
-          null,
-        );
+
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
             ..initialize().then((_) {
@@ -121,7 +117,13 @@ class _HomeViewState extends State<HomeView> {
       mViewHealthMixModel.getHealthMixLatestPosts();
 
       if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
-        mViewModel.getPeriodInfoList();
+        await mViewModel.getPeriodInfoList();
+        if (gUserType == AppConstants.NEOWME)
+          showCustomDayDialog(
+            context,
+            username,
+            null,
+          );
       }
 
       //TODO  First and Second block to be in hindi or not !!!!
@@ -211,12 +213,14 @@ class _HomeViewState extends State<HomeView> {
     String username,
     int? day,
   ) async {
+    developer.log("INSIDE: Dialog");
     if (day == null) day = 100;
     if (mViewModel.parsedDate != null) {
       DateTime today = DateTime.now();
       int daysLeft = mViewModel.parsedDate!
           .difference(DateTime(today.year, today.month, today.day))
           .inDays;
+      developer.log("INSIDE: ${daysLeft}");
       if (daysLeft == 2) {
         day = 1;
       } else if (daysLeft == 1) {
