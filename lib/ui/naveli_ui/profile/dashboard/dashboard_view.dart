@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/common_ui/splash/splash_view_model.dart';
+import 'package:naveli_2023/ui/naveli_ui/calendar/calendar_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/sleep/sleep_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/water_reminder/water_reminder_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/dashboard/peroid_table_view.dart';
@@ -413,11 +414,11 @@ class _DashboardViewState extends State<DashboardView> {
           appBar: CommonAppBar(
             title: S.of(context)!.myHealthReports,
             actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.calendar_month),
-                  onPressed: () {
-                    // push(CalendarView());
-                  }),
+              // IconButton(
+              //     icon: Icon(Icons.calendar_month),
+              //     onPressed: () {
+              //       // push(CalendarView());
+              //     }),
             ],
           ),
           body: SingleChildScrollView(
