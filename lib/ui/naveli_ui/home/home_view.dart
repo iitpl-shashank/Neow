@@ -242,7 +242,7 @@ class _HomeViewState extends State<HomeView> {
       key,
       todayStr,
     );
-
+    var lang = Provider.of<AppModel>(context, listen: false).locale;
     if (day == 1) {
       showDialog(
         context: context,
@@ -256,7 +256,8 @@ class _HomeViewState extends State<HomeView> {
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
-          imagePath: LocalImages.oldWomanEng,
+          imagePath:
+              lang == 'hi' ? LocalImages.oldWomanHi : LocalImages.oldWomanEng,
           height: 300,
           width: 300,
           subtitleText: S.of(context)!.periodExpectedToStartTomorrow,
@@ -302,7 +303,9 @@ class _HomeViewState extends State<HomeView> {
             showDialog(
               context: context,
               builder: (context) => CustomNotification(
-                imagePath: LocalImages.cryingWoman,
+                imagePath: lang == 'hi'
+                    ? LocalImages.cryingWomanHi
+                    : LocalImages.cryingWoman,
                 height: 250,
                 width: 270,
                 imageText: S.of(context)!.derNaHoJaye,
