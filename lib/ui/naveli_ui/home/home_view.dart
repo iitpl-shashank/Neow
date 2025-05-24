@@ -36,6 +36,7 @@ import '../../../widgets/horiozntal.dart';
 import '../../../widgets/latest_videos_card.dart';
 import '../../app/app_model.dart';
 import '../calendar/calendar_view.dart';
+import '../health_mix/health_mix_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
 
@@ -984,12 +985,14 @@ class _HomeViewState extends State<HomeView> {
                                                   kCommonSpaceV10,
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      //TODO : Slider onTap required
-                                                      push(PostList(
-                                                        position: 0,
-                                                        selectedTabIndex: 0,
-                                                        postTitle: "",
-                                                      ));
+                                                      //TODO : Replaced as per client request
+
+                                                      // push(PostList(
+                                                      //   position: 0,
+                                                      //   selectedTabIndex: 0,
+                                                      //   postTitle: "",
+                                                      // ));
+                                                      push(HealthMixView());
                                                     },
                                                     style: ButtonStyle(
                                                       fixedSize:
