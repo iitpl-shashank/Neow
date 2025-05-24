@@ -464,7 +464,8 @@ class LocalImages {
   static const String heartFace = 'assets/images/heart_face.png';
   static const String oldWomanEng = 'assets/images/old_woman_eng.png';
   static const String alertPad = 'assets/images/alert_pad.png';
-  static const String womanUnderground = 'assets/images/woman_underground.png';
+  static const String womanUndergroundEng =
+      'assets/images/woman_underground_eng.png';
   static const String cryingWoman = 'assets/images/crying_woman.png';
   static const String cryingWoman2 = 'assets/images/crying_woman2.png';
 }

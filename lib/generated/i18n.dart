@@ -1373,6 +1373,9 @@ class S implements WidgetsLocalizations {
       "Hey! Don't worry, Let's wait for few hours";
 
   String get periodSeemsDelayed => "It seems your period \nis delayed.";
+
+  String get logPeriodToStartChatBot =>
+      "Please log your period first to start the chatbot.";
 }
 
 class $en extends S {
@@ -1383,6 +1386,10 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get logPeriodToStartChatBot =>
+      "कृपया चैटबोट शुरू करने के लिए पहले अपना पीरियड लॉग करें।";
+
   @override
   String get periodSeemsDelayed =>
       "ऐसा लगता है कि आपकी पीरियड \nदेरी से आ रही है।";

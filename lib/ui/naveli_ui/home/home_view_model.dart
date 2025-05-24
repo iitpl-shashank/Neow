@@ -21,6 +21,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 
 class HomeViewModel with ChangeNotifier {
+  bool startChatBot = false;
   DateTime? parsedDate;
   late BuildContext context;
   PageController pageController = PageController(initialPage: 0);
@@ -1022,11 +1023,13 @@ class HomeViewModel with ChangeNotifier {
     ;
     await Future.delayed(Duration(seconds: 1));
     if (master == null) {
+      startChatBot = false;
       getDateWiseText();
       notifyListeners();
       print(
           "................................period info list data oops.............................");
     } else if (master.success == false) {
+      startChatBot = false;
       getDateWiseText();
       notifyListeners();
     } else if (master.success == true) {
@@ -1036,6 +1039,28 @@ class HomeViewModel with ChangeNotifier {
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
       peroidCustomeList.add(data);
+      log("True check in check ====> $currentMonth");
+      DateTime periodStartdateTime =
+          DateTime.parse(data.predictions.first.predictedStart);
+      DateTime periodEnddateTime =
+          DateTime.parse(data.predictions.first.predictedEnd);
+      DateTime ovulationDateTime =
+          DateTime.parse(data.predictions.first.ovulationDay);
+      DateTime fertileStartDateTime =
+          DateTime.parse(data.predictions.first.fertileWindowStart);
+      DateTime fertileEndDateTime =
+          DateTime.parse(data.predictions.first.fertileWindowEnd);
+      DateTime today = DateTime.now();
+      if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
+          isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
+          today.isAtSameMomentAs(ovulationDateTime)) {
+        startChatBot = true;
+        notifyListeners();
+      } else {
+        startChatBot = false;
+        notifyListeners();
+      }
+
       log("True check out check ====> $currentMonth");
       if (currentMonth == int.parse(data.predictions.first.month)) {
         log("True check in check ====> $currentMonth");
@@ -1051,6 +1076,12 @@ class HomeViewModel with ChangeNotifier {
       notifyListeners();
     }
     notifyListeners();
+  }
+
+  bool isWithin(DateTime start, DateTime end, DateTime target) {
+    return (target.isAtSameMomentAs(start) ||
+        target.isAtSameMomentAs(end) ||
+        (target.isAfter(start) && target.isBefore(end)));
   }
 
   bool isDateWiseTextLoading = false;

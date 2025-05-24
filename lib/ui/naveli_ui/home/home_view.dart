@@ -88,12 +88,7 @@ class _HomeViewState extends State<HomeView> {
 
       _startAutoSlide();
       // TODO : Here is the InAPP Notification
-      if (gUserType == AppConstants.NEOWME)
-        showCustomDayDialog(
-          context,
-          username,
-          null,
-        );
+
       vdo_Controller =
           VideoPlayerController.asset('assets/video/home_screen.mp4')
             ..initialize().then((_) {
@@ -121,7 +116,13 @@ class _HomeViewState extends State<HomeView> {
       mViewHealthMixModel.getHealthMixLatestPosts();
 
       if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
-        mViewModel.getPeriodInfoList();
+        await mViewModel.getPeriodInfoList();
+        if (gUserType == AppConstants.NEOWME)
+          showCustomDayDialog(
+            context,
+            username,
+            null,
+          );
       }
 
       //TODO  First and Second block to be in hindi or not !!!!
@@ -212,6 +213,7 @@ class _HomeViewState extends State<HomeView> {
     int? day,
   ) async {
     if (day == null) day = 100;
+
     if (mViewModel.parsedDate != null) {
       DateTime today = DateTime.now();
       int daysLeft = mViewModel.parsedDate!
@@ -225,7 +227,7 @@ class _HomeViewState extends State<HomeView> {
         day = 3;
       }
     }
-
+    //TODO : Comment this for testing
     final prefs = await SharedPreferences.getInstance();
     final today = DateTime.now();
     final key = 'custom_dialog_shown_day_$day';
@@ -236,7 +238,10 @@ class _HomeViewState extends State<HomeView> {
     if (lastShown == todayStr) {
       return;
     }
-    await prefs.setString(key, todayStr);
+    await prefs.setString(
+      key,
+      todayStr,
+    );
 
     if (day == 1) {
       showDialog(
@@ -279,7 +284,7 @@ class _HomeViewState extends State<HomeView> {
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
-          imagePath: LocalImages.womanUnderground,
+          imagePath: LocalImages.womanUndergroundEng,
           height: 250,
           width: 280,
           isLeftShift: true,
@@ -852,9 +857,26 @@ class _HomeViewState extends State<HomeView> {
                                                       // TODO : Change here from old chatbot to new ai chatbot
                                                       // push(
                                                       //     const SymptomsBotView());
-                                                      push(
-                                                        AiChatBotScreen(),
-                                                      );
+                                                      mViewModel.startChatBot
+                                                          ? push(
+                                                              AiChatBotScreen(),
+                                                            )
+                                                          : ScaffoldMessenger
+                                                                  .of(context)
+                                                              .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  S
+                                                                      .of(context)!
+                                                                      .logPeriodToStartChatBot,
+                                                                ),
+                                                                duration:
+                                                                    Duration(
+                                                                        seconds:
+                                                                            3),
+                                                              ),
+                                                            );
+                                                      ;
                                                     },
                                                     style: ButtonStyle(
                                                       padding:
