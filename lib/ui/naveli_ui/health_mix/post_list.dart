@@ -44,7 +44,10 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
     S.of(mainNavKey.currentContext!)!.empowHer,
   ];
 
-  _PostList(this.position, this.selectedTabIndex);
+  _PostList(
+    this.position,
+    this.selectedTabIndex,
+  );
 
   @override
   void initState() {
@@ -59,26 +62,25 @@ class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
   }
 
   void getPostList() {
-    if (selectedTabIndex == 0) {
-      mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
-    } else if (selectedTabIndex == 1) {
-      mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
-    } else if (selectedTabIndex == 2) {
-      mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
-    } else if (selectedTabIndex == 3) {
-      mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
-    } else if (selectedTabIndex == 4) {
-      mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
-    } else if (selectedTabIndex == 5) {
-      mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
-    } else if (selectedTabIndex == 6) {
-      mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
-    } else if (selectedTabIndex == 7) {
-      mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
-    } else {
-      mViewModel.getHealthMixPostsApi(
-          titleId: selectedTabIndex, type: "popular");
-    }
+    // if (selectedTabIndex == 0) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 7, type: "popular");
+    // } else if (selectedTabIndex == 1) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 1, type: "popular");
+    // } else if (selectedTabIndex == 2) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 2, type: "popular");
+    // } else if (selectedTabIndex == 3) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 3, type: "popular");
+    // } else if (selectedTabIndex == 4) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 4, type: "popular");
+    // } else if (selectedTabIndex == 5) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 5, type: "popular");
+    // } else if (selectedTabIndex == 6) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 6, type: "popular");
+    // } else if (selectedTabIndex == 7) {
+    //   mViewModel.getHealthMixPostsApi(titleId: 8, type: "popular");
+    // } else {
+    mViewModel.getHealthMixPostsApi(titleId: selectedTabIndex, type: "popular");
+    // }
   }
 
   @override

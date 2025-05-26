@@ -1195,17 +1195,21 @@ class _HomeViewState extends State<HomeView> {
                                           .iconUrl ??
                                       "",
                                   backgroundColor: CommonColors.mWhite,
-                                  onTap: () => push(PostList(
-                                    position: 0,
-                                    selectedTabIndex: mViewModel
-                                            .healthMixCategoryList[rowIndex * 2]
-                                            .id ??
-                                        0,
-                                    postTitle: mViewModel
-                                            .healthMixCategoryList[rowIndex * 2]
-                                            .name ??
-                                        "",
-                                  )),
+                                  onTap: () => push(
+                                    PostList(
+                                      position: 0,
+                                      selectedTabIndex: mViewModel
+                                              .healthMixCategoryList[
+                                                  rowIndex * 2]
+                                              .id ??
+                                          0,
+                                      postTitle: mViewModel
+                                              .healthMixCategoryList[
+                                                  rowIndex * 2]
+                                              .name ??
+                                          "",
+                                    ),
+                                  ),
                                 ),
                               if (rowIndex * 2 + 1 <
                                   mViewModel.healthMixCategoryList.length)
