@@ -470,6 +470,8 @@ class LocalImages {
   static const String cryingWoman = 'assets/images/crying_woman.png';
   static const String cryingWomanHi = 'assets/images/crying_woman_hi.png';
   static const String cryingWoman2 = 'assets/images/crying_woman2.png';
+  static const String logPeriodNotification =
+      'assets/images/log_period_notification.png';
 }
 
 class LocalSvgs {

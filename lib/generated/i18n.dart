@@ -1376,6 +1376,11 @@ class S implements WidgetsLocalizations {
 
   String get logPeriodToStartChatBot =>
       "Please log your period first to start the chatbot.";
+
+  String get logYourPeriod => "Log Your Period";
+
+  String get understandYourCycleBetter =>
+      "Understand your cycles better by logging your period.";
 }
 
 class $en extends S {
@@ -1386,6 +1391,13 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get understandYourCycleBetter =>
+      "अपनी पीरियड को लॉग करके अपने साइकल को बेहतर समझें";
+
+  @override
+  String get logYourPeriod => "अपनी पीरियड दर्ज करें";
+
   @override
   String get logPeriodToStartChatBot =>
       "कृपया चैटबोट शुरू करने के लिए पहले अपना पीरियड लॉग करें।";

@@ -160,32 +160,11 @@ class _HomeViewState extends State<HomeView> {
       MaterialPageRoute(builder: (context) => CalendarView()),
     ).then((onValue) {
       print("DIPAKAKKA");
-      callApiAfterBack();
+      // callApiAfterBack();
     });
   }
 
-// Function to call API after coming back from the CalendarView
-  void callApiAfterBack() async {
-    //mViewModel.fetchData();
-    mViewModel.getPeriodInfoList();
-    /*if (peroidCustomeList.length > 0) {
-      await handleSecondBloc(peroidCustomeList[0].predicated_period_start_date);
-    }*/
-  }
-
   bool isCycleStartFromTommorw() {
-//     if (peroidCustomeList.isNotEmpty) {
-//       DateTime startPredicatedPeriods =
-//       // DateTime.parse(peroidCustomeList[0].predicated_period_start_date);
-//       // Get the current date and add one day to it
-// //       DateTime tomorrow = DateTime.now().add(Duration(days: 1));
-// // // Check if startDate is tomorrow
-// //       bool isTomorrow = startPredicatedPeriods.year == tomorrow.year &&
-// //           startPredicatedPeriods.month == tomorrow.month &&
-// //           startPredicatedPeriods.day == tomorrow.day;
-//
-//       // return isTomorrow;
-//     }
     return false;
   }
 
@@ -328,6 +307,23 @@ class _HomeViewState extends State<HomeView> {
           height: 250,
           width: 250,
           subtitleText: S.of(context)!.periodSeemsDelayed,
+        ),
+      );
+    } else if (day == 6) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.logPeriodNotification,
+          isLeftShift: false,
+          height: 110,
+          width: 110,
+          imageText: S.of(context)!.logYourPeriod,
+          subtitleText: S.of(context)!.understandYourCycleBetter,
+          purpleLabel: S.of(context)!.logPeriod,
+          purpleOnPress: () {
+            Navigator.of(context).pop();
+            navigateToCalendarView();
+          },
         ),
       );
     }
@@ -661,8 +657,11 @@ class _HomeViewState extends State<HomeView> {
                             color: CommonColors.appBackground,
                             // width:500,
                             borderRadius: BorderRadius.vertical(
-                                bottom: Radius.elliptical(
-                                    MediaQuery.of(context).size.width, 90.0)),
+                              bottom: Radius.elliptical(
+                                MediaQuery.of(context).size.width,
+                                90.0,
+                              ),
+                            ),
                           ),
                         ),
                         Align(
@@ -678,6 +677,13 @@ class _HomeViewState extends State<HomeView> {
                                       vModel.dateWiseTextList.msg.periodMsg! ==
                                           "पीरियड 1 दिन लेट।")) {
                                 showCustomDayDialog(context, "", 5);
+                              }
+                              if (imageUrl == null) {
+                                showCustomDayDialog(
+                                  context,
+                                  "username",
+                                  6,
+                                );
                               }
 
                               print(
@@ -1143,7 +1149,9 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             InkWell(
                               onTap: () {
-                                push(HealthMixCategoryAll());
+                                //TODO : Change here from old health mix to new health mix as per client request
+                                // push(HealthMixCategoryAll());
+                                push(HealthMixView());
                               },
                               child: Text(
                                 S.of(context)!.viewAll,
