@@ -37,6 +37,7 @@ import '../../../widgets/horiozntal.dart';
 import '../../../widgets/latest_videos_card.dart';
 import '../../app/app_model.dart';
 import '../calendar/calendar_view.dart';
+import '../health_mix/health_mix_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
 
@@ -215,6 +216,7 @@ class _HomeViewState extends State<HomeView> {
   ) async {
     developer.log("INSIDE: Dialog");
     if (day == null) day = 100;
+
     if (mViewModel.parsedDate != null) {
       DateTime today = DateTime.now();
       int daysLeft = mViewModel.parsedDate!
@@ -229,7 +231,7 @@ class _HomeViewState extends State<HomeView> {
         day = 3;
       }
     }
-
+    //TODO : Comment this for testing
     final prefs = await SharedPreferences.getInstance();
     final today = DateTime.now();
     final key = 'custom_dialog_shown_day_$day';
@@ -240,8 +242,11 @@ class _HomeViewState extends State<HomeView> {
     if (lastShown == todayStr) {
       return;
     }
-    await prefs.setString(key, todayStr);
-
+    await prefs.setString(
+      key,
+      todayStr,
+    );
+    var lang = Provider.of<AppModel>(context, listen: false).locale;
     if (day == 1) {
       showDialog(
         context: context,
@@ -255,7 +260,8 @@ class _HomeViewState extends State<HomeView> {
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
-          imagePath: LocalImages.oldWomanEng,
+          imagePath:
+              lang == 'hi' ? LocalImages.oldWomanHi : LocalImages.oldWomanEng,
           height: 300,
           width: 300,
           subtitleText: S.of(context)!.periodExpectedToStartTomorrow,
@@ -283,7 +289,7 @@ class _HomeViewState extends State<HomeView> {
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
-          imagePath: LocalImages.womanUnderground,
+          imagePath: LocalImages.womanUndergroundEng,
           height: 250,
           width: 280,
           isLeftShift: true,
@@ -301,7 +307,9 @@ class _HomeViewState extends State<HomeView> {
             showDialog(
               context: context,
               builder: (context) => CustomNotification(
-                imagePath: LocalImages.cryingWoman,
+                imagePath: lang == 'hi'
+                    ? LocalImages.cryingWomanHi
+                    : LocalImages.cryingWoman,
                 height: 250,
                 width: 270,
                 imageText: S.of(context)!.derNaHoJaye,
@@ -856,9 +864,26 @@ class _HomeViewState extends State<HomeView> {
                                                       // TODO : Change here from old chatbot to new ai chatbot
                                                       // push(
                                                       //     const SymptomsBotView());
-                                                      push(
-                                                        AiChatBotScreen(),
-                                                      );
+                                                      mViewModel.startChatBot
+                                                          ? push(
+                                                              AiChatBotScreen(),
+                                                            )
+                                                          : ScaffoldMessenger
+                                                                  .of(context)
+                                                              .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  S
+                                                                      .of(context)!
+                                                                      .logPeriodToStartChatBot,
+                                                                ),
+                                                                duration:
+                                                                    Duration(
+                                                                        seconds:
+                                                                            3),
+                                                              ),
+                                                            );
+                                                      ;
                                                     },
                                                     style: ButtonStyle(
                                                       padding:
@@ -963,12 +988,14 @@ class _HomeViewState extends State<HomeView> {
                                                   kCommonSpaceV10,
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      //TODO : Slider onTap required
-                                                      push(PostList(
-                                                        position: 0,
-                                                        selectedTabIndex: 0,
-                                                        postTitle: "",
-                                                      ));
+                                                      //TODO : Replaced as per client request
+
+                                                      // push(PostList(
+                                                      //   position: 0,
+                                                      //   selectedTabIndex: 0,
+                                                      //   postTitle: "",
+                                                      // ));
+                                                      push(HealthMixView());
                                                     },
                                                     style: ButtonStyle(
                                                       fixedSize:

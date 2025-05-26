@@ -58,21 +58,21 @@ class AboutUsDetail extends StatelessWidget {
 
 const String missionVisionHtml = '''
 <b>Vision</b><br>
+<div style="text-align: start;">
 At NeoW, we envision a world where every woman feels empowered, informed, and in control of her well-being. Rooted in the belief that health is the foundation of confidence and self-expression, our vision is to be the most trusted platform for supporting women’s holistic growth—physically, mentally, and emotionally.<br>
 We aspire to break barriers, bridge gaps, and build a future where access to knowledge, wellness resources, and supportive communities is universal—regardless of geography, income, or background. By combining innovation with empathy, and sustainability with simplicity, we’re creating a movement toward healthier women and a healthier planet.<br>
 NeoW stands for New Woman—and through this vision, we’re helping every woman step into her power.<br><br>
 
 <b>Mission</b><br>
 Our mission is to simplify and elevate women’s wellness through smart, inclusive, and holistic digital tools. We’re here to make well-being a daily habit—not a luxury—by offering women a seamless platform that understands their needs and adapts to their lives.<br>
-We are committed to:
-<ul>
-  <li><b>Empowering Women:</b> By equipping them with the knowledge, tools, and confidence to understand and manage their health and wellness on their own terms.</li>
-  <li><b>Enabling Access:</b> By creating an app that is intuitive, inclusive, and accessible to women from all walks of life.</li>
-  <li><b>Driving Innovation:</b> By leveraging technology, data, and expert insights to deliver personalized wellness guidance that evolves with each user.</li>
-  <li><b>Championing Sustainability:</b> By adopting mindful practices in our content, partnerships, and design philosophy—ensuring we contribute to a better world.</li>
-  <li><b>Normalizing Conversations:</b> By encouraging open dialogue around women’s health and dismantling stigmas through education, storytelling, and community engagement.</li>
-</ul>
+We are committed to:<br>
+<b>Empowering Women:</b> By equipping them with the knowledge, tools, and confidence to understand and manage their health and wellness on their own terms.<br>
+<b>Enabling Access:</b> By creating an app that is intuitive, inclusive, and accessible to women from all walks of life.<br>
+<b>Driving Innovation:</b> By leveraging technology, data, and expert insights to deliver personalized wellness guidance that evolves with each user.<br>
+<b>Championing Sustainability:</b> By adopting mindful practices in our content, partnerships, and design philosophy—ensuring we contribute to a better world.<br>
+<b>Normalizing Conversations:</b> By encouraging open dialogue around women’s health and dismantling stigmas through education, storytelling, and community engagement.<br>
 At NeoW, wellness isn’t a feature. It’s a mindset—and we’re on a mission to help women embrace it.
+</div>
 ''';
 
 const String ourTeamHtml = '''
