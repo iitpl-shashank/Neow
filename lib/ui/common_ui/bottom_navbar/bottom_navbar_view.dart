@@ -26,15 +26,6 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
   late Map<String, IconData> iconDataMap = {};
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
 
-  final pages = [
-    const HomeView(),
-    const HealthMixView(),
-    // const Page1(),
-    const ForumView(),
-    const ProfileView(),
-    const ForumView(),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -46,32 +37,6 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
     ]);
 
     mViewModel = Provider.of<BottomNavbarViewModel>(context, listen: false);
-
-    // Future.delayed(
-    //   Duration.zero,
-    //   () {
-    // final mHomeViewModel =
-    //     Provider.of<HomeViewModel>(context, listen: false);
-    // final mHealthMixViewModel =
-    //     Provider.of<HealthMixViewModel>(context, listen: false);
-    // // mViewModel.attachedContext(context);
-    // mHealthMixViewModel.getHealthMixLatestPosts();
-    // Loading Issue
-    // mViewModel.getDialogBox(context);
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   mHomeViewModel.getPeriodInfoList();
-
-    // await handleFirstBloc();
-    // await mHomeViewModel.handleSecondBloc(dateString);
-    // await handleThirdBloc();
-    // print("diipppka1");
-    //mViewModel.fetchData();
-    // _setTimeout();
-    // mHomeViewModel.updateSelectedDate(DateTime.now());
-    // });
-    //   },
-    // );
   }
 
   @override
@@ -95,6 +60,15 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      const HomeView(),
+      HealthMixView(
+        title: S.of(context)!.healthMix,
+      ),
+      const ForumView(),
+      const ProfileView(),
+      const ForumView(),
+    ];
     return Scaffold(
       body: pages[mViewModel.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

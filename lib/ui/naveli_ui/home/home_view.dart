@@ -210,6 +210,16 @@ class _HomeViewState extends State<HomeView> {
         day = 3;
       }
     }
+    if (mViewModel.parsedEndDate != null) {
+      DateTime today = DateTime.now();
+      int daysLeft = mViewModel.parsedEndDate!
+          .difference(DateTime(today.year, today.month, today.day))
+          .inDays;
+      if (daysLeft == 0) {
+        day = 7;
+      }
+    }
+
     //TODO : Comment this for testing
     if (day != 6) {
       final prefs = await SharedPreferences.getInstance();
@@ -327,6 +337,19 @@ class _HomeViewState extends State<HomeView> {
             Navigator.of(context).pop();
             navigateToCalendarView();
           },
+        ),
+      );
+    } else if (day == 7) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: lang == 'hi'
+              ? LocalImages.aajPhirJeeneHi
+              : LocalImages.aajPhirJeeneEng,
+          isLeftShift: false,
+          height: 250,
+          width: 270,
+          subtitleText: S.of(context)!.periodExpectedToEndToday,
         ),
       );
     }
@@ -994,7 +1017,13 @@ class _HomeViewState extends State<HomeView> {
                                                       //   selectedTabIndex: 0,
                                                       //   postTitle: "",
                                                       // ));
-                                                      push(HealthMixView());
+                                                      push(
+                                                        HealthMixView(
+                                                          title: S
+                                                              .of(context)!
+                                                              .theNeowStory,
+                                                        ),
+                                                      );
                                                     },
                                                     style: ButtonStyle(
                                                       fixedSize:
@@ -1145,7 +1174,9 @@ class _HomeViewState extends State<HomeView> {
                                 //TODO : Change here from old health mix to new health mix as per client request
                                 // push(HealthMixCategoryAll());
                                 push(
-                                  HealthMixView(),
+                                  HealthMixView(
+                                    title: S.of(context)!.explore,
+                                  ),
                                 );
                               },
                               child: Text(

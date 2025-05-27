@@ -23,6 +23,7 @@ import '../../../utils/global_variables.dart';
 class HomeViewModel with ChangeNotifier {
   bool startChatBot = false;
   DateTime? parsedDate;
+  DateTime? parsedEndDate;
   late BuildContext context;
   PageController pageController = PageController(initialPage: 0);
   int currentPage = 0;
@@ -530,6 +531,8 @@ class HomeViewModel with ChangeNotifier {
         String predictedDate = data.predictions.first.predictedStart;
         log("predictedDate ====> $predictedDate");
         parsedDate = DateFormat('yyyy-MM-dd').parse(predictedDate);
+        parsedEndDate =
+            DateFormat('yyyy-MM-dd').parse(data.predictions.first.predictedEnd);
       }
       notifyListeners();
       getDateWiseText();

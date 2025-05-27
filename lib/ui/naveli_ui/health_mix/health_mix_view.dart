@@ -11,7 +11,11 @@ import 'health_mix_view_model.dart';
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 class HealthMixView extends StatefulWidget {
-  const HealthMixView({super.key});
+  final String title;
+  const HealthMixView({
+    super.key,
+    required this.title,
+  });
 
   @override
   State<HealthMixView> createState() => _HealthMixViewState();
@@ -106,7 +110,7 @@ class _HealthMixViewState extends State<HealthMixView>
               color: CommonColors.primaryColor,
             ),
             title: Text(
-              S.of(context)!.healthMix,
+              widget.title,
               style: TextStyle(
                 color: CommonColors.blackColor,
                 fontSize: 20,
@@ -117,50 +121,52 @@ class _HealthMixViewState extends State<HealthMixView>
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              if (widget.title != S.of(context)!.theNeowStory)
+                SizedBox(
                   height: 40,
                   child: Container(
-                      child: ListView.builder(
-                          itemCount:
-                              mHomeViewModel.healthMixCategoryList.length,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            var txtColor = selectedTabIndex == index
-                                ? CommonColors.mWhite
-                                : CommonColors.blackColor;
-                            return (GestureDetector(
-                                onTap: () {
-                                  onButtonPressed(index);
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 10,
-                                        bottom: 10),
-                                    margin: const EdgeInsets.only(left: 5),
-                                    decoration: BoxDecoration(
-                                      color: selectedTabIndex == index
-                                          ? CommonColors.primaryColor
-                                          : CommonColors.mGrey.withOpacity(0.3),
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(
-                                          color: CommonColors.mWhite, width: 1),
-                                    ),
-                                    child: Text(
-                                        mHomeViewModel
-                                                .healthMixCategoryList[index]
-                                                .name ??
-                                            "",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          color: txtColor,
-                                        )))));
-                          }))),
+                    child: ListView.builder(
+                      itemCount: mHomeViewModel.healthMixCategoryList.length,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        var txtColor = selectedTabIndex == index
+                            ? CommonColors.mWhite
+                            : CommonColors.blackColor;
+                        return (GestureDetector(
+                          onTap: () {
+                            onButtonPressed(index);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 10, bottom: 10),
+                            margin: const EdgeInsets.only(left: 5),
+                            decoration: BoxDecoration(
+                              color: selectedTabIndex == index
+                                  ? CommonColors.primaryColor
+                                  : CommonColors.mGrey.withOpacity(0.3),
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  color: CommonColors.mWhite, width: 1),
+                            ),
+                            child: Text(
+                              mHomeViewModel
+                                      .healthMixCategoryList[index].name ??
+                                  "",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: txtColor,
+                              ),
+                            ),
+                          ),
+                        ));
+                      },
+                    ),
+                  ),
+                ),
               SizedBox(
                 height: 25,
               ),

@@ -466,6 +466,8 @@ class LocalImages {
   static const String oldWomanEng = 'assets/images/old_woman_eng.png';
   static const String oldWomanHi = 'assets/images/old_woman_hi.png';
   static const String alertPad = 'assets/images/alert_pad.png';
+  static const String aajPhirJeeneEng = 'assets/images/aaj_phir_jeene_eng.png';
+  static const String aajPhirJeeneHi = 'assets/images/aaj_phir_jeene_hi.png';
   static const String womanUndergroundEng =
       'assets/images/woman_underground_eng.png';
   static const String cryingWoman = 'assets/images/crying_woman.png';

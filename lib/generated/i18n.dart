@@ -1381,6 +1381,9 @@ class S implements WidgetsLocalizations {
 
   String get understandYourCycleBetter =>
       "Understand your cycles better by logging your period.";
+
+  String get periodExpectedToEndToday =>
+      "Your period is expected to end today.";
 }
 
 class $en extends S {
@@ -1391,6 +1394,10 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get periodExpectedToEndToday =>
+      "आपकी पीरियड आज खत्म होने की संभावना है।";
+
   @override
   String get understandYourCycleBetter =>
       "अपनी पीरियड को लॉग करके अपने साइकल को बेहतर समझें";
