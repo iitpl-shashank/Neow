@@ -121,7 +121,8 @@ class _HealthMixViewState extends State<HealthMixView>
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.title != S.of(context)!.theNeowStory)
+              if (widget.title != S.of(context)!.theNeowStory &&
+                  widget.title != S.of(context)!.shorts)
                 SizedBox(
                   height: 40,
                   child: Container(

@@ -1296,9 +1296,14 @@ class _HomeViewState extends State<HomeView> {
                         // ShortsView
                         GestureDetector(
                           onTap: () {
-                            // Define the action when the text is clicked
+                            // TODO : Change here from old shorts to HealthMix as per client request
+                            // push(
+                            //   ShortsView(),
+                            // );
                             push(
-                              ShortsView(),
+                              HealthMixView(
+                                title: S.of(context)!.shorts,
+                              ),
                             );
                           },
                           child: Container(
@@ -1323,7 +1328,7 @@ class _HomeViewState extends State<HomeView> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Image.asset(
-                                    'assets/images/ic_short.png',
+                                    LocalImages.icShorts,
                                   ),
                                   const SizedBox(
                                       width: 8), // Space between image and text

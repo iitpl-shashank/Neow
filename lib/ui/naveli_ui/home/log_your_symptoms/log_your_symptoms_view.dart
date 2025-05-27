@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
@@ -28,15 +29,13 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
   @override
   void initState() {
     super.initState();
-    // Future.delayed(Duration.zero, () {
-    //   mViewModel.attachedContext(context);
-    //   mViewModel.getUserSymptomsLogApi(
-    //       date: globalUserMaster?.previousPeriodsBegin ?? '');
-    // });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       mViewModel.attachedContext(context);
       mViewModel.getUserSymptomsLogApi(
-          date: globalUserMaster?.previousPeriodsBegin ?? '');
+        date: DateFormat('yyyy-MM-dd').format(
+          DateTime.now(),
+        ),
+      );
     });
   }
 
@@ -238,36 +237,6 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
     );
   }
 
-  // @override
-  // void dispose() {
-  //   animationController.dispose();
-  //   super.dispose();
-  // }
-
-  // void startBlinkingAnimation() {
-  //   animationController = AnimationController(
-  //     vsync: this,
-  //     duration: Duration(milliseconds: 1000),
-  //   );
-  //
-  //   animationController.addStatusListener((status) {
-  //     if (status == AnimationStatus.completed) {
-  //       blinkCount++;
-  //       if (blinkCount < 3) {
-  //         animationController.reverse();
-  //       } else {
-  //         setState(() {
-  //           showImage = false; // Hide the image after blinking process completes
-  //         });
-  //       }
-  //     } else if (status == AnimationStatus.dismissed && blinkCount < 3) {
-  //       animationController.forward();
-  //     }
-  //   });
-  //
-  //   animationController.forward();
-  // }
-
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<LogYourSymptomsModel>(context, listen: true);
@@ -278,7 +247,11 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
           return Scaffold(
             backgroundColor: CommonColors.mWhite,
             appBar: CommonAppBar(
-              title: formatDate(globalUserMaster?.previousPeriodsBegin ?? ''),
+              title: formatDate(
+                DateFormat('yyyy-MM-dd').format(
+                  DateTime.now(),
+                ),
+              ),
               bgColor: CommonColors.mTransparent,
               iconColor: CommonColors.blackColor,
               style: TextStyle(
@@ -348,7 +321,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       kCommonSpaceH10,
                       CommonSymptomsWidget(
                         onTap: () {
-                          // showheavyFlow(context);
+                          showheavyFlow(context);
                           mViewModel.updateStaining(3);
 
                           mViewModel.count += 1;
@@ -650,7 +623,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           onTap: () {
                             // TODO : to show or not ?
-                            // showDysmenorrheaDialog(context);
+                            showDysmenorrheaDialog(context);
                             mViewModel.updateCramps(4);
                           },
                           underText: S.of(context)!.hurtWorst,
@@ -694,6 +667,18 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                           underText: "1-2",
                           isUnderText: true,
                           isSelected: mViewModel.selectedDays == 2,
+                        ),
+                        CommonSymptomsBadge(
+                          onTap: () {
+                            mViewModel.updateDays(3);
+                            if (mViewModel.count != 0) {
+                              mViewModel.count -= 1;
+                            }
+                          },
+                          imgHeight: 40,
+                          underText: "2-3",
+                          isUnderText: true,
+                          isSelected: mViewModel.selectedDays == 3,
                         ),
                         CommonSymptomsBadge(
                           onTap: () {
