@@ -1040,7 +1040,7 @@ class S implements WidgetsLocalizations {
 
   String get hi => "Hi";
 
-  String get theNeowStory => "The Neow Story";
+  String get theNeowStory => "The NeoW Story";
 
   String get leadingLadies1 => "Leading Ladies: Women making\nHeadlines";
 

@@ -497,7 +497,7 @@ class HomeViewModel with ChangeNotifier {
       getDateWiseText();
       notifyListeners();
     } else if (master.success == true) {
-      log("data master ====>${master.data.toJson()}");
+      log("getPeriodInfo data master ====>${master.data.toJson()}");
       peroidCustomeList.clear();
       int currentMonth = DateTime.now().month;
       log("currentMonth ====> $currentMonth");
@@ -514,6 +514,14 @@ class HomeViewModel with ChangeNotifier {
           DateTime.parse(data.predictions.first.fertileWindowStart);
       DateTime fertileEndDateTime =
           DateTime.parse(data.predictions.first.fertileWindowEnd);
+
+      DateTime periodStartLogDateTime =
+          DateTime.parse(data.periodData.first.periodStartDate);
+      DateTime periodEndLogDateTime =
+          DateTime.parse(data.periodData.first.periodEndDate);
+
+      log("periodStartLogDateTime ====> $periodStartLogDateTime");
+      log("periodEndLogDateTime ====> $periodEndLogDateTime");
 
       DateTime today = DateTime.now();
       log("Check dates $periodEnddateTime and $today");
