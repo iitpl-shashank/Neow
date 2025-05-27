@@ -75,6 +75,8 @@ class _HomeViewState extends State<HomeView> {
 
   String? acceptedUniqueId;
 
+  bool _dialogShown = false;
+
   var bgColor = 0XFFFBF5F7;
 
   late Timer _timer;
@@ -698,22 +700,29 @@ class _HomeViewState extends State<HomeView> {
                             builder: (context, vModel, child) {
                               final imageUrl =
                                   vModel.dateWiseTextList.msg.image;
-                              if (vModel.dateWiseTextList.msg.periodMsg !=
-                                      null &&
-                                  (vModel.dateWiseTextList.msg.periodMsg! ==
-                                          "Period late by 1" ||
-                                      vModel.dateWiseTextList.msg.periodMsg! ==
-                                          "पीरियड 1 दिन लेट।")) {
-                                showCustomDayDialog(context, "", 5);
+                              if (!_dialogShown) {
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  if (vModel.dateWiseTextList.msg.periodMsg !=
+                                          null &&
+                                      (vModel.dateWiseTextList.msg.periodMsg! ==
+                                              "Period late by 1" ||
+                                          vModel.dateWiseTextList.msg
+                                                  .periodMsg! ==
+                                              "पीरियड 1 दिन लेट।")) {
+                                    showCustomDayDialog(context, "", 5);
+                                    _dialogShown = true;
+                                  }
+                                  if (imageUrl == null) {
+                                    showCustomDayDialog(
+                                      context,
+                                      "username",
+                                      6,
+                                    );
+                                    _dialogShown = true;
+                                  }
+                                });
                               }
-                              if (imageUrl == null) {
-                                showCustomDayDialog(
-                                  context,
-                                  "username",
-                                  6,
-                                );
-                              }
-
                               print(
                                   "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
                               return Container(
