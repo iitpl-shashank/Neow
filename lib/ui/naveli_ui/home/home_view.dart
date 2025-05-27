@@ -209,8 +209,7 @@ class _HomeViewState extends State<HomeView> {
       } else if (daysLeft == 0) {
         day = 3;
       }
-    }
-    if (mViewModel.parsedEndDate != null) {
+    } else if (mViewModel.parsedEndDate != null) {
       DateTime today = DateTime.now();
       int daysLeft = mViewModel.parsedEndDate!
           .difference(DateTime(today.year, today.month, today.day))
@@ -237,6 +236,8 @@ class _HomeViewState extends State<HomeView> {
         todayStr,
       );
     }
+
+    developer.log("INSIDE DAY: $day");
 
     var lang = Provider.of<AppModel>(context, listen: false).locale;
     if (day == 1) {
@@ -323,6 +324,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       );
     } else if (day == 6) {
+      developer.log("Under 6");
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
@@ -579,7 +581,7 @@ class _HomeViewState extends State<HomeView> {
         ],
         borderColor: CommonColors.purple,
       ),
-      kCommonSpaceH10,
+      if (false) kCommonSpaceH10,
       if (false) //TODO : Hidden for now
         CommonDailyInsightContainer(
           onTap: () {
