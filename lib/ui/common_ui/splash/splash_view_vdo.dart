@@ -121,9 +121,6 @@ class _SplashViewState extends State<SplashViewVdo> {
   }
 
   skipVideo() {
-
-
-
     if (mounted) {
       loadSecondVideoPlayer('assets/video/logoanimation.mp4');
       if (AppPreferences.instance.getIsFirstTime()) {
@@ -160,87 +157,91 @@ class _SplashViewState extends State<SplashViewVdo> {
     mViewModel = Provider.of<SplashViewModel>(context);
     return AppPreferences.instance.getIsFirstTime()
         ? Scaffold(
-      body: GestureDetector(
-        onTap: () async {
-          if (isPlayingStart) {
-            print("False ==");
-          } else {
-            playAudio1();
+            body: GestureDetector(
+              onTap: () async {
+                if (isPlayingStart) {
+                  print("False ==");
+                } else {
+                  playAudio1();
 
-            Future.delayed(const Duration(seconds: 1), () {
-              loadSecondVideoPlayer('assets/video/new_Door_Open.mp4');
+                  Future.delayed(const Duration(seconds: 1), () {
+                    // loadSecondVideoPlayer('assets/video/new_Door_Open.mp4');
+                    loadSecondVideoPlayer(
+                        'assets/video/latest_door_open_compressed.mp4');
 
-              Future.delayed(const Duration(seconds: 28), () {
-                if (mounted) {
-                  loadSecondVideoPlayer('assets/video/logoanimation.mp4');
-                  if (AppPreferences.instance.getIsFirstTime()) {
-                    Future.delayed(const Duration(seconds: 7), () {
+                    Future.delayed(const Duration(seconds: 28), () {
                       if (mounted) {
-                        vdo_Controller.setLooping(false);
-                        vdo_Controller.pause();
-                        setState(() {});
-                        mViewModel.onFinishGIF();
-                        AppPreferences.instance.setIsFirstTime(false);
+                        loadSecondVideoPlayer('assets/video/logoanimation.mp4');
+                        if (AppPreferences.instance.getIsFirstTime()) {
+                          Future.delayed(const Duration(seconds: 7), () {
+                            if (mounted) {
+                              vdo_Controller.setLooping(false);
+                              vdo_Controller.pause();
+                              setState(() {});
+                              mViewModel.onFinishGIF();
+                              AppPreferences.instance.setIsFirstTime(false);
+                            }
+                          });
+                        }
                       }
                     });
-                  }
+                  });
                 }
-              });
-            });
-          }
-        },
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          // vdo_Controller.value.size.width,
-          height: MediaQuery.of(context).size.height,
-          child: VideoPlayer(vdo_Controller),
-        ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Visibility(
-            visible: isPlayingStart,
-            child: SizedBox(
-              height: 30.0,
-              width: 30.0,
-              child: FittedBox(
-                child: FloatingActionButton(
-                  onPressed: skipVideo,
-                  child: Icon(
-                    Icons.skip_next,
+              },
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                // vdo_Controller.value.size.width,
+                height: MediaQuery.of(context).size.height,
+                child: VideoPlayer(vdo_Controller),
+              ),
+            ),
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Visibility(
+                  visible: isPlayingStart,
+                  child: SizedBox(
+                    height: 30.0,
+                    width: 30.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        onPressed: skipVideo,
+                        child: Icon(
+                          Icons.skip_next,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          Visibility(
-              visible: isPlayingStart,
-              child: SizedBox(width: 10,)),
-          SizedBox(
-            height: 30.0,
-            width: 30.0,
-            child: FittedBox(
-              child: FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    if (isMute) {
-                      vdo_Controller.setVolume(0.0);
-                    } else {
-                      vdo_Controller.setVolume(1.0);
-                    }
-                    toggleMute();
-                  });
-                },
-                child: Icon(
-                  isMute ? Icons.volume_up : Icons.volume_off,
+                Visibility(
+                    visible: isPlayingStart,
+                    child: SizedBox(
+                      width: 10,
+                    )),
+                SizedBox(
+                  height: 30.0,
+                  width: 30.0,
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          if (isMute) {
+                            vdo_Controller.setVolume(0.0);
+                          } else {
+                            vdo_Controller.setVolume(1.0);
+                          }
+                          toggleMute();
+                        });
+                      },
+                      child: Icon(
+                        isMute ? Icons.volume_up : Icons.volume_off,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    )
+          )
         : const WelComeGifView();
   }
 
