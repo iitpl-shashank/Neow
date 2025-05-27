@@ -514,9 +514,13 @@ class HomeViewModel with ChangeNotifier {
           DateTime.parse(data.predictions.first.fertileWindowStart);
       DateTime fertileEndDateTime =
           DateTime.parse(data.predictions.first.fertileWindowEnd);
+
       DateTime today = DateTime.now();
+      log("Check dates $periodEnddateTime and $today");
       if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
+          isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
           isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
+          isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
           today.isAtSameMomentAs(ovulationDateTime)) {
         startChatBot = true;
         notifyListeners();
@@ -547,6 +551,15 @@ class HomeViewModel with ChangeNotifier {
   bool isWithin(DateTime start, DateTime end, DateTime target) {
     return (target.isAtSameMomentAs(start) ||
         target.isAtSameMomentAs(end) ||
+        (target.isAfter(start) && target.isBefore(end)));
+  }
+
+  bool isWithinNoTime(DateTime start, DateTime end, DateTime target) {
+    bool isSameDate(DateTime a, DateTime b) =>
+        a.year == b.year && a.month == b.month && a.day == b.day;
+
+    return (isSameDate(target, start) ||
+        isSameDate(target, end) ||
         (target.isAfter(start) && target.isBefore(end)));
   }
 
