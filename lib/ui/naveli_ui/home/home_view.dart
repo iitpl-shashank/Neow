@@ -211,20 +211,23 @@ class _HomeViewState extends State<HomeView> {
       }
     }
     //TODO : Comment this for testing
-    final prefs = await SharedPreferences.getInstance();
-    final today = DateTime.now();
-    final key = 'custom_dialog_shown_day_$day';
-    final lastShown = prefs.getString(key);
+    if (day != 6) {
+      final prefs = await SharedPreferences.getInstance();
+      final today = DateTime.now();
+      final key = 'custom_dialog_shown_day_$day';
+      final lastShown = prefs.getString(key);
 
-    final todayStr = "${today.year}-${today.month}-${today.day}";
+      final todayStr = "${today.year}-${today.month}-${today.day}";
 
-    if (lastShown == todayStr) {
-      return;
+      if (lastShown == todayStr) {
+        return;
+      }
+      await prefs.setString(
+        key,
+        todayStr,
+      );
     }
-    await prefs.setString(
-      key,
-      todayStr,
-    );
+
     var lang = Provider.of<AppModel>(context, listen: false).locale;
     if (day == 1) {
       showDialog(
@@ -701,7 +704,7 @@ class _HomeViewState extends State<HomeView> {
                                         vModel.isDateWiseTextLoader)
                                     ? Container(
                                         child: Image.asset(
-                                          LocalImages.syncing_vibe,
+                                          LocalImages.syncing_the_vibe,
                                           height: 200,
                                           width: 180,
                                           fit: BoxFit.contain,
@@ -874,20 +877,10 @@ class _HomeViewState extends State<HomeView> {
                                                           ? push(
                                                               AiChatBotScreen(),
                                                             )
-                                                          : ScaffoldMessenger
-                                                                  .of(context)
-                                                              .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                  S
-                                                                      .of(context)!
-                                                                      .logPeriodToStartChatBot,
-                                                                ),
-                                                                duration:
-                                                                    Duration(
-                                                                        seconds:
-                                                                            3),
-                                                              ),
+                                                          : showCustomDayDialog(
+                                                              context,
+                                                              "username",
+                                                              6,
                                                             );
                                                       ;
                                                     },
@@ -1151,7 +1144,9 @@ class _HomeViewState extends State<HomeView> {
                               onTap: () {
                                 //TODO : Change here from old health mix to new health mix as per client request
                                 // push(HealthMixCategoryAll());
-                                push(HealthMixView());
+                                push(
+                                  HealthMixView(),
+                                );
                               },
                               child: Text(
                                 S.of(context)!.viewAll,
