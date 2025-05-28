@@ -243,22 +243,22 @@ class _HomeViewState extends State<HomeView> {
     }
 
     //TODO : Comment this for testing
-    // if (day != 6) {
-    //   final prefs = await SharedPreferences.getInstance();
-    //   final today = DateTime.now();
-    //   final key = 'custom_dialog_shown_day_$day';
-    //   final lastShown = prefs.getString(key);
+    if (day != 6) {
+      final prefs = await SharedPreferences.getInstance();
+      final today = DateTime.now();
+      final key = 'custom_dialog_shown_day_$day';
+      final lastShown = prefs.getString(key);
 
-    //   final todayStr = "${today.year}-${today.month}-${today.day}";
+      final todayStr = "${today.year}-${today.month}-${today.day}";
 
-    //   if (lastShown == todayStr) {
-    //     return;
-    //   }
-    //   await prefs.setString(
-    //     key,
-    //     todayStr,
-    //   );
-    // }
+      if (lastShown == todayStr) {
+        return;
+      }
+      await prefs.setString(
+        key,
+        todayStr,
+      );
+    }
 
     developer.log("INSIDE DAY: $day");
 
@@ -770,7 +770,9 @@ class _HomeViewState extends State<HomeView> {
                                         vModel.isDateWiseTextLoader)
                                     ? Container(
                                         child: Image.asset(
-                                          LocalImages.syncing_the_vibe,
+                                          lang == 'hi'
+                                              ? LocalImages.syncing_the_vibe_hi
+                                              : LocalImages.syncing_the_vibe,
                                           height: 300,
                                           width: 300,
                                           fit: BoxFit.contain,
