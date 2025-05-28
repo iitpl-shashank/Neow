@@ -246,109 +246,223 @@ class _HealthMixViewState extends State<HealthMixView>
                                     postIndex: index,
                                   ));
                                 },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      20, // approx half-width with padding
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
-                                                  blurRadius: 5,
-                                                  offset: const Offset(0, 2),
+                                child: widget.title != S.of(context)!.shorts
+                                    ? Container(
+                                        width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2 -
+                                            20, // approx half-width with padding
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black
+                                                            .withOpacity(0.1),
+                                                        blurRadius: 5,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  height: 150,
+                                                  width: double.infinity,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child:
+                                                        // isImage
+                                                        //     ?
+                                                        Image.network(
+                                                      mediaUrl!,
+                                                      fit: BoxFit.cover,
+                                                      scale: 0.5,
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return Icon(
+                                                            Icons.broken_image,
+                                                            size: 50,
+                                                            color: Colors.grey);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 8,
+                                                  right: 8,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black
+                                                          .withOpacity(0.6),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    child: Icon(
+                                                      isImage
+                                                          ? Icons.image
+                                                          : Icons.videocam,
+                                                      color: Colors.white,
+                                                      size: 14,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                            height: 150,
-                                            width: double.infinity,
-                                            child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child:
-                                                    // isImage
-                                                    //     ?
-                                                    Image.network(
-                                                  mediaUrl!,
-                                                  fit: BoxFit.cover,
-                                                  scale: 0.5,
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                    return Icon(
-                                                        Icons.broken_image,
-                                                        size: 50,
-                                                        color: Colors.grey);
-                                                  },
-                                                )
-                                                // : Align(
-                                                //     alignment: Alignment.center,
-                                                //     child: Image.network(
-                                                //       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png",
-                                                //       height: 110,
-                                                //     ),
-                                                //   ),
+                                            const SizedBox(height: 5),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Text(
+                                                item.description ?? '',
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                          ),
-                                          Positioned(
-                                            top: 8,
-                                            right: 8,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black
-                                                    .withOpacity(0.6),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              padding: const EdgeInsets.all(4),
-                                              child: Icon(
-                                                isImage
-                                                    ? Icons.image
-                                                    : Icons.videocam,
-                                                color: Colors.white,
-                                                size: 14,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text(
-                                          item.description ?? '',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                            const SizedBox(height: 5),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Text(
+                                                item.diffrenceTime ?? '',
+                                                style: TextStyle(
+                                                  color: CommonColors.blackColor
+                                                      .withOpacity(0.6),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(
+                                        width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2 -
+                                            20, // approx half-width with padding
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black
+                                                            .withOpacity(0.1),
+                                                        blurRadius: 5,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  height: 220,
+                                                  width: double.infinity,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    child: Image.network(
+                                                      mediaUrl!,
+                                                      fit: BoxFit.cover,
+                                                      scale: 0.5,
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return Icon(
+                                                            Icons.broken_image,
+                                                            size: 50,
+                                                            color: Colors.grey);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                2 -
+                                                            20,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 8),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomLeft:
+                                                            Radius.circular(5),
+                                                        bottomRight:
+                                                            Radius.circular(5),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          item.description ??
+                                                              '',
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Text(
+                                                          item.diffrenceTime ??
+                                                              '',
+                                                          style: TextStyle(
+                                                            color: Colors.white
+                                                                .withOpacity(
+                                                                    0.8),
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 15),
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text(
-                                          item.diffrenceTime ?? '',
-                                          style: TextStyle(
-                                            color: CommonColors.blackColor
-                                                .withOpacity(0.6),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 15),
-                                    ],
-                                  ),
-                                ),
                               );
                             },
                           ),

@@ -22,8 +22,18 @@ import '../../../utils/global_variables.dart';
 
 class HomeViewModel with ChangeNotifier {
   bool startChatBot = false;
+  bool showLogSymptomsAlert = false;
   DateTime? parsedDate;
   DateTime? parsedEndDate;
+  DateTime? periodStartdateTime;
+  DateTime? periodEnddateTime;
+  DateTime? ovulationDateTime;
+  DateTime? fertileStartDateTime;
+  DateTime? fertileEndDateTime;
+  DateTime? periodStartLogDateTime;
+  DateTime? periodEndLogDateTime;
+  DateTime oldDateTime = DateTime(2020, 5, 15);
+
   late BuildContext context;
   PageController pageController = PageController(initialPage: 0);
   int currentPage = 0;
@@ -480,6 +490,15 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void showLogSymptomsNotification() {
+    DateTime today = DateTime.now();
+    showLogSymptomsAlert =
+        isWithinNoTime(periodStartLogDateTime, periodEndLogDateTime, today)
+            ? true
+            : false;
+    notifyListeners();
+  }
+
   Future<void> getPeriodInfoList() async {
     peroidCustomeList = [];
 
@@ -504,20 +523,20 @@ class HomeViewModel with ChangeNotifier {
       var data = PeriodObj.fromJson(master.data.toJson());
       peroidCustomeList.add(data);
       log("True check in check ====> $currentMonth");
-      DateTime periodStartdateTime =
+      periodStartdateTime =
           DateTime.parse(data.predictions.first.predictedStart);
-      DateTime periodEnddateTime =
-          DateTime.parse(data.predictions.first.predictedEnd);
-      DateTime ovulationDateTime =
-          DateTime.parse(data.predictions.first.ovulationDay);
-      DateTime fertileStartDateTime =
+      // DateTime periodNextDaydateTime =
+      //     periodStartdateTime.add(Duration(days: 1));
+      periodEnddateTime = DateTime.parse(data.predictions.first.predictedEnd);
+      ovulationDateTime = DateTime.parse(data.predictions.first.ovulationDay);
+      fertileStartDateTime =
           DateTime.parse(data.predictions.first.fertileWindowStart);
-      DateTime fertileEndDateTime =
+      fertileEndDateTime =
           DateTime.parse(data.predictions.first.fertileWindowEnd);
 
-      DateTime periodStartLogDateTime =
+      periodStartLogDateTime =
           DateTime.parse(data.periodData.first.periodStartDate);
-      DateTime periodEndLogDateTime =
+      periodEndLogDateTime =
           DateTime.parse(data.periodData.first.periodEndDate);
 
       log("periodStartLogDateTime ====> $periodStartLogDateTime");
@@ -529,7 +548,7 @@ class HomeViewModel with ChangeNotifier {
           isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
           isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
           isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
-          today.isAtSameMomentAs(ovulationDateTime)) {
+          today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) {
         startChatBot = true;
         notifyListeners();
       } else {
@@ -556,19 +575,26 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isWithin(DateTime start, DateTime end, DateTime target) {
-    return (target.isAtSameMomentAs(start) ||
-        target.isAtSameMomentAs(end) ||
-        (target.isAfter(start) && target.isBefore(end)));
+  bool isWithin(DateTime? start, DateTime? end, DateTime? target) {
+    if (start != null && end != null && target != null)
+      return (target.isAtSameMomentAs(start) ||
+          target.isAtSameMomentAs(end) ||
+          (target.isAfter(start) && target.isBefore(end)));
+
+    return false;
   }
 
-  bool isWithinNoTime(DateTime start, DateTime end, DateTime target) {
-    bool isSameDate(DateTime a, DateTime b) =>
-        a.year == b.year && a.month == b.month && a.day == b.day;
+  bool isWithinNoTime(DateTime? start, DateTime? end, DateTime? target) {
+    if (start != null && end != null && target != null) {
+      bool isSameDate(DateTime a, DateTime b) =>
+          a.year == b.year && a.month == b.month && a.day == b.day;
 
-    return (isSameDate(target, start) ||
-        isSameDate(target, end) ||
-        (target.isAfter(start) && target.isBefore(end)));
+      return (isSameDate(target, start) ||
+          isSameDate(target, end) ||
+          (target.isAfter(start) && target.isBefore(end)));
+    }
+
+    return false;
   }
 
   bool isDateWiseTextLoading = false;

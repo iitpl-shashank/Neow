@@ -97,6 +97,7 @@ class _CalendarViewState extends State<CalendarView> {
       if (_isChecked) {
         addPeriodInfo().whenComplete(() {
           mViewModel.getPeriodInfoList().whenComplete(() {
+            mViewModel.showLogSymptomsNotification();
             setState(() {
               _isChecked = false;
             });
@@ -186,9 +187,6 @@ class _CalendarViewState extends State<CalendarView> {
 
   Future<void> addPeriodInfo() async {
     CommonUtils.showProgressDialog();
-    HomeViewModel mViewHomeModel =
-        Provider.of<HomeViewModel>(context, listen: false);
-    mViewHomeModel.getPeriodInfoList();
 
     // Sort Dates
     forParentUseDateList.sort();
@@ -207,12 +205,7 @@ class _CalendarViewState extends State<CalendarView> {
 
     if (master == null) {
       CommonUtils.oopsMSG();
-    } else {
-      // CommonUtils.showSnackBar(master.message ?? "--",
-      //     color: (master.success ?? true)
-      //         ? CommonColors.greenColor
-      //         : CommonColors.mRed);
-    }
+    } else {}
 
     CommonUtils.hideProgressDialog();
   }

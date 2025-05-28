@@ -197,47 +197,68 @@ class _HomeViewState extends State<HomeView> {
   ) async {
     developer.log("INSIDE: Dialog");
     if (day == null) day = 100;
-
-    if (mViewModel.parsedDate != null) {
-      DateTime today = DateTime.now();
-      int daysLeft = mViewModel.parsedDate!
-          .difference(DateTime(today.year, today.month, today.day))
-          .inDays;
-      developer.log("INSIDE: ${daysLeft}");
-      if (daysLeft == 2) {
-        day = 1;
-      } else if (daysLeft == 1) {
-        day = 2;
-      } else if (daysLeft == 0) {
-        day = 3;
-      }
-    } else if (mViewModel.parsedEndDate != null) {
-      DateTime today = DateTime.now();
-      int daysLeft = mViewModel.parsedEndDate!
-          .difference(DateTime(today.year, today.month, today.day))
-          .inDays;
-      if (daysLeft == 0) {
-        day = 7;
+    if (day == 100) {
+      if (mViewModel.parsedDate != null) {
+        DateTime today = DateTime.now();
+        int daysLeft = mViewModel.parsedDate!
+            .difference(DateTime(today.year, today.month, today.day))
+            .inDays;
+        developer.log("INSIDE: ${daysLeft}");
+        if (daysLeft == 2) {
+          day = 1;
+        } else if (daysLeft == 1) {
+          day = 2;
+        } else if (daysLeft == 0) {
+          day = mViewModel.isWithinNoTime(
+                  mViewModel.periodStartdateTime,
+                  mViewModel.periodEnddateTime,
+                  mViewModel.periodStartLogDateTime)
+              ? 100
+              : 3;
+        } else if (daysLeft == -1) {
+          day = mViewModel.isWithinNoTime(
+            mViewModel.periodStartdateTime,
+            mViewModel.periodEnddateTime,
+            mViewModel.periodStartLogDateTime!.add(
+              Duration(days: 1),
+            ),
+          )
+              ? 100
+              : 3;
+        } else if (daysLeft < -1) {
+          day = mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
+                  mViewModel.periodEndLogDateTime, DateTime.now())
+              ? 100
+              : 5;
+        }
+      } else if (mViewModel.parsedEndDate != null) {
+        DateTime today = DateTime.now();
+        int daysLeft = mViewModel.parsedEndDate!
+            .difference(DateTime(today.year, today.month, today.day))
+            .inDays;
+        if (daysLeft == 0) {
+          day = 7;
+        }
       }
     }
 
     //TODO : Comment this for testing
-    if (day != 6) {
-      final prefs = await SharedPreferences.getInstance();
-      final today = DateTime.now();
-      final key = 'custom_dialog_shown_day_$day';
-      final lastShown = prefs.getString(key);
+    // if (day != 6) {
+    //   final prefs = await SharedPreferences.getInstance();
+    //   final today = DateTime.now();
+    //   final key = 'custom_dialog_shown_day_$day';
+    //   final lastShown = prefs.getString(key);
 
-      final todayStr = "${today.year}-${today.month}-${today.day}";
+    //   final todayStr = "${today.year}-${today.month}-${today.day}";
 
-      if (lastShown == todayStr) {
-        return;
-      }
-      await prefs.setString(
-        key,
-        todayStr,
-      );
-    }
+    //   if (lastShown == todayStr) {
+    //     return;
+    //   }
+    //   await prefs.setString(
+    //     key,
+    //     todayStr,
+    //   );
+    // }
 
     developer.log("INSIDE DAY: $day");
 
@@ -533,6 +554,21 @@ class _HomeViewState extends State<HomeView> {
     mViewSymptomsModel = Provider.of<LogYourSymptomsModel>(context);
     mViewYourNaveliModel = Provider.of<YourNaveliViewModel>(context);
 
+    if (mViewModel.showLogSymptomsAlert &&
+        !_dialogShown &&
+        ModalRoute.of(context)?.isCurrent == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && ModalRoute.of(context)?.isCurrent == true) {
+          showCustomDayDialog(
+            context,
+            "username",
+            4,
+          );
+          _dialogShown = true;
+        }
+      });
+    }
+
     final List<Widget> insightWidgets = [
       if (gUserType == AppConstants.NEOWME)
         CommonDailyInsightContainer(
@@ -673,10 +709,6 @@ class _HomeViewState extends State<HomeView> {
                       gUserType == AppConstants.BUDDY) ...[
                     calender2,
                   ],
-                  Container(
-                    height: 10,
-                    color: Color(0xFFFBF5F7),
-                  ),
                   if (gUserType == AppConstants.NEOWME ||
                       gUserType == AppConstants.BUDDY) ...[
                     Stack(
@@ -739,8 +771,8 @@ class _HomeViewState extends State<HomeView> {
                                     ? Container(
                                         child: Image.asset(
                                           LocalImages.syncing_the_vibe,
-                                          height: 200,
-                                          width: 180,
+                                          height: 300,
+                                          width: 300,
                                           fit: BoxFit.contain,
                                         ),
                                       )
