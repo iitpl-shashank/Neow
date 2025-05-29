@@ -41,6 +41,9 @@ class LogYourSymptomsModel with ChangeNotifier {
   int? selectedAcne;
   int count = 0;
 
+  bool severeAlert = false;
+  bool stainAlert = false;
+
   void updateLocation(int location) {
     selectedLocation = location;
 
@@ -202,83 +205,6 @@ class LogYourSymptomsModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> userSymptomsLogApi({
-  //   int? staining,
-  //   int? clotSize,
-  //   int? workingAbility,
-  //   int? location,
-  //   List? selectedLocationArray,
-  //   int? cramps,
-  //   int? days,
-  //   int? collectionMethod,
-  //   int? frequencyOfChangeDay,
-  //   int? mood,
-  //   int? energy,
-  //   int? stress,
-  //   int? lifestyle,
-  //   int? acne,
-  //   int? stainingScore,
-  //   int? clotSizeScore,
-  //   int? workingAbilityScore,
-  //   int? locationScore,
-  //   int? periodCrampsScore,
-  //   int? daysScore,
-  // }) async {
-  //   // CommonUtils.showProgressDialog();
-  //   Map<String, dynamic> params = <String, dynamic>{
-  //     if (staining != null) ApiParams.staining: staining,
-  //     if (clotSize != null) ApiParams.clot_size: clotSize,
-  //     if (workingAbility != null) ApiParams.working_ability: workingAbility,
-  //     if (location != null) ApiParams.location: location,
-  //     if (cramps != null) ApiParams.cramps: cramps,
-  //     if (days != null) ApiParams.days: days,
-  //     if (collectionMethod != null)
-  //       ApiParams.collection_method: collectionMethod,
-  //     if (frequencyOfChangeDay != null)
-  //       ApiParams.frequency_of_change_day: frequencyOfChangeDay,
-  //     if (mood != null) ApiParams.mood: mood,
-  //     if (energy != null) ApiParams.energy: energy,
-  //     if (stress != null) ApiParams.stress: stress,
-  //     if (acne != null) ApiParams.acne: acne,
-  //     ApiParams.date: DateFormat('yyyy-MM-dd').format(now),
-  //   };
-  //   log(params.toString());
-
-  //   CommonMaster? master = await _services.api!.userSymptomsLog(params: params);
-  //   // CommonUtils.hideProgressDialog();
-  //   if (master == null) {
-  //     CommonUtils.oopsMSG();
-  //     print(
-  //         "................................symptoms oops.............................");
-  //   } else if (master.success == false) {
-  //     CommonUtils.showSnackBar(
-  //       master.message ?? "--",
-  //       color: CommonColors.mRed,
-  //     );
-  //   } else if (master.success == true) {
-  //     String? previousDateString = globalUserMaster?.previousPeriodsBegin ?? '';
-  //     List<String> dateParts = previousDateString.split(',');
-  //     int year = int.tryParse(dateParts[0].trim()) ?? 0;
-  //     int month = int.tryParse(dateParts[0].trim()) ?? 0;
-  //     int day = int.tryParse(dateParts[0].trim()) ?? 0;
-
-  //     DateTime previousDate = DateTime(year, month, day);
-
-  //     String formattedDate = DateFormat('yyyy-MM-dd').format(previousDate);
-
-  //     print(
-  //         "................................Previous date is................$formattedDate");
-
-  //     getSymptomsScoreApi(periodStartDate: formattedDate);
-  //     // getUserSymptomsLogApi();
-  //     // CommonUtils.showSnackBar(
-  //     //   master.message,
-  //     //   color: CommonColors.greenColor,
-  //     // );
-  //   }
-  //   // notifyListeners();
-  // }
-
   Future<void> getSymptomsScoreApi({
     required String? periodStartDate,
   }) async {
@@ -362,66 +288,6 @@ class LogYourSymptomsModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> getUserSymptomsLogApi({required String date}) async {
-  //   Map<String, dynamic> params = <String, dynamic>{
-  //     ApiParams.period_start_date: date
-  //   };
-  //   print("Get user data : Before API}");
-  //   UserSymptomsMaster? master =
-  //       await _services.api!.getUserSymptomsDetails(params: params);
-  //   print("Get user data : After API}");
-  //   if (master == null) {
-  //     print("Get user data : null it is");
-  //     CommonUtils.oopsMSG();
-  //     print(
-  //         "................................symptoms oops.............................");
-  //   } else if (master != null && master.success! && master.data != null) {
-  //     ;
-  //     userSymptomsData = master.data;
-  //     print("Get user data : ${(userSymptomsData?.toJson())}");
-  //     selectedStaining = userSymptomsData?.staining;
-  //     selectedClotSize = userSymptomsData?.clotSize;
-  //     selectedWorkingAbility = userSymptomsData?.workingAbility;
-  //     selectedLocation = userSymptomsData?.location;
-  //     selectedLocationArray?.add(userSymptomsData?.location);
-  //     selectedCramps = userSymptomsData?.cramps;
-  //     selectedDays = userSymptomsData?.days;
-  //     selectedCollection = userSymptomsData?.collectionMethod;
-  //     selectedFrequency = userSymptomsData?.frequencyOfChangeDay;
-  //     selectedMood = userSymptomsData?.mood;
-  //     selectedEnergy = userSymptomsData?.energy;
-  //     selectedStress = userSymptomsData?.stress;
-  //     selectedAcne = userSymptomsData?.acne;
-
-  //     print("Get user data : staining${selectedStaining}");
-  //     print("Get user data : clot${selectedClotSize}");
-  //   } else if (!master.success!) {}
-  //   notifyListeners();
-  // }
-
-  // Future<void> postUserSymptomsLogApi() async {
-
-  //   Map<String, dynamic> body = {
-  //     "staining": selectedStaining,
-  //     "clot_size": selectedClotSize,
-  //     "working_ability": selectedWorkingAbility,
-  //     "location": selectedLocationArray,
-  //     "cramps": selectedCramps,
-  //     "days": selectedDays,
-  //     "collectionMethod": selectedCollection,
-  //     "frequencyOfChangeDay": selectedFrequency.toString(),
-  //     "mood": selectedMood,
-  //     "energy": selectedEnergy,
-  //     "stress": selectedStress,
-  //     "acne": selectedAcne,
-  //   };
-
-  //   Map<String, dynamic> master =
-  //       await _services.api!.postUserSymptoms(body: body);
-  //   debugPrint("master: $master");
-  //   notifyListeners();
-  // }
-
   Future<void> postUserSymptomsLogApi(BuildContext context) async {
     if (selectedStaining == null) {
       _showSnackBar(context, S.of(context)!.pleaseSelectStaining);
@@ -503,10 +369,25 @@ class LogYourSymptomsModel with ChangeNotifier {
           await _services.api!.postUserSymptoms(body: body);
       debugPrint("master: $master");
 
+      if (master.isEmpty) {
+        _showSnackBar(context, S.of(context)!.failedToLogSymptoms);
+        return;
+      } else {
+        final data = master['data'];
+        severeAlert = data['severealert'];
+        stainAlert = data['stainalert'];
+        log("Severe Alert: $severeAlert");
+        log("Stain Alert: $stainAlert");
+        notifyListeners();
+      }
+
       _showSnackBar(context, S.of(context)!.symptomsLoggedSuccess,
           isError: false);
       notifyListeners();
-      Navigator.pop(context);
+      if (!stainAlert && !severeAlert)
+        Navigator.pop(
+          context,
+        );
     } catch (e) {
       debugPrint("Error logging symptoms: $e");
       _showSnackBar(context, S.of(context)!.failedToLogSymptoms);

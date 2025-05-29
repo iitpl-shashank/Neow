@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/constant.dart';
@@ -39,7 +41,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
     });
   }
 
-  void showDysmenorrheaDialog(BuildContext context) {
+  Future<void> showDysmenorrheaDialog(BuildContext context) async {
     debugPrint("showDysmenorrheaDialog");
     showDialog(
       context: context,
@@ -142,7 +144,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
     );
   }
 
-  void showheavyFlow(BuildContext context) {
+  Future<void> showheavyFlow(BuildContext context) async {
     debugPrint("showDysmenorrheaDialog");
     showDialog(
       context: context,
@@ -321,7 +323,8 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       kCommonSpaceH10,
                       CommonSymptomsWidget(
                         onTap: () {
-                          showheavyFlow(context);
+                          // TODO : to show or not ?
+                          // showheavyFlow(context);
                           mViewModel.updateStaining(3);
 
                           mViewModel.count += 1;
@@ -623,7 +626,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                         CommonSymptomsWidget(
                           onTap: () {
                             // TODO : to show or not ?
-                            showDysmenorrheaDialog(context);
+                            // showDysmenorrheaDialog(context);
                             mViewModel.updateCramps(4);
                           },
                           underText: S.of(context)!.hurtWorst,
@@ -1017,8 +1020,19 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                       width: kDeviceWidth / 1.3,
                       label: S.of(context)!.save,
                       buttonColor: CommonColors.primaryColor,
-                      onPress: () {
-                        mViewModel.postUserSymptomsLogApi(context);
+                      onPress: () async {
+                        await mViewModel.postUserSymptomsLogApi(context);
+                        if (mViewModel.severeAlert) {
+                          log("Severe Alert Triggered");
+                          if (!mounted) return;
+                          await showDysmenorrheaDialog(context);
+                          // Navigator.pop(context);
+                        } else if (mViewModel.stainAlert) {
+                          log("Heavy Flow Alert Triggered");
+                          if (!mounted) return;
+                          await showheavyFlow(context);
+                          // Navigator.pop(context);
+                        }
                       },
                     ),
                   )
