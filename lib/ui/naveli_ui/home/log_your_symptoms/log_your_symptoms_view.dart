@@ -43,7 +43,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
 
   Future<void> showDysmenorrheaDialog(BuildContext context) async {
     debugPrint("showDysmenorrheaDialog");
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
@@ -146,7 +146,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
 
   Future<void> showheavyFlow(BuildContext context) async {
     debugPrint("showDysmenorrheaDialog");
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
@@ -1026,12 +1026,12 @@ class _LogYourSymptomsState extends State<LogYourSymptoms>
                           log("Severe Alert Triggered");
                           if (!mounted) return;
                           await showDysmenorrheaDialog(context);
-                          // Navigator.pop(context);
+                          if (mounted) Navigator.of(context).pop();
                         } else if (mViewModel.stainAlert) {
                           log("Heavy Flow Alert Triggered");
                           if (!mounted) return;
                           await showheavyFlow(context);
-                          // Navigator.pop(context);
+                          if (mounted) Navigator.of(context).pop();
                         }
                       },
                     ),
