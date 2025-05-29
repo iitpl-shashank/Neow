@@ -555,6 +555,8 @@ class HomeViewModel with ChangeNotifier {
 
       log("periodStartLogDateTime ====> $periodStartLogDateTime");
       log("periodEndLogDateTime ====> $periodEndLogDateTime");
+      log("predicted start ====> $periodStartLogDateTime");
+      log("predicted end ====> $periodEndLogDateTime");
 
       log("Check dates $periodEnddateTime and $today");
       if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
@@ -562,8 +564,7 @@ class HomeViewModel with ChangeNotifier {
               isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
               isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
               today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) &&
-          (isSameDate(periodStartdateTime, periodStartLogDateTime)) &&
-          (isSameDate(periodEnddateTime, periodEndLogDateTime))) {
+          (isSameDate(periodStartdateTime, periodStartLogDateTime))) {
         startChatBot = true;
         notifyListeners();
       } else {
