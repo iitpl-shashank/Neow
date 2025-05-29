@@ -174,53 +174,111 @@ class _HealthMixViewState extends State<HealthMixView>
               SizedBox(
                 height: 50,
                 child: Container(
-                  child: ListView.builder(
-                    itemCount: subHeadings.length,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      var txtColor = selectedTabIndex2 == index
-                          ? CommonColors.primaryColor
-                          : CommonColors.blackColor;
-                      return (GestureDetector(
-                        onTap: () {
-                          onButtonPressed2(index);
-                        },
-                        child: Container(
-                          height: 70,
-                          padding: const EdgeInsets.only(
-                            left: 0,
-                            right: 15,
-                          ),
-                          margin: const EdgeInsets.only(left: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(subHeadings[index],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: txtColor,
-                                      )),
-                                ],
-                              ),
-                              Visibility(
-                                visible: selectedTabIndex2 == index,
+                    child: widget.title != S.of(context)!.shorts
+                        ? ListView.builder(
+                            itemCount: subHeadings.length,
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              var txtColor = selectedTabIndex2 == index
+                                  ? CommonColors.primaryColor
+                                  : CommonColors.blackColor;
+                              return (GestureDetector(
+                                onTap: () {
+                                  onButtonPressed2(index);
+                                },
                                 child: Container(
-                                    height: 3, width: 80, color: txtColor),
-                              )
-                            ],
-                          ),
-                        ),
-                      ));
-                    },
-                  ),
-                ),
+                                  height: 70,
+                                  padding: const EdgeInsets.only(
+                                    left: 0,
+                                    right: 15,
+                                  ),
+                                  margin: const EdgeInsets.only(left: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(subHeadings[index],
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: txtColor,
+                                              )),
+                                        ],
+                                      ),
+                                      Visibility(
+                                        visible: selectedTabIndex2 == index,
+                                        child: Container(
+                                            height: 3,
+                                            width: 80,
+                                            color: txtColor),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ));
+                            },
+                          )
+                        : ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: subHeadings.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 10),
+                            itemBuilder: (context, index) {
+                              final isSelected = selectedTabIndex2 == index;
+                              return GestureDetector(
+                                onTap: () => onButtonPressed2(index),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? CommonColors.primaryColor
+                                        : CommonColors.mGrey.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(25),
+                                    boxShadow: [
+                                      if (isSelected)
+                                        BoxShadow(
+                                          color: CommonColors.primaryColor
+                                              .withOpacity(0.2),
+                                          blurRadius: 6,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                    ],
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? CommonColors.primaryColor
+                                          : Colors.transparent,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      subHeadings[index],
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : CommonColors.blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          )),
               ),
+              if (widget.title == S.of(context)!.shorts)
+                const SizedBox(height: 20),
               Expanded(
                 child: mViewModel.healthPostsList.length != 0
                     ? SingleChildScrollView(

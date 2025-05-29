@@ -43,7 +43,7 @@ class _CommonRelationSelectBoxState extends State<CommonRelationSelectBox> {
           onTap: widget.onTap,
           child: Container(
             width: 150,
-            height: 180,
+            height: 190,
             padding: const EdgeInsets.all(5),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
