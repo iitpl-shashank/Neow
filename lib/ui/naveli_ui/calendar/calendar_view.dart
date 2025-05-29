@@ -96,8 +96,9 @@ class _CalendarViewState extends State<CalendarView> {
     setState(() {
       if (_isChecked) {
         addPeriodInfo().whenComplete(() {
-          mViewModel.getPeriodInfoList().whenComplete(() {
+          mViewModel.getPeriodInfoList().whenComplete(() async {
             mViewModel.showLogSymptomsNotification();
+            await mViewModel.setIsPeriodLogTrue();
             setState(() {
               _isChecked = false;
             });

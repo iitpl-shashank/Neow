@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/hindi_translation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/healthmix_category_model.dart';
 import '../../../models/period_phase_model.dart';
@@ -55,6 +56,8 @@ class HomeViewModel with ChangeNotifier {
 
   List<String> hindiTransliterations = [];
   List<String> englishTransliterations = [];
+
+  bool isPeriodLog = false;
 
   Future<void> getHindiTranslation({required String string}) async {
     CommonUtils.showProgressDialog();
@@ -129,6 +132,19 @@ class HomeViewModel with ChangeNotifier {
       stops: List.generate(gradientColors.length,
           (index) => index / (gradientColors.length - 1)),
     );
+  }
+
+  Future<void> loadIsPeriodLog() async {
+    final prefs = await SharedPreferences.getInstance();
+    isPeriodLog = prefs.getBool('isPeriodLog') ?? false;
+    notifyListeners();
+  }
+
+  Future<void> setIsPeriodLogTrue() async {
+    final prefs = await SharedPreferences.getInstance();
+    isPeriodLog = true;
+    await prefs.setBool('isPeriodLog', true);
+    notifyListeners();
   }
 
   DateTime currentDateTime = DateTime.now();
@@ -705,43 +721,6 @@ class HomeViewModel with ChangeNotifier {
 
       // daysToGo = mViewModel.calculateDaysToGo(mViewModel.nextCycleDates);
     }
-
-    // if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
-    //   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
-    //   print("Cycle length :: ${globalUserMaster?.averageCycleLength}");
-    //   print("dt :: ${dt}");
-    //   print(
-    //       "Period length :: ${globalUserMaster?.averagePeriodLength} previouspreriodbegin : ${globalUserMaster?.previousPeriodsBegin ?? ''}");
-    //   //mViewModel.dateParts = dateString.split(RegExp(r'[\s-]+'));
-    //   dateParts = dt.split(RegExp(r'[\s-]+'));
-    //   year = int.parse(dateParts[0]);
-    //   month = int.parse(dateParts[1]);
-    //   day = int.parse(dateParts[2]);
-    //   DateTime previousDate = DateTime(year, month, day);
-    //   DateTime endDate = DateTime(year, month, day).add(Duration(days: int.parse(globalUserMaster?.averagePeriodLength ?? "5") - 1));
-    //   print("previousDate :::::::::: $previousDate");
-    //   DateTime newDate = previousDate.add(Duration(days: cycleLength));
-    //   print("newDate date is :::::::::: $newDate");
-    //   print(" cycleLength date is :::::::::: $cycleLength");
-    //
-    //   nextCycleDates = calculateCycleDatesInYear(newDate.subtract(Duration(days: 1)), cycleLength);
-    //   ovulationDates = calculateOvolutionDatesInYear(previousDate, cycleLength);
-    //   firtileDates = calculateFirtileDatesInYear(ovulationDates);
-    //   print("CycleDates date is :::::::::: ${gCycleDates[0].periodDay}");
-    //   generateDaysList();
-    //   print("Next date is :::::::::: $nextCycleDates");
-    //
-    //   DateTime today = DateTime.now();
-    //   DateTime? nextCycleDate = nextCycleDates.firstWhere(
-    //     (date) => date.isAfter(today),
-    //     orElse: () => nextCycleDates.last,
-    //   );
-    //
-    //   // Pass the next cycle date to the calculateDaysToGo method
-    //   // daysToGo = mViewModel.calculateDaysToGo(nextCycleDate);
-    //
-    //   // daysToGo = mViewModel.calculateDaysToGo(mViewModel.nextCycleDates);
-    // }
   }
 
   Future<void> fetchHealthMixCategoryList() async {

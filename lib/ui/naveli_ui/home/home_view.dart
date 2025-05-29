@@ -84,7 +84,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-
+    Provider.of<HomeViewModel>(context, listen: false).loadIsPeriodLog();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       String username = globalUserMaster?.name.toString().split(' ')[0] ?? '';
       // TODO  Removed as per client feedback
@@ -744,6 +744,7 @@ class _HomeViewState extends State<HomeView> {
                             builder: (context, vModel, child) {
                               final imageUrl =
                                   vModel.dateWiseTextList.msg.image;
+                              // vModel.loadIsPeriodLog();
                               if (!_dialogShown) {
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
@@ -794,7 +795,8 @@ class _HomeViewState extends State<HomeView> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          if (imageUrl != null)
+                                          if (imageUrl != null &&
+                                              vModel.isPeriodLog)
                                             Container(
                                               width: 150,
                                               height: 150,
