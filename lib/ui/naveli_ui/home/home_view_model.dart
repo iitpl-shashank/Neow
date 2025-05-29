@@ -32,6 +32,7 @@ class HomeViewModel with ChangeNotifier {
   DateTime? fertileEndDateTime;
   DateTime? periodStartLogDateTime;
   DateTime? periodEndLogDateTime;
+  DateTime today = DateTime.now();
   DateTime oldDateTime = DateTime(2020, 5, 15);
 
   late BuildContext context;
@@ -491,7 +492,6 @@ class HomeViewModel with ChangeNotifier {
   }
 
   void showLogSymptomsNotification() {
-    DateTime today = DateTime.now();
     showLogSymptomsAlert =
         isWithinNoTime(periodStartLogDateTime, periodEndLogDateTime, today)
             ? true
@@ -525,8 +525,6 @@ class HomeViewModel with ChangeNotifier {
       log("True check in check ====> $currentMonth");
       periodStartdateTime =
           DateTime.parse(data.predictions.first.predictedStart);
-      // DateTime periodNextDaydateTime =
-      //     periodStartdateTime.add(Duration(days: 1));
       periodEnddateTime = DateTime.parse(data.predictions.first.predictedEnd);
       ovulationDateTime = DateTime.parse(data.predictions.first.ovulationDay);
       fertileStartDateTime =
@@ -542,13 +540,14 @@ class HomeViewModel with ChangeNotifier {
       log("periodStartLogDateTime ====> $periodStartLogDateTime");
       log("periodEndLogDateTime ====> $periodEndLogDateTime");
 
-      DateTime today = DateTime.now();
       log("Check dates $periodEnddateTime and $today");
-      if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
-          isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
-          isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
-          isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
-          today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) {
+      if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
+              isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
+              isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
+              isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
+              today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) &&
+          (isSameDate(periodStartdateTime, periodStartLogDateTime)) &&
+          (isSameDate(periodEnddateTime, periodEndLogDateTime))) {
         startChatBot = true;
         notifyListeners();
       } else {
@@ -595,6 +594,13 @@ class HomeViewModel with ChangeNotifier {
     }
 
     return false;
+  }
+
+  bool isSameDate(DateTime? a, DateTime? b) {
+    if (a != null && b != null) {
+      return a.year == b.year && a.month == b.month && a.day == b.day;
+    } else
+      return false;
   }
 
   bool isDateWiseTextLoading = false;
@@ -687,7 +693,6 @@ class HomeViewModel with ChangeNotifier {
       generateDaysList();
       print("Next date is :::::::::: ${nextCycleDates}");
 
-      DateTime today = DateTime.now();
       DateTime? nextCycleDate = nextCycleDates.firstWhere(
         (date) => date.isAfter(today),
         orElse: () => nextCycleDates.last,

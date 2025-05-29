@@ -203,12 +203,14 @@ class _HealthMixViewState extends State<HealthMixView>
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Text(subHeadings[index],
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: txtColor,
-                                              )),
+                                          Text(
+                                            subHeadings[index],
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: txtColor,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Visibility(

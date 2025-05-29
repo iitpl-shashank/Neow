@@ -196,7 +196,19 @@ class _HomeViewState extends State<HomeView> {
     int? day,
   ) async {
     developer.log("INSIDE: Dialog");
+
     if (day == null) day = 100;
+
+    if (day != 6) {
+      if ((mViewModel.isSameDate(mViewModel.periodStartdateTime,
+              mViewModel.periodStartLogDateTime)) &&
+          (mViewModel.isSameDate(
+              mViewModel.periodEnddateTime, mViewModel.periodEndLogDateTime))) {
+        developer.log("Its a match");
+      } else
+        return;
+    }
+
     if (day == 100) {
       if (mViewModel.parsedDate != null) {
         DateTime today = DateTime.now();
@@ -301,7 +313,9 @@ class _HomeViewState extends State<HomeView> {
               navigateToCalendarView();
             }),
       );
-    } else if (day == 4) {
+    } else if (day == 4 &&
+        mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
+            mViewModel.periodEndLogDateTime, mViewModel.today)) {
       showDialog(
         context: context,
         builder: (context) => CustomNotification(
@@ -573,10 +587,8 @@ class _HomeViewState extends State<HomeView> {
       if (gUserType == AppConstants.NEOWME)
         CommonDailyInsightContainer(
           onTap: () {
-            if (mViewModel.dateWiseTextList.msg.periodMsg!
-                    .contains("Period Day") ||
-                mViewModel.dateWiseTextList.msg.periodMsg!
-                    .contains("पीरियड दिन")) {
+            if (mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
+                mViewModel.periodEndLogDateTime, mViewModel.today)) {
               push(const LogYourSymptoms());
             } else {
               CommonUtils.showToastMessage(
