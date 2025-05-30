@@ -1394,6 +1394,10 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+
+  @override
+  String get metricSystem => "मेट्रिक प्रणाली!";
+
   @override
   String get periodExpectedToEndToday =>
       "आपकी पीरियड आज खत्म होने की संभावना है।";

@@ -90,7 +90,7 @@ class _SettingsViewState extends State<SettingsView> {
                       CommonProfileMenu(
                         text: S.of(context)!.accountAccess,
                         isLast: false,
-                       // color: CommonColors.blackColor,
+                        // color: CommonColors.blackColor,
                         underLineColor: CommonColors.mGrey300,
                         onTap: () {
                           push(const AccountAccessView());
@@ -118,7 +118,7 @@ class _SettingsViewState extends State<SettingsView> {
                       },
                       text: S.of(context)!.logout,
                       isLast: true,
-                     // color: CommonColors.mRed,
+                      // color: CommonColors.mRed,
                     ),
                   ],
                 ),
