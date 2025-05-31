@@ -224,7 +224,6 @@ class LocalImages {
       'assets/images/img_bmi_calculator.png';
   static const String img_sleep = 'assets/images/img_sleep.png';
   static const String img_others = 'assets/images/img_others.png';
-  //static const String img_quick_survey = 'assets/images/img_quick_survey.png';
   static const String img_calendar = 'assets/images/img_calendar.png';
   static const String img_pot = 'assets/images/img_pot.png';
   static const String img_sunset = 'assets/images/img_sunset.png';
