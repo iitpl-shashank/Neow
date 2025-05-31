@@ -3221,7 +3221,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   Locale _resolve(Locale? locale, Locale fallback, Iterable<Locale> supported,
       bool withCountry) {
     if (locale == null || !_isSupported(locale, withCountry)) {
-      return fallback ?? supported.first;
+      return fallback;
     }
 
     final Locale languageLocale = Locale(locale.languageCode, "");
@@ -3230,7 +3230,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     } else if (supported.contains(languageLocale)) {
       return languageLocale;
     } else {
-      final Locale fallbackLocale = fallback ?? supported.first;
+      final Locale fallbackLocale = fallback;
       return fallbackLocale;
     }
   }

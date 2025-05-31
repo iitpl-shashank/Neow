@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_question/quiz_question_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view_model.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
-import 'package:naveli_2023/widgets/profile_image_round.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../generated/i18n.dart';
-import '../../../../utils/common_utils.dart';
 import '../../../../utils/local_images.dart';
 import '../../../../utils/constant.dart';
-import '../../../../widgets/common_appbar.dart';
 
 class QuizView extends StatefulWidget {
   const QuizView({super.key});
@@ -21,7 +15,6 @@ class QuizView extends StatefulWidget {
 
 class _QuizViewState extends State<QuizView> {
   late QuizViewModel mViewModel;
-  String? _selectedAgeGroup;
   final List<Map<String, dynamic>> dataList = [
     {
       'image': LocalImages.img_medication,

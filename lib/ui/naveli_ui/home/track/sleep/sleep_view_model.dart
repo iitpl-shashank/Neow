@@ -89,9 +89,6 @@ class SleepViewModel with ChangeNotifier {
     final url = Uri.parse('https://neowindia.com/customeApi/sleep_history.php');
 
     // Create headers
-    final headers = {
-      'Content-Type': 'application/json',
-    };
     final Map<String, String> data = {
       'user_id': numberString,
       'weight': weight,
@@ -122,9 +119,6 @@ class SleepViewModel with ChangeNotifier {
             numberString);
 
     // Create headers
-    final headers = {
-      'Content-Type': 'application/json',
-    };
 
     // Send the request
     final response = await http.get(
@@ -148,9 +142,4 @@ class SleepViewModel with ChangeNotifier {
       throw Exception('Failed to load data');
     }
   }
-
-
-  
-
-
 }

@@ -28,9 +28,6 @@ class PostList extends StatefulWidget {
 
 class _PostList extends State<PostList> with SingleTickerProviderStateMixin {
   late HealthMixViewModel mViewModel;
-
-  // late HealthMixViewModel mViewModel;
-  final bool _isLiked = false;
   int position;
   int selectedTabIndex;
   final List<String> text = [

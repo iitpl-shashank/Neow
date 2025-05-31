@@ -1,8 +1,6 @@
-import 'package:http/http.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/signup_master.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
-
 import '../models/about_us_master.dart';
 import '../models/about_your_cycle_master.dart';
 import '../models/all_about_periods_details_master.dart';

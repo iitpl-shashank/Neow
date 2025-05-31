@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:intl/intl.dart';
-import 'package:naveli_2023/models/date_model.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -24,13 +21,12 @@ class _Page5State extends State<Page5> {
   @override
   void initState() {
     super.initState();
-    mMonthlReminderViewModel = Provider.of<MonthlyRemindersViewModel>(context, listen: false);
+    mMonthlReminderViewModel =
+        Provider.of<MonthlyRemindersViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () {
       mMonthlReminderViewModel.attachedContext(context);
       mMonthlReminderViewModel.getMonthlyRemindersList().whenComplete(() {
-        setState(() {
-
-        });
+        setState(() {});
       });
     });
   }
@@ -38,23 +34,26 @@ class _Page5State extends State<Page5> {
   void _showAddReminderDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AddReminderDialog(onReminderAdded: (data) {
-        if (mMonthlReminderViewModel.meetingList.isEmpty) {
-          print("list empty blue");
-          data.color = Colors.blue;
-        } else if (mMonthlReminderViewModel.meetingList.length == 1) {
-          print("list empty blue");
-          data.color = Colors.red;
-        } else if (mMonthlReminderViewModel.meetingList.length % 2 == 0) {
-          data.color = Colors.red;
-          print("list red");
-        } else {
-          data.color = Colors.blue;
-          print("list blue ${mMonthlReminderViewModel.meetingList.length} / ${mMonthlReminderViewModel.meetingList.length / 2}");
-        }
-        mMonthlReminderViewModel.meetingList.add(data);
-        setState(() {});
-      }, mMonthlReminderViewModel: mMonthlReminderViewModel),
+      builder: (context) => AddReminderDialog(
+          onReminderAdded: (data) {
+            if (mMonthlReminderViewModel.meetingList.isEmpty) {
+              print("list empty blue");
+              data.color = Colors.blue;
+            } else if (mMonthlReminderViewModel.meetingList.length == 1) {
+              print("list empty blue");
+              data.color = Colors.red;
+            } else if (mMonthlReminderViewModel.meetingList.length % 2 == 0) {
+              data.color = Colors.red;
+              print("list red");
+            } else {
+              data.color = Colors.blue;
+              print(
+                  "list blue ${mMonthlReminderViewModel.meetingList.length} / ${mMonthlReminderViewModel.meetingList.length / 2}");
+            }
+            mMonthlReminderViewModel.meetingList.add(data);
+            setState(() {});
+          },
+          mMonthlReminderViewModel: mMonthlReminderViewModel),
     );
   }
 
@@ -151,13 +150,15 @@ class _Page5State extends State<Page5> {
       ),
     );
   }
-
 }
 
 class AddReminderDialog extends StatefulWidget {
-  Function(Appointment data) onReminderAdded;
-  MonthlyRemindersViewModel mMonthlReminderViewModel;
-  AddReminderDialog({super.key, required this.onReminderAdded, required this.mMonthlReminderViewModel});
+  final Function(Appointment data) onReminderAdded;
+  final MonthlyRemindersViewModel mMonthlReminderViewModel;
+  AddReminderDialog(
+      {super.key,
+      required this.onReminderAdded,
+      required this.mMonthlReminderViewModel});
 
   @override
   State<AddReminderDialog> createState() => _AddReminderDialogState();
@@ -287,7 +288,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                       setState(() {});
                     },
                     child: Image.asset(
-                      (isBirthday ?? false)
+                      (isBirthday)
                           ? 'assets/images/switch_todo_on.png'
                           : 'assets/images/switch_todo_off.png',
                       // Path to your image
@@ -398,7 +399,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   DateFormat timeFormat = DateFormat("hh:mm a");
                   // Format the DateTime object into the desired string
                   String formattedDate = outputFormat.format(meetingStart);
-                  print("Formatted Date: $formattedDate"); // Output: 16-Dec-2025
+                  print(
+                      "Formatted Date: $formattedDate"); // Output: 16-Dec-2025
                   Navigator.pop(context);
                   widget.mMonthlReminderViewModel.addMonthlyReminder(
                     date: formattedDate,

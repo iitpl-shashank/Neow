@@ -174,16 +174,10 @@ import '../../../../../generated/i18n.dart';
 import '../../../../../widgets/common_appbar.dart';
 import '../../../../../widgets/common_text.dart';
 
-class CalculateBmi extends StatelessWidget {
+class CalculateBmi extends StatefulWidget {
   final double bmiScore;
 
   final int age;
-
-  String? bmiStatus;
-
-  String? bmiInterpretation;
-
-  Color? bmiStatusColor;
 
   final String gender;
   final String weight;
@@ -200,6 +194,17 @@ class CalculateBmi extends StatelessWidget {
       required this.height,
       required this.dropdownValueHeight,
       required this.dropdownValueWeight});
+
+  @override
+  State<CalculateBmi> createState() => _CalculateBmiState();
+}
+
+class _CalculateBmiState extends State<CalculateBmi> {
+  String? bmiStatus;
+
+  String? bmiInterpretation;
+
+  Color? bmiStatusColor;
 
   @override
   Widget build(BuildContext context) {
@@ -246,10 +251,10 @@ class CalculateBmi extends StatelessWidget {
                         GaugeSegment('Obese', 10.1, Colors.pink),
                       ],
                       valueWidget: Text(
-                        bmiScore.toStringAsFixed(1),
+                        widget.bmiScore.toStringAsFixed(1),
                         style: const TextStyle(fontSize: 40),
                       ),
-                      currentValue: bmiScore.toDouble(),
+                      currentValue: widget.bmiScore.toDouble(),
                       needleColor: Colors.blue,
                     ),
                     kCommonSpaceV10,
@@ -296,15 +301,19 @@ class CalculateBmi extends StatelessWidget {
                         children: [
                           kCommonSpaceV20,
                           CustomTextWidget(
-                              title: S.of(context)!.gender, value: gender),
+                              title: S.of(context)!.gender,
+                              value: widget.gender),
                           CustomTextWidget(
-                              title: S.of(context)!.age, value: '$age Year'),
+                              title: S.of(context)!.age,
+                              value: '${widget.age} Year'),
                           CustomTextWidget(
                               title: S.of(context)!.weight,
-                              value: '$weight $dropdownValueWeight'),
+                              value:
+                                  '${widget.weight} ${widget.dropdownValueWeight}'),
                           CustomTextWidget(
                               title: S.of(context)!.height,
-                              value: '$height $dropdownValueHeight'),
+                              value:
+                                  '${widget.height} ${widget.dropdownValueHeight}'),
                           kCommonSpaceV20,
                         ],
                       ),
@@ -362,19 +371,19 @@ class CalculateBmi extends StatelessWidget {
   }
 
   void setBmiInterpretation() {
-    if (bmiScore > 30) {
+    if (widget.bmiScore > 30) {
       bmiStatus = "Obese";
       bmiInterpretation = "Please work to reduce obesity";
       bmiStatusColor = Colors.pink;
-    } else if (bmiScore >= 25) {
+    } else if (widget.bmiScore >= 25) {
       bmiStatus = "Overweight";
       bmiInterpretation = "Do regular exercise & reduce the weight";
       bmiStatusColor = Colors.orange;
-    } else if (bmiScore >= 18.5) {
+    } else if (widget.bmiScore >= 18.5) {
       bmiStatus = "Healthy";
       bmiInterpretation = "Enjoy, You are fit";
       bmiStatusColor = Colors.green;
-    } else if (bmiScore < 18.5) {
+    } else if (widget.bmiScore < 18.5) {
       bmiStatus = "Underweight";
       bmiInterpretation = "Try to increase the weight";
       bmiStatusColor = Colors.red;

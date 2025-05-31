@@ -21,7 +21,6 @@ import '../common_ui/otp/otp_view_model.dart';
 import '../common_ui/select_options/select_option_view_model.dart';
 import '../common_ui/signup/signup_view_model.dart';
 import '../common_ui/singin/signin_view_model.dart';
-import '../common_ui/splash/splash_view.dart';
 import '../common_ui/splash/splash_view_vdo.dart';
 import '../common_ui/splash/splash_view_model.dart';
 import '../common_ui/state_and_language_selection/state_selection_view_model.dart';

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/ui/naveli_ui/secret_diary/page1.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/global_variables.dart';
 import '../../naveli_ui/forum/forum_view.dart';
 import '../../naveli_ui/health_mix/health_mix_view.dart';
-import '../../naveli_ui/health_mix/health_mix_view_model.dart';
 import '../../naveli_ui/home/home_view.dart';
-import '../../naveli_ui/home/home_view_model.dart';
 import '../../naveli_ui/profile/profile_view.dart';
 import 'bottom_navbar_view_model.dart';
 import 'package:flutter/services.dart';

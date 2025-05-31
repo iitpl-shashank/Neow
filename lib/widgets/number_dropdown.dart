@@ -13,8 +13,6 @@ class NumberDropdown extends StatefulWidget {
 }
 
 class _NumberDropdownState extends State<NumberDropdown> {
-  String? _selectedNumber; // Make it nullable
-
   final List<int> items = [1, 2, 3, 4, 5];
 
   @override

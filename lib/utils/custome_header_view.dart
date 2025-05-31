@@ -1,12 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/models/user_medicine_master.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
-import 'package:naveli_2023/utils/constant.dart';
-import 'package:naveli_2023/utils/local_images.dart';
-import 'package:naveli_2023/widgets/common_symptoms_widget.dart';
-import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

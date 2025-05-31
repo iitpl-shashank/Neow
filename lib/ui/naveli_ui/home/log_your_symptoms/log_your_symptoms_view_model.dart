@@ -1,21 +1,15 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/common_ui/bottom_navbar/bottom_navbar_view.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
-
 import '../../../../generated/i18n.dart';
-import '../../../../models/common_master.dart';
 import '../../../../models/user_symptoms_master.dart';
 import '../../../../models/user_symptoms_score_master.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/constant.dart';
-import '../../../../utils/global_variables.dart';
 import '../../../../utils/local_images.dart';
 
 class LogYourSymptomsModel with ChangeNotifier {

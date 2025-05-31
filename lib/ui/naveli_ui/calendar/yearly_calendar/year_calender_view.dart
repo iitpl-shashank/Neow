@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/date_utils.dart';
 import 'package:naveli_2023/utils/global_function.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
@@ -82,7 +81,6 @@ class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<HomeViewModel>(context);
-    DateTime ovulationDate = DateTime(2020, 1, 1);
 
     final firstDayOfWeek = DateTime(widget.year, widget.month, 1).weekday;
     final daysInMonth = getDaysInMonth(widget.year, widget.month);
@@ -104,20 +102,14 @@ class _MonthViewState extends State<MonthView> {
       bool isFuturePredictedHighlighted = false;
       bool isOvulation = false;
       bool isFertile = false;
-      DateTime now = DateTime.now();
 
       List<DateTime> fertileDates = [];
       List<DateTime> ovulationDates = [];
       List<DateTime> loggedPeriodDates = [];
       List<DateTime> predictedPeriodDates = [];
 
-      // DateTime now = DateTime.now();
-      int currentYear = now.year;
-
-      // DateTime now = DateTime.now();
-      // int currentYear = now.year;
       peroidCustomeList.forEach((element) {
-        element.periodData!.forEach((periodDates) {
+        element.periodData.forEach((periodDates) {
           for (DateTime start = DateTime.parse(periodDates.periodStartDate);
               start
                   .isSameDayOrBefore(DateTime.parse(periodDates.periodEndDate));
@@ -126,7 +118,7 @@ class _MonthViewState extends State<MonthView> {
           }
         });
 
-        element.predictions!.forEach((predictions) {
+        element.predictions.forEach((predictions) {
           for (DateTime start = DateTime.parse(predictions.predictedStart);
               start.isSameDayOrBefore(DateTime.parse(predictions.predictedEnd));
               start = start.add(Duration(days: 1))) {

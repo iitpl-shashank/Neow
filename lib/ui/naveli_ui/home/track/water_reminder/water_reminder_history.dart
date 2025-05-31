@@ -1,23 +1,14 @@
-import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:naveli_2023/ui/naveli_ui/calendar/calendar_view.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/track/sleep/sleep_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/water_reminder/water_reminder_view_model.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/track/weight/weight_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/dashboard/bar_data.dart';
-import 'package:naveli_2023/utils/global_variables.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 import '../../../../../utils/constant.dart';
-import '../../../../../utils/local_images.dart';
 import '../../../../../widgets/common_appbar.dart';
-import '../../../../../widgets/primary_button.dart';
 
 class WaterReminderHistory extends StatefulWidget {
   const WaterReminderHistory({super.key});
@@ -76,7 +67,7 @@ class _WaterRemindertHistoryViewState extends State<WaterReminderHistory> {
     print(data);
     print("================  data");
 
-    if (data != null && data.isNotEmpty) {
+    if (data.isNotEmpty) {
       // Check if data is valid
       List<BarData> waterDataList = [];
 
@@ -216,13 +207,6 @@ class _WaterRemindertHistoryViewState extends State<WaterReminderHistory> {
         ),
       ),
     );
-  }
-
-// Function to convert the formatted date to an index (for the X-axis)
-  int _getXValue(String date) {
-    // You can either convert date strings to numbers or use index directly
-    // Here, we'll use a simple index for illustration:
-    return DateTime.parse(date).day; // Use the day as an X-axis value
   }
 
   bool isValid() {

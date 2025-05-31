@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:naveli_2023/ui/app/app_view.dart';
@@ -56,11 +53,6 @@ Future<void> main() async {
   // tz.initializeTimeZones();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print(
-      'Message received in background: ${message.notification?.title}, ${message.notification?.body}');
 }
 
 class MyHttpOverrides extends HttpOverrides {

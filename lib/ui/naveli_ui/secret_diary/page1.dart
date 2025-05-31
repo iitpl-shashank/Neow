@@ -1,8 +1,6 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/page4.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/page2.dart';
-import 'package:naveli_2023/ui/naveli_ui/secret_diary/page3.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/page5.dart';
 
 class Page1 extends StatelessWidget {

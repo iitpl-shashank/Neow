@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import '../../../database/app_preferences.dart';
 import '../../../models/monthly_reminder_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
@@ -27,20 +25,22 @@ class MonthlyRemindersViewModel with ChangeNotifier {
       ApiParams.start_date: "11-Dec-2025",
       ApiParams.end_date: "20-Dec-2025",
     };
-    MonthlyReminderMaster? master = await _services.api!.getMonthlyRemindersList(params: params);
+    MonthlyReminderMaster? master =
+        await _services.api!.getMonthlyRemindersList(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();
-      print("................................secret diary oops.............................");
+      print(
+          "................................secret diary oops.............................");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
-      for(int i=0; i<master.data!.length;i++){
-
-        String combinedDateTime = "${master.data![i].reminderDate??""} ${master.data![i].reminderTime??""}";
+      for (int i = 0; i < master.data!.length; i++) {
+        String combinedDateTime =
+            "${master.data![i].reminderDate ?? ""} ${master.data![i].reminderTime ?? ""}";
 
         print("combine Date:${combinedDateTime}");
         // Define the format of the input date and time
@@ -61,7 +61,7 @@ class MonthlyRemindersViewModel with ChangeNotifier {
         var data = Appointment(
           startTime: meetingStart,
           endTime: meetingStart.add(const Duration(hours: 1)),
-          subject: master.data![i].reminderFor??"",
+          subject: master.data![i].reminderFor ?? "",
         );
 
         if (meetingList.isEmpty) {
@@ -84,7 +84,10 @@ class MonthlyRemindersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addMonthlyReminder({required String date, required String time, required String title}) async {
+  Future<void> addMonthlyReminder(
+      {required String date,
+      required String time,
+      required String title}) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.reminder_date: date,
@@ -92,7 +95,8 @@ class MonthlyRemindersViewModel with ChangeNotifier {
       ApiParams.reminder_for: title,
     };
 
-    MonthlyReminderMaster? master = await _services.api!.addMonthlyReminder(params: params);
+    MonthlyReminderMaster? master =
+        await _services.api!.addMonthlyReminder(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();

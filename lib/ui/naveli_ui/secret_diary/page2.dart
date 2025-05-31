@@ -25,7 +25,6 @@ class _Page2State extends State<Page2> {
   List<MoodDayModel> todoList = [];
   List<MoodDayModel> moodDayList = [];
   List<MoodDayModel> topActivityList = [];
-  TextEditingController _textController = TextEditingController();
   String selectedMonth = "";
 
   @override
@@ -51,7 +50,7 @@ class _Page2State extends State<Page2> {
           IconButton(
             icon: const Icon(Icons.calendar_month, color: Colors.black),
             onPressed: () {
-            /*  Navigator.push(
+              /*  Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Page2()),
               );*/
@@ -122,14 +121,11 @@ class _Page2State extends State<Page2> {
                     },
                     selectedDate: (selectedDate, month) {
                       selectedMonth = month;
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                     onScrollMonth: (month) {
                       selectedMonth = month;
-                      setState(() {
-
-                      });
+                      setState(() {});
                     },
                   )
                 ],
@@ -678,19 +674,17 @@ class _Page2State extends State<Page2> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: true ? Colors.purple : Colors.grey.shade400,
+                  color: Colors.purple,
                   //use conditiion
                   width: 2,
                 ),
               ),
-              child: true // use condition
-                  ? const Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.purple,
-                        radius: 6,
-                      ),
-                    )
-                  : null,
+              child: const Center(
+                child: CircleAvatar(
+                  backgroundColor: Colors.purple,
+                  radius: 6,
+                ),
+              ),
             ),
             const SizedBox(width: 12),
             Text(
@@ -723,12 +717,6 @@ class _Page2State extends State<Page2> {
           ],
         ),
       ),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String activity) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$activity selected')),
     );
   }
 

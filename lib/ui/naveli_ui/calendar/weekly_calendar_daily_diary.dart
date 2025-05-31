@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class WeeklyCalendar extends StatefulWidget {
   final List<DateTime> calendarDates;
   final Set<DateTime> specialDates;
-  Function(String selectedDate, String month) selectedDate;
-  Function(String month) onScrollMonth;
+  final Function(String selectedDate, String month) selectedDate;
+  final Function(String month) onScrollMonth;
 
   WeeklyCalendar(
       {required this.calendarDates,
@@ -60,7 +60,7 @@ class _WeeklyCalendarState extends State<WeeklyCalendar> {
               DateTime date = widget.calendarDates[index];
               bool isSpecial = _isSpecialDate(date);
               bool isToday = _isToday(date);
-              bool isSelected = _selectedDate
+              _selectedDate
                   .isAtSameMomentAs(date); // Check if this date is selected
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),

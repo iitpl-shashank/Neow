@@ -3,19 +3,13 @@ import 'dart:developer' as developer;
 import 'dart:math';
 
 // import 'package:widgets_easier/widgets_easier.dart';
-import 'package:dotted_border/dotted_border.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart';
-import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/quiz/quiz_view.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track_helath_view_all/track_health_view_all_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/user_notifications/notification_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
@@ -40,12 +34,9 @@ import '../calendar/calendar_view.dart';
 import '../health_mix/health_mix_view.dart';
 import '../health_mix/health_mix_view_model.dart';
 import '../health_mix/post_list.dart';
-
 import '../profile/your_naveli/your_naveli_view_model.dart';
-import '../symptom_bot/symptom_bot_view.dart';
 import 'all_about_periods/all_about_periods_view.dart';
 import 'de_stress/de_stress_view.dart';
-import 'health_mix_category/health_mix_category_all.dart';
 import 'home_view_model.dart';
 import 'log_your_symptoms/compulsory_symptoms/compulsory_symptoms_log_view.dart';
 import 'log_your_symptoms/log_your_symptoms_view.dart';
@@ -604,20 +595,20 @@ class _HomeViewState extends State<HomeView> {
           ],
           borderColor: CommonColors.purple,
         ),
-      if (false) kCommonSpaceH10,
-      if (false) //TODO : Hidden for now
-        CommonDailyInsightContainer(
-          onTap: () {
-            push(const TrackView());
-          },
-          text: S.of(context)!.track,
-          image: LocalImages.img_track,
-          gradientColors: const [
-            Color(0xFF9E72C3),
-            Color(0xFF7338A0),
-          ],
-          borderColor: CommonColors.purple,
-        ),
+      // if (false) kCommonSpaceH10,
+      // if (false) //TODO : Hidden for now
+      //   CommonDailyInsightContainer(
+      //     onTap: () {
+      //       push(const TrackView());
+      //     },
+      //     text: S.of(context)!.track,
+      //     image: LocalImages.img_track,
+      //     gradientColors: const [
+      //       Color(0xFF9E72C3),
+      //       Color(0xFF7338A0),
+      //     ],
+      //     borderColor: CommonColors.purple,
+      //   ),
       kCommonSpaceH10,
       CommonDailyInsightContainer(
         onTap: () {
@@ -631,20 +622,20 @@ class _HomeViewState extends State<HomeView> {
         ],
         borderColor: CommonColors.purple,
       ),
-      if (false) kCommonSpaceH10,
-      if (false) //TODO : Hidden for now
-        CommonDailyInsightContainer(
-          onTap: () {
-            push(const QuizView());
-          },
-          text: S.of(context)!.quickQuestion,
-          image: LocalImages.img_quick_question,
-          gradientColors: const [
-            Color(0xFF9E72C3),
-            Color(0xFF7338A0),
-          ],
-          borderColor: CommonColors.purple,
-        ),
+      // if (false) kCommonSpaceH10,
+      // if (false) //TODO : Hidden for now
+      //   CommonDailyInsightContainer(
+      //     onTap: () {
+      //       push(const QuizView());
+      //     },
+      //     text: S.of(context)!.quickQuestion,
+      //     image: LocalImages.img_quick_question,
+      //     gradientColors: const [
+      //       Color(0xFF9E72C3),
+      //       Color(0xFF7338A0),
+      //     ],
+      //     borderColor: CommonColors.purple,
+      //   ),
       kCommonSpaceH10,
       CommonDailyInsightContainer(
         onTap: () {

@@ -259,10 +259,8 @@ import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_utils.dart';
-import '../../../../../utils/local_images.dart';
 import '../../../../../widgets/common_appbar.dart';
 import '../../../../../widgets/primary_button.dart';
 

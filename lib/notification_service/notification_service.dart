@@ -188,7 +188,7 @@ class NotificationService {
     debugPrint("initService called 3 ${fCMToken}");
     log('FCM Token :: $fCMToken');
     if (fCMToken != null) {
-     await AppPreferences.instance.setFCMToken(fCMToken);
+      await AppPreferences.instance.setFCMToken(fCMToken);
     }
     // initializeNotification();
   }
@@ -258,14 +258,6 @@ class NotificationService {
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
     debugPrint('onActionReceivedMethod');
-    final payload = receivedAction.payload ?? {};
-    // if (payload["navigate"] == "true") {
-    //   MainApp.navigatorKey.currentState?.push(
-    //     MaterialPageRoute(
-    //       builder: (_) => const SecondScreen(),
-    //     ),
-    //   );
-    // }
   }
 
   static Future<void> showNotification({

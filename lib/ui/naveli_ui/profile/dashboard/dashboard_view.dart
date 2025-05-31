@@ -1,24 +1,17 @@
-import 'dart:ffi';
 import 'dart:io';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/common_ui/splash/splash_view_model.dart';
-import 'package:naveli_2023/ui/naveli_ui/calendar/calendar_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/sleep/sleep_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/water_reminder/water_reminder_view_model.dart';
-import 'package:naveli_2023/ui/naveli_ui/profile/dashboard/peroid_table_view.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/global_variables.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../database/app_preferences.dart';
 import '../../../../generated/i18n.dart';
-import '../../../../models/about_your_cycle_master.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../../widgets/common_appbar.dart';
@@ -51,8 +44,6 @@ class _DashboardViewState extends State<DashboardView> {
   late WeightViewModel mViewModelWeight;
   late SleepViewModel mViewModelSleep; //fetchSleepData;
   late WaterReminderViewModel mViewModelWaterInteke; //fetchSleepData;
-
-  // late MedicationViewModel mViewModelMedication;
 
   File? selectedImage;
   bool isPersonal = false;
@@ -151,7 +142,6 @@ class _DashboardViewState extends State<DashboardView> {
     List<Map<String, dynamic>> result = [];
 
     for (var monthData in data) {
-      String month = monthData['month'];
       int sleepDuration = 0;
       int totalSleepMinutes = 0;
       int count = 0;
@@ -194,58 +184,52 @@ class _DashboardViewState extends State<DashboardView> {
     print(mViewModelSleep.sleeptHistory);
     print("============================  v mViewModelSleep.sleeptHistory");
     // Ensure the sleepData is not null and has been fetched correctly
-    if (mViewModelSleep.sleeptHistory != null) {
-      // Calculate the averages after fetching data
-      List<Map<String, dynamic>> averages = calculateMonthlyAverages(
-          List<Map<String, dynamic>>.from(mViewModelSleep.sleeptHistory));
+    // Calculate the averages after fetching data
+    List<Map<String, dynamic>> averages = calculateMonthlyAverages(
+        List<Map<String, dynamic>>.from(mViewModelSleep.sleeptHistory));
 
-      // Now add data to SleepBarData
-      for (var avg in averages) {
-        int averageSleepInHours = avg['average_sleep'];
-        // average hours
-        print(averageSleepInHours);
-        print("================averageSleepInHours");
-        // Add the data to SleepBarData
-        setState(() {
-          SleepBarData.add(
-              BarData(ydata: avg['month'], xdata: averageSleepInHours.toInt()));
-        });
-      }
-
-      // Optionally, you could call another function here that depends on the updated SleepBarData
-      // If you want to do something after updating SleepBarData, just call it below.
-      await processAfterBarDataUpdate();
+    // Now add data to SleepBarData
+    for (var avg in averages) {
+      int averageSleepInHours = avg['average_sleep'];
+      // average hours
+      print(averageSleepInHours);
+      print("================averageSleepInHours");
+      // Add the data to SleepBarData
+      setState(() {
+        SleepBarData.add(
+            BarData(ydata: avg['month'], xdata: averageSleepInHours.toInt()));
+      });
     }
+
+    // Optionally, you could call another function here that depends on the updated SleepBarData
+    // If you want to do something after updating SleepBarData, just call it below.
+    await processAfterBarDataUpdate();
 
     var data = await mViewModelWaterInteke.fetchWaterHistory();
     await Future.delayed(Duration(seconds: 2));
     print(data);
     print("================  data");
 
-    if (data.length != null) {
-      // Calculate the averages after fetching data
-      // Now add data to SleepBarData
-      for (var value in data) {
-        int intValue = int.parse(value['water_ml']);
-        // average hours
+    for (var value in data) {
+      int intValue = int.parse(value['water_ml']);
+      // average hours
 
-        double mainValue = (intValue / 250);
+      double mainValue = (intValue / 250);
 
-        print(mainValue.toInt());
-        int valueFinal = mainValue.toInt();
+      print(mainValue.toInt());
+      int valueFinal = mainValue.toInt();
 
-        setState(() {
-          WaterInteke.add(BarData(
-            ydata: valueFinal.toString(), // Water intake in ml (integer)
-            xdata: valueFinal, // Numeric representation of the date (int)
-          ));
-        });
-      }
-
-      // Optionally, you could call another function here that depends on the updated SleepBarData
-      // If you want to do something after updating SleepBarData, just call it below.
-      await processAfterBarDataUpdate();
+      setState(() {
+        WaterInteke.add(BarData(
+          ydata: valueFinal.toString(), // Water intake in ml (integer)
+          xdata: valueFinal, // Numeric representation of the date (int)
+        ));
+      });
     }
+
+    // Optionally, you could call another function here that depends on the updated SleepBarData
+    // If you want to do something after updating SleepBarData, just call it below.
+    await processAfterBarDataUpdate();
   }
 
   Future<void> processAfterBarDataUpdate() async {
@@ -1262,7 +1246,7 @@ class _DashboardViewState extends State<DashboardView> {
                       );
                     }),
                   ),
-                if (false) kCommonSpaceV20,
+                // if (false) kCommonSpaceV20,
                 // TODO  Track is hidden now in profile
                 // Container(
                 //     padding: const EdgeInsets.all(10),
@@ -1434,51 +1418,51 @@ class _DashboardViewState extends State<DashboardView> {
                 //     ),
                 //   ),
                 // kCommonSpaceV20,
-                if (false) //TODO : Hidden as per client request
-                  Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Color(0xFFF8FFF0),
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 1, color: CommonColors.blackColor))),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            bodyq = !bodyq;
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                /*Icon(
-                                Icons.sensor_occupied,
-                                color: CommonColors.blackColor,
-                                size: 25,
-                              ),*/
-                                Image.asset(LocalImages.imgBodyQuiz,
-                                    height: 25),
-                                kCommonSpaceH10,
-                                Text(
-                                  S.of(context)!.quickQuestion,
-                                  style: TextStyle(
-                                    color: CommonColors.blackColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              color: CommonColors.blackColor,
-                              size: 25,
-                            ),
-                          ],
-                        ),
-                      )),
+                // if (false) //TODO : Hidden as per client request
+                //   Container(
+                //       padding: const EdgeInsets.all(10),
+                //       decoration: BoxDecoration(
+                //           color: Color(0xFFF8FFF0),
+                //           border: Border(
+                //               bottom: BorderSide(
+                //                   width: 1, color: CommonColors.blackColor))),
+                //       child: InkWell(
+                //         onTap: () {
+                //           setState(() {
+                //             bodyq = !bodyq;
+                //           });
+                //         },
+                //         child: Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Row(
+                //               children: [
+                //                 /*Icon(
+                //                 Icons.sensor_occupied,
+                //                 color: CommonColors.blackColor,
+                //                 size: 25,
+                //               ),*/
+                //                 Image.asset(LocalImages.imgBodyQuiz,
+                //                     height: 25),
+                //                 kCommonSpaceH10,
+                //                 Text(
+                //                   S.of(context)!.quickQuestion,
+                //                   style: TextStyle(
+                //                     color: CommonColors.blackColor,
+                //                     fontSize: 16,
+                //                     fontWeight: FontWeight.bold,
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //             Icon(
+                //               Icons.keyboard_arrow_down,
+                //               color: CommonColors.blackColor,
+                //               size: 25,
+                //             ),
+                //           ],
+                //         ),
+                //       )),
                 if (bodyq)
                   Container(
                     padding: const EdgeInsets.only(
@@ -2443,455 +2427,6 @@ List<Map<String, dynamic>> acneImageList = [
   // You can add more objects here if needed
 ];
 
-Widget _symptomsCell(context, String text, String info, imageList) {
-  return Center(
-    // padding: EdgeInsets.all(20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          text,
-          textAlign: TextAlign.left,
-          style: getAppStyle(
-            color: CommonColors.blackColor,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        kCommonSpaceV10,
-        Padding(
-          padding: const EdgeInsets.only(right: 0, left: 10, top: 0, bottom: 0),
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            height: info == '' ? 80 : 50,
-            width: MediaQuery.of(context).size.width,
-            decoration: ShapeDecoration(
-              color: CommonColors.mWhite,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(8)), // Border radius for all edges
-              ),
-              shadows: const [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 5,
-                  offset: Offset(0, 2),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            child: info == ''
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, // Center contents horizontally
-                    crossAxisAlignment: CrossAxisAlignment.center,
-
-                    children: [
-                      for (int index = 0; index < imageList.length; index++)
-                        _listOption(
-                            imageList[index]['name'], imageList[index]['image'])
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center the content
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center, // Center vertically
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10), // Margin left for the dot
-                        child: Icon(
-                          Icons.circle, // Dot icon
-                          size: 5, // Size of the dot
-                          color:
-                              CommonColors.blackColor, // Adjust color as needed
-                        ),
-                      ),
-                      SizedBox(width: 5), // Space between the dot and text
-                      Expanded(
-                        child: Text(
-                          info,
-                          textAlign: TextAlign.left,
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 102, 100, 100),
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
-        ),
-        kCommonSpaceV10,
-      ],
-    ),
-  );
-}
-
-Widget _track(
-    context, String text, String info, image1, image2, left1, subText) {
-  return Center(
-    // padding: EdgeInsets.all(20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          text,
-          textAlign: TextAlign.left,
-          style: getAppStyle(
-            color: CommonColors.blackColor,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        kCommonSpaceV10,
-        Padding(
-          padding: const EdgeInsets.only(right: 0, left: 10, top: 0, bottom: 0),
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            height: info == '' ? 80 : 50,
-            width: MediaQuery.of(context).size.width,
-            decoration: ShapeDecoration(
-              color: CommonColors.mWhite,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(8)), // Border radius for all edges
-              ),
-              shadows: const [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 5,
-                  offset: Offset(0, 2),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the content
-              crossAxisAlignment:
-                  CrossAxisAlignment.center, // Center vertically
-              children: [
-                if (left1 != '')
-                  Container(
-                    width: 20, // Set image width
-                    height: 20,
-                    margin: EdgeInsets.all(5), // Set image height
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(left1), // Use image from assets
-                        fit: BoxFit.cover, // Cover the area of the container
-                      ),
-                    ),
-                  ),
-                SizedBox(width: 5), // Space between the dot and text
-                Expanded(
-                    child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Center the content
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      info,
-                      textAlign: TextAlign.left,
-                      style: getAppStyle(
-                        color: const Color.fromARGB(255, 102, 100, 100),
-                        fontSize: 12,
-                      ),
-                    ),
-                    if (subText != '')
-                      Text(
-                        subText,
-                        textAlign: TextAlign.left,
-                        style: getAppStyle(
-                          color: const Color.fromARGB(255, 102, 100, 100),
-                          fontSize: 10,
-                        ),
-                      ),
-                  ],
-                )),
-                if (image1 != '')
-                  Container(
-                    width: 20, // Set image width
-                    height: 20,
-                    margin: EdgeInsets.all(5), // Set image height
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(image1), // Use image from assets
-                        fit: BoxFit.cover, // Cover the area of the container
-                      ),
-                    ),
-                  ),
-
-                if (image2 != '')
-                  Container(
-                    width: 20, // Set image width
-                    height: 20,
-                    margin: EdgeInsets.all(5), // Set image height
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(image2), // Use image from assets
-                        fit: BoxFit.cover, // Cover the area of the container
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-        kCommonSpaceV10,
-      ],
-    ),
-  );
-}
-
-Widget _weight_bmi(context, String text, weightHistory) {
-  return Center(
-    // padding: EdgeInsets.all(20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          text,
-          textAlign: TextAlign.left,
-          style: getAppStyle(
-            color: CommonColors.blackColor,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        kCommonSpaceV10,
-        Padding(
-          padding: const EdgeInsets.only(right: 0, left: 10, top: 5, bottom: 0),
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 300,
-            width: MediaQuery.of(context).size.width,
-            decoration: ShapeDecoration(
-              color: CommonColors.mWhite,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(8)), // Border radius for all edges
-              ),
-              shadows: const [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 5,
-                  offset: Offset(0, 2),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the content
-              crossAxisAlignment:
-                  CrossAxisAlignment.center, // Center vertically
-              children: [
-                SizedBox(width: 5), // Space between the dot and text
-                Expanded(
-                  child: SingleChildScrollView(
-                    // Wrap the column with a SingleChildScrollView
-                    child: Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.start, // Center the content
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Evenly space between items
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Last Update',
-                                textAlign: TextAlign.left,
-                                style: getAppStyle(
-                                  color:
-                                      const Color.fromARGB(255, 102, 100, 100),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                'BMI Score',
-                                textAlign: TextAlign.left,
-                                style: getAppStyle(
-                                  color:
-                                      const Color.fromARGB(255, 102, 100, 100),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        for (int index = 0;
-                            index < weightHistory.length;
-                            index++)
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Text(
-                                  weightHistory[index]['month'],
-                                  textAlign: TextAlign.left,
-                                  style: getAppStyle(
-                                    color: const Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                              for (int inx = 0;
-                                  inx < weightHistory[index]['data'].length;
-                                  inx++)
-                                _bmiValue(
-                                  context,
-                                  weightHistory[index]['data'][inx],
-                                  '${weightHistory[index]['data'][inx]['weight'] ?? "Empty"}',
-                                  weightHistory[index]['data'][inx]['date'],
-                                  '10',
-                                ),
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        kCommonSpaceV10,
-      ],
-    ),
-  );
-}
-
-Widget _bmiValue(context, item, String text, String info, String value) {
-  String unit = 'feet';
-  var hi = globalUserMaster!.height;
-  double height = double.parse(hi!);
-  //globalUserMaster?.height as double;
-  double meters = convertToMeters(height, unit);
-
-  double weight = double.parse(item['weight']);
-  print(weight);
-
-  print('===========================================================');
-
-  double bmi = weight / (meters * meters);
-
-  // Determine the BMI category
-  String category;
-  if (bmi < 18.5) {
-    category = 'Underweight';
-  } else if (bmi >= 18.5 && bmi < 24.9) {
-    category = 'Normal weight';
-  } else if (bmi >= 25 && bmi < 29.9) {
-    category = 'Overweight';
-  } else {
-    category = 'Obese';
-  }
-
-  return Center(
-    // padding: EdgeInsets.all(20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding:
-              const EdgeInsets.only(right: 15, left: 10, top: 0, bottom: 0),
-          child: Container(
-              clipBehavior: Clip.antiAlias,
-              height: 60,
-              // width: MediaQuery.of(context).size.width - 5,
-              decoration: ShapeDecoration(
-                color: CommonColors.mWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8)), // Border radius for all edges
-                ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 5,
-                  )
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Center the content
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center, // Center vertically
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          text + ' Kgs',
-                          textAlign: TextAlign.left,
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 111, 64, 133),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          info,
-                          textAlign: TextAlign.left,
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 102, 100, 100),
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${bmi.toStringAsFixed(2)}',
-                          textAlign: TextAlign.right,
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 111, 64, 133),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          category,
-                          textAlign: TextAlign.right,
-                          style: getAppStyle(
-                            color: const Color.fromARGB(255, 102, 100, 100),
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ), // Space between the dot and text
-                    // Expanded(
-                    //   child: Text(
-                    //     value,
-                    //     textAlign: TextAlign.right,
-                    //     style: getAppStyle(
-                    //       color: const Color.fromARGB(255, 102, 100, 100),
-                    //       fontSize: 14,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              )),
-        ),
-        kCommonSpaceV10,
-      ],
-    ),
-  );
-}
-
 double convertToMeters(double value, String fromUnit) {
   switch (fromUnit) {
     case 'feet':
@@ -2981,38 +2516,6 @@ Widget _quizCell(context, String text, String info) {
         kCommonSpaceV10,
       ],
     ),
-  );
-}
-
-Widget _listOption(name, image) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center, // Center content vertically
-    crossAxisAlignment:
-        CrossAxisAlignment.center, // Center content horizontally
-    children: [
-      // Image at the top
-      Container(
-        width: 40, // Set image width
-        height: 40,
-        margin: EdgeInsets.all(5), // Set image height
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(image), // Use image from assets
-            fit: BoxFit.cover, // Cover the area of the container
-          ),
-        ),
-      ),
-      // Add spacing between image and text
-      // Text at the bottom
-      Text(
-        name,
-        style: TextStyle(
-          fontSize: 10, // You can adjust text size here
-          fontWeight: FontWeight.bold, // Bold text
-          color: const Color.fromARGB(255, 102, 100, 100), // Text color
-        ),
-      ),
-    ],
   );
 }
 
@@ -3112,46 +2615,6 @@ Widget _radioBtn(
           ),
         ],
       ),
-    ),
-  );
-}
-
-Widget _displayBox(double size, text) {
-  return Container(
-    clipBehavior: Clip.antiAlias,
-    height: size,
-    // width: 120,
-    margin: EdgeInsets.all(5),
-    decoration: ShapeDecoration(
-      color: CommonColors.mWhite,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Border radius for all edges
-      ),
-      shadows: const [
-        BoxShadow(
-          color: Color(0x3F000000),
-          blurRadius: 5,
-          offset: Offset(0, 2),
-          spreadRadius: 0,
-        )
-      ],
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start, // Center the content
-      crossAxisAlignment: CrossAxisAlignment.center, // Center vertically
-      children: [
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: SizedBox(
-            // width: 200,
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ],
     ),
   );
 }

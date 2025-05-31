@@ -602,9 +602,7 @@ class CommonUtils {
     final DateTime end = DateTime.parse(endDate!);
 
     Duration diff = end.difference(start);
-    int diffyears = diff.inDays ~/ 365;
     int diffmonths = diff.inDays ~/ 30;
-    int diffweeks = diff.inDays ~/ 7;
 
     return diffmonths.toString();
   }
@@ -614,9 +612,7 @@ class CommonUtils {
     final DateTime end = DateTime.parse(endDate!);
 
     Duration diff = end.difference(start);
-    int diffyears = diff.inDays ~/ 365;
     int diffmonths = diff.inDays ~/ 30;
-    int diffweeks = diff.inDays ~/ 7;
 
     return diffmonths.toString();
   }

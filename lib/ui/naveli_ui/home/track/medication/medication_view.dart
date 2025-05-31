@@ -1,18 +1,11 @@
-// import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
-
-// ignore_for_file: prefer_interpolation_to_compose_strings
-
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:naveli_2023/models/user_medicine_master.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:naveli_2023/widgets/common_symptoms_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_utils.dart';
 import '../../../../../widgets/common_appbar.dart';
@@ -105,36 +98,7 @@ class _MedicationViewState extends State<MedicationView> {
         setState(() {});
         print(mViewModel.storedOtherMedicineList);
       });
-      // print("================================================List");
-      // print(list);
-      // print("================================================List");
-
-      /* 
-       */
-      // mViewModel.getStoredMedicineListApi();
     });
-  }
-
-  DateTime? _fromDate;
-  DateTime? _toDate;
-
-  // Function to show the date picker and get the selected date
-  Future<void> _selectDate(BuildContext context, bool isFromDate) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != (isFromDate ? _fromDate : _toDate)) {
-      setState(() {
-        if (isFromDate) {
-          _fromDate = picked;
-        } else {
-          _toDate = picked;
-        }
-      });
-    }
   }
 
   _MedicationViewState(this.aid);
@@ -225,7 +189,7 @@ class _MedicationViewState extends State<MedicationView> {
         backgroundColor: CommonColors.mTransparent,
         resizeToAvoidBottomInset: false,
         appBar: CommonAppBar(
-          title: aid ?? S.of(context)!.medication,
+          title: aid,
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(12.0),

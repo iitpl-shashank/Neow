@@ -286,8 +286,6 @@ class HomeViewModel with ChangeNotifier {
 
   List<DateTime> calculateOvolutionDatesInYear(
       DateTime previousDate, int cycleLength) {
-    List<DateTime> nextCycleDates = [];
-
     return ovulationDates;
   }
 
@@ -406,9 +404,6 @@ class HomeViewModel with ChangeNotifier {
       return "No cycle dates available";
     }
     String value = "";
-    DateTime now = DateTime.now();
-    int currentYear = now.year;
-
     List<DateTime> fertileDates = [];
     List<DateTime> ovulationDates = [];
     List<DateTime> loggedPeriodDates = [];
@@ -489,7 +484,7 @@ class HomeViewModel with ChangeNotifier {
         await http.get(url, headers: headers).timeout(Duration(seconds: 30));
     if (response.statusCode == 200 || response.statusCode == 201) {
       // If the server returns a successful response, parse the JSON.
-      var data = jsonDecode(response.body);
+      jsonDecode(response.body);
       // debugPrint("data ====>$data");
       List<dynamic> jsonList = jsonDecode(response.body);
       // peroidCustomeList =
@@ -765,14 +760,13 @@ bool isCurrentDateAfterOvulationRange({
       int.tryParse(globalUserMaster?.averageCycleLength ?? "28") ?? 28;
 
   // Step 2: Calculate the first day of the current cycle
-  DateTime currentCycleStartDate =
-      nextCycleStartDate.subtract(Duration(days: cycleLength));
+  nextCycleStartDate.subtract(Duration(days: cycleLength));
 
   // Step 3: Calculate the ovulation day (14 days before next cycle start)
   DateTime ovulationDate = nextCycleStartDate.subtract(Duration(days: 14));
 
   // Step 4: Define the fertile window (5 days before ovulation + ovulation day)
-  DateTime fertileStartDate = ovulationDate.subtract(Duration(days: 5));
+  ovulationDate.subtract(Duration(days: 5));
   DateTime fertileEndDate =
       ovulationDate.add(Duration(days: 1)); // Ovulation day included
 

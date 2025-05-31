@@ -235,9 +235,7 @@ import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 import '../../../../../utils/global_variables.dart';
-import '../../../../../utils/local_images.dart';
 import '../../../../../widgets/common_appbar.dart';
-import '../../../../../widgets/common_textfield_container_bmi.dart';
 import '../../../../../widgets/primary_button.dart';
 import 'bmi_calculator_view_model.dart';
 import 'calculate_bmi.dart';
@@ -829,7 +827,6 @@ class _BmiCalculatorViewState extends State<BmiCalculatorView> {
 
   Widget buildGenderOption(String gender, IconData iconData) {
     final isSelected = mViewModel.selectedGender == gender;
-    final double? size;
     return GestureDetector(
         onTap: () {
           setState(() {

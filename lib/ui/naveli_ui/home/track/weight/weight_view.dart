@@ -1,10 +1,8 @@
-import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/weight/weight_history_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/weight/weight_view_model.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';

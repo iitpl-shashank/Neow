@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart' hide DateUtils;
 import 'package:flutter/rendering.dart';
@@ -70,7 +68,7 @@ class PagedVerticalCalendar extends StatefulWidget {
 
   final List<int> weekdaysToHide;
 
-  var isChecked;
+  final dynamic isChecked;
 
   final List<DateTime> dateList;
 
@@ -302,7 +300,7 @@ class _MonthViewState extends State<_MonthView> {
   List<int> selectedIndices = [];
   late HomeViewModel mViewModel;
   List<String> weekDay = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  bool _isChecked = false; // State variable to hold checkbox status
+// State variable to hold checkbox status
   int ItemIndex = -1; // State variable to hold checkbox status
   DateTime ovulationDate = DateTime(2020, 1, 1);
 
@@ -316,8 +314,6 @@ class _MonthViewState extends State<_MonthView> {
       validDates.isNotEmpty ? validDates.first.weekday : 0,
       widget.startWeekWithSunday,
     );
-
-    var no = 0;
 
     return Column(
       children: <Widget>[
@@ -360,10 +356,6 @@ class _MonthViewState extends State<_MonthView> {
             if (index < blankSpaces) return const SizedBox();
 
             final date = validDates[index - blankSpaces];
-            // final isOvulation = index == 13 ? true:false;
-            final vlen = validDates.length;
-            // print('blank spaces: $vlen');
-            // final isSelected = selectedIndices.contains(index);
 
             bool isSelected = false;
             bool isPredictedDate = false;
@@ -379,22 +371,13 @@ class _MonthViewState extends State<_MonthView> {
               isOvulation = mViewModel.ovulationDates.contains(date);
               isFirtile = mViewModel.firtileDates.contains(date);
             } else {
-              DateTime now = DateTime.now();
-              int currentMonth = now.month;
-              int currentYear = now.year;
-
               List<DateTime> fertileDates = [];
               List<DateTime> ovulationDates = [];
               List<DateTime> loggedPeriodDates = [];
               List<DateTime> predictedPeriodDates = [];
 
-              // DateTime now = DateTime.now();
-              // int currentYear = now.year;
-
-              // DateTime now = DateTime.now();
-              // int currentYear = now.year;
               peroidCustomeList.forEach((element) {
-                element.periodData!.forEach((periodDates) {
+                element.periodData.forEach((periodDates) {
                   for (DateTime start =
                           DateTime.parse(periodDates.periodStartDate);
                       start.isSameDayOrBefore(
@@ -404,7 +387,7 @@ class _MonthViewState extends State<_MonthView> {
                   }
                 });
 
-                element.predictions!.forEach((predictions) {
+                element.predictions.forEach((predictions) {
                   for (DateTime start =
                           DateTime.parse(predictions.predictedStart);
                       start.isSameDayOrBefore(
@@ -423,157 +406,6 @@ class _MonthViewState extends State<_MonthView> {
                   ovulationDates.add(DateTime.parse(predictions.ovulationDay));
                 });
               });
-
-              // for (var dateRange in peroidCustomeList) {
-              //   DateTime start = DateTime.parse(dateRange.period_start_date);
-              //   DateTime end = DateTime.parse(dateRange.period_end_date);
-              //   int cycleLength = int.parse(dateRange.period_cycle_length);
-              //
-              //   DateTime? startDate = dateRange.fertile_window_start != null
-              //       ? DateTime.parse(dateRange.fertile_window_start!)
-              //       : null;
-              //
-              //   DateTime? endDate = dateRange.fertile_window_end != null
-              //       ? DateTime.parse(dateRange.fertile_window_end!)
-              //       : null;
-              //
-              //   for (DateTime date = startDate ?? DateTime.now();
-              //   date.isBefore((endDate ?? DateTime.now()).add(Duration(days: 1)));
-              //   date = date.add(Duration(days: 1))) {
-              //     fertileDates.add(date);
-              //   }
-              //
-              //   if (dateRange.ovulation_day != null && dateRange.ovulation_day!.isNotEmpty) {
-              //     DateTime ovulationDay = DateTime.parse(dateRange.ovulation_day!);
-              //     ovulationDates.add(ovulationDay);
-              //
-              //     // Ensure fertile window exists for this ovulation date
-              //     DateTime fertileStart = ovulationDay.subtract(Duration(days: 5));
-              //     DateTime fertileEnd = ovulationDay.add(Duration(days: 2));
-              //
-              //     List<DateTime> tempFertileDates = List.generate(
-              //       fertileEnd.difference(fertileStart).inDays + 1,
-              //           (i) => fertileStart.add(Duration(days: i)),
-              //     );
-              //
-              //     for (var date in tempFertileDates) {
-              //       if (!fertileDates.contains(date)) {
-              //         fertileDates.add(date);
-              //       }
-              //     }
-              //   }
-              //
-              //   loggedPeriodDates.addAll(List.generate(
-              //     end.difference(start).inDays + 1,
-              //         (i) => start.add(Duration(days: i)),
-              //   ).where((date) => date.isBefore(DateTime.now()) || date.isAtSameMomentAs(DateTime.now())));
-              //
-              //   DateTime startPredictedPeriods = DateTime.parse(dateRange.predicated_period_start_date);
-              //   DateTime endPredictedPeriods = DateTime.parse(dateRange.predicated_period_end_date);
-              //   int length = int.parse(dateRange.avg_cycle_length ?? "28");
-              //
-              //   if (startPredictedPeriods.year == currentYear) {
-              //     predictedPeriodDates.addAll(List.generate(
-              //       endPredictedPeriods.difference(startPredictedPeriods).inDays,
-              //           (i) => startPredictedPeriods.add(Duration(days: i)),
-              //     ));
-              //   }
-              //
-              //   if (DateTime.now().difference(end).inDays <= 40) {
-              //     for (int i = 0; i < 12; i++) {
-              //       startPredictedPeriods = startPredictedPeriods.add(Duration(days: length));
-              //       endPredictedPeriods = startPredictedPeriods.add(Duration(days: int.parse(dateRange.period_length)));
-              //
-              //       if (startPredictedPeriods.year > currentYear) break;
-              //
-              //       List<DateTime> tempPeriodDates = List.generate(
-              //         int.parse(dateRange.period_length),
-              //             (i) => startPredictedPeriods.add(Duration(days: i)),
-              //       ).where((date) => date.year == currentYear).toList();
-              //
-              //       int actualPeriodLength = end.difference(start).inDays + 1;
-              //       int averagePeriodLength = int.parse(globalUserMaster?.averagePeriodLength ?? "5");
-              //
-              //       int remainingDays = averagePeriodLength - actualPeriodLength;
-              //
-              //       if (remainingDays > 0) {
-              //         tempPeriodDates.addAll(List.generate(
-              //           remainingDays,
-              //               (i) => end.add(Duration(days: i + 1)),
-              //         ));
-              //       }
-              //
-              //       predictedPeriodDates.addAll(tempPeriodDates);
-              //     }
-              //   }
-              //
-              //   predictedPeriodDates.sort();
-              //
-              //   List<DateTime> periodStartDates = [];
-              //   List<DateTime> periodEndDates = [];
-              //
-              //   for (int i = 0; i < predictedPeriodDates.length; i++) {
-              //     if (i == 0 || predictedPeriodDates[i].difference(predictedPeriodDates[i - 1]).inDays > 1) {
-              //       periodStartDates.add(predictedPeriodDates[i]);
-              //
-              //       if (i > 0) {
-              //         periodEndDates.add(predictedPeriodDates[i - 1]);
-              //       }
-              //     }
-              //   }
-              //
-              //   if (predictedPeriodDates.isNotEmpty) {
-              //     periodEndDates.add(predictedPeriodDates.last);
-              //   }
-              //
-              //   predictedPeriodDates.sort();
-              //
-              //   for (int i = 0; i < periodStartDates.length; i++) {
-              //     DateTime currentPeriodStart = periodStartDates[i];
-              //     DateTime? nextPeriodStart = (i + 1 < periodStartDates.length) ? periodStartDates[i + 1] : null;
-              //
-              //     DateTime futureOvulationDay;
-              //     if (nextPeriodStart != null) {
-              //       futureOvulationDay = nextPeriodStart.subtract(Duration(days: 14));
-              //     } else {
-              //       int estimatedCycleLength = (i > 0)
-              //           ? periodStartDates[i].difference(periodStartDates[i - 1]).inDays
-              //           : 28;
-              //       futureOvulationDay = currentPeriodStart.add(Duration(days: estimatedCycleLength - 14));
-              //     }
-              //
-              //     bool ovulationExistsInMonth = ovulationDates.any(
-              //           (date) => date.year == futureOvulationDay.year && date.month == futureOvulationDay.month,
-              //     );
-              //
-              //     if (!ovulationExistsInMonth && futureOvulationDay.year == currentYear) {
-              //       ovulationDates.add(futureOvulationDay);
-              //     } else {
-              //       ovulationDates.removeWhere(
-              //               (date) => date.year == futureOvulationDay.year && date.month == futureOvulationDay.month);
-              //       ovulationDates.add(futureOvulationDay);
-              //     }
-              //
-              //     DateTime futureFertileStart = futureOvulationDay.subtract(Duration(days: 5));
-              //     DateTime futureFertileEnd = futureOvulationDay.add(Duration(days: 2));
-              //
-              //     bool fertileWindowExistsInMonth = fertileDates.any(
-              //           (date) => date.year == futureFertileStart.year && date.month == futureFertileStart.month,
-              //     );
-              //
-              //     if (!fertileWindowExistsInMonth && futureFertileStart.year == currentYear && futureFertileEnd.year == currentYear) {
-              //       fertileDates.removeWhere(
-              //               (date) => date.year == futureFertileStart.year && date.month == futureFertileStart.month);
-              //
-              //       List<DateTime> tempFertileDates = List.generate(
-              //         futureFertileEnd.difference(futureFertileStart).inDays + 1,
-              //             (i) => futureFertileStart.add(Duration(days: i)),
-              //       ).where((date) => date.year == currentYear).toList();
-              //
-              //       fertileDates.addAll(tempFertileDates);
-              //     }
-              //   }
-              // }
 
 // Checking if the given `date` falls in the calculated dates
               if (loggedPeriodDates.contains(date)) {
@@ -618,25 +450,6 @@ class _MonthViewState extends State<_MonthView> {
               currentDateCheck = true;
             }
 
-            // for (var dateRange in peroidCustomeList) {
-            //   DateTime start = DateTime.parse(dateRange.period_start_date);
-            //
-            //   DateTime end = DateTime.parse(dateRange.period_end_date);
-            //
-            //   if (date.isAfter(start) && date.isBefore(end) ||
-            //       date.isAtSameMomentAs(start) ||
-            //       date.isAtSameMomentAs(end)) {
-            //     currentDateCheck = true;
-            //     if (widget.dateList.contains(date)) {
-            //       widget.dateList.remove(date);
-            //     } else {
-            //       widget.dateList.add(date);
-            //     }
-            //   }
-            //
-            // }
-
-            // print(widget.dateList);
             return AspectRatio(
               aspectRatio: 1.0,
               child: InkWell(

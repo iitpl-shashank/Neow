@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../utils/common_colors.dart';
-import '../utils/constant.dart';
 
 class CommonUserSelect extends StatefulWidget {
   final String imagePath;

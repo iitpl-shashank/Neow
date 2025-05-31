@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/global_function.dart';
-import '../../../../utils/global_variables.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_symptoms_widget.dart';
 import '../../../../widgets/scaffold_bg.dart';

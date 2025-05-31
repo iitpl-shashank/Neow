@@ -72,7 +72,6 @@ class WaterReminderViewModel with ChangeNotifier {
 
   // Method to show a notification
   void _showNotification() {
-
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: 10,
@@ -84,7 +83,6 @@ class WaterReminderViewModel with ChangeNotifier {
             'https://c.ndtvimg.com/2022-11/089qdk1g_benefits-of-drinking-water-before-brushing_625x300_24_November_22.jpg', // Change this to your image path
       ),
     );
-
   }
 
   // Method to convert dropdown value to minutes
@@ -239,13 +237,6 @@ class WaterReminderViewModel with ChangeNotifier {
     final url = Uri.parse(
         'https://neowindia.com/customeApi/water_reminder_history.php?user_id=' +
             numberString);
-
-    // Create headers
-    final headers = {
-      'Content-Type': 'application/json',
-    };
-
-    // Send the request
     final response = await http.get(
       url,
     );
@@ -265,6 +256,5 @@ class WaterReminderViewModel with ChangeNotifier {
 
       throw Exception('Failed to load data');
     }
-    notifyListeners();
   }
 }

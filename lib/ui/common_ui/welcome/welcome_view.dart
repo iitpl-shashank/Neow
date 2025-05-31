@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:gif_view/gif_view.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/common_ui/welcome/views/profession_screen.dart';
 import 'package:naveli_2023/ui/common_ui/welcome/widgets/custom_alert_dialog.dart';

@@ -1,19 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
-
-import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:gif_view/gif_view.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/global_function.dart';
 import 'package:naveli_2023/widgets/primary_button.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../database/app_preferences.dart';
-import '../../../models/login_master.dart';
-import '../../../utils/global_variables.dart';
 import '../../../widgets/common_text_field.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -22,11 +12,10 @@ import '../../../utils/constant.dart';
 import '../../../utils/local_images.dart';
 import '../../app/app_model.dart';
 import '../../common_ui/singin/signin_view_model.dart';
-import '../../common_ui/splash/splash_view_model.dart';
 import 'cycle_info_view_model.dart';
 
 class CycleInfoView extends StatefulWidget {
-  Map<String, dynamic> welcomeData;
+  final Map<String, dynamic> welcomeData;
 
   CycleInfoView({super.key, required this.welcomeData});
 

@@ -111,9 +111,6 @@ class WeightViewModel with ChangeNotifier {
         Uri.parse('https://neowindia.com/customeApi/weight_history.php');
 
     // Create headers
-    final headers = {
-      'Content-Type': 'application/json',
-    };
     final Map<String, String> data = {
       'user_id': numberString,
       'weight': weight,
@@ -143,12 +140,6 @@ class WeightViewModel with ChangeNotifier {
         'https://neowindia.com/customeApi/weight_history.php?user_id=' +
             numberString);
 
-    // Create headers
-    final headers = {
-      'Content-Type': 'application/json',
-    };
-
-    // Send the request
     final response = await http.get(
       url,
     );

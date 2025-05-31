@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naveli_2023/ui/common_ui/welcome/views/personalising_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
-import 'package:naveli_2023/utils/custome_header_view.dart';
 import 'package:naveli_2023/widgets/common_text_field.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +14,7 @@ import '../../../app/app_model.dart';
 import '../../../naveli_ui/cycle_info/cycle_info_view_model.dart';
 
 class ProfessionScreen extends StatefulWidget {
-  Map<String, dynamic> welcomeData;
+  final Map<String, dynamic> welcomeData;
   ProfessionScreen({super.key, required this.welcomeData});
 
   @override

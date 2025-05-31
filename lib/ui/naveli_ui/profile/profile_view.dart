@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/rate_and_review/rate_and_review_screen.dart';
-import 'package:naveli_2023/ui/naveli_ui/profile/reports/reports_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/settings/settings_view.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../generated/i18n.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';

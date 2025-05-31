@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 import 'package:naveli_2023/models/about_us_master.dart';
 import 'package:naveli_2023/models/buddy_request_master.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
@@ -13,7 +10,6 @@ import 'package:naveli_2023/models/symptom_report_model.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/services/api_url.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/model/ai_chatbot_model.dart';
-
 import '../models/about_your_cycle_master.dart';
 import '../models/all_about_periods_details_master.dart';
 import '../models/all_about_periods_master.dart';
@@ -1347,7 +1343,7 @@ class ApiServices extends BaseServices {
         debugPrint("HealthMixLatestPost Response is null");
         return null;
       }
-    } on Exception catch (e) {
+    } on Exception {
     } catch (e) {
       log("Exception in getHealthMixCategoryList: $e");
       return null;

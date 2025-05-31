@@ -1,12 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/ui/app/app_model.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
-import 'package:otp_autofill/otp_autofill.dart';
-import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
