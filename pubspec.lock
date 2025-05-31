@@ -486,6 +486,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  flutter_assets_cleaner:
+    dependency: "direct dev"
+    description:
+      name: flutter_assets_cleaner
+      sha256: e6ae9b511087b3955e86dd24c35bac6c5518269230f2ab11240dafdb03cf626d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.10"
   flutter_cache_manager:
     dependency: transitive
     description:
