@@ -147,7 +147,7 @@ class CommonDailyInsightContainer extends StatelessWidget {
                         width: (text == S.of(context)!.deStress)
                             ? 70
                             : (text == S.of(context)!.articles)
-                                ? 85
+                                ? 90
                                 : 100,
                       ),
                     ),

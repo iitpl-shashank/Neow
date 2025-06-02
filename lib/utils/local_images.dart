@@ -477,6 +477,7 @@ class LocalImages {
   static const String cryingWoman2 = 'assets/images/crying_woman2.png';
   static const String logPeriodNotification =
       'assets/images/log_period_notification.png';
+  static const String icMagicWand = 'assets/images/magic.png';
 }
 
 class LocalSvgs {

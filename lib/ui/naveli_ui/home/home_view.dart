@@ -55,21 +55,11 @@ class _HomeViewState extends State<HomeView> {
   late HealthMixViewModel mViewHealthMixModel;
   late YourNaveliViewModel mViewYourNaveliModel;
   late VideoPlayerController vdo_Controller;
-
-  // final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
-  // DateTime previousDate = DateTime(int.parse(globalUserMaster?.previousPeriodsBegin ?? ''));
-
   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
-
-  //String daysToGo = "";
-
   String? acceptedUniqueId;
-
   bool _dialogShown = false;
-
   var bgColor = 0XFFFBF5F7;
-
   late Timer _timer;
 
   @override
@@ -815,6 +805,10 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                             ),
+                                          if (!vModel.isPeriodLog)
+                                            SizedBox(
+                                              height: 40,
+                                            ),
                                           if (imageUrl == null)
                                             SizedBox(
                                               height: 30,
@@ -839,6 +833,10 @@ class _HomeViewState extends State<HomeView> {
                                               ],
                                             ),
                                           ),
+                                          if (!vModel.isPeriodLog)
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                           kCommonSpaceV5,
                                           ElevatedButton(
                                             onPressed: () {

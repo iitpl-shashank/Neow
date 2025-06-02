@@ -584,6 +584,9 @@ class DashBoardViewModel with ChangeNotifier {
       userEmailController.text = userPersonalInformation?.data?.email ?? '';
       userProfessionController.text =
           userPersonalInformation?.data?.profession ?? '';
+      userUniqueId = userPersonalInformation?.data?.uuId ?? '';
+
+      log("User Unique ID: $userUniqueId");
 
       await getStateList();
       await getCityList(stateId: int.parse(master.data!.state!));
@@ -823,6 +826,8 @@ class DashBoardViewModel with ChangeNotifier {
   TextEditingController userRelationController = TextEditingController();
   TextEditingController userAgeGroupController = TextEditingController();
   TextEditingController userAgeController = TextEditingController();
+
+  String userUniqueId = '';
 
   void updateUserProfileAge(String age) {
     userAgeController.text = age;

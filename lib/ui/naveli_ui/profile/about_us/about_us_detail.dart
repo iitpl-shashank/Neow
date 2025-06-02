@@ -45,6 +45,7 @@ class AboutUsDetail extends StatelessWidget {
               "body": Style(
                 fontSize: FontSize(16),
                 color: Colors.black,
+                textAlign: TextAlign.justify,
               ),
             },
           ),

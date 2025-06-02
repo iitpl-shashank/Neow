@@ -1384,6 +1384,16 @@ class S implements WidgetsLocalizations {
 
   String get periodExpectedToEndToday =>
       "Your period is expected to end today.";
+
+  String get uniqueId => "Unique ID";
+
+  String get language => "Language";
+
+  String get account => "Account";
+
+  String get deactivateAccount => "Deactivate Account";
+
+  String get changePhoneNumber => "Change Phone Number";
 }
 
 class $en extends S {
@@ -1394,6 +1404,20 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get changePhoneNumber => "फोन नंबर बदलें";
+
+  @override
+  String get deactivateAccount => "खाता निष्क्रिय करें";
+
+  @override
+  String get account => "खाता";
+
+  @override
+  String get language => "भाषा";
+
+  @override
+  String get uniqueId => "यूनीक आईडी";
 
   @override
   String get metricSystem => "मेट्रिक प्रणाली!";

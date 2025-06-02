@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../widgets/common_appbar.dart';
@@ -16,6 +17,13 @@ class HelpView extends StatefulWidget {
 
 class _HelpViewState extends State<HelpView> {
   late AboutUsViewModel mViewModel;
+  void launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,62 +92,83 @@ class _HelpViewState extends State<HelpView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(
-                                0.15), // Optional: subtle background
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              FontAwesomeIcons.facebookF,
-                              color: Colors.white,
-                              size: 20,
+                        GestureDetector(
+                          onTap: () {
+                            launchUrl(
+                                "https://www.facebook.com/share/vgDh7TDfbcB3crNt/?mibextid=LQQJ4d");
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(
+                                FontAwesomeIcons.facebookF,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(width: 16),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(
-                                0.15), // Optional: subtle background
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(FontAwesomeIcons.instagram,
-                                color: Colors.white, size: 20),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(
-                                0.15), // Optional: subtle background
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(FontAwesomeIcons.xTwitter,
-                                color: Colors.white, size: 20),
+                        GestureDetector(
+                          onTap: () {
+                            launchUrl(
+                                "https://www.instagram.com/neowindiaa?utm_source=qr");
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(FontAwesomeIcons.instagram,
+                                  color: Colors.white, size: 20),
+                            ),
                           ),
                         ),
                         SizedBox(width: 16),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(
-                                0.15), // Optional: subtle background
-                            shape: BoxShape.circle,
+                        GestureDetector(
+                          onTap: () {
+                            launchUrl(
+                                "https://x.com/NeowIndia?t=zxTms01n1yiQ31W4qejuMA&s=08");
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(
+                                  0.15), // Optional: subtle background
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(FontAwesomeIcons.xTwitter,
+                                  color: Colors.white, size: 20),
+                            ),
                           ),
-                          child: Center(
-                            child: Icon(FontAwesomeIcons.youtube,
-                                color: Colors.white, size: 20),
+                        ),
+                        SizedBox(width: 16),
+                        GestureDetector(
+                          onTap: () {
+                            launchUrl("https://www.youtube.com/@neowindia");
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(
+                                  0.15), // Optional: subtle background
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(FontAwesomeIcons.youtube,
+                                  color: Colors.white, size: 20),
+                            ),
                           ),
                         ),
                       ],
