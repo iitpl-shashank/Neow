@@ -44,6 +44,8 @@ class _HealthMixViewState extends State<HealthMixView>
         S.of(context)!.saved
       ];
       mViewModel.attachedContext(context);
+      mHomeViewModel.attachedContext(context);
+      mHomeViewModel.fetchHealthMixCategoryList();
       mViewHealthMixModel =
           Provider.of<HealthMixViewModel>(context, listen: false);
       mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "Popular");
