@@ -206,7 +206,9 @@ class _CalendarViewState extends State<CalendarView> {
 
     if (master == null) {
       CommonUtils.oopsMSG();
-    } else {}
+    } else {
+      log("Period Info Saved savePeriodsInfo: ${master.toJson()}");
+    }
 
     CommonUtils.hideProgressDialog();
   }

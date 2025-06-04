@@ -1394,6 +1394,8 @@ class S implements WidgetsLocalizations {
   String get deactivateAccount => "Deactivate Account";
 
   String get changePhoneNumber => "Change Phone Number";
+
+  String get failedToGetNotifications => "Failed to fetch notifications";
 }
 
 class $en extends S {
@@ -1404,6 +1406,9 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get failedToGetNotifications => "सूचनाएँ प्राप्त करने में विफल रहा";
+
   @override
   String get changePhoneNumber => "फोन नंबर बदलें";
 

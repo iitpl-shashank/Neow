@@ -49,6 +49,7 @@ import '../models/user_symptoms_score_master.dart';
 import '../models/water_master.dart';
 import '../models/weight_master.dart';
 import '../models/women_news_master.dart';
+import '../ui/naveli_ui/home/user_notifications/model/notification_list_model.dart';
 import '../utils/common_utils.dart';
 import '../utils/global_variables.dart';
 import 'base_client.dart';
@@ -1494,6 +1495,25 @@ class ApiServices extends BaseServices {
     } catch (e) {
       log("Exception in saveHealthMixPost: $e");
       return PostModel();
+    }
+  }
+
+  @override
+  Future<NotificationListModel?> getUserNotificationsList(
+      {required String lang}) async {
+    try {
+      dynamic response = await appBaseClient.getApiWithTokenCall(
+        url: ApiUrl.getNotificationList,
+        queryParams: {"lang": lang},
+      );
+      if (response != null) {
+        return NotificationListModel.fromJson(response);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint("Exception in getUserNotificationsList: $e");
+      return null;
     }
   }
 }

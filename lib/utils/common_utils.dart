@@ -1041,3 +1041,20 @@ String getWeakName(int weak) {
   ];
   return weakNames[weak - 1];
 }
+
+String formatDate(String dateStr) {
+  final date = DateTime.parse(dateStr);
+  return DateFormat('dd-MM-yyyy').format(date);
+}
+
+bool isToday(String dateStr) {
+  try {
+    final date = DateFormat('dd-MM-yyyy').parse(dateStr);
+    final now = DateTime.now();
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
+  } catch (_) {
+    return false;
+  }
+}

@@ -45,6 +45,7 @@ import '../models/water_master.dart';
 import '../models/weight_master.dart';
 import '../models/women_news_master.dart';
 import '../ui/naveli_ui/ai_chatbot/model/ai_chatbot_model.dart';
+import '../ui/naveli_ui/home/user_notifications/model/notification_list_model.dart';
 import '../utils/global_variables.dart';
 
 abstract class BaseServices {
@@ -257,6 +258,9 @@ abstract class BaseServices {
   Future<PostModel> savePostApi({required Map<String, dynamic> params});
 
   Future<PostModel> saveHealthMixPost({required Map<String, dynamic> params});
+
+  Future<NotificationListModel?> getUserNotificationsList(
+      {required String lang});
 
   // Future<PostModel> getSavedPostApi({required Map<String, dynamic> params});
 }

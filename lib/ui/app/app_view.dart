@@ -43,6 +43,7 @@ import '../naveli_ui/home/track/medication/medication_view_model.dart';
 import '../naveli_ui/home/track/sleep/sleep_view_model.dart';
 import '../naveli_ui/home/track/water_reminder/water_reminder_view_model.dart';
 import '../naveli_ui/home/track/weight/weight_view_model.dart';
+import '../naveli_ui/home/user_notifications/viewModel/notification_view_model.dart';
 import '../naveli_ui/home/women_in_news/women_in_news_view_model.dart';
 import '../naveli_ui/home/you_know/all_posts_model.dart';
 import '../naveli_ui/profile/about_us/about_us_view_model.dart';
@@ -202,6 +203,7 @@ class AppState extends State<App> {
         ChangeNotifierProvider<ReportsViewModel>(
             create: (_) => ReportsViewModel()),
         ChangeNotifierProvider(create: (_) => AiChatBotViewModel()),
+        ChangeNotifierProvider(create: (_) => NotificationViewModel()),
       ],
       child: Consumer<AppModel>(
         builder: (context, value, child) => MaterialApp(
