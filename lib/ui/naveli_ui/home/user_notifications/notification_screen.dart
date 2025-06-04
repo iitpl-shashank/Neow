@@ -49,7 +49,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     notificationController =
         Provider.of<NotificationViewModel>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      notificationController.fetchNotifications(lang: 'en', context: context);
+      notificationController.fetchNotifications(context: context);
     });
   }
 
@@ -92,8 +92,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 final item = controller.notifications[index];
                 return NotificationItemWidget(
                   item: NotificationItem(
+                    key: item.name ?? "",
                     icon: Icons.notifications,
-                    title: item.name ?? '',
+                    title: item.title ?? '',
                     date: formatDate(item.time?.toString() ?? ''),
                     subtitle: item.message ?? '',
                   ),

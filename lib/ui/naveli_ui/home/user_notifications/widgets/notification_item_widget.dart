@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../../generated/i18n.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
+import '../../../calendar/calendar_view.dart';
+import '../../../health_mix/health_mix_view.dart';
+import '../../all_about_periods/all_about_periods_view.dart';
+import '../../home_view_model.dart';
+import '../../log_your_symptoms/log_your_symptoms_view.dart';
 
-class NotificationItemWidget extends StatelessWidget {
+class NotificationItemWidget extends StatefulWidget {
   final NotificationItem item;
 
   const NotificationItemWidget({
@@ -10,29 +17,49 @@ class NotificationItemWidget extends StatelessWidget {
     required this.item,
   });
 
+  @override
+  State<NotificationItemWidget> createState() => _NotificationItemWidgetState();
+}
+
+class _NotificationItemWidgetState extends State<NotificationItemWidget> {
+  late HomeViewModel mViewModel;
+
   void _handleTap(BuildContext context) {
-    if (item.title == "Time to Check In With Your Body!") {
-      // Do something specific
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Clicked: ${item.title}")),
+    if (widget.item.key == "Log Symptoms") {
+      if (mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
+          mViewModel.periodEndLogDateTime, mViewModel.today)) {
+        push(const LogYourSymptoms());
+      } else {
+        CommonUtils.showToastMessage(
+          S.of(context)!.logOnlyOnPeriodDay,
+        );
+      }
+    } else if (widget.item.key == "Log Period") {
+      push(CalendarView());
+    } else if (widget.item.key == "Health Mix") {
+      push(
+        HealthMixView(
+          title: S.of(context)!.healthMix,
+        ),
       );
-    } else if (item.title == "We’ve Got Something New for You!") {
-      // Another action
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("New for you!")),
-      );
+    } else if (widget.item.key == "Article") {
+      push(const AllAboutPeriodsView());
     } else {
-      // Default action
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Notification tapped")),
+        SnackBar(
+          content: Text(
+            S.of(context)!.noNotificationYet,
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<HomeViewModel>(context);
     return InkWell(
-      onTap: () => _handleTap(context),
+      onTap: () => isToday(widget.item.date) ? _handleTap(context) : null,
       child: Column(
         children: [
           Padding(
@@ -51,8 +78,8 @@ class NotificationItemWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    item.icon,
-                    color: isToday(item.date)
+                    widget.item.icon,
+                    color: isToday(widget.item.date)
                         ? CommonColors.purple
                         : CommonColors.purple.withAlpha(102),
                     size: 22,
@@ -67,20 +94,20 @@ class NotificationItemWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            item.title,
+                            widget.item.title,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: isToday(item.date)
+                              color: isToday(widget.item.date)
                                   ? CommonColors.blackColor
                                   : CommonColors.blackColor.withAlpha(102),
                             ),
                           ),
                           Text(
-                            item.date,
+                            widget.item.date,
                             style: TextStyle(
                               fontSize: 12,
-                              color: isToday(item.date)
+                              color: isToday(widget.item.date)
                                   ? CommonColors.greyText
                                   : CommonColors.greyText.withAlpha(102),
                               fontWeight: FontWeight.w500,
@@ -92,10 +119,10 @@ class NotificationItemWidget extends StatelessWidget {
                       Text(
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        item.subtitle,
+                        widget.item.subtitle,
                         style: TextStyle(
                           fontSize: 14,
-                          color: isToday(item.date)
+                          color: isToday(widget.item.date)
                               ? CommonColors.greyText
                               : CommonColors.greyText.withAlpha(102),
                         ),
@@ -127,11 +154,13 @@ class NotificationItem {
   final String title;
   final String date;
   final String subtitle;
+  final String key;
 
   NotificationItem({
     required this.icon,
     required this.title,
     required this.date,
     required this.subtitle,
+    required this.key,
   });
 }
