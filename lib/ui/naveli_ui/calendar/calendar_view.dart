@@ -205,7 +205,7 @@ class _CalendarViewState extends State<CalendarView> {
         await _services.api!.savePeriodsInfo(params: params);
 
     if (master == null) {
-      CommonUtils.oopsMSG();
+      // CommonUtils.oopsMSG();
     } else {
       log("Period Info Saved savePeriodsInfo: ${master.toJson()}");
     }
