@@ -31,6 +31,13 @@ class SignupViewModel with ChangeNotifier {
       ApiParams.password: password,
     };
     SignupMaster? master = await _services.api!.signUp(params: params);
+    // TODO : For testing login error
+    CommonUtils.showSnackBar(
+      "Login check : ${master?.message} and ${master?.data}" ??
+          "Login check dd : Something went wrong",
+      color: CommonColors.A43786,
+      duration: const Duration(seconds: 10),
+    );
     CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();

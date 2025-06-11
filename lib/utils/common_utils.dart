@@ -394,10 +394,12 @@ class CommonUtils {
     String? message, {
     String? title,
     Color? color,
+    Duration? duration,
   }) {
     if (!isShowingDownload) {
       ScaffoldMessenger.of(mainNavKey.currentContext!).showSnackBar(
         SnackBar(
+          duration: duration ?? const Duration(seconds: 3),
           elevation: 0,
           content: Container(
             margin: const EdgeInsets.all(4),

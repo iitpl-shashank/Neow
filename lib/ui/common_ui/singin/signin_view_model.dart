@@ -42,6 +42,12 @@ class SignInViewModel with ChangeNotifier {
     debugPrint("Login Response :: ${jsonEncode(master)}");
     CommonUtils.hideProgressDialog();
     if (master == null) {
+      // TODO : For testing login error
+      CommonUtils.showSnackBar(
+        "Login check issue here 3." ?? "Login check dd : Something went wrong",
+        color: CommonColors.A43786,
+        duration: const Duration(seconds: 10),
+      );
       CommonUtils.oopsMSG();
       print(
           "................................Sign In oops.............................");
@@ -77,6 +83,12 @@ class SignInViewModel with ChangeNotifier {
         await _services.api!.checkDeviceToken(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
+      // TODO : For testing login error
+      CommonUtils.showSnackBar(
+        "Login check issue here 1." ?? "Login check dd : Something went wrong",
+        color: CommonColors.A43786,
+        duration: const Duration(seconds: 10),
+      );
       CommonUtils.oopsMSG();
       print(
           "................................Rakesh NEw 81 sign in oops.............................");
@@ -102,6 +114,12 @@ class SignInViewModel with ChangeNotifier {
         await _services.api!.removeDeviceToken(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
+      // TODO : For testing login error
+      CommonUtils.showSnackBar(
+        "Login check issue here 2." ?? "Login check dd : Something went wrong",
+        color: CommonColors.A43786,
+        duration: const Duration(seconds: 10),
+      );
       CommonUtils.oopsMSG();
       print(
           "................................sign in oops.............................");
@@ -145,8 +163,7 @@ class SignInViewModel with ChangeNotifier {
   Future<void> verifyPhone(
       {required String phoneNumber,
       required Function onCodeSent,
-      required BuildContext context})
-  async {
+      required BuildContext context}) async {
     CommonUtils.showProgressDialog();
     final PhoneCodeSent smsOTPSent = (String verId, [int? forceCodeResend]) {
       CommonUtils.hideProgressDialog();
@@ -158,7 +175,7 @@ class SignInViewModel with ChangeNotifier {
       ));
     } as PhoneCodeSent;
     try {
-        log("verifyPhone Function call");
+      log("verifyPhone Function call");
       await _auth.verifyPhoneNumber(
           phoneNumber: "+91$phoneNumber",
           // PHONE NUMBER TO SEND OTP
@@ -184,7 +201,9 @@ class SignInViewModel with ChangeNotifier {
             log("verification New\n${exceptio.message}");
             CommonUtils.showSnackBar(
               color: CommonColors.mRed,
-              exceptio.message!.contains("blocked")? exceptio.message:S.of(context)?.verificationFailed,
+              exceptio.message!.contains("blocked")
+                  ? exceptio.message
+                  : S.of(context)?.verificationFailed,
             );
             log("verification failed\n${exceptio.message}");
             notifyListeners();
