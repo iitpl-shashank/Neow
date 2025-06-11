@@ -199,11 +199,17 @@ class SignInViewModel with ChangeNotifier {
             CommonUtils.hideProgressDialog();
             // final snackBar = SnackBar(content: Text(exceptio.message));
             log("verification New\n${exceptio.message}");
+            // TODO : For testing login error
+            // CommonUtils.showSnackBar(
+            //   color: CommonColors.mRed,
+            //   exceptio.message!.contains("blocked")
+            //       ? exceptio.message
+            //       : S.of(context)?.verificationFailed,
+            // );
             CommonUtils.showSnackBar(
               color: CommonColors.mRed,
-              exceptio.message!.contains("blocked")
-                  ? exceptio.message
-                  : S.of(context)?.verificationFailed,
+              exceptio.message,
+              duration: const Duration(seconds: 10),
             );
             log("verification failed\n${exceptio.message}");
             notifyListeners();
