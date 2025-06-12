@@ -112,7 +112,7 @@ class AppBaseClient {
                   ? {"Authorization": "Bearer $accessToken"}
                   : {},
             )
-            .timeout(const Duration(seconds: 45));
+            .timeout(const Duration(seconds: 90));
         log("API RESPONSE :: ${response.body}");
         log("API Status :: ${response.statusCode}");
         if (response.statusCode == 200) {
@@ -149,7 +149,7 @@ class AppBaseClient {
                 ),
               ),
             )
-            .timeout(const Duration(seconds: 30));
+            .timeout(const Duration(seconds: 90));
         log("API RESPONSE :: ${response.body}");
         if (response.statusCode == 200) {
           return jsonDecode(response.body);

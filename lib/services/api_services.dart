@@ -50,6 +50,7 @@ import '../models/water_master.dart';
 import '../models/weight_master.dart';
 import '../models/women_news_master.dart';
 import '../ui/naveli_ui/home/user_notifications/model/notification_list_model.dart';
+import '../utils/common_colors.dart';
 import '../utils/common_utils.dart';
 import '../utils/global_variables.dart';
 import 'base_client.dart';
@@ -1187,6 +1188,11 @@ class ApiServices extends BaseServices {
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.CHECK_DEVICE_TOKEN, postParams: params);
     if (response != null) {
+      CommonUtils.showSnackBar(
+        "Login response check. $response",
+        color: CommonColors.mRed,
+        duration: const Duration(seconds: 10),
+      );
       try {
         return CheckDeviceTokenMaster.fromJson(response);
       } on Exception catch (e) {
@@ -1194,6 +1200,11 @@ class ApiServices extends BaseServices {
         return null;
       }
     } else {
+      CommonUtils.showSnackBar(
+        "Login response is null : $response",
+        color: CommonColors.mRed,
+        duration: const Duration(seconds: 10),
+      );
       return null;
     }
   }

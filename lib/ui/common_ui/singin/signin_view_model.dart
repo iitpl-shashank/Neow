@@ -82,6 +82,19 @@ class SignInViewModel with ChangeNotifier {
     CheckDeviceTokenMaster? master =
         await _services.api!.checkDeviceToken(params: params);
     CommonUtils.hideProgressDialog();
+    try {
+      CommonUtils.showSnackBar(
+        "Login check issue here 1. $master",
+        color: CommonColors.A43786,
+        duration: const Duration(seconds: 10),
+      );
+    } catch (e) {
+      CommonUtils.showSnackBar(
+        "Login check issue here 1. master is null",
+        color: CommonColors.A43786,
+        duration: const Duration(seconds: 10),
+      );
+    }
     if (master == null) {
       // TODO : For testing login error
       CommonUtils.showSnackBar(
