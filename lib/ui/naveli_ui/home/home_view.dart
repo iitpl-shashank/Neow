@@ -807,7 +807,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                           if (!vModel.isPeriodLog)
                                             SizedBox(
-                                              height: 40,
+                                              height: 130,
                                             ),
                                           if (imageUrl == null)
                                             SizedBox(
