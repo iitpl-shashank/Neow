@@ -43,11 +43,11 @@ class SignInViewModel with ChangeNotifier {
     CommonUtils.hideProgressDialog();
     if (master == null) {
       // TODO : For testing login error
-      CommonUtils.showSnackBar(
-        "Login check issue here 3." ?? "Login check dd : Something went wrong",
-        color: CommonColors.A43786,
-        duration: const Duration(seconds: 10),
-      );
+      // CommonUtils.showSnackBar(
+      //   "Login check issue here 3." ?? "Login check dd : Something went wrong",
+      //   color: CommonColors.A43786,
+      //   duration: const Duration(seconds: 10),
+      // );
       CommonUtils.oopsMSG();
       print(
           "................................Sign In oops.............................");
@@ -82,26 +82,26 @@ class SignInViewModel with ChangeNotifier {
     CheckDeviceTokenMaster? master =
         await _services.api!.checkDeviceToken(params: params);
     CommonUtils.hideProgressDialog();
-    try {
-      CommonUtils.showSnackBar(
-        "Login check issue here 1. $master",
-        color: CommonColors.A43786,
-        duration: const Duration(seconds: 10),
-      );
-    } catch (e) {
-      CommonUtils.showSnackBar(
-        "Login check issue here 1. master is null",
-        color: CommonColors.A43786,
-        duration: const Duration(seconds: 10),
-      );
-    }
+    // try {
+    //   CommonUtils.showSnackBar(
+    //     "Login check issue here 1. $master",
+    //     color: CommonColors.A43786,
+    //     duration: const Duration(seconds: 10),
+    //   );
+    // } catch (e) {
+    //   CommonUtils.showSnackBar(
+    //     "Login check issue here 1. master is null",
+    //     color: CommonColors.A43786,
+    //     duration: const Duration(seconds: 10),
+    //   );
+    // }
     if (master == null) {
       // TODO : For testing login error
-      CommonUtils.showSnackBar(
-        "Login check issue here 1." ?? "Login check dd : Something went wrong",
-        color: CommonColors.A43786,
-        duration: const Duration(seconds: 10),
-      );
+      // CommonUtils.showSnackBar(
+      //   "Login check issue here 1." ?? "Login check dd : Something went wrong",
+      //   color: CommonColors.A43786,
+      //   duration: const Duration(seconds: 10),
+      // );
       CommonUtils.oopsMSG();
       print(
           "................................Rakesh NEw 81 sign in oops.............................");
@@ -128,11 +128,11 @@ class SignInViewModel with ChangeNotifier {
     CommonUtils.hideProgressDialog();
     if (master == null) {
       // TODO : For testing login error
-      CommonUtils.showSnackBar(
-        "Login check issue here 2." ?? "Login check dd : Something went wrong",
-        color: CommonColors.A43786,
-        duration: const Duration(seconds: 10),
-      );
+      // CommonUtils.showSnackBar(
+      //   "Login check issue here 2." ?? "Login check dd : Something went wrong",
+      //   color: CommonColors.A43786,
+      //   duration: const Duration(seconds: 10),
+      // );
       CommonUtils.oopsMSG();
       print(
           "................................sign in oops.............................");

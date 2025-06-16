@@ -1188,11 +1188,11 @@ class ApiServices extends BaseServices {
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.CHECK_DEVICE_TOKEN, postParams: params);
     if (response != null) {
-      CommonUtils.showSnackBar(
-        "Login response check. $response",
-        color: CommonColors.mRed,
-        duration: const Duration(seconds: 10),
-      );
+      // CommonUtils.showSnackBar(
+      //   "Login response check. $response",
+      //   color: CommonColors.mRed,
+      //   duration: const Duration(seconds: 10),
+      // );
       try {
         return CheckDeviceTokenMaster.fromJson(response);
       } on Exception catch (e) {
@@ -1200,11 +1200,11 @@ class ApiServices extends BaseServices {
         return null;
       }
     } else {
-      CommonUtils.showSnackBar(
-        "Login response is null : $response",
-        color: CommonColors.mRed,
-        duration: const Duration(seconds: 10),
-      );
+      // CommonUtils.showSnackBar(
+      //   "Login response is null : $response",
+      //   color: CommonColors.mRed,
+      //   duration: const Duration(seconds: 10),
+      // );
       return null;
     }
   }
