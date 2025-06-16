@@ -47,156 +47,73 @@ class _CommonUserSelectState extends State<CommonUserSelect> {
         }
       },
       child: Container(
-          padding: const EdgeInsets.only(
-            left: 2,
-            right: 10,
-            top: 15,
-            bottom: 15,
-          ),
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: CommonColors.mWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                width: 2,
-                color: widget.isSelected
-                    ? CommonColors.primaryColor
-                    : CommonColors.mGrey300,
-              ),
+        padding: const EdgeInsets.only(
+          left: 2,
+          right: 10,
+          top: 15,
+          bottom: 15,
+        ),
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          color: CommonColors.mWhite,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              width: 2,
+              color: widget.isSelected
+                  ? CommonColors.primaryColor
+                  : CommonColors.mGrey300,
             ),
-            shadows: const [
-              BoxShadow(
-                color: Color(0x3F000000),
-                blurRadius: 5,
-                offset: Offset(0, 2),
-                spreadRadius: 0,
-              )
-            ],
           ),
-          child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10,
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 5,
+              offset: Offset(0, 2),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+          ),
+          child: Row(
+            children: [
+              Image.asset(
+                widget.imagePath,
+                fit: BoxFit.cover,
+                height: 70,
               ),
-              child: Row(children: [
-                Image.asset(
-                  widget.imagePath,
-                  fit: BoxFit.cover,
-                  height: 70,
-                ),
-                Container(
+              Expanded(
+                child: Container(
                   padding: const EdgeInsets.only(
                     left: 20,
                   ),
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${widget.text}',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: CommonColors.primaryColor,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        Text('${widget.descriptionText}')
-                      ]),
-                )
-
-                /* Align(
-                        alignment: Alignment.center,
-                        child: 
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: 
-                      ), */
-              ]))),
-
-      /* AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        width: _isExpanded ? kDeviceWidth - 30 : 130,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 130,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: CommonColors.mWhite,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        widget.isSelected ? const BoxShadow(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${widget.text}',
+                        style: TextStyle(
+                          fontSize: 18,
                           color: CommonColors.primaryColor,
-                          blurRadius: 20.0,
-                        ) : const BoxShadow(
-                          color: CommonColors.mTransparent,
-                          blurRadius: 20.0,
-                        )
-                      ],
-                      image: DecorationImage(
-                          image: AssetImage(widget.imagePath)),
-                      border: Border.all(
-                        width: 2,
-                        color: widget.isSelected
-                            ? CommonColors.primaryColor
-                            : CommonColors.darkPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ),
-                  // ImageContainer(
-                  //   image: widget.imagePath,
-                  //   width: 100,
-                  //   height: 100,
-                  //   isCircle: true,
-                  //   isBorder: true,
-                  //   borderColor: widget.isSelected
-                  //       ? CommonColors.primaryColor
-                  //       : CommonColors.darkPrimaryColor,
-                  //   // borderColor: CommonColors.darkPrimaryColor,
-                  //   borderWidth: 2,
-                  // ),
-                  kCommonSpaceV10,
-                  Text(
-                    widget.text,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w500,
-                      color: widget.isSelected
-                          ? CommonColors.primaryColor
-                          : CommonColors.darkPrimaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (_isExpanded) ...[
-              Flexible(
-                child: Padding(
-                  padding: kCommonScreenPadding10,
-                  child: AnimatedOpacity(
-                    opacity: isTextVisible ? 1 : 0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Text(
-                      widget.descriptionText,
-                      maxLines: 5,
-                      style: const TextStyle(overflow: TextOverflow.ellipsis,color: CommonColors.primaryColor),
-                    ),
+                      Text(
+                        '${widget.descriptionText}',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
-              ),
+              )
             ],
-          ],
+          ),
         ),
-      ), */
+      ),
     );
   }
 }

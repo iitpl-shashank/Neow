@@ -90,7 +90,6 @@ class _SelectOptionViewState extends State<SelectOptionView>
                 padding: kCommonScreenPadding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: 20,
@@ -102,11 +101,7 @@ class _SelectOptionViewState extends State<SelectOptionView>
                         fontWeight:
                             lang == "hi" ? FontWeight.w200 : FontWeight.bold,
                         color: Colors.black,
-                      ), /* GoogleFonts.piedra(
-                          color: CommonColors.primaryColor,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ), */
+                      ),
                     ),
                     Text(
                       S.of(context)!.selectOption,
