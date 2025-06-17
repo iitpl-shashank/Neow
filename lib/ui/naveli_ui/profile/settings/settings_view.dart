@@ -32,6 +32,10 @@ class _SettingsViewState extends State<SettingsView> {
   int selectedIndex = 1;
   late AccountAccessViewModel mViewModel;
   Timer? timer;
+  bool hasPending = false;
+  bool hasAccepted = false;
+  bool hasRejected = false;
+  List<String> acceptedIds = [];
 
   void setLanguage(String langCode) {
     AppPreferences.instance.setLanguageCode(langCode);
@@ -51,12 +55,54 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       mViewModel.attachedContext(context);
-      mViewModel.getBuddyRequestApi();
-      timer = Timer.periodic(const Duration(seconds: 10), (Timer t) {
+      await mViewModel.getBuddyRequestApi();
+      setState(() {
+        if (mViewModel.buddyRequestDataList != null &&
+            mViewModel.buddyRequestDataList!.isNotEmpty) {
+          acceptedIds.clear();
+          hasPending = mViewModel.buddyRequestDataList!
+              .any((item) => item.notificationStatus == "pending");
+          hasAccepted = mViewModel.buddyRequestDataList!
+              .any((item) => item.notificationStatus == "accepted");
+          hasRejected = mViewModel.buddyRequestDataList!
+              .any((item) => item.notificationStatus == "rejected");
+          for (var item in mViewModel.buddyRequestDataList!) {
+            if (item.notificationStatus == "accepted") {
+              acceptedIds.add(item.id.toString());
+            }
+          }
+        } else {
+          hasPending = false;
+          hasAccepted = false;
+          hasRejected = false;
+        }
+      });
+      timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
         // Call your method here
-        mViewModel.getBuddyRequestApi();
+        await mViewModel.getBuddyRequestApi();
+        setState(() {
+          if (mViewModel.buddyRequestDataList != null &&
+              mViewModel.buddyRequestDataList!.isNotEmpty) {
+            acceptedIds.clear();
+            hasPending = mViewModel.buddyRequestDataList!
+                .any((item) => item.notificationStatus == "pending");
+            hasAccepted = mViewModel.buddyRequestDataList!
+                .any((item) => item.notificationStatus == "accepted");
+            hasRejected = mViewModel.buddyRequestDataList!
+                .any((item) => item.notificationStatus == "rejected");
+            for (var item in mViewModel.buddyRequestDataList!) {
+              if (item.notificationStatus == "accepted") {
+                acceptedIds.add(item.id.toString());
+              }
+            }
+          } else {
+            hasPending = false;
+            hasAccepted = false;
+            hasRejected = false;
+          }
+        });
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -182,45 +228,61 @@ class _SettingsViewState extends State<SettingsView> {
                               ),
                             ),
                           ),
-                          // if (mViewModel.buddyRequestDataList != null &&
-                          //     mViewModel.buddyRequestDataList!.isNotEmpty &&
-                          //     mViewModel.buddyRequestDataList!.first
-                          //             .notificationStatus ==
-                          //         "pending")
+
                           Text(
                             "Share this with your Buddy to allow them to monitor your cycle and your health",
                             style: TextStyle(
                               color: CommonColors.greyText,
                             ),
                           ),
-                          if (mViewModel.buddyRequestDataList != null &&
-                              mViewModel.buddyRequestDataList!.isNotEmpty &&
-                              mViewModel.buddyRequestDataList!.first
-                                      .notificationStatus ==
-                                  "accepted")
-                            const SizedBox(height: 25),
-                          if (mViewModel.buddyRequestDataList != null &&
-                              mViewModel.buddyRequestDataList!.isNotEmpty &&
-                              mViewModel.buddyRequestDataList!.first
-                                      .notificationStatus ==
-                                  "accepted")
+                          if (hasAccepted) const SizedBox(height: 25),
+                          if (hasAccepted)
                             InfoBox(
                               text: 'Currently Paired',
-                              endWidget: Text(
-                                mViewModel.buddyRequestDataList!.first.id
-                                    .toString(),
-                                style: TextStyle(
-                                  color: CommonColors.greyText,
-                                  fontWeight: FontWeight.normal,
+                              // endWidget: Text(
+                              //   mViewModel.buddyRequestDataList!.first.id
+                              //       .toString(),
+                              //   style: TextStyle(
+                              //     color: CommonColors.greyText,
+                              //     fontWeight: FontWeight.normal,
+                              //   ),
+                              // ),
+                              endWidget: Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    if (acceptedIds.isNotEmpty)
+                                      SizedBox(
+                                        height: 50,
+                                        child: ListView.builder(
+                                          itemCount: acceptedIds.length,
+                                          itemBuilder: (context, index) {
+                                            return Text(
+                                              acceptedIds[index],
+                                              style: TextStyle(
+                                                color: CommonColors.greyText,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    else
+                                      Text(
+                                        'No Buddies',
+                                        style: TextStyle(
+                                          color: CommonColors.greyText,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),
                           const SizedBox(height: 16),
-                          if (mViewModel.buddyRequestDataList != null &&
-                              mViewModel.buddyRequestDataList!.isNotEmpty &&
-                              mViewModel.buddyRequestDataList!.first
-                                      .notificationStatus ==
-                                  "accepted")
+                          if (hasAccepted)
                             GestureDetector(
                               onTap: () {
                                 push(const AccountAccessView());
@@ -229,14 +291,7 @@ class _SettingsViewState extends State<SettingsView> {
                                 text: 'Exit Pairing',
                               ),
                             ),
-                          if (mViewModel.buddyRequestDataList != null &&
-                              mViewModel.buddyRequestDataList!.isNotEmpty &&
-                              (mViewModel.buddyRequestDataList!.first
-                                          .notificationStatus ==
-                                      "pending" ||
-                                  mViewModel.buddyRequestDataList!.first
-                                          .notificationStatus ==
-                                      "rejected"))
+                          if (hasPending || hasRejected)
                             GestureDetector(
                               onTap: () {
                                 push(const AccountAccessView());

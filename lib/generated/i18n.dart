@@ -1409,6 +1409,11 @@ class S implements WidgetsLocalizations {
   String get pleaseWaitForApproval => ",\nplease wait while it gets approved!";
 
   String get copiedToClipboard => "Copied to clipboard!";
+
+  String get welcomeBuddy => "Welcome Buddy!";
+
+  String get welcomeBuddySubtitle =>
+      "Track your NeoW’s health to support her well-being.";
 }
 
 class $en extends S {
@@ -1419,6 +1424,13 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get welcomeBuddySubtitle =>
+      "उसकी भलाई के लिए अपनी NeoW के स्वास्थ्य पर नज़र रखें।";
+
+  @override
+  String get welcomeBuddy => "स्वागत है, साथी!";
+
   @override
   String get copiedToClipboard => "क्लिपबोर्ड पर कॉपी किया गया!";
 

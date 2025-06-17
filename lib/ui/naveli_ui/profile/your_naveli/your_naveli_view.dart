@@ -25,20 +25,22 @@ class _YourNaveliViewState extends State<YourNaveliView> {
   late YourNaveliViewModel mViewModel;
   String? acceptedUniqueId;
   Timer? timerForRequestApi;
-  Timer? timerForNaveliDataApi;
 
   @override
   void initState() {
     super.initState();
     // Call the method initially
-    Future.delayed(Duration.zero, () async {
-      mViewModel.attachedContext(context);
-      await mViewModel.getBuddyAlreadySendRequestApi();
-      print(
-          'acceptedUniqueId:===============================:${acceptedUniqueId}');
-      // Set up a periodic timer to call the method every 2 seconds
-      timerForRequestApi =
-          Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    Future.delayed(
+      Duration.zero,
+      () async {
+        mViewModel.attachedContext(context);
+        await mViewModel.getBuddyAlreadySendRequestApi();
+        print(
+            'acceptedUniqueId:===============================:${acceptedUniqueId}');
+        // Set up a periodic timer to call the method every 2 seconds
+        // timerForRequestApi = Timer.periodic(
+        //   const Duration(seconds: 5),
+        //   (Timer t) {
         if (globalUserMaster != null) {
           mViewModel.getBuddyAlreadySendRequestApi().whenComplete(() async {
             if (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty) {
@@ -77,8 +79,10 @@ class _YourNaveliViewState extends State<YourNaveliView> {
             }
           }
         }
-      });
-    });
+        //   },
+        // );
+      },
+    );
   }
 
   // @override

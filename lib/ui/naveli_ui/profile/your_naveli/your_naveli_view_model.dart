@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 
 import '../../../../generated/i18n.dart';
@@ -54,6 +56,7 @@ class YourNaveliViewModel with ChangeNotifier {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.unique_id: uniqueId,
     };
+    log("Accepted Unique ID: $uniqueId");
     UserDetailMaster? master =
         await _services.api!.getDataFromUniqueId(params: params);
     // CommonUtils.hideProgressDialog();

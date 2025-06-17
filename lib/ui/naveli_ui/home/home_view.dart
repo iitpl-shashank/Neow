@@ -158,6 +158,7 @@ class _HomeViewState extends State<HomeView> {
           in mViewYourNaveliModel.buddyAlreadySendRequestDataList) {
         if (buddyData.notificationStatus == "accepted") {
           acceptedUniqueId = buddyData.uniqueId;
+          developer.log("Accepted Unique ID: $acceptedUniqueId");
           break;
         }
       }
@@ -177,7 +178,9 @@ class _HomeViewState extends State<HomeView> {
     int? day,
   ) async {
     developer.log("INSIDE: Dialog");
-
+    if (gUserType != AppConstants.NEOWME) {
+      return;
+    }
     if (day == null) day = 100;
 
     if (day != 6) {
@@ -669,26 +672,26 @@ class _HomeViewState extends State<HomeView> {
                   )),
 
               actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    push(NotificationScreen());
-                  },
-                ),
                 if (gUserType == AppConstants.NEOWME)
                   IconButton(
                     icon: Icon(
-                      Icons.calendar_month,
+                      Icons.notifications,
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      isLogEdit = false;
-                      push(CalendarView());
+                      push(NotificationScreen());
                     },
                   ),
+                IconButton(
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    isLogEdit = false;
+                    push(CalendarView());
+                  },
+                ),
               ],
               backgroundColor: Color(bgColor),
             ),
@@ -838,31 +841,41 @@ class _HomeViewState extends State<HomeView> {
                                               height: 20,
                                             ),
                                           kCommonSpaceV5,
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              navigateToCalendarView();
-                                            },
-                                            style: ButtonStyle(
-                                              fixedSize:
-                                                  WidgetStateProperty.all<Size>(
-                                                Size(lang == 'hi' ? 170 : 120.0,
-                                                    30.0), // Button width and height
-                                              ),
-                                              backgroundColor:
-                                                  WidgetStateProperty
-                                                      .all<Color>(CommonColors
-                                                          .primaryColor),
-                                              foregroundColor:
-                                                  WidgetStateProperty.all<
-                                                      Color>(Colors.white),
-                                            ),
-                                            child: Text(
-                                              S.of(context)!.logPeriod,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
+                                          (gUserType != AppConstants.BUDDY)
+                                              ? ElevatedButton(
+                                                  onPressed: () {
+                                                    navigateToCalendarView();
+                                                  },
+                                                  style: ButtonStyle(
+                                                    fixedSize:
+                                                        WidgetStateProperty.all<
+                                                            Size>(
+                                                      Size(
+                                                          lang == 'hi'
+                                                              ? 170
+                                                              : 120.0,
+                                                          30.0), // Button width and height
+                                                    ),
+                                                    backgroundColor:
+                                                        WidgetStateProperty.all<
+                                                                Color>(
+                                                            CommonColors
+                                                                .primaryColor),
+                                                    foregroundColor:
+                                                        WidgetStateProperty.all<
+                                                                Color>(
+                                                            Colors.white),
+                                                  ),
+                                                  child: Text(
+                                                    S.of(context)!.logPeriod,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  height: 30,
+                                                ),
                                           const SizedBox(
                                             height: 20,
                                           ),

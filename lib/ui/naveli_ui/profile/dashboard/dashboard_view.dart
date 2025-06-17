@@ -664,8 +664,8 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     );
                   }),
-                if (gUserType == AppConstants.NEOWME) kCommonSpaceV20,
-                if (gUserType == AppConstants.NEOWME)
+                if (gUserType != AppConstants.CYCLE_EXPLORER) kCommonSpaceV20,
+                if (gUserType != AppConstants.CYCLE_EXPLORER)
                   Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -1038,8 +1038,8 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     ),
                   ),
-                if (gUserType == AppConstants.NEOWME) kCommonSpaceV20,
-                if (gUserType == AppConstants.NEOWME)
+                if (gUserType != AppConstants.CYCLE_EXPLORER) kCommonSpaceV20,
+                if (gUserType != AppConstants.CYCLE_EXPLORER)
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(

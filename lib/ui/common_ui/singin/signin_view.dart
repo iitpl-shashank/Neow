@@ -88,7 +88,9 @@ class _SignInViewState extends State<SignInView> {
                               Padding(
                                 padding: kCommonScreenPadding10,
                                 child: Text(
-                                  S.of(context)!.welcomeToNewYou,
+                                  mViewModel.userRoleId == '3'
+                                      ? S.of(context)!.welcomeBuddy
+                                      : S.of(context)!.welcomeToNewYou,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.black,
@@ -99,6 +101,18 @@ class _SignInViewState extends State<SignInView> {
                                   ),
                                 ),
                               ),
+                              if (mViewModel.userRoleId == '3')
+                                Text(
+                                  S.of(context)!.welcomeBuddySubtitle,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: CommonColors.greyText,
+                                    fontSize: 14,
+                                    fontWeight: lang == "hi"
+                                        ? FontWeight.w200
+                                        : FontWeight.w500,
+                                  ),
+                                ),
                               LabeledTextField(
                                 maxLength: 10,
                                 hintText: S.of(context)!.enterPhoneNumber,
