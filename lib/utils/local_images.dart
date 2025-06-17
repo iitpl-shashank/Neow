@@ -283,6 +283,8 @@ class LocalImages {
   static const String img_testimonial = 'assets/images/img_testimonial.png';
   static const String img_intermittent = 'assets/images/img_intermittent.png';
   static const String img_youtube = 'assets/images/img_youtube.png';
+  static const String img_hands = 'assets/images/hands.png';
+  static const String img_pairing_image = 'assets/images/pairing_image.png';
   static const String img_sleep_daily_diary =
       'assets/images/img_sleep_daily_diary.png';
   static const String img_all_about_period =

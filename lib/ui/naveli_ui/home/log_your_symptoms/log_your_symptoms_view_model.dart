@@ -393,7 +393,7 @@ class LogYourSymptomsModel with ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: isError ? Colors.red : Colors.green,
+        backgroundColor: isError ? Colors.red : CommonColors.primaryColor,
       ),
     );
   }

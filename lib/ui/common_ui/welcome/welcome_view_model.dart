@@ -112,8 +112,10 @@ class WelcomeViewModel with ChangeNotifier {
     experience.clear();
   }
 
-  Future<void> verifyUniqueIdApi(
-      {required String? uniqueId, required bool isFromCycle}) async {
+  Future<void> verifyUniqueIdApi({
+    required String? uniqueId,
+    required bool isFromCycle,
+  }) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.unique_id: uniqueId,

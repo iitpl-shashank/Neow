@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:naveli_2023/ui/naveli_ui/profile/your_naveli/send_request_screen.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../database/app_preferences.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
@@ -93,147 +90,160 @@ class _YourNaveliViewState extends State<YourNaveliView> {
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
         appBar: CommonAppBar(
-          title: S.of(context)!.yourNaveli,
+          title: '',
         ),
-        body: SingleChildScrollView(
-          padding: kCommonScreenPadding,
-          child: ListView.builder(
-            itemCount: mViewModel.buddyAlreadySendRequestDataList.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Container(
-                    // width: kDeviceWidth / 1,
-                    // height: kDeviceHeight / 2.2,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: ShapeDecoration(
-                      color: CommonColors.mWhite,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8, right: 8, top: 8),
-                          child: Text(
-                              "Name : ${mViewModel.buddyAlreadySendRequestDataList[index].name}"),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 8,
-                          ),
-                          child: Text(
-                              "Unique Id : ${mViewModel.buddyAlreadySendRequestDataList[index].uniqueId}"),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 8,
-                          ),
-                          child: Text(
-                              "Mobile : ${mViewModel.buddyAlreadySendRequestDataList[index].mobile}"),
-                        ),
-                        if (mViewModel.buddyAlreadySendRequestDataList[index]
-                                .notificationStatus ==
-                            "rejected")
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 8),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Request Status : ",
-                                ),
-                                Text(
-                                  mViewModel
-                                          .buddyAlreadySendRequestDataList[
-                                              index]
-                                          .notificationStatus ??
-                                      '',
-                                  style: getAppStyle(color: CommonColors.mRed),
-                                ),
-                              ],
-                            ),
-                          ),
-                        if (mViewModel.buddyAlreadySendRequestDataList[index]
-                                .notificationStatus ==
-                            "accepted")
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 8),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Request Status : ",
-                                ),
-                                Text(
-                                  mViewModel
-                                          .buddyAlreadySendRequestDataList[
-                                              index]
-                                          .notificationStatus ??
-                                      '',
-                                  style: getAppStyle(
-                                      color: CommonColors.greenColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                        if (mViewModel.buddyAlreadySendRequestDataList[index]
-                                .notificationStatus ==
-                            "pending")
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 8),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Request Status : ",
-                                ),
-                                Text(
-                                  mViewModel
-                                          .buddyAlreadySendRequestDataList[
-                                              index]
-                                          .notificationStatus ??
-                                      '',
-                                  style: getAppStyle(
-                                      color: CommonColors.primaryColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ));
-            },
+        body:
+
+            // SingleChildScrollView(
+            //   padding: kCommonScreenPadding,
+            //   child: ListView.builder(
+            //     itemCount: mViewModel.buddyAlreadySendRequestDataList.length,
+            //     shrinkWrap: true,
+            //     physics: const NeverScrollableScrollPhysics(),
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //           padding: const EdgeInsets.symmetric(vertical: 8),
+            //           child: Container(
+            //             // width: kDeviceWidth / 1,
+            //             // height: kDeviceHeight / 2.2,
+            //             clipBehavior: Clip.antiAlias,
+            //             decoration: ShapeDecoration(
+            //               color: CommonColors.mWhite,
+            //               shape: RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(10),
+            //               ),
+            //               shadows: const [
+            //                 BoxShadow(
+            //                   color: Color(0x3F000000),
+            //                   blurRadius: 5,
+            //                   offset: Offset(0, 2),
+            //                   spreadRadius: 0,
+            //                 )
+            //               ],
+            //             ),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Padding(
+            //                   padding:
+            //                       const EdgeInsets.only(left: 8, right: 8, top: 8),
+            //                   child: Text(
+            //                       "Name : ${mViewModel.buddyAlreadySendRequestDataList[index].name}"),
+            //                 ),
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(
+            //                     left: 8,
+            //                     right: 8,
+            //                   ),
+            //                   child: Text(
+            //                       "Unique Id : ${mViewModel.buddyAlreadySendRequestDataList[index].uniqueId}"),
+            //                 ),
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(
+            //                     left: 8,
+            //                     right: 8,
+            //                   ),
+            //                   child: Text(
+            //                       "Mobile : ${mViewModel.buddyAlreadySendRequestDataList[index].mobile}"),
+            //                 ),
+            //                 if (mViewModel.buddyAlreadySendRequestDataList[index]
+            //                         .notificationStatus ==
+            //                     "rejected")
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8, right: 8, bottom: 8),
+            //                     child: Row(
+            //                       children: [
+            //                         const Text(
+            //                           "Request Status : ",
+            //                         ),
+            //                         Text(
+            //                           mViewModel
+            //                                   .buddyAlreadySendRequestDataList[
+            //                                       index]
+            //                                   .notificationStatus ??
+            //                               '',
+            //                           style: getAppStyle(color: CommonColors.mRed),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 if (mViewModel.buddyAlreadySendRequestDataList[index]
+            //                         .notificationStatus ==
+            //                     "accepted")
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8, right: 8, bottom: 8),
+            //                     child: Row(
+            //                       children: [
+            //                         const Text(
+            //                           "Request Status : ",
+            //                         ),
+            //                         Text(
+            //                           mViewModel
+            //                                   .buddyAlreadySendRequestDataList[
+            //                                       index]
+            //                                   .notificationStatus ??
+            //                               '',
+            //                           style: getAppStyle(
+            //                               color: CommonColors.greenColor),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 if (mViewModel.buddyAlreadySendRequestDataList[index]
+            //                         .notificationStatus ==
+            //                     "pending")
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8, right: 8, bottom: 8),
+            //                     child: Row(
+            //                       children: [
+            //                         const Text(
+            //                           "Request Status : ",
+            //                         ),
+            //                         Text(
+            //                           mViewModel
+            //                                   .buddyAlreadySendRequestDataList[
+            //                                       index]
+            //                                   .notificationStatus ??
+            //                               '',
+            //                           style: getAppStyle(
+            //                               color: CommonColors.primaryColor),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //               ],
+            //             ),
+            //           ));
+            Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text(
+              '${S.of(context)!.requestSent} ${mViewModel.buddyAlreadySendRequestDataList[0].name}${S.of(context)!.pleaseWaitForApproval}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: CommonColors.black87,
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
           padding: kCommonAllBottomPadding,
           child: Row(
             children: [
-              Expanded(
-                child: PrimaryButton(
-                  onPress: () {
-                    push(const SendRequestScreen());
-                  },
-                  label: "Send request",
-                ),
-              ),
-              kCommonSpaceH15,
+              // Expanded(
+              //   child: PrimaryButton(
+              //     onPress: () {
+              //       push(const SendRequestScreen());
+              //     },
+              //     label: "Send request",
+              //   ),
+              // ),
+              // kCommonSpaceH15,
               Expanded(
                 child: PrimaryButton(
                   onPress: () {

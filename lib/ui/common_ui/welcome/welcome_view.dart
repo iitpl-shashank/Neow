@@ -973,40 +973,31 @@ class _WelcomeViewState extends State<WelcomeView> {
                             ),
                           ),
                           kCommonSpaceV30,
+                          Text(
+                            S.of(context)!.relationShipWithNeow,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           SizedBox(
                             child: Image.asset(
-                              LocalImages.img_ham_aapke_kon,
+                              LocalImages.img_hands,
                               fit: BoxFit.cover,
                             ),
                           ),
                           kCommonSpaceV30,
-                          Container(
-                            // height: 130,
-                            width: kDeviceWidth / 1.2,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEFE5FE).withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    S.of(context)!.hamAapkeKon,
-                                    style: getAppStyle(
-                                        color: CommonColors.primaryColor,
-                                        fontSize: 18),
-                                  ),
-                                  kCommonSpaceV15,
-                                  LabelTextField(
-                                    hintText: S.of(context)!.hamAapkeKon,
-                                    controller: mAapkeKonController,
-                                  ),
-                                ],
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              kCommonSpaceV15,
+                              LabelTextField(
+                                hintText: S.of(context)!.typeHere,
+                                controller: mAapkeKonController,
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
@@ -1015,53 +1006,55 @@ class _WelcomeViewState extends State<WelcomeView> {
                 if (gUserType == AppConstants.BUDDY)
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                            onTap: () {
-                              pageController.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                            child: const Icon(Icons.arrow_back,
-                                color: CommonColors.primaryColor),
-                          ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          // height: 130,
-                          width: kDeviceWidth / 1.2,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEFE5FE).withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  S.of(context)!.naveliUniqueId,
-                                  style: getAppStyle(
-                                      color: CommonColors.primaryColor,
-                                      fontSize: 18),
-                                ),
-                                kCommonSpaceV15,
-                                LabelTextField(
-                                  hintText: S.of(context)!.enterNaveliUid,
-                                  controller: mUniqueIdController,
-                                ),
-                              ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              onTap: () {
+                                pageController.previousPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              },
+                              child: const Icon(Icons.arrow_back,
+                                  color: CommonColors.primaryColor),
                             ),
                           ),
-                        ),
-                        const Spacer()
-                      ],
+                          const SizedBox(height: 30),
+                          Text(
+                            S.of(context)!.enterPairingCode,
+                            style: getAppStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                          SizedBox(
+                            child: Image.asset(
+                              LocalImages.img_pairing_image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          Text(
+                            textAlign: TextAlign.center,
+                            S.of(context)!.pairingSubtitle,
+                            style: getAppStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          const SizedBox(height: 80),
+                          kCommonSpaceV15,
+                          LabelTextField(
+                            hintText: S.of(context)!.enterNaveliUid,
+                            controller: mUniqueIdController,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 if (gUserType == AppConstants.NEOWME)
