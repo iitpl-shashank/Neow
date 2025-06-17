@@ -1407,6 +1407,8 @@ class S implements WidgetsLocalizations {
   String get requestSent => "Request sent to";
 
   String get pleaseWaitForApproval => ",\nplease wait while it gets approved!";
+
+  String get copiedToClipboard => "Copied to clipboard!";
 }
 
 class $en extends S {
@@ -1417,6 +1419,9 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get copiedToClipboard => "क्लिपबोर्ड पर कॉपी किया गया!";
+
   @override
   String get requestSent => "अनुरोध ";
 

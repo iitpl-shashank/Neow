@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:naveli_2023/widgets/primary_button.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
@@ -10,13 +13,11 @@ import '../../../../utils/constant.dart';
 import '../../../../utils/global_variables.dart';
 import '../../../../utils/local_images.dart';
 import '../../../../widgets/common_appbar.dart';
-import '../../../../widgets/common_profile_menu.dart';
 import '../../../app/app_model.dart';
 import '../../../common_ui/splash/splash_view_model.dart';
 import '../account_access/account_access_view.dart';
 import '../account_access/account_access_view_model.dart';
 import '../dashboard/dashboard_view_model.dart';
-import '../your_naveli/your_naveli_view.dart';
 import 'widgets/info_box.dart';
 
 class SettingsView extends StatefulWidget {
@@ -30,6 +31,7 @@ class _SettingsViewState extends State<SettingsView> {
   bool isSelected = false;
   int selectedIndex = 1;
   late AccountAccessViewModel mViewModel;
+  Timer? timer;
 
   void setLanguage(String langCode) {
     AppPreferences.instance.setLanguageCode(langCode);
@@ -52,6 +54,10 @@ class _SettingsViewState extends State<SettingsView> {
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       mViewModel.getBuddyRequestApi();
+      timer = Timer.periodic(const Duration(seconds: 10), (Timer t) {
+        // Call your method here
+        mViewModel.getBuddyRequestApi();
+      });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DashBoardViewModel>(context, listen: false)
@@ -64,6 +70,12 @@ class _SettingsViewState extends State<SettingsView> {
         AppConstants.LANGUAGE_HINDI) {
       selectedIndex = 2;
     }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -111,58 +123,132 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                 ),
                 // TODO : Hidden as per client request
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                if (mViewModel.buddyRequestDataList != null &&
+                    mViewModel.buddyRequestDataList!.isNotEmpty)
+                  const SizedBox(height: 10),
+                if (mViewModel.buddyRequestDataList != null &&
+                    mViewModel.buddyRequestDataList!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Text("Pairing",
+                        style: getAppStyle(
+                          color: CommonColors.blackColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        )),
                   ),
-                  child: Text("Pairing",
-                      style: getAppStyle(
-                        color: CommonColors.blackColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      )),
-                ),
-                Container(
-                  color: Colors.grey[200],
-                  child: Padding(
-                    padding: kCommonScreenPadding,
-                    child: Column(
-                      children: [
-                        InfoBox(
-                          text: 'Generate Code',
-                          endWidget: Image.asset(
-                            LocalImages.icMagicWand,
-                            height: 16,
-                            width: 16,
-                          ),
-                        ),
-                        Text(
-                          "Share this with your Buddy to allow them to monitor your cycle and your health",
-                          style: TextStyle(
-                            color: CommonColors.greyText,
-                          ),
-                        ),
-                        const SizedBox(height: 25),
-                        const InfoBox(
-                          text: 'Currently Paired',
-                          endWidget: Text(
-                            'Amit BD0001',
-                            style: TextStyle(
-                              color: CommonColors.greyText,
-                              fontWeight: FontWeight.normal,
+                if (mViewModel.buddyRequestDataList != null &&
+                    mViewModel.buddyRequestDataList!.isNotEmpty)
+                  Container(
+                    color: Colors.grey[200],
+                    child: Padding(
+                      padding: kCommonScreenPadding,
+                      child: Column(
+                        children: [
+                          // if (mViewModel.buddyRequestDataList != null &&
+                          //     mViewModel.buddyRequestDataList!.isNotEmpty &&
+                          //     (mViewModel.buddyRequestDataList!.first
+                          //                 .notificationStatus ==
+                          //             "pending" ||
+                          //         mViewModel.buddyRequestDataList!.first
+                          //                 .notificationStatus ==
+                          //             "rejected"))
+                          GestureDetector(
+                            onTap: () async {
+                              final uniqueId = Provider.of<DashBoardViewModel>(
+                                      context,
+                                      listen: false)
+                                  .userUniqueId;
+                              await Clipboard.setData(
+                                  ClipboardData(text: uniqueId));
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    S.of(context)!.copiedToClipboard,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: InfoBox(
+                              text: 'Generate Code',
+                              endWidget: Image.asset(
+                                LocalImages.icMagicWand,
+                                height: 16,
+                                width: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        const InfoBox(
-                          text: 'Exit Pairing',
-                        ),
-                      ],
+                          // if (mViewModel.buddyRequestDataList != null &&
+                          //     mViewModel.buddyRequestDataList!.isNotEmpty &&
+                          //     mViewModel.buddyRequestDataList!.first
+                          //             .notificationStatus ==
+                          //         "pending")
+                          Text(
+                            "Share this with your Buddy to allow them to monitor your cycle and your health",
+                            style: TextStyle(
+                              color: CommonColors.greyText,
+                            ),
+                          ),
+                          if (mViewModel.buddyRequestDataList != null &&
+                              mViewModel.buddyRequestDataList!.isNotEmpty &&
+                              mViewModel.buddyRequestDataList!.first
+                                      .notificationStatus ==
+                                  "accepted")
+                            const SizedBox(height: 25),
+                          if (mViewModel.buddyRequestDataList != null &&
+                              mViewModel.buddyRequestDataList!.isNotEmpty &&
+                              mViewModel.buddyRequestDataList!.first
+                                      .notificationStatus ==
+                                  "accepted")
+                            InfoBox(
+                              text: 'Currently Paired',
+                              endWidget: Text(
+                                mViewModel.buddyRequestDataList!.first.id
+                                    .toString(),
+                                style: TextStyle(
+                                  color: CommonColors.greyText,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(height: 16),
+                          if (mViewModel.buddyRequestDataList != null &&
+                              mViewModel.buddyRequestDataList!.isNotEmpty &&
+                              mViewModel.buddyRequestDataList!.first
+                                      .notificationStatus ==
+                                  "accepted")
+                            GestureDetector(
+                              onTap: () {
+                                push(const AccountAccessView());
+                              },
+                              child: const InfoBox(
+                                text: 'Exit Pairing',
+                              ),
+                            ),
+                          if (mViewModel.buddyRequestDataList != null &&
+                              mViewModel.buddyRequestDataList!.isNotEmpty &&
+                              (mViewModel.buddyRequestDataList!.first
+                                          .notificationStatus ==
+                                      "pending" ||
+                                  mViewModel.buddyRequestDataList!.first
+                                          .notificationStatus ==
+                                      "rejected"))
+                            GestureDetector(
+                              onTap: () {
+                                push(const AccountAccessView());
+                              },
+                              child: const InfoBox(
+                                text: 'Check Pairing Requests',
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -262,62 +348,62 @@ class _SettingsViewState extends State<SettingsView> {
                     ),
                   ),
                 ),
-                kCommonSpaceV30,
-                Container(
-                  width: kDeviceWidth / 1,
-                  decoration: ShapeDecoration(
-                    color: CommonColors.mWhite,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 5,
-                        offset: Offset(0, 2),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      if (gUserType == AppConstants.NEOWME)
-                        CommonProfileMenu(
-                          text: S.of(context)!.accountAccess,
-                          isLast: false,
-                          // color: CommonColors.blackColor,
-                          underLineColor: CommonColors.mGrey300,
-                          onTap: () {
-                            push(const AccountAccessView());
-                          },
-                        ),
-                      if (gUserType == AppConstants.BUDDY)
-                        CommonProfileMenu(
-                          text: S.of(context)!.yourNaveli,
-                          isLast: false,
-                          underLineColor: CommonColors.mGrey300,
-                          //color: CommonColors.blackColor,
-                          onTap: () {
-                            push(const YourNaveliView());
-                          },
-                        ),
-                      CommonProfileMenu(
-                        text: S.of(context)!.deActiveYourAcc,
-                        isLast: false,
-                        underLineColor: CommonColors.mGrey300,
-                        //color: CommonColors.blackColor,
-                      ),
-                      CommonProfileMenu(
-                        onTap: () {
-                          SplashViewModel().logoutApi();
-                        },
-                        text: S.of(context)!.logout,
-                        isLast: true,
-                        // color: CommonColors.mRed,
-                      ),
-                    ],
-                  ),
-                ),
+                // kCommonSpaceV30,
+                // Container(
+                //   width: kDeviceWidth / 1,
+                //   decoration: ShapeDecoration(
+                //     color: CommonColors.mWhite,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     shadows: const [
+                //       BoxShadow(
+                //         color: Color(0x3F000000),
+                //         blurRadius: 5,
+                //         offset: Offset(0, 2),
+                //         spreadRadius: 0,
+                //       )
+                //     ],
+                //   ),
+                //   child: Column(
+                //     children: [
+                //       if (gUserType == AppConstants.NEOWME)
+                //         CommonProfileMenu(
+                //           text: S.of(context)!.accountAccess,
+                //           isLast: false,
+                //           // color: CommonColors.blackColor,
+                //           underLineColor: CommonColors.mGrey300,
+                //           onTap: () {
+                //             push(const AccountAccessView());
+                //           },
+                //         ),
+                //       if (gUserType == AppConstants.BUDDY)
+                //         CommonProfileMenu(
+                //           text: S.of(context)!.yourNaveli,
+                //           isLast: false,
+                //           underLineColor: CommonColors.mGrey300,
+                //           //color: CommonColors.blackColor,
+                //           onTap: () {
+                //             push(const YourNaveliView());
+                //           },
+                //         ),
+                //       CommonProfileMenu(
+                //         text: S.of(context)!.deActiveYourAcc,
+                //         isLast: false,
+                //         underLineColor: CommonColors.mGrey300,
+                //         //color: CommonColors.blackColor,
+                //       ),
+                //       CommonProfileMenu(
+                //         onTap: () {
+                //           SplashViewModel().logoutApi();
+                //         },
+                //         text: S.of(context)!.logout,
+                //         isLast: true,
+                //         // color: CommonColors.mRed,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 // kCommonSpaceV30,
                 // Container(
                 //   width: kDeviceWidth / 1,

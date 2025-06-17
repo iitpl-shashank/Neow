@@ -46,14 +46,14 @@ class BuddyRequestMaster {
 }
 
 class BuddyRequestData {
-  int? _id;
+  String? _id;
   String? _name;
   String? _mobile;
   int? _notificationId;
   String? _notificationStatus;
 
   BuddyRequestData(
-      {int? id,
+      {String? id,
       String? name,
       String? mobile,
       int? notificationId,
@@ -75,8 +75,8 @@ class BuddyRequestData {
     }
   }
 
-  int? get id => _id;
-  set id(int? id) => _id = id;
+  String? get id => _id;
+  set id(String? id) => _id = id;
   String? get name => _name;
   set name(String? name) => _name = name;
   String? get mobile => _mobile;
