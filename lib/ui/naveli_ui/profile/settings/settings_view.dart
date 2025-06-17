@@ -14,6 +14,7 @@ import '../../../../widgets/common_profile_menu.dart';
 import '../../../app/app_model.dart';
 import '../../../common_ui/splash/splash_view_model.dart';
 import '../account_access/account_access_view.dart';
+import '../account_access/account_access_view_model.dart';
 import '../dashboard/dashboard_view_model.dart';
 import '../your_naveli/your_naveli_view.dart';
 import 'widgets/info_box.dart';
@@ -28,6 +29,7 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   bool isSelected = false;
   int selectedIndex = 1;
+  late AccountAccessViewModel mViewModel;
 
   void setLanguage(String langCode) {
     AppPreferences.instance.setLanguageCode(langCode);
@@ -47,6 +49,10 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+      mViewModel.getBuddyRequestApi();
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DashBoardViewModel>(context, listen: false)
           .getUserPersonalInformation();
@@ -62,6 +68,7 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<AccountAccessViewModel>(context);
     return ScaffoldBG(
       child: SafeArea(
         child: Scaffold(

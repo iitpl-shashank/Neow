@@ -117,41 +117,43 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                     ],
                                     if (gUserType == AppConstants.BUDDY) ...[
                                       Align(
-                                        alignment: Alignment.centerLeft,
+                                        alignment: Alignment.center,
                                         child: Text(
                                           '${S.of(context)!.welcomeViewText} ${globalUserMaster == null || !widget.isFromSplash ? globalUserMaster?.name ?? '' : ""}',
                                           style: const TextStyle(
-                                            color: CommonColors.primaryColor,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
+                                            color: CommonColors.blackColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                       ),
-                                      Row(
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
+                                            textAlign: TextAlign.center,
                                             globalUserMaster == null ||
                                                     !widget.isFromSplash
                                                 ? 'for '
-                                                : '${globalUserMaster?.name ?? ''} for ',
+                                                : '${globalUserMaster?.name ?? ''} for',
                                             style: const TextStyle(
-                                              color: CommonColors.primaryColor,
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold,
+                                              color: CommonColors.blackColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           Text(
+                                            textAlign: TextAlign.center,
                                             globalUserMaster == null ||
                                                     !widget.isFromSplash
-                                                ? 'NeoW'
-                                                : 'NeoW',
-                                            style: getGoogleFontStyle(
-                                              color: CommonColors.color_FF3C69,
-                                              fontSize: 25,
+                                                ? ' NeoW Buddy'
+                                                : ' NeoW Buddy',
+                                            style: const TextStyle(
+                                              color: CommonColors.primaryColor,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -201,7 +203,11 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                           kCommonSpaceH5,
                                           Flexible(
                                             child: Text(
-                                              globalUserMaster?.name ?? '',
+                                              (globalUserMaster?.name != null ||
+                                                      globalUserMaster?.name !=
+                                                          '')
+                                                  ? globalUserMaster?.name ?? ""
+                                                  : '',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: const TextStyle(

@@ -31,9 +31,9 @@ class _YourNaveliViewState extends State<YourNaveliView> {
   void initState() {
     super.initState();
     // Call the method initially
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       mViewModel.attachedContext(context);
-      mViewModel.getBuddyAlreadySendRequestApi();
+      await mViewModel.getBuddyAlreadySendRequestApi();
       print(
           'acceptedUniqueId:===============================:${acceptedUniqueId}');
       // Set up a periodic timer to call the method every 2 seconds
@@ -41,12 +41,15 @@ class _YourNaveliViewState extends State<YourNaveliView> {
           Timer.periodic(const Duration(seconds: 5), (Timer t) {
         if (globalUserMaster != null) {
           mViewModel.getBuddyAlreadySendRequestApi().whenComplete(() async {
-            for (var buddyData in mViewModel.buddyAlreadySendRequestDataList) {
-              print(buddyData.toString());
+            if (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty) {
+              for (var buddyData
+                  in mViewModel.buddyAlreadySendRequestDataList) {
+                print(buddyData.toString());
 
-              if (buddyData.notificationStatus == "accepted") {
-                acceptedUniqueId = buddyData.uniqueId;
-                break;
+                if (buddyData.notificationStatus == "accepted") {
+                  acceptedUniqueId = buddyData.uniqueId;
+                  break;
+                }
               }
             }
           });
@@ -60,16 +63,17 @@ class _YourNaveliViewState extends State<YourNaveliView> {
               AppPreferences.instance.setBuddyAccess(true);
             }
           }
-
-          for (var buddyData in mViewModel.buddyAlreadySendRequestDataList) {
-            if (buddyData.notificationStatus == "pending" ||
-                buddyData.notificationStatus == "rejected") {
-              print(".......First rejected Time called.......");
-              acceptedUniqueId = null;
-              if (AppPreferences.instance.getBuddyAccess() == true) {
-                pushAndRemoveUntil(const YourNaveliView());
+          if (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty) {
+            for (var buddyData in mViewModel.buddyAlreadySendRequestDataList) {
+              if (buddyData.notificationStatus == "pending" ||
+                  buddyData.notificationStatus == "rejected") {
+                print(".......First rejected Time called.......");
+                acceptedUniqueId = null;
+                if (AppPreferences.instance.getBuddyAccess() == true) {
+                  pushAndRemoveUntil(const YourNaveliView());
+                }
+                AppPreferences.instance.setBuddyAccess(false);
               }
-              AppPreferences.instance.setBuddyAccess(false);
             }
           }
         }
@@ -218,18 +222,22 @@ class _YourNaveliViewState extends State<YourNaveliView> {
             //             ),
             //           ));
             Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              '${S.of(context)!.requestSent} ${mViewModel.buddyAlreadySendRequestDataList[0].name}${S.of(context)!.pleaseWaitForApproval}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: CommonColors.black87,
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ),
+          child: (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty)
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    '${S.of(context)!.requestSent} ${mViewModel.buddyAlreadySendRequestDataList[0].name ?? ""}${S.of(context)!.pleaseWaitForApproval}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: CommonColors.black87,
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                )
+              : CircularProgressIndicator(
+                  color: CommonColors.primaryColor,
+                ),
         ),
         bottomNavigationBar: Padding(
           padding: kCommonAllBottomPadding,
@@ -250,7 +258,7 @@ class _YourNaveliViewState extends State<YourNaveliView> {
                     SplashViewModel().logoutApi();
                   },
                   label: "Logout",
-                  buttonColor: CommonColors.mRed,
+                  buttonColor: CommonColors.fadeRed,
                 ),
               ),
             ],

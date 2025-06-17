@@ -21,6 +21,7 @@ class CommonColors {
   static final mGrey201 = const Color.fromRGBO(153, 153, 153, 1);
   static final mGrey300 = Colors.grey.shade300;
   static const mRed = Colors.red;
+  static const fadeRed = Color.fromARGB(255, 248, 80, 68);
   static const blackColor = Color(0xFF000000);
   static const black54 = Colors.black54;
   static Color black87 = Colors.black87.withOpacity(0.7);

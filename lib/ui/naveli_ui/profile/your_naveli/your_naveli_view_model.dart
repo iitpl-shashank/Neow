@@ -35,6 +35,7 @@ class YourNaveliViewModel with ChangeNotifier {
       );
     } else if (master.success == true) {
       buddyAlreadySendRequestDataList = master.data ?? [];
+      notifyListeners();
 
       // print("Buddy Request list is :: ${buddyRequestDataList}");
 
