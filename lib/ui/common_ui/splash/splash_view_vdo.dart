@@ -9,6 +9,7 @@ import 'package:video_player/video_player.dart';
 import '../../../database/app_preferences.dart';
 import '../../../utils/local_images.dart';
 import '../../naveli_ui/cycle_info/welcom_gif_view.dart';
+import '../../naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 
 class SplashViewVdo extends StatefulWidget {
   const SplashViewVdo({super.key});
@@ -64,7 +65,8 @@ class _SplashViewState extends State<SplashViewVdo> {
     super.initState();
     loadVideoPlayer('assets/video/door_animation_starting.mp4');
     Future.delayed(Duration.zero, () {
-      mViewModel.checkIsFirstTime();
+      mViewModel.checkIsFirstTime(
+          mViewModel: Provider.of<YourNaveliViewModel>(context, listen: false));
     });
     player1 = AudioPlayer();
     player2 = AudioPlayer();

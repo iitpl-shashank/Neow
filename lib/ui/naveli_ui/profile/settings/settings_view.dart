@@ -254,20 +254,19 @@ class _SettingsViewState extends State<SettingsView> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     if (acceptedIds.isNotEmpty)
-                                      SizedBox(
-                                        height: 50,
-                                        child: ListView.builder(
-                                          itemCount: acceptedIds.length,
-                                          itemBuilder: (context, index) {
-                                            return Text(
-                                              acceptedIds[index],
-                                              style: TextStyle(
-                                                color: CommonColors.greyText,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                      Wrap(
+                                        direction: Axis.vertical,
+                                        children: acceptedIds
+                                            .map((id) => Text(
+                                                  id,
+                                                  style: TextStyle(
+                                                    color:
+                                                        CommonColors.greyText,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ))
+                                            .toList(),
                                       )
                                     else
                                       Text(

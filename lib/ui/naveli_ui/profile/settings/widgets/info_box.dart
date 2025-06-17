@@ -22,7 +22,6 @@ class InfoBox extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             text,
@@ -31,6 +30,7 @@ class InfoBox extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          Spacer(),
           endWidget != null ? endWidget! : const SizedBox.shrink(),
         ],
       ),

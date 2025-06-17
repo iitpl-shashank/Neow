@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -7,6 +8,7 @@ import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 import '../../../widgets/scaffold_bg.dart';
 import '../../common_ui/singin/signin_view_model.dart';
+import '../profile/your_naveli/your_naveli_view_model.dart';
 
 class WelComeGifView extends StatefulWidget {
   final bool isFromSplash;
@@ -25,8 +27,11 @@ class _WelComeGifViewState extends State<WelComeGifView> {
   void initState() {
     super.initState();
     if (!widget.isFromSplash) {
-      Future.delayed(const Duration(seconds: 3), () {
-        SignInViewModel().login(userType: gUserType);
+      Future.delayed(const Duration(seconds: 3), () async {
+        await SignInViewModel().login(
+            userType: gUserType,
+            mViewModel:
+                Provider.of<YourNaveliViewModel>(context, listen: false));
       });
     } else {
       Future.delayed(const Duration(milliseconds: 1), () {

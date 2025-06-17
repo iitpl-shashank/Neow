@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
+import '../../naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 import '../singin/signin_view_model.dart';
 
 class OTPViewModel with ChangeNotifier {
@@ -30,8 +32,10 @@ class OTPViewModel with ChangeNotifier {
       CommonUtils.showProgressDialog();
       await _auth.signInWithCredential(credential);
       CommonUtils.hideProgressDialog();
-      await SignInViewModel()
-          .loginApi(mobile: phone, roleId: int.parse(userRoleId));
+      await SignInViewModel().loginApi(
+          mobile: phone,
+          roleId: int.parse(userRoleId),
+          mViewModel: Provider.of<YourNaveliViewModel>(context, listen: false));
       print('OTP is correct');
     } catch (e) {
       print('OTP is wrong');

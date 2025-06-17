@@ -37,6 +37,8 @@ class YourNaveliViewModel with ChangeNotifier {
       );
     } else if (master.success == true) {
       buddyAlreadySendRequestDataList = master.data ?? [];
+      log('Buddy Already Send Request Data List: ${buddyAlreadySendRequestDataList.length}');
+      log('Buddy Already Send Request Data List: ${buddyAlreadySendRequestDataList.first.name}');
       notifyListeners();
 
       // print("Buddy Request list is :: ${buddyRequestDataList}");
@@ -72,6 +74,10 @@ class YourNaveliViewModel with ChangeNotifier {
       globalUserMaster?.previousPeriodsBegin =
           master.data?.previousPeriodsBegin;
       globalUserMaster?.roleId = 3;
+      notifyListeners();
+      log("Accepted Unique ID avgCycle: ${master.data?.averageCycleLength}");
+      log("Accepted Unique ID avgPeriod: ${master.data?.averagePeriodLength}");
+      log("Accepted Unique ID previous: ${master.data?.previousPeriodsBegin}");
     } else if (!master.success!) {
       CommonUtils.showRedToastMessage(
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,

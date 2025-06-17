@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 import '/ui/common_ui/privacy_policy/privacy_policy_view.dart';
 import '../../../database/app_preferences.dart';
 import '../../../generated/i18n.dart';
@@ -20,7 +21,7 @@ import '../singin/signin_view_model.dart';
 class SplashViewModel with ChangeNotifier {
   final _services = Services();
 
-  void checkIsFirstTime() {
+  void checkIsFirstTime({required YourNaveliViewModel mViewModel}) {
     // checking app is opening first time
     // below condition satisfied only once when opening app first time
     // if (AppPreferences.instance.getIsFirstTime()) {
@@ -30,10 +31,11 @@ class SplashViewModel with ChangeNotifier {
     //     AppPreferences.instance.setIsFirstTime(false);
     //   });
     // }
-    checkUserLoggedIn();
+    checkUserLoggedIn(mViewModel: mViewModel);
   }
 
-  Future<void> checkUserLoggedIn() async {
+  Future<void> checkUserLoggedIn(
+      {required YourNaveliViewModel mViewModel}) async {
     log("Stored User Details :: ${jsonEncode(AppPreferences.instance.getUserDetails())}");
     String locale = AppPreferences.instance.getLanguageCode();
     log("User Language :: $locale");
@@ -44,7 +46,7 @@ class SplashViewModel with ChangeNotifier {
       // in Below method we get user data from server silently (In background)
       await getUserDetails();
       // in below method we checking if required data is filled or not and redirect user accordingly
-      checkGlobalUserData(isFromSplash: true);
+      checkGlobalUserData(isFromSplash: true, mViewModel: mViewModel);
       log("User type :: $gUserType");
     } else {
       if (!AppPreferences.instance.getIsFirstTime()) {
@@ -64,7 +66,10 @@ class SplashViewModel with ChangeNotifier {
     // pushAndRemoveUntil(const StateSelectionView());
   }
 
-  Future<void> checkGlobalUserData({bool isFromSplash = false}) async {
+  Future<void> checkGlobalUserData({
+    bool isFromSplash = false,
+    required YourNaveliViewModel mViewModel,
+  }) async {
     if (gUserType == AppConstants.NEOWME &&
         (globalUserMaster?.name == null ||
             globalUserMaster?.gender == null ||
@@ -90,8 +95,9 @@ class SplashViewModel with ChangeNotifier {
           ? ""
           : globalUserMaster!.roleId.toString();
       // user comes from [Login screen] then we have to navigate user instantly to home that's why [isFromSplash = false] and delay is [0 second]
-      Future.delayed(Duration(seconds: isFromSplash ? 3 : 0), () {
-        SignInViewModel().login(userType: gUserType);
+      Future.delayed(Duration(seconds: isFromSplash ? 3 : 0), () async {
+        await SignInViewModel()
+            .login(userType: gUserType, mViewModel: mViewModel);
         // pushAndRemoveUntil(const SelectOptionView());
       });
     }

@@ -112,6 +112,7 @@ class _HomeViewState extends State<HomeView> {
 
       //TODO  First and Second block to be in hindi or not !!!!
       await handleFirstBloc();
+      dateString = globalUserMaster?.previousPeriodsBegin ?? '';
       await mViewModel.handleSecondBloc(dateString);
       print("diipppka1");
       // mViewModel.fetchData();

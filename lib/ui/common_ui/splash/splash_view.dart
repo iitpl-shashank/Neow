@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../database/app_preferences.dart';
 import '../../../utils/local_images.dart';
 import '../../naveli_ui/cycle_info/welcom_gif_view.dart';
+import '../../naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 import 'splash_view_model.dart';
 
 class SplashView extends StatefulWidget {
@@ -39,14 +40,14 @@ class _SplashViewState extends State<SplashView> {
     );
 
     Future.delayed(Duration.zero, () {
-      mViewModel.checkIsFirstTime();
+      mViewModel.checkIsFirstTime(
+          mViewModel: Provider.of<YourNaveliViewModel>(context, listen: false));
     });
 
     player1 = AudioPlayer();
     player2 = AudioPlayer();
     player1.setAsset(LocalImages.au_knock_door);
     player2.setAsset(LocalImages.knock_door_full_video);
-
   }
 
   void onFinished() {

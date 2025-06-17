@@ -11,6 +11,7 @@ import 'package:naveli_2023/ui/common_ui/otp/otp_view.dart';
 import 'package:naveli_2023/ui/common_ui/select_options/select_options_view.dart';
 import 'package:naveli_2023/ui/common_ui/splash/splash_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/profile/your_naveli/your_naveli_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../database/app_preferences.dart';
 import '../../../generated/i18n.dart';
@@ -22,6 +23,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
+import '../../naveli_ui/profile/your_naveli/your_naveli_view_model.dart';
 
 class SignInViewModel with ChangeNotifier {
   late BuildContext context;
@@ -30,7 +32,11 @@ class SignInViewModel with ChangeNotifier {
   String userRoleId = '';
   String isDeviceStatus = '';
 
-  Future<void> loginApi({required String mobile, required int roleId}) async {
+  Future<void> loginApi({
+    required String mobile,
+    required int roleId,
+    required YourNaveliViewModel mViewModel,
+  }) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.mobile: mobile,
@@ -67,7 +73,7 @@ class SignInViewModel with ChangeNotifier {
       AppPreferences.instance.setUserDetails(jsonEncode(master.data!.user));
       gUserType = master.data!.user!.roleId!.toString();
       globalUserMaster = AppPreferences.instance.getUserDetails();
-      SplashViewModel().checkGlobalUserData();
+      SplashViewModel().checkGlobalUserData(mViewModel: mViewModel);
     }
     notifyListeners();
   }
@@ -233,11 +239,60 @@ class SignInViewModel with ChangeNotifier {
     }
   }
 
-  void login({required String userType}) {
+  Future<void> login({
+    required String userType,
+    required YourNaveliViewModel mViewModel,
+  }) async {
     if (userType == AppConstants.NEOWME) {
       // pushAndRemoveUntil(const WelComeGifView(isFromSplash: false));
       pushAndRemoveUntil(const BottomNavbarView());
     } else if (userType == AppConstants.BUDDY) {
+      String? acceptedUniqueId;
+
+      if (globalUserMaster != null) {
+        await mViewModel.getBuddyAlreadySendRequestApi();
+        // .whenComplete(() async {
+        print(
+            'buddyData:===============================:${mViewModel.buddyAlreadySendRequestDataList.isEmpty}');
+        if (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty) {
+          for (var buddyData in mViewModel.buddyAlreadySendRequestDataList) {
+            print('buddyData:===============================:${buddyData}');
+
+            if (buddyData.notificationStatus == "accepted") {
+              acceptedUniqueId = buddyData.uniqueId;
+              break;
+            }
+          }
+        }
+        // });
+        print(
+            'acceptedUniqueId:===============================:${acceptedUniqueId}');
+        if (acceptedUniqueId != null) {
+          mViewModel.getDataFromUidApi(uniqueId: acceptedUniqueId);
+          if (AppPreferences.instance.getBuddyAccess() == false) {
+            print(".......First accepted Time called.......");
+            pushAndRemoveUntil(const BottomNavbarView());
+            AppPreferences.instance.setBuddyAccess(true);
+          }
+        }
+        if (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty) {
+          print(".......First if Time called.......");
+          for (var buddyData in mViewModel.buddyAlreadySendRequestDataList) {
+            print(".......First loop Time called.......");
+            if (buddyData.notificationStatus == "pending" ||
+                buddyData.notificationStatus == "rejected") {
+              print(".......First rejected Time called.......");
+              acceptedUniqueId = null;
+              if (AppPreferences.instance.getBuddyAccess() == true) {
+                pushAndRemoveUntil(const YourNaveliView());
+              }
+              AppPreferences.instance.setBuddyAccess(false);
+            } else {
+              print(".......First accepted Time called.......");
+            }
+          }
+        }
+      }
       print("Buddy Access :: ${AppPreferences.instance.getBuddyAccess()}");
       pushAndRemoveUntil(AppPreferences.instance.getBuddyAccess()
           ? const BottomNavbarView()
