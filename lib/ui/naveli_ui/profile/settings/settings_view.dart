@@ -57,30 +57,7 @@ class _SettingsViewState extends State<SettingsView> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       mViewModel.attachedContext(context);
-      await mViewModel.getBuddyRequestApi();
-      setState(() {
-        if (mViewModel.buddyRequestDataList != null &&
-            mViewModel.buddyRequestDataList!.isNotEmpty) {
-          acceptedIds.clear();
-          hasPending = mViewModel.buddyRequestDataList!
-              .any((item) => item.notificationStatus == "pending");
-          hasAccepted = mViewModel.buddyRequestDataList!
-              .any((item) => item.notificationStatus == "accepted");
-          hasRejected = mViewModel.buddyRequestDataList!
-              .any((item) => item.notificationStatus == "rejected");
-          for (var item in mViewModel.buddyRequestDataList!) {
-            if (item.notificationStatus == "accepted") {
-              acceptedIds.add(item.id.toString());
-            }
-          }
-        } else {
-          hasPending = false;
-          hasAccepted = false;
-          hasRejected = false;
-        }
-      });
-      timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
-        // Call your method here
+      if (gUserType == AppConstants.NEOWME) {
         await mViewModel.getBuddyRequestApi();
         setState(() {
           if (mViewModel.buddyRequestDataList != null &&
@@ -103,7 +80,32 @@ class _SettingsViewState extends State<SettingsView> {
             hasRejected = false;
           }
         });
-      });
+        timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
+          // Call your method here
+          await mViewModel.getBuddyRequestApi();
+          setState(() {
+            if (mViewModel.buddyRequestDataList != null &&
+                mViewModel.buddyRequestDataList!.isNotEmpty) {
+              acceptedIds.clear();
+              hasPending = mViewModel.buddyRequestDataList!
+                  .any((item) => item.notificationStatus == "pending");
+              hasAccepted = mViewModel.buddyRequestDataList!
+                  .any((item) => item.notificationStatus == "accepted");
+              hasRejected = mViewModel.buddyRequestDataList!
+                  .any((item) => item.notificationStatus == "rejected");
+              for (var item in mViewModel.buddyRequestDataList!) {
+                if (item.notificationStatus == "accepted") {
+                  acceptedIds.add(item.id.toString());
+                }
+              }
+            } else {
+              hasPending = false;
+              hasAccepted = false;
+              hasRejected = false;
+            }
+          });
+        });
+      }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DashBoardViewModel>(context, listen: false)
