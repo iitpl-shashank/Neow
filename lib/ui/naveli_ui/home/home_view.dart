@@ -755,6 +755,8 @@ class _HomeViewState extends State<HomeView> {
                               }
                               print(
                                   "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
+                              print(
+                                  "Period Message : ${vModel.dateWiseTextList.msg.description}");
                               return Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -781,7 +783,12 @@ class _HomeViewState extends State<HomeView> {
                                             MainAxisAlignment.center,
                                         children: [
                                           if (imageUrl != null &&
-                                              vModel.isPeriodLog)
+                                              (vModel.isPeriodLog ||
+                                                  vModel.dateWiseTextList.msg
+                                                          .description !=
+                                                      S
+                                                          .of(context)!
+                                                          .logFirstDay))
                                             Container(
                                               width: 150,
                                               height: 150,
@@ -809,7 +816,15 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                             ),
-                                          if (!vModel.isPeriodLog)
+                                          if (!vModel.isPeriodLog &&
+                                              gUserType == AppConstants.NEOWME)
+                                            SizedBox(
+                                              height: 130,
+                                            ),
+                                          if (vModel.dateWiseTextList.msg
+                                                      .description ==
+                                                  S.of(context)!.logFirstDay &&
+                                              gUserType == AppConstants.BUDDY)
                                             SizedBox(
                                               height: 130,
                                             ),

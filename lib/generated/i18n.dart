@@ -1433,6 +1433,9 @@ class S implements WidgetsLocalizations {
   String get wantsToSeeData => "want to see your data";
 
   String get mobile => "Mobile";
+
+  String get logFirstDay =>
+      "Log your first day of your period for better predictions";
 }
 
 class $en extends S {
@@ -1443,6 +1446,10 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get logFirstDay =>
+      "अपने पीरियड का पहला दिन दर्ज करें ताकि सही जानकारी मिले।";
+
   @override
   String get removeAccess => "एक्सेस हटाएं";
 

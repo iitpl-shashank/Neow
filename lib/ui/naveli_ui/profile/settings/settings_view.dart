@@ -174,8 +174,9 @@ class _SettingsViewState extends State<SettingsView> {
                 if (mViewModel.buddyRequestDataList != null &&
                     mViewModel.buddyRequestDataList!.isNotEmpty)
                   const SizedBox(height: 10),
-                if (mViewModel.buddyRequestDataList != null &&
-                    mViewModel.buddyRequestDataList!.isNotEmpty)
+                if ((mViewModel.buddyRequestDataList != null &&
+                        mViewModel.buddyRequestDataList!.isNotEmpty) ||
+                    gUserType == AppConstants.NEOWME)
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -188,8 +189,9 @@ class _SettingsViewState extends State<SettingsView> {
                           fontWeight: FontWeight.w400,
                         )),
                   ),
-                if (mViewModel.buddyRequestDataList != null &&
-                    mViewModel.buddyRequestDataList!.isNotEmpty)
+                if ((mViewModel.buddyRequestDataList != null &&
+                        mViewModel.buddyRequestDataList!.isNotEmpty) ||
+                    gUserType == AppConstants.NEOWME)
                   Container(
                     color: Colors.grey[200],
                     child: Padding(
