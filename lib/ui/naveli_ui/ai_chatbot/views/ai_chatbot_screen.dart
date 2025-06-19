@@ -208,7 +208,8 @@ Widget customMessage(
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.66,
+            // width: MediaQuery.of(context).size.width * 0.66,
+            width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: CustomImageLoader(imageUrl: imageUrl),
           ),
@@ -269,7 +270,8 @@ Widget customMessage(
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.66,
+                // width: MediaQuery.of(context).size.width * 0.66,
+                width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(vertical: 6),
                 child: CustomImageLoader(imageUrl: imageUrl),
               ),

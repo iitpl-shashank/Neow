@@ -1414,6 +1414,25 @@ class S implements WidgetsLocalizations {
 
   String get welcomeBuddySubtitle =>
       "Track your NeoW’s health to support her well-being.";
+
+  String get pairing => "Pairing";
+
+  String get generateCode => "Generate Code";
+
+  String get shareWithBuddy =>
+      "Share this with your Buddy to allow them to monitor your cycle and your health.";
+
+  String get currentlyPaired => "Currently Paired";
+
+  String get noBuddies => "No Buddies";
+
+  String get exitPairing => "Exit Pairing";
+
+  String get checkPairingReq => "Check Pairing Requests";
+
+  String get wantsToSeeData => "want to see your data";
+
+  String get mobile => "Mobile";
 }
 
 class $en extends S {
@@ -1424,6 +1443,37 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get removeAccess => "एक्सेस हटाएं";
+
+  @override
+  String get mobile => "मोबाइल";
+
+  @override
+  String get wantsToSeeData => "आपका डेटा देखना चाहता है";
+
+  @override
+  String get checkPairingReq => "पेयरिंग अनुरोध जांचें";
+
+  @override
+  String get exitPairing => "पेयरिंग से बाहर निकलें";
+
+  @override
+  String get noBuddies => "कोई साथी नहीं";
+
+  @override
+  String get currentlyPaired => "वर्तमान में पेयर";
+
+  @override
+  String get shareWithBuddy =>
+      "इसे अपने साथी के साथ साझा करें ताकि वे आपके चक्र और स्वास्थ्य की निगरानी कर सकें।";
+
+  @override
+  String get generateCode => "कोड जनरेट करें";
+
+  @override
+  String get pairing => "पेयरिंग";
+
   @override
   String get welcomeBuddySubtitle =>
       "उसकी भलाई के लिए अपनी NeoW के स्वास्थ्य पर नज़र रखें।";

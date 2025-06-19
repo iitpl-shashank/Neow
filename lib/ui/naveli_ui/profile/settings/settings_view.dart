@@ -181,7 +181,7 @@ class _SettingsViewState extends State<SettingsView> {
                       horizontal: 16,
                       vertical: 8,
                     ),
-                    child: Text("Pairing",
+                    child: Text(S.of(context)!.pairing,
                         style: getAppStyle(
                           color: CommonColors.blackColor,
                           fontSize: 16,
@@ -196,14 +196,6 @@ class _SettingsViewState extends State<SettingsView> {
                       padding: kCommonScreenPadding,
                       child: Column(
                         children: [
-                          // if (mViewModel.buddyRequestDataList != null &&
-                          //     mViewModel.buddyRequestDataList!.isNotEmpty &&
-                          //     (mViewModel.buddyRequestDataList!.first
-                          //                 .notificationStatus ==
-                          //             "pending" ||
-                          //         mViewModel.buddyRequestDataList!.first
-                          //                 .notificationStatus ==
-                          //             "rejected"))
                           GestureDetector(
                             onTap: () async {
                               final uniqueId = Provider.of<DashBoardViewModel>(
@@ -222,7 +214,7 @@ class _SettingsViewState extends State<SettingsView> {
                               );
                             },
                             child: InfoBox(
-                              text: 'Generate Code',
+                              text: S.of(context)!.generateCode,
                               endWidget: Image.asset(
                                 LocalImages.icMagicWand,
                                 height: 16,
@@ -230,9 +222,8 @@ class _SettingsViewState extends State<SettingsView> {
                               ),
                             ),
                           ),
-
                           Text(
-                            "Share this with your Buddy to allow them to monitor your cycle and your health",
+                            S.of(context)!.shareWithBuddy,
                             style: TextStyle(
                               color: CommonColors.greyText,
                             ),
@@ -240,15 +231,7 @@ class _SettingsViewState extends State<SettingsView> {
                           if (hasAccepted) const SizedBox(height: 25),
                           if (hasAccepted)
                             InfoBox(
-                              text: 'Currently Paired',
-                              // endWidget: Text(
-                              //   mViewModel.buddyRequestDataList!.first.id
-                              //       .toString(),
-                              //   style: TextStyle(
-                              //     color: CommonColors.greyText,
-                              //     fontWeight: FontWeight.normal,
-                              //   ),
-                              // ),
+                              text: S.of(context)!.currentlyPaired,
                               endWidget: Expanded(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -272,7 +255,7 @@ class _SettingsViewState extends State<SettingsView> {
                                       )
                                     else
                                       Text(
-                                        'No Buddies',
+                                        S.of(context)!.noBuddies,
                                         style: TextStyle(
                                           color: CommonColors.greyText,
                                           fontWeight: FontWeight.normal,
@@ -288,8 +271,8 @@ class _SettingsViewState extends State<SettingsView> {
                               onTap: () {
                                 push(const AccountAccessView());
                               },
-                              child: const InfoBox(
-                                text: 'Exit Pairing',
+                              child: InfoBox(
+                                text: S.of(context)!.exitPairing,
                               ),
                             ),
                           if (hasPending || hasRejected)
@@ -297,8 +280,8 @@ class _SettingsViewState extends State<SettingsView> {
                               onTap: () {
                                 push(const AccountAccessView());
                               },
-                              child: const InfoBox(
-                                text: 'Check Pairing Requests',
+                              child: InfoBox(
+                                text: S.of(context)!.checkPairingReq,
                               ),
                             ),
                         ],

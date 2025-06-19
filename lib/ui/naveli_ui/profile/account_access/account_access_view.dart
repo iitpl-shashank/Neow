@@ -86,7 +86,7 @@ class _AccountAccessViewState extends State<AccountAccessView> {
                           padding:
                               const EdgeInsets.only(left: 8, right: 8, top: 8),
                           child: Text(
-                              "${mViewModel.buddyRequestDataList?[index].name} want to see your data"),
+                              "${mViewModel.buddyRequestDataList?[index].name} ${S.of(context)!.wantsToSeeData}"),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -94,7 +94,7 @@ class _AccountAccessViewState extends State<AccountAccessView> {
                             right: 8,
                           ),
                           child: Text(
-                              "Mobile : ${mViewModel.buddyRequestDataList?[index].mobile}"),
+                              "${S.of(context)!.mobile} : ${mViewModel.buddyRequestDataList?[index].mobile}"),
                         ),
                         kCommonSpaceV5,
                         if (mViewModel.buddyRequestDataList?[index]
