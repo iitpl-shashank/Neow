@@ -4,7 +4,8 @@ class ApiUrl {
 
   // Live
   // static const String BASE_URL = "https://new-naveli.harmistechnology.com/api/";
-  static const String BASE_URL = "https://neowindia.com/api/";
+  // static const String BASE_URL = "https://neowindia.com/api/"; //OLD URL FROM CLIENT
+  static const String BASE_URL = "https://lab1.invoidea.work/neow/api/";
   // static const String BASE_URL = "https://naveli.smartscan.in/api/";
 
   static const String SIGN_UP = "${BASE_URL}signup";
