@@ -30,6 +30,7 @@ import '../models/health_mix_posts_master.dart';
 import '../models/healthmix_category_model.dart';
 import '../models/madication_master.dart';
 import '../models/monthly_mission_master.dart';
+import '../models/period_log_model.dart';
 import '../models/post_model.dart';
 import '../models/question_answer_master.dart';
 import '../models/question_of_day_master.dart';
@@ -1524,6 +1525,22 @@ class ApiServices extends BaseServices {
       }
     } catch (e) {
       debugPrint("Exception in getUserNotificationsList: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<PeriodLogModel?> getIsPeriodLog({required String uniqueId}) async {
+    dynamic response = await appBaseClient.getApiWithTokenCall(
+        url: ApiUrl.getPeriodLogApi, queryParams: {'unique_id': uniqueId});
+    if (response != null) {
+      try {
+        return PeriodLogModel.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
       return null;
     }
   }

@@ -83,6 +83,7 @@ class ApiUrl {
   static const String STORE_QUESTION_OF_DAY = "${BASE_URL}userQuestionStore";
   static const String GET_DETAILS_ALL_PERIOD =
       "${BASE_URL}getDetailOfAllAboutPeriod";
+  static const String getPeriodLogApi = "${BASE_URL}list-symptoms-logs";
   static const String STORE_WATER_DETAIL =
       "${BASE_URL}track/storeUserWaterReminders";
   static const String GET_STORED_SLEEP_DETAILS =

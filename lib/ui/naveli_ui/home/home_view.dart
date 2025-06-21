@@ -65,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    Provider.of<HomeViewModel>(context, listen: false).loadIsPeriodLog();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       String username = globalUserMaster?.name.toString().split(' ')[0] ?? '';
       // TODO  Removed as per client feedback
@@ -528,6 +528,12 @@ class _HomeViewState extends State<HomeView> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     mViewModel = Provider.of<HomeViewModel>(context, listen: false);
+    if (!_dialogShown) {
+      if (gUserType != AppConstants.CYCLE_EXPLORER) {
+        mViewModel.checkPeriodLog();
+      }
+      _dialogShown = true;
+    }
     mViewModel.isDateWiseTextLoader = true;
     Future.delayed(const Duration(seconds: 4), () {
       if (mounted) {
@@ -783,6 +789,7 @@ class _HomeViewState extends State<HomeView> {
                                             MainAxisAlignment.center,
                                         children: [
                                           if (imageUrl != null &&
+                                              imageUrl.isNotEmpty &&
                                               (vModel.isPeriodLog ||
                                                   vModel.dateWiseTextList.msg
                                                           .description !=
@@ -817,17 +824,18 @@ class _HomeViewState extends State<HomeView> {
                                               ),
                                             ),
                                           if (!vModel.isPeriodLog &&
-                                              gUserType == AppConstants.NEOWME)
+                                              gUserType !=
+                                                  AppConstants.CYCLE_EXPLORER)
                                             SizedBox(
                                               height: 130,
                                             ),
-                                          if (vModel.dateWiseTextList.msg
-                                                      .description ==
-                                                  S.of(context)!.logFirstDay &&
-                                              gUserType == AppConstants.BUDDY)
-                                            SizedBox(
-                                              height: 130,
-                                            ),
+                                          // if (vModel.dateWiseTextList.msg
+                                          //             .description ==
+                                          //         S.of(context)!.logFirstDay &&
+                                          //     gUserType == AppConstants.BUDDY)
+                                          //   SizedBox(
+                                          //     height: 130,
+                                          //   ),
                                           if (imageUrl == null)
                                             SizedBox(
                                               height: 30,

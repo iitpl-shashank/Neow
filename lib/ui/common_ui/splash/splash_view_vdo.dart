@@ -190,11 +190,14 @@ class _SplashViewState extends State<SplashViewVdo> {
                   });
                 }
               },
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                // vdo_Controller.value.size.width,
-                height: MediaQuery.of(context).size.height,
-                child: VideoPlayer(vdo_Controller),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  // vdo_Controller.value.size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: VideoPlayer(vdo_Controller),
+                ),
               ),
             ),
             floatingActionButton: Row(

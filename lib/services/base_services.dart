@@ -25,6 +25,7 @@ import '../models/login_master.dart';
 import '../models/madication_master.dart';
 import '../models/monthly_mission_master.dart';
 import '../models/monthly_reminder_master.dart';
+import '../models/period_log_model.dart';
 import '../models/post_model.dart';
 import '../models/question_answer_master.dart';
 import '../models/question_of_day_master.dart';
@@ -178,6 +179,8 @@ abstract class BaseServices {
 
   Future<SliderVideoMaster?> getHomeSliderVideo(
       {required Map<String, dynamic> params});
+
+  Future<PeriodLogModel?> getIsPeriodLog({required String uniqueId});
 
   Future<CommonMaster?> storeDailyDiary({required Map<String, dynamic> params});
 

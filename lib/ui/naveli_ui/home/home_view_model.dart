@@ -12,6 +12,7 @@ import 'package:naveli_2023/utils/hindi_translation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/healthmix_category_model.dart';
+import '../../../models/period_log_model.dart';
 import '../../../models/period_phase_model.dart';
 import '../../../models/slider_video_master.dart';
 import '../../../services/api_para.dart';
@@ -58,6 +59,22 @@ class HomeViewModel with ChangeNotifier {
   List<String> englishTransliterations = [];
 
   bool isPeriodLog = false;
+
+  Future<void> checkPeriodLog() async {
+    PeriodLogModel? result = await _services.api
+        ?.getIsPeriodLog(uniqueId: globalUserMaster!.uuId.toString());
+    if (result != null) {
+      isPeriodLog = result.data.hasLogs;
+      notifyListeners();
+      print("Has logs: ${result.data.hasLogs}");
+      print("Success: ${result.success}");
+      print("Message: ${result.message}");
+    } else {
+      print("Failed to fetch period log data.");
+      isPeriodLog = false;
+      notifyListeners();
+    }
+  }
 
   Future<void> getHindiTranslation({required String string}) async {
     CommonUtils.showProgressDialog();
@@ -132,19 +149,6 @@ class HomeViewModel with ChangeNotifier {
       stops: List.generate(gradientColors.length,
           (index) => index / (gradientColors.length - 1)),
     );
-  }
-
-  Future<void> loadIsPeriodLog() async {
-    final prefs = await SharedPreferences.getInstance();
-    isPeriodLog = prefs.getBool('isPeriodLog') ?? false;
-    notifyListeners();
-  }
-
-  Future<void> setIsPeriodLogTrue() async {
-    final prefs = await SharedPreferences.getInstance();
-    isPeriodLog = true;
-    await prefs.setBool('isPeriodLog', true);
-    notifyListeners();
   }
 
   DateTime currentDateTime = DateTime.now();
