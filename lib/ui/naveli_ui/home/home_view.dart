@@ -823,7 +823,7 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                             ),
-                                          if (!vModel.isPeriodLog &&
+                                          if (vModel.isPeriodLog == true &&
                                               gUserType !=
                                                   AppConstants.CYCLE_EXPLORER)
                                             SizedBox(
