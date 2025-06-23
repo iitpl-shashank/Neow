@@ -2,6 +2,13 @@
 
 A new Flutter project.
 
+## Environment
+
+- **Flutter version:** 3.27.0 (channel stable)  
+- **Dart version:** 3.6.0  
+- **DevTools version:** 2.40.2  
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
