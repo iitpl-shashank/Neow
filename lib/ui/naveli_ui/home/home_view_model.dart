@@ -61,6 +61,7 @@ class HomeViewModel with ChangeNotifier {
   bool isPeriodLog = false;
 
   Future<void> checkPeriodLog() async {
+    log("Checking period log... ${globalUserMaster!.uuId.toString()}");
     PeriodLogModel? result = await _services.api
         ?.getIsPeriodLog(uniqueId: globalUserMaster!.uuId.toString());
     if (result != null) {
@@ -700,6 +701,7 @@ class HomeViewModel with ChangeNotifier {
           int.parse(globalUserMaster?.averageCycleLength ?? "28"));
       ovulationDates = calculateOvolutionDatesInYear(
           newDate, int.parse(globalUserMaster?.averageCycleLength ?? "28"));
+
       firtileDates = calculateFertileDatesInYear(
           previousPeriodStartDate: newDate,
           cycleLength: int.parse(globalUserMaster?.averageCycleLength ?? "28"),

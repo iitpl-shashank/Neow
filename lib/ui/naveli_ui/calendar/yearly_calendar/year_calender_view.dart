@@ -146,7 +146,9 @@ class _MonthViewState extends State<MonthView> {
       if (fertileDates.contains(date)) {
         isFertile = true;
       }
-      ovulationDates.removeAt(ovulationDates.length - 1);
+      if (ovulationDates.isNotEmpty) {
+        ovulationDates.removeAt(ovulationDates.length - 1);
+      }
       if (ovulationDates.contains(date)) {
         if (date.year < date.year + 1) {
           isOvulation = true;

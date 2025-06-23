@@ -113,7 +113,10 @@ class _HomeViewState extends State<HomeView> {
       //TODO  First and Second block to be in hindi or not !!!!
       await handleFirstBloc();
       dateString = globalUserMaster?.previousPeriodsBegin ?? '';
-      await mViewModel.handleSecondBloc(dateString);
+      if (mViewModel.isPeriodLog == true) {
+        await mViewModel.handleSecondBloc(dateString);
+      }
+
       print("diipppka1");
       // mViewModel.fetchData();
 
@@ -790,12 +793,7 @@ class _HomeViewState extends State<HomeView> {
                                         children: [
                                           if (imageUrl != null &&
                                               imageUrl.isNotEmpty &&
-                                              (vModel.isPeriodLog ||
-                                                  vModel.dateWiseTextList.msg
-                                                          .description !=
-                                                      S
-                                                          .of(context)!
-                                                          .logFirstDay))
+                                              vModel.isPeriodLog == true)
                                             Container(
                                               width: 150,
                                               height: 150,
@@ -823,7 +821,7 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                             ),
-                                          if (vModel.isPeriodLog == true &&
+                                          if (vModel.isPeriodLog == false &&
                                               gUserType !=
                                                   AppConstants.CYCLE_EXPLORER)
                                             SizedBox(
