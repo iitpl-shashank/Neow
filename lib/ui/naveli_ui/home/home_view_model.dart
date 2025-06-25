@@ -537,7 +537,10 @@ class HomeViewModel with ChangeNotifier {
       int currentMonth = DateTime.now().month;
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
+      // if (isPeriodLog) {
       peroidCustomeList.add(data);
+      // }
+
       log("True check in check ====> $currentMonth");
       periodStartdateTime =
           DateTime.parse(data.predictions.first.predictedStart);

@@ -121,7 +121,7 @@ class _AccountAccessViewState extends State<AccountAccessView> {
                               kCommonSpaceH3,
                               Expanded(
                                 child: PrimaryButton(
-                                  buttonColor: CommonColors.mRed,
+                                  buttonColor: CommonColors.primaryColor,
                                   height: 40,
                                   onPress: () {
                                     mViewModel.storeAccountAccessStatusApi(
@@ -168,7 +168,7 @@ class _AccountAccessViewState extends State<AccountAccessView> {
                               kCommonSpaceH3,
                               Expanded(
                                 child: PrimaryButton(
-                                  buttonColor: CommonColors.mRed,
+                                  buttonColor: CommonColors.primaryColor,
                                   height: 40,
                                   onPress: () {
                                     mViewModel.storeAccountAccessStatusApi(

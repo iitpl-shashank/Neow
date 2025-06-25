@@ -538,7 +538,7 @@ class _HomeViewState extends State<HomeView> {
       _dialogShown = true;
     }
     mViewModel.isDateWiseTextLoader = true;
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 11), () {
       if (mounted) {
         setState(() {
           mViewModel.isDateWiseTextLoader = false;

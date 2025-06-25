@@ -229,14 +229,101 @@ class _YourNaveliViewState extends State<YourNaveliView> {
           child: (mViewModel.buddyAlreadySendRequestDataList.isNotEmpty)
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    '${S.of(context)!.requestSent} ${mViewModel.buddyAlreadySendRequestDataList[0].name ?? ""}${S.of(context)!.pleaseWaitForApproval}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: CommonColors.black87,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${S.of(context)!.requestSent} ${mViewModel.buddyAlreadySendRequestDataList[0].name ?? ""}${S.of(context)!.pleaseWaitForApproval}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: CommonColors.black87,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 50),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (globalUserMaster != null) {
+                            mViewModel
+                                .getBuddyAlreadySendRequestApi()
+                                .whenComplete(() async {
+                              if (mViewModel
+                                  .buddyAlreadySendRequestDataList.isNotEmpty) {
+                                for (var buddyData in mViewModel
+                                    .buddyAlreadySendRequestDataList) {
+                                  print(buddyData.toString());
+
+                                  if (buddyData.notificationStatus ==
+                                      "accepted") {
+                                    acceptedUniqueId = buddyData.uniqueId;
+                                    break;
+                                  }
+                                }
+                              }
+                            });
+                            print(
+                                'acceptedUniqueId:===============================:${acceptedUniqueId}');
+                            if (acceptedUniqueId != null) {
+                              mViewModel.getDataFromUidApi(
+                                  uniqueId: acceptedUniqueId);
+                              if (AppPreferences.instance.getBuddyAccess() ==
+                                  false) {
+                                print(
+                                    ".......First accepted Time called.......");
+                                pushAndRemoveUntil(const BottomNavbarView());
+                                AppPreferences.instance.setBuddyAccess(true);
+                              }
+                            }
+                            if (mViewModel
+                                .buddyAlreadySendRequestDataList.isNotEmpty) {
+                              for (var buddyData in mViewModel
+                                  .buddyAlreadySendRequestDataList) {
+                                if (buddyData.notificationStatus == "pending" ||
+                                    buddyData.notificationStatus ==
+                                        "rejected") {
+                                  print(
+                                      ".......First rejected Time called.......");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        S.of(context)!.requestNotAcceptedYet,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor:
+                                          CommonColors.primaryColor,
+                                      behavior: SnackBarBehavior.floating,
+                                      margin: const EdgeInsets.only(
+                                          top: 40, left: 20, right: 20),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                  acceptedUniqueId = null;
+                                  if (AppPreferences.instance
+                                          .getBuddyAccess() ==
+                                      true) {
+                                    pushAndRemoveUntil(const YourNaveliView());
+                                  }
+                                  AppPreferences.instance.setBuddyAccess(false);
+                                }
+                              }
+                            }
+                          }
+                        },
+                        child: Text(
+                          S.of(context)!.checkStatus,
+                        ),
+                      ),
+                      Text(
+                        '${S.of(context)!.clickCheckStatusButtonToCheckStatus}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: CommonColors.primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : CircularProgressIndicator(
@@ -262,7 +349,7 @@ class _YourNaveliViewState extends State<YourNaveliView> {
                     SplashViewModel().logoutApi();
                   },
                   label: "Logout",
-                  buttonColor: CommonColors.fadeRed,
+                  buttonColor: CommonColors.primaryColor,
                 ),
               ),
             ],

@@ -1417,7 +1417,7 @@ class S implements WidgetsLocalizations {
 
   String get pairing => "Pairing";
 
-  String get generateCode => "Generate Code";
+  String get generateCode => "Copy Code";
 
   String get shareWithBuddy =>
       "Share this with your Buddy to allow them to monitor your cycle and your health.";
@@ -1436,6 +1436,13 @@ class S implements WidgetsLocalizations {
 
   String get logFirstDay =>
       "Log your first day of your period for better predictions";
+
+  String get clickCheckStatusButtonToCheckStatus =>
+      'Click the "Check Status" button to check the status.';
+
+  String get checkStatus => "Check Status";
+
+  String get requestNotAcceptedYet => "Request not accepted yet.";
 }
 
 class $en extends S {
@@ -1446,6 +1453,16 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get requestNotAcceptedYet => "अनुरोध अभी स्वीकार नहीं हुआ है।";
+
+  @override
+  String get checkStatus => "स्टेटस जांचें";
+
+  @override
+  String get clickCheckStatusButtonToCheckStatus =>
+      'स्थिति जांचने के लिए "स्टेटस जांचें" बटन पर क्लिक करें।';
+
   @override
   String get logFirstDay =>
       "अपने पीरियड का पहला दिन दर्ज करें ताकि सही जानकारी मिले।";
@@ -1476,7 +1493,7 @@ class $mr extends S {
       "इसे अपने साथी के साथ साझा करें ताकि वे आपके चक्र और स्वास्थ्य की निगरानी कर सकें।";
 
   @override
-  String get generateCode => "कोड जनरेट करें";
+  String get generateCode => "कोड कॉपी करें";
 
   @override
   String get pairing => "पेयरिंग";

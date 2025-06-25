@@ -217,10 +217,11 @@ class _SettingsViewState extends State<SettingsView> {
                             },
                             child: InfoBox(
                               text: S.of(context)!.generateCode,
-                              endWidget: Image.asset(
-                                LocalImages.icMagicWand,
-                                height: 16,
-                                width: 16,
+                              endWidget: Icon(
+                                Icons.copy,
+                                size: 16,
+                                color: CommonColors
+                                    .greyText, // Or any color you prefer
                               ),
                             ),
                           ),
