@@ -30,11 +30,13 @@ class _CycleInfoViewState extends State<CycleInfoView> {
   final mDateController = TextEditingController();
   late CycleInfoViewModel mViewModel;
   int? selectedCycleLength = 28;
+  int selectedCycleIndex = 0;
   String? selectedPreviousPeriodDate;
   late SignInViewModel singInViewModel = SignInViewModel();
 
   // String? selectedPreviousPeriodMonth;
   int? selectedPeriodsLength = 5;
+  int selectedPeriodIndex = 0;
   late FixedExtentScrollController scrollController;
   late FixedExtentScrollController scrollPeriodLengthController;
   Map<String, dynamic> cycleData = {};
@@ -173,9 +175,11 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 scrollController, // Use the initialized scrollController
                             physics: FixedExtentScrollPhysics(),
                             onSelectedItemChanged: (value) {
-                              selectedCycleLength = value +
-                                  15; // Ensuring the range starts from 21
-                              print("Selected length: $selectedCycleLength");
+                              setState(() {
+                                selectedCycleIndex = value;
+                                selectedCycleLength = value + 15;
+                                print("Selected length: $selectedCycleLength");
+                              });
                             },
                             children: List.generate(
                               31, // Total count (from 21 to 45) = 45 - 21 + 1
@@ -190,8 +194,13 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                   "${index + 15} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                   style: getAppStyle(
                                     fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: CommonColors.blackColor,
+                                    fontWeight: selectedCycleIndex == index
+                                        ? FontWeight.w500
+                                        : FontWeight.w400,
+                                    color: selectedCycleIndex == index
+                                        ? CommonColors
+                                            .primaryColor // Highlight color for selected
+                                        : CommonColors.blackColor,
                                   ),
                                 ),
                               ),
@@ -400,8 +409,11 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                           physics: FixedExtentScrollPhysics(),
                           perspective: 0.003,
                           onSelectedItemChanged: (value) {
-                            selectedPeriodsLength =
-                                value + 1; // Ensuring range starts from 1
+                            setState(() {
+                              selectedPeriodIndex = value;
+                              selectedPeriodsLength =
+                                  value + 1; // Ensuring range starts from 1
+                            });
                           },
                           children: List.generate(
                             12, // Now limited to 1–5
@@ -416,8 +428,13 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 "${index + 1} ${index == 0 ? S.of(context)!.dayText : S.of(context)!.daysText}",
                                 style: getAppStyle(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: CommonColors.blackColor,
+                                  fontWeight: selectedPeriodIndex == index
+                                      ? FontWeight.w500
+                                      : FontWeight.w400,
+                                  color: selectedPeriodIndex == index
+                                      ? CommonColors
+                                          .primaryColor // Highlight color for selected
+                                      : CommonColors.blackColor,
                                 ),
                               ),
                             ),
