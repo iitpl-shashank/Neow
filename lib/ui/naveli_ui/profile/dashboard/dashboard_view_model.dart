@@ -210,6 +210,14 @@ class DashBoardViewModel with ChangeNotifier {
         );
         return;
       }
+    } else if (gUserType == AppConstants.BUDDY) {
+      if (humApkeKonController.text.isEmpty) {
+        CommonUtils.showSnackBar(
+          S.of(context)!.plEnterRelationWithNeow,
+          color: CommonColors.mRed,
+        );
+        return;
+      }
     }
 
     CommonUtils.showProgressDialog();
@@ -222,6 +230,8 @@ class DashBoardViewModel with ChangeNotifier {
       ApiParams.city: cityId,
       if (gUserType == AppConstants.CYCLE_EXPLORER)
         ApiParams.profession: userProfessionController.text,
+      if (gUserType == AppConstants.BUDDY)
+        ApiParams.hum_apke_he_kon: humApkeKonController.text,
     };
 
     CommonMaster? master = await _services.api!.userUpdateDetails(
@@ -578,8 +588,9 @@ class DashBoardViewModel with ChangeNotifier {
           "................................Splash oops.............................");
     } else if (master.success! && master.data != null) {
       userPersonalInformation = master;
-
       userNameController.text = userPersonalInformation?.data?.name ?? '';
+      humApkeKonController.text =
+          userPersonalInformation?.data?.humApkeHeKon ?? '';
       userMobileController.text = userPersonalInformation?.data?.mobile ?? '';
       userEmailController.text = userPersonalInformation?.data?.email ?? '';
       userProfessionController.text =
@@ -814,9 +825,11 @@ class DashBoardViewModel with ChangeNotifier {
     userAgeController.clear();
     notifyListeners();
     userProfessionController.clear();
+    humApkeKonController.clear();
   }
 
   TextEditingController userNameController = TextEditingController();
+  TextEditingController humApkeKonController = TextEditingController();
   TextEditingController userProfessionController = TextEditingController();
   TextEditingController userMobileController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();

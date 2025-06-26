@@ -1443,6 +1443,10 @@ class S implements WidgetsLocalizations {
   String get checkStatus => "Check Status";
 
   String get requestNotAcceptedYet => "Request not accepted yet.";
+
+  String get plEnterRelationWithNeow => "Please enter your relation with Neow";
+
+  String get relationshipWithNeow => "Relationship with Neow";
 }
 
 class $en extends S {
@@ -1453,6 +1457,13 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get relationshipWithNeow => "NeoW के साथ संबंध";
+
+  @override
+  String get plEnterRelationWithNeow =>
+      "कृपया NeoW के साथ अपना संबंध दर्ज करें";
+
   @override
   String get requestNotAcceptedYet => "अनुरोध अभी स्वीकार नहीं हुआ है।";
 

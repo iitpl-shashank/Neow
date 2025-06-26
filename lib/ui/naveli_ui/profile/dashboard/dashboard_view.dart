@@ -641,6 +641,15 @@ class _DashboardViewState extends State<DashboardView> {
                               vModel.updateRelationshipStatus(selectedState);
                             },
                           ),
+                          if (gUserType == AppConstants.BUDDY) kCommonSpaceV5,
+                          if (gUserType == AppConstants.BUDDY)
+                            CustomTextFieldContainer(
+                              textColor: CommonColors.blackColor,
+                              color: Color(0xFFF5F5F5),
+                              labelText: S.of(context)!.relationshipWithNeow,
+                              controller: vModel.humApkeKonController,
+                              border: true,
+                            ),
                           if (gUserType == AppConstants.CYCLE_EXPLORER)
                             kCommonSpaceV5,
                           if (gUserType == AppConstants.CYCLE_EXPLORER)
