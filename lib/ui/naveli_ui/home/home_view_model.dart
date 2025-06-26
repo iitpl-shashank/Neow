@@ -73,6 +73,7 @@ class HomeViewModel with ChangeNotifier {
     } else {
       print("Failed to fetch period log data.");
       isPeriodLog = false;
+      peroidCustomeList.clear();
       notifyListeners();
     }
   }
@@ -518,6 +519,8 @@ class HomeViewModel with ChangeNotifier {
   Future<void> getPeriodInfoList() async {
     peroidCustomeList = [];
 
+    await checkPeriodLog();
+
     PeriodInfoListResponse? master = await _services.api!.getPeriodInfoList();
     ;
     await Future.delayed(Duration(seconds: 1));
@@ -537,9 +540,9 @@ class HomeViewModel with ChangeNotifier {
       int currentMonth = DateTime.now().month;
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
-      // if (isPeriodLog) {
-      peroidCustomeList.add(data);
-      // }
+      if (isPeriodLog) {
+        peroidCustomeList.add(data);
+      }
 
       log("True check in check ====> $currentMonth");
       periodStartdateTime =
@@ -558,8 +561,8 @@ class HomeViewModel with ChangeNotifier {
 
       log("periodStartLogDateTime ====> $periodStartLogDateTime");
       log("periodEndLogDateTime ====> $periodEndLogDateTime");
-      log("predicted start ====> $periodStartLogDateTime");
-      log("predicted end ====> $periodEndLogDateTime");
+      log("predicted start ====> $periodStartdateTime");
+      log("predicted end ====> $periodEnddateTime");
 
       log("Check dates $periodEnddateTime and $today");
       if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
@@ -645,7 +648,8 @@ class HomeViewModel with ChangeNotifier {
 
       try {
         if (dateWiseTextList.msg.periodMsg!.contains("दिन लेट") ||
-            dateWiseTextList.msg.periodMsg!.contains("Period late by")) {
+            dateWiseTextList.msg.periodMsg!.contains("Period late by") ||
+            !isPeriodLog) {
           peroidCustomeList.clear();
         }
       } catch (e) {

@@ -581,8 +581,11 @@ class _HomeViewState extends State<HomeView> {
       if (gUserType == AppConstants.NEOWME)
         CommonDailyInsightContainer(
           onTap: () {
+            // TODO : Changed from log dats to prediction days also as per client request
             if (mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
-                mViewModel.periodEndLogDateTime, mViewModel.today)) {
+                    mViewModel.periodEndLogDateTime, mViewModel.today) ||
+                mViewModel.isWithinNoTime(mViewModel.periodStartdateTime,
+                    mViewModel.periodEnddateTime, mViewModel.today)) {
               push(const LogYourSymptoms());
             } else {
               CommonUtils.showToastMessage(
