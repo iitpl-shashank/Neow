@@ -68,6 +68,7 @@ class ApiUrl {
       "${BASE_URL}getSendingAccessRequests";
   static const String STORE_HEALTHMIX_LIKE =
       "${BASE_URL}userHealthMixLikeDislike";
+  static const String STORE_ARTICLES_LIKE = "${BASE_URL}userPostsLikeDislike";
   static const String STORE_USER_MEDICATION =
       "${BASE_URL}track/storeUserMedicationsDetail";
   static const String STORE_USER_AILMENTS =

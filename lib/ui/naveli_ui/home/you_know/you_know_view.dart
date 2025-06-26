@@ -5,8 +5,10 @@ import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/widgets/common_appbar.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
+import '../../../../generated/i18n.dart';
 import '../../../../services/api_para.dart';
 import '../../../../utils/common_colors.dart';
+import '../../../../utils/common_utils.dart';
 import '../../health_mix/video_particular.dart';
 
 class YouKnowView extends StatefulWidget {
@@ -188,7 +190,8 @@ class _YouKnowViewState extends State<YouKnowView> {
                                   ),
                                 ),
                               ),
-                            if (mViewModel.postsList[index].fileType == 'link')
+                            if (mViewModel.postsList[position].fileType ==
+                                'link')
                               // Text(
                               //   mViewModel.postsList[index].posts ?? 'no video',
                               //   style: getAppStyle(
@@ -232,19 +235,30 @@ class _YouKnowViewState extends State<YouKnowView> {
                                       children: [
                                         IconButton(
                                           onPressed: () {
-                                            /* mViewModel.likeHealthMixPostApi(
-                                                healthMixId: mViewModel
-                                                    .healthPostsList[index].id,
-                                                isLike: mViewModel.isLikedList[index]
+                                            mViewModel.likeArticlePostApi(
+                                                postId: mViewModel
+                                                    .postsList[position].id,
+                                                isLike: mViewModel
+                                                        .isLikedList[position]
                                                     ? 0
                                                     : 1);
                                             setState(() {
-                                              mViewModel.isLikedList[index] =
-                                                  !mViewModel.isLikedList[index];
-                                            }); */
+                                              mViewModel.isLikedList[position] =
+                                                  !mViewModel
+                                                      .isLikedList[position];
+                                            });
                                           },
-                                          icon: Icon(CupertinoIcons.heart,
-                                              color: CommonColors.blackColor),
+                                          icon: Icon(
+                                            mViewModel.isLikedList[position]
+                                                ? CupertinoIcons.heart_fill
+                                                : CupertinoIcons.heart,
+                                            color: mViewModel
+                                                    .isLikedList[position]
+                                                ? CommonColors
+                                                    .primaryColor // or any color for liked
+                                                : CommonColors
+                                                    .blackColor, // color for not liked
+                                          ),
                                         ),
                                         // kCommonSpaceH3,
                                         // IconButton(
@@ -254,29 +268,30 @@ class _YouKnowViewState extends State<YouKnowView> {
                                         kCommonSpaceH3,
                                         IconButton(
                                             onPressed: () {
-                                              /* if (mViewModel.healthPostsList[index]
-                                                      .mediaType ==
+                                              if (mViewModel.postsList[position]
+                                                      .fileType ==
                                                   "image") {
                                                 // print("File type image");
                                                 shareNetworkImage(
-                                                  mViewModel
-                                                      .healthPostsList[index].media,
+                                                  mViewModel.postsList[position]
+                                                      .posts,
                                                   text: mViewModel
-                                                      .healthPostsList[index]
+                                                      .postsList[position]
                                                       .description,
                                                 );
                                               } else if (mViewModel
-                                                      .healthPostsList[index]
-                                                      .mediaType ==
+                                                      .postsList[position]
+                                                      .fileType ==
                                                   "link") {
                                                 // print("File type link");
                                                 share(
                                                     mViewModel
-                                                        .healthPostsList[index].media,
+                                                        .postsList[position]
+                                                        .posts,
                                                     text: mViewModel
-                                                        .healthPostsList[index]
+                                                        .postsList[position]
                                                         .description);
-                                              } */
+                                              }
                                             },
                                             icon: const Icon(
                                                 Icons.share_outlined,
@@ -290,12 +305,34 @@ class _YouKnowViewState extends State<YouKnowView> {
                                               mViewModel
                                                   .saveUserPostApi(params: {
                                                 ApiParams.post_id: mViewModel
-                                                    .postsList[index].id,
+                                                    .postsList[position].id,
                                                 ApiParams.is_saved: 1,
                                               });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    S
+                                                        .of(context)!
+                                                        .articleSavedSuccess,
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  backgroundColor:
+                                                      CommonColors.primaryColor,
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  margin: const EdgeInsets.only(
+                                                      top: 40,
+                                                      left: 20,
+                                                      right: 20),
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                ),
+                                              );
                                             },
                                             icon: Icon(
-                                                Icons.bookmark_outline_rounded,
+                                                Icons.bookmark_add_rounded,
                                                 color:
                                                     CommonColors.blackColor)),
                                       ]),
@@ -307,16 +344,18 @@ class _YouKnowViewState extends State<YouKnowView> {
                                       children: [
                                         IconButton(
                                           onPressed: () {
-                                            /* mViewModel.likeHealthMixPostApi(
-                                                healthMixId: mViewModel
-                                                    .healthPostsList[index].id,
-                                                isLike: mViewModel.isLikedList[index]
-                                                    ? 0
-                                                    : 1);
-                                            setState(() {
-                                              mViewModel.isLikedList[index] =
-                                                  !mViewModel.isLikedList[index];
-                                            }); */
+                                            // mViewModel.likeHealthMixPostApi(
+                                            //     healthMixId: mViewModel
+                                            //         .healthPostsList[index].id,
+                                            //     isLike: mViewModel
+                                            //             .isLikedList[index]
+                                            //         ? 0
+                                            //         : 1);
+                                            // setState(() {
+                                            //   mViewModel.isLikedList[index] =
+                                            //       !mViewModel
+                                            //           .isLikedList[index];
+                                            // });
                                           },
                                           icon: Icon(Icons.check_circle_rounded,
                                               color: CommonColors.greenColor),
@@ -327,7 +366,7 @@ class _YouKnowViewState extends State<YouKnowView> {
                                         //     icon: Icon(Icons.thumb_down_alt_rounded,
                                         //         color: CommonColors.primaryColor)),
                                         // kCommonSpaceH3,
-                                        Text('Reviewed by Experts',
+                                        Text(S.of(context)!.reviewedByExperts,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,

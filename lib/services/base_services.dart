@@ -143,6 +143,8 @@ abstract class BaseServices {
   Future<CommonMaster?> likeHealthMixPost(
       {required Map<String, dynamic> params});
 
+  Future<CommonMaster?> likeArticlePost({required Map<String, dynamic> params});
+
   Future<LikedPostMaster?> getLikedHealthPost();
 
   Future<CommonMaster?> storeWaterDetail(

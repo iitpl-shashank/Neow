@@ -128,7 +128,8 @@ class LocalImages {
       'assets/images/img_staining_light.png';
   static const String img_ye_din_ye_mahine =
       'assets/images/img_ye_din_ye_mahine.png';
-  static const String img_naveli_flower = 'assets/images/img_naveli_flower.png';
+  static const String img_naveli_flower =
+      'assets/images/img_naveli_flower_new.png';
   static const String img_track = 'assets/images/track.png';
   static const String img_naveli_heart =
       'assets/images/img_naveli_heart.png'; //

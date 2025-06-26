@@ -1447,6 +1447,10 @@ class S implements WidgetsLocalizations {
   String get plEnterRelationWithNeow => "Please enter your relation with Neow";
 
   String get relationshipWithNeow => "Relationship with Neow";
+
+  String get reviewedByExperts => "Reviewed by Experts";
+
+  String get articleSavedSuccess => "Article saved successfully";
 }
 
 class $en extends S {
@@ -1457,6 +1461,12 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get articleSavedSuccess => "आर्टिकल सफलतापूर्वक सहेजा गया";
+
+  @override
+  String get reviewedByExperts => "विशेषज्ञों द्वारा समीक्षा की गई";
+
   @override
   String get relationshipWithNeow => "NeoW के साथ संबंध";
 

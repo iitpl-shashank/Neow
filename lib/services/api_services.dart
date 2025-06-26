@@ -603,6 +603,23 @@ class ApiServices extends BaseServices {
   }
 
   @override
+  Future<CommonMaster?> likeArticlePost(
+      {required Map<String, dynamic> params}) async {
+    dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.STORE_ARTICLES_LIKE, postParams: params);
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
   Future<LikedPostMaster?> getLikedHealthPost() async {
     dynamic response = await appBaseClient.getApiWithTokenCall(
       url: ApiUrl.GET_LIKED_POST,
