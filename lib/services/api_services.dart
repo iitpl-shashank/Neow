@@ -1550,6 +1550,8 @@ class ApiServices extends BaseServices {
   Future<PeriodLogModel?> getIsPeriodLog({required String uniqueId}) async {
     dynamic response = await appBaseClient.getApiWithTokenCall(
         url: ApiUrl.getPeriodLogApi, queryParams: {'unique_id': uniqueId});
+    log("IsLog response: $response");
+    log("IsLog response message: ${response['message']}");
     if (response != null) {
       try {
         return PeriodLogModel.fromJson(response);
