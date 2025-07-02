@@ -387,24 +387,46 @@ class _MonthViewState extends State<_MonthView> {
                   }
                 });
 
-                element.predictions.forEach((predictions) {
-                  for (DateTime start =
-                          DateTime.parse(predictions.predictedStart);
-                      start.isSameDayOrBefore(
-                          DateTime.parse(predictions.predictedEnd));
-                      start = start.add(Duration(days: 1))) {
-                    predictedPeriodDates.add(start);
-                  }
-                  for (DateTime start =
-                          DateTime.parse(predictions.fertileWindowStart);
-                      start.isSameDayOrBefore(
-                          DateTime.parse(predictions.fertileWindowEnd));
-                      start = start.add(Duration(days: 1))) {
-                    fertileDates.add(start);
-                  }
+                if (mViewModel.isPeriodLog) {
+                  element.predictions.forEach((predictions) {
+                    for (DateTime start =
+                            DateTime.parse(predictions.predictedStart);
+                        start.isSameDayOrBefore(
+                            DateTime.parse(predictions.predictedEnd));
+                        start = start.add(Duration(days: 1))) {
+                      predictedPeriodDates.add(start);
+                    }
+                    for (DateTime start =
+                            DateTime.parse(predictions.fertileWindowStart);
+                        start.isSameDayOrBefore(
+                            DateTime.parse(predictions.fertileWindowEnd));
+                        start = start.add(Duration(days: 1))) {
+                      fertileDates.add(start);
+                    }
 
-                  ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-                });
+                    ovulationDates
+                        .add(DateTime.parse(predictions.ovulationDay));
+                  });
+                }
+
+                // element.predictions.forEach((predictions) {
+                //   for (DateTime start =
+                //           DateTime.parse(predictions.predictedStart);
+                //       start.isSameDayOrBefore(
+                //           DateTime.parse(predictions.predictedEnd));
+                //       start = start.add(Duration(days: 1))) {
+                //     predictedPeriodDates.add(start);
+                //   }
+                //   for (DateTime start =
+                //           DateTime.parse(predictions.fertileWindowStart);
+                //       start.isSameDayOrBefore(
+                //           DateTime.parse(predictions.fertileWindowEnd));
+                //       start = start.add(Duration(days: 1))) {
+                //     fertileDates.add(start);
+                //   }
+
+                //   ovulationDates.add(DateTime.parse(predictions.ovulationDay));
+                // });
               });
 
 // Checking if the given `date` falls in the calculated dates
@@ -419,10 +441,19 @@ class _MonthViewState extends State<_MonthView> {
               if (fertileDates.contains(date)) {
                 isFirtile = true;
               }
-              ovulationDates.removeAt(ovulationDates.length - 1);
-              if (ovulationDates.contains(date)) {
-                if (date.year < date.year + 1) {
-                  isOvulation = true;
+              // ovulationDates.removeAt(ovulationDates.length - 1);
+              // if (ovulationDates.contains(date)) {
+              //   if (date.year < date.year + 1) {
+              //     isOvulation = true;
+              //   }
+              // }
+              // Only process ovulation dates if we actually have predictions
+              if (mViewModel.isPeriodLog && ovulationDates.isNotEmpty) {
+                ovulationDates.removeAt(ovulationDates.length - 1);
+                if (ovulationDates.contains(date)) {
+                  if (date.year < date.year + 1) {
+                    isOvulation = true;
+                  }
                 }
               }
             }

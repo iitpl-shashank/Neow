@@ -62,18 +62,27 @@ class HomeViewModel with ChangeNotifier {
 
   Future<void> checkPeriodLog() async {
     log("Checking period log... ${globalUserMaster!.uuId.toString()}");
-    PeriodLogModel? result = await _services.api
-        ?.getIsPeriodLog(uniqueId: globalUserMaster!.uuId.toString());
-    if (result != null) {
-      isPeriodLog = result.data.hasLogs;
-      notifyListeners();
-      print("Has logs: ${result.data.hasLogs}");
-      print("Success: ${result.success}");
-      print("Message: ${result.message}");
-    } else {
-      print("Failed to fetch period log data.");
+    try {
+      PeriodLogModel? result = await _services.api
+          ?.getIsPeriodLog(uniqueId: globalUserMaster!.uuId.toString());
+      log("Checking period log... ${result}");
+
+      if (result != null) {
+        isPeriodLog = result.data.hasLogs;
+        notifyListeners();
+        print("Has logs: ${result.data.hasLogs}");
+        print("Success: ${result.success}");
+        print("Message: ${result.message}");
+      } else {
+        print("Failed to fetch period log data.");
+        isPeriodLog = false;
+        peroidCustomeList.clear();
+        notifyListeners();
+      }
+    } catch (e) {
+      log("Exception in checkPeriodLog: $e");
       isPeriodLog = false;
-      peroidCustomeList.clear();
+
       notifyListeners();
     }
   }
@@ -518,9 +527,9 @@ class HomeViewModel with ChangeNotifier {
 
   Future<void> getPeriodInfoList() async {
     peroidCustomeList = [];
-
+    log("getPeriodInfo data master ====>before");
     await checkPeriodLog();
-
+    log("getPeriodInfo data master ====>after");
     PeriodInfoListResponse? master = await _services.api!.getPeriodInfoList();
     ;
     await Future.delayed(Duration(seconds: 1));
@@ -537,12 +546,14 @@ class HomeViewModel with ChangeNotifier {
     } else if (master.success == true) {
       log("getPeriodInfo data master ====>${master.data.toJson()}");
       peroidCustomeList.clear();
+      getDateWiseText();
       int currentMonth = DateTime.now().month;
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
-      if (isPeriodLog) {
-        peroidCustomeList.add(data);
-      }
+      //TODO : Log fixed here
+      // if (isPeriodLog) {
+      peroidCustomeList.add(data);
+      // }
 
       log("True check in check ====> $currentMonth");
       periodStartdateTime =
@@ -629,6 +640,7 @@ class HomeViewModel with ChangeNotifier {
   bool isDateWiseTextLoading = false;
   bool isDateWiseTextLoader = false;
   Future<void> getDateWiseText() async {
+    log("Inside getDateWiseText");
     isDateWiseTextLoading = true;
     notifyListeners();
     dynamic body = {};
@@ -648,8 +660,11 @@ class HomeViewModel with ChangeNotifier {
 
       try {
         if (dateWiseTextList.msg.periodMsg!.contains("दिन लेट") ||
-            dateWiseTextList.msg.periodMsg!.contains("Period late by") ||
-            !isPeriodLog) {
+                dateWiseTextList.msg.periodMsg!.contains("Period late by")
+            //TOD : Log fixed here
+            //  ||
+            // !isPeriodLog
+            ) {
           peroidCustomeList.clear();
         }
       } catch (e) {

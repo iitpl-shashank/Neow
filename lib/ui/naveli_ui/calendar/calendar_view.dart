@@ -71,11 +71,12 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    debugPrint("data==> $peroidCustomeList");
+
     for (var dateRange in peroidCustomeList) {
       DateTime start = DateTime.parse(dateRange.periodData[0].periodStartDate);
       DateTime end = DateTime.parse(dateRange.periodData[0].periodEndDate);
-
+      debugPrint("data of cal==> $start");
+      debugPrint("data of cal==> $end");
       for (DateTime i = start;
           i.isBefore(end) || i.isAtSameMomentAs(end);
           i = i.add(Duration(days: 1))) {
@@ -100,6 +101,7 @@ class _CalendarViewState extends State<CalendarView> {
             mViewModel.showLogSymptomsNotification();
             if (gUserType != AppConstants.CYCLE_EXPLORER) {
               mViewModel.checkPeriodLog();
+              mViewModel.getDateWiseText();
             }
             setState(() {
               _isChecked = false;

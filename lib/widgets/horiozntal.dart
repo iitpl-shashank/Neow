@@ -119,27 +119,29 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                 List<DateTime> ovulationDates = [];
                 List<DateTime> loggedPeriodDates = [];
                 List<DateTime> predictedPeriodDates = [];
-                peroidCustomeList.forEach((element) {
-                  element.predictions.forEach((predictions) {
-                    for (DateTime start =
-                            DateTime.parse(predictions.predictedStart);
-                        start.isSameDayOrBefore(
-                            DateTime.parse(predictions.predictedEnd));
-                        start = start.add(Duration(days: 1))) {
-                      predictedPeriodDates.add(start);
-                    }
-                    for (DateTime start =
-                            DateTime.parse(predictions.fertileWindowStart);
-                        start.isSameDayOrBefore(
-                            DateTime.parse(predictions.fertileWindowEnd));
-                        start = start.add(Duration(days: 1))) {
-                      fertileDates.add(start);
-                    }
+                if (widget.mViewModel.isPeriodLog) {
+                  peroidCustomeList.forEach((element) {
+                    element.predictions.forEach((predictions) {
+                      for (DateTime start =
+                              DateTime.parse(predictions.predictedStart);
+                          start.isSameDayOrBefore(
+                              DateTime.parse(predictions.predictedEnd));
+                          start = start.add(Duration(days: 1))) {
+                        predictedPeriodDates.add(start);
+                      }
+                      for (DateTime start =
+                              DateTime.parse(predictions.fertileWindowStart);
+                          start.isSameDayOrBefore(
+                              DateTime.parse(predictions.fertileWindowEnd));
+                          start = start.add(Duration(days: 1))) {
+                        fertileDates.add(start);
+                      }
 
-                    ovulationDates
-                        .add(DateTime.parse(predictions.ovulationDay));
+                      ovulationDates
+                          .add(DateTime.parse(predictions.ovulationDay));
+                    });
                   });
-                });
+                }
 
                 if (loggedPeriodDates.contains(date)) {
                   PriodDates = true;
