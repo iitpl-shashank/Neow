@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/models/buddy_request_master.dart';
 
 import '../../../../models/common_master.dart';
+import '../../../../models/deactivate_account_model.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
+import '../../../common_ui/splash/splash_view_model.dart';
 
 class AccountAccessViewModel with ChangeNotifier {
   late BuildContext context;
@@ -17,6 +19,36 @@ class AccountAccessViewModel with ChangeNotifier {
   void attachedContext(BuildContext context) {
     this.context = context;
     notifyListeners();
+  }
+
+  Future<DeactivateAccountModel?> deactivateAccount() async {
+    CommonUtils.showProgressDialog();
+    try {
+      DeactivateAccountModel? result =
+          await _services.api?.deactivateAccountApi();
+      CommonUtils.hideProgressDialog();
+      if (result != null && result.success == true) {
+        CommonUtils.showSnackBar(
+          result.message ?? "Account deactivated successfully.",
+          color: CommonColors.greenColor,
+        );
+        SplashViewModel().logoutApi();
+      } else {
+        CommonUtils.showSnackBar(
+          result?.message ?? "Failed to deactivate account.",
+          color: CommonColors.mRed,
+        );
+      }
+      return result;
+    } catch (e) {
+      CommonUtils.hideProgressDialog();
+      CommonUtils.showSnackBar(
+        "An error occurred while deactivating account.",
+        color: CommonColors.mRed,
+      );
+      log("Exception in deactivateAccount: $e");
+      return null;
+    }
   }
 
   Future<void> storeAccountAccessStatusApi({
@@ -33,7 +65,7 @@ class AccountAccessViewModel with ChangeNotifier {
         await _services.api!.storeNaveliAccountStatus(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
-      CommonUtils.oopsMSG();
+      // CommonUtils.oopsMSG();
       print(
           "................................account access oops.............................");
     } else if (master.success == false) {
@@ -57,7 +89,7 @@ class AccountAccessViewModel with ChangeNotifier {
     BuddyRequestMaster? master = await _services.api!.getBuddyRequestData();
     // CommonUtils.hideProgressDialog();
     if (master == null) {
-      CommonUtils.oopsMSG();
+      // CommonUtils.oopsMSG();
       print(
           "................................account access oops.............................");
     } else if (master.success == false) {

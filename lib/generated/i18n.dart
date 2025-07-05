@@ -1451,6 +1451,9 @@ class S implements WidgetsLocalizations {
   String get reviewedByExperts => "Reviewed by Experts";
 
   String get articleSavedSuccess => "Article saved successfully";
+
+  String get deactivateAccountConfirmation =>
+      "Do you really want to deactivate your account?";
 }
 
 class $en extends S {
@@ -1461,6 +1464,10 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get deactivateAccountConfirmation =>
+      "क्या आप वाकई अपना खाता निष्क्रिय करना चाहते हैं?";
+
   @override
   String get articleSavedSuccess => "आर्टिकल सफलतापूर्वक सहेजा गया";
 

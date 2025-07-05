@@ -21,6 +21,7 @@ import '../models/check_device_token_master.dart';
 import '../models/city_master.dart';
 import '../models/common_master.dart';
 import '../models/daily_diary_master.dart';
+import '../models/deactivate_account_model.dart';
 import '../models/download_pdf_master.dart';
 import '../models/festival_master.dart';
 import '../models/forum_comment_master.dart';
@@ -1561,6 +1562,30 @@ class ApiServices extends BaseServices {
       }
     } else {
       return null;
+    }
+  }
+
+  @override
+  Future<DeactivateAccountModel?> deactivateAccountApi() async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.deactivateAccount,
+      );
+      debugPrint("POST API Data: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("POST API Data: $response");
+          return DeactivateAccountModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return DeactivateAccountModel();
+        }
+      } else {
+        return DeactivateAccountModel();
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
+      return DeactivateAccountModel();
     }
   }
 }

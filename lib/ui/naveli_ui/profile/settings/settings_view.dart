@@ -11,7 +11,6 @@ import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../../utils/constant.dart';
 import '../../../../utils/global_variables.dart';
-import '../../../../utils/local_images.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../app/app_model.dart';
 import '../../../common_ui/splash/splash_view_model.dart';
@@ -368,25 +367,54 @@ class _SettingsViewState extends State<SettingsView> {
                     ),
                   ),
                 ),
-                Container(
-                  color: CommonColors.bgGrey,
-                  child: Padding(
-                    padding: kCommonScreenPadding,
-                    child: Column(
-                      children: [
-                        InfoBox(
-                          text: S.of(context)!.deactivateAccount,
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          S.of(context)!.deactivateAccount,
                         ),
-                        const SizedBox(height: 12),
-                        InfoBox(
-                          text: S.of(context)!.changePhoneNumber,
-                          endWidget: Icon(
-                            Icons.edit,
-                            color: Colors.black,
-                            size: 20,
+                        content:
+                            Text(S.of(context)!.deactivateAccountConfirmation),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                            },
+                            child: Text(S.of(context)!.no),
                           ),
-                        ),
-                      ],
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop(); // Close dialog
+                              await mViewModel.deactivateAccount();
+                            },
+                            child: Text(S.of(context)!.yes),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Container(
+                    color: CommonColors.bgGrey,
+                    child: Padding(
+                      padding: kCommonScreenPadding,
+                      child: Column(
+                        children: [
+                          InfoBox(
+                            text: S.of(context)!.deactivateAccount,
+                          ),
+                          const SizedBox(height: 12),
+                          // InfoBox(
+                          //   text: S.of(context)!.changePhoneNumber,
+                          //   endWidget: Icon(
+                          //     Icons.edit,
+                          //     color: Colors.black,
+                          //     size: 20,
+                          //   ),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

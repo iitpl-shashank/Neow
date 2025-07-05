@@ -118,4 +118,5 @@ class ApiUrl {
       "${BASE_URL}getSavepost"; // TODO : Not implemented
   static const String saveHealthMixPost = "${BASE_URL}userHealthMixSave";
   static const String getNotificationList = "${BASE_URL}notifications";
+  static const String deactivateAccount = "${BASE_URL}change-status";
 }

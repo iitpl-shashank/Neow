@@ -14,6 +14,7 @@ import '../models/check_device_token_master.dart';
 import '../models/city_master.dart';
 import '../models/common_master.dart';
 import '../models/daily_diary_master.dart';
+import '../models/deactivate_account_model.dart';
 import '../models/download_pdf_master.dart';
 import '../models/festival_master.dart';
 import '../models/forum_comment_master.dart';
@@ -183,6 +184,8 @@ abstract class BaseServices {
       {required Map<String, dynamic> params});
 
   Future<PeriodLogModel?> getIsPeriodLog({required String uniqueId});
+
+  Future<DeactivateAccountModel?> deactivateAccountApi();
 
   Future<CommonMaster?> storeDailyDiary({required Map<String, dynamic> params});
 
