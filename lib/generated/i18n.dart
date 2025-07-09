@@ -1454,6 +1454,15 @@ class S implements WidgetsLocalizations {
 
   String get deactivateAccountConfirmation =>
       "Do you really want to deactivate your account?";
+
+  String get destressYourself => "Destress yourself";
+
+  String get takeAMomentToRelax =>
+      "Take a moment to relax\nwith 4-7-8 breathing";
+
+  String get start => 'Start';
+
+  String get stop => 'Stop';
 }
 
 class $en extends S {
@@ -1464,6 +1473,19 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get stop => 'रोकें';
+
+  @override
+  String get start => 'शुरू करें';
+
+  @override
+  String get takeAMomentToRelax =>
+      "4-7-8 सांस लेने के साथ\nआराम करने के लिए एक पल लें";
+
+  @override
+  String get destressYourself => "अपना तनाव कम करें";
+
   @override
   String get deactivateAccountConfirmation =>
       "क्या आप वाकई अपना खाता निष्क्रिय करना चाहते हैं?";

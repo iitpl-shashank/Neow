@@ -9,6 +9,8 @@ import 'package:naveli_2023/widgets/primary_button.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../generated/i18n.dart';
+
 class DeStressView extends StatefulWidget {
   const DeStressView({super.key});
 
@@ -256,34 +258,34 @@ class _DeStressViewState extends State<DeStressView> {
             children: [
               Expanded(
                 child: SizedBox(
-                  width: kDeviceWidth - 10,
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: isLoading
-                        ? VideoPlayer(
-                            _controller,
-                          )
-                        : Image.asset(LocalImages.img_destress_img,
-                            fit: BoxFit.contain),
-                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: isLoading
+                      ? VideoPlayer(
+                          _controller,
+                        )
+                      : Image.asset(LocalImages.img_destress_img,
+                          fit: BoxFit.contain),
                 ),
               ),
-              Text(!isLoading ? "Destress yourself" : '',
-                  style: TextStyle(
-                    color: CommonColors.blackColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-              Text(
-                  !isLoading
-                      ? "Take a moment to relax\nwith 4-7-8 breathing"
-                      : '',
+              if (!isLoading)
+                Text(S.of(context)!.destressYourself,
+                    style: TextStyle(
+                      color: CommonColors.blackColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+              if (!isLoading)
+                Text(
+                  S.of(context)!.takeAMomentToRelax,
                   style: TextStyle(
                     color: CommonColors.blackColor,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                  )),
-              kCommonSpaceV30,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              if (!isLoading) kCommonSpaceV30,
             ],
           ),
         ),
@@ -300,7 +302,7 @@ class _DeStressViewState extends State<DeStressView> {
                           });
                           _controller.pause();
                         },
-                        label: "Stop",
+                        label: S.of(context)!.stop,
                       ),
                     )
                   : Expanded(
@@ -312,7 +314,7 @@ class _DeStressViewState extends State<DeStressView> {
                           });
                           _controller.play();
                         },
-                        label: "Start",
+                        label: S.of(context)!.start,
                       ),
                     ),
               kCommonSpaceV30,
