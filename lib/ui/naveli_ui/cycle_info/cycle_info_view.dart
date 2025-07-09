@@ -622,7 +622,7 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                           onTap: () async {
                             DateTime now = DateTime.now();
                             DateTime firstSelectableDate =
-                                DateTime(now.year, now.month - 1, 1);
+                                DateTime(now.year, now.month - 3, 1);
 
                             DateTime? picked = await showDatePicker(
                               context: context,
