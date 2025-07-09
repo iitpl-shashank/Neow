@@ -22,7 +22,7 @@ class HealthMixView extends StatefulWidget {
 }
 
 class _HealthMixViewState extends State<HealthMixView>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TabController? tabController;
   TabController? tabController2;
   late HealthMixViewModel mViewModel;
@@ -90,6 +90,7 @@ class _HealthMixViewState extends State<HealthMixView>
   @override
   void dispose() {
     tabController?.dispose();
+    tabController2?.dispose();
     super.dispose();
   }
 

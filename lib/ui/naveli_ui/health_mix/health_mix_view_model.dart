@@ -83,6 +83,7 @@ class HealthMixViewModel with ChangeNotifier {
       print(".................$isLikedList");
       CommonUtils.hideProgressDialog();
     }
+    CommonUtils.hideProgressDialog();
     notifyListeners();
   }
 
@@ -109,6 +110,7 @@ class HealthMixViewModel with ChangeNotifier {
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {}
+    CommonUtils.hideProgressDialog();
     notifyListeners();
   }
 
@@ -117,33 +119,42 @@ class HealthMixViewModel with ChangeNotifier {
     required String type,
   }) async {
     debugPrint("");
-    CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.title_id: titleId,
-      "type": type,
-      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
-    };
-    debugPrint("params: $params");
-    HealthMixPostMaster? master =
-        await _services.api!.getHealthMixPosts(params: params);
-    CommonUtils.hideProgressDialog();
-    notifyListeners();
-    if (master == null) {
-      CommonUtils.oopsMSG();
-      print(
-          "................................health mix oops.............................");
-    } else if (master.success == false) {
-      CommonUtils.showSnackBar(
-        master.message ?? "--",
-        color: CommonColors.mRed,
-      );
-    } else if (master.success == true) {
-      healthPostsList = master.data?.healthMixPosts ?? [];
-
-      await getLikedPostApi();
+    //TODO : This is causing the issue of progress dialog not hiding
+    // CommonUtils.showProgressDialog();
+    try {
+      Map<String, dynamic> params = <String, dynamic>{
+        ApiParams.title_id: titleId,
+        "type": type,
+        ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+      };
+      debugPrint("params: $params");
+      HealthMixPostMaster? master =
+          await _services.api!.getHealthMixPosts(params: params);
+      CommonUtils.hideProgressDialog();
+      notifyListeners();
+      if (master == null) {
+        CommonUtils.oopsMSG();
+        print(
+            "................................health mix oops.............................");
+      } else if (master.success == false) {
+        CommonUtils.showSnackBar(
+          master.message ?? "--",
+          color: CommonColors.mRed,
+        );
+      } else if (master.success == true) {
+        healthPostsList = master.data?.healthMixPosts ?? [];
+        CommonUtils.hideProgressDialog();
+        notifyListeners();
+        await getLikedPostApi();
+      }
+    } catch (e) {
+      log("Error in getHealthMixPostsApi: $e");
+      CommonUtils.hideProgressDialog();
+      notifyListeners();
+    } finally {
+      CommonUtils.hideProgressDialog();
+      notifyListeners();
     }
-    CommonUtils.hideProgressDialog();
-    notifyListeners();
   }
 
   Future<void> getHealthMixLatestPosts() async {
