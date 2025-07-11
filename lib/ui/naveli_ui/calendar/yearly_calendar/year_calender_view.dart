@@ -191,7 +191,7 @@ class _MonthViewState extends State<MonthView> {
                   child: Text(
                     '$i',
                     style: TextStyle(
-                      fontSize: 6,
+                      fontSize: 4,
                       color: (isSelectedDate ||
                               (isHighlighted &&
                                   !isFuturePredictedHighlighted) ||

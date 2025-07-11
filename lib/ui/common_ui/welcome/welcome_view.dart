@@ -91,7 +91,7 @@ class _WelcomeViewState extends State<WelcomeView> {
   Future<void> selectDate() async {
     DateTime today = DateTime.now();
     DateTime minimumAllowedDate =
-        today.subtract(const Duration(days: 365 * 15)); // 15 years ago
+        today.subtract(const Duration(days: 365 * 10)); // 10 years ago
 
     DateTime? picked = await showDatePicker(
       context: mainNavKey.currentContext!,
