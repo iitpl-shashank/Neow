@@ -88,7 +88,7 @@ class _MonthViewState extends State<MonthView> {
       // Add empty containers for days before the first day of the month
       return Container();
     });
-    List<String> weekDay = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    List<String> weekDay = ["M", "T", "W", "T", "F", "S", "S"];
 
     // Generate day widgets for the actual days in the month
     for (int i = 1; i <= daysInMonth; i++) {
@@ -117,22 +117,25 @@ class _MonthViewState extends State<MonthView> {
             loggedPeriodDates.add(start);
           }
         });
+        if (mViewModel.isPeriodLog) {
+          element.predictions.forEach((predictions) {
+            for (DateTime start = DateTime.parse(predictions.predictedStart);
+                start.isSameDayOrBefore(
+                    DateTime.parse(predictions.predictedEnd));
+                start = start.add(Duration(days: 1))) {
+              predictedPeriodDates.add(start);
+            }
+            for (DateTime start =
+                    DateTime.parse(predictions.fertileWindowStart);
+                start.isSameDayOrBefore(
+                    DateTime.parse(predictions.fertileWindowEnd));
+                start = start.add(Duration(days: 1))) {
+              fertileDates.add(start);
+            }
 
-        element.predictions.forEach((predictions) {
-          for (DateTime start = DateTime.parse(predictions.predictedStart);
-              start.isSameDayOrBefore(DateTime.parse(predictions.predictedEnd));
-              start = start.add(Duration(days: 1))) {
-            predictedPeriodDates.add(start);
-          }
-          for (DateTime start = DateTime.parse(predictions.fertileWindowStart);
-              start.isSameDayOrBefore(
-                  DateTime.parse(predictions.fertileWindowEnd));
-              start = start.add(Duration(days: 1))) {
-            fertileDates.add(start);
-          }
-
-          ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-        });
+            ovulationDates.add(DateTime.parse(predictions.ovulationDay));
+          });
+        }
       });
 
       if (loggedPeriodDates.contains(date)) {
@@ -191,7 +194,9 @@ class _MonthViewState extends State<MonthView> {
                   child: Text(
                     '$i',
                     style: TextStyle(
-                      fontSize: 4,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 6,
                       color: (isSelectedDate ||
                               (isHighlighted &&
                                   !isFuturePredictedHighlighted) ||
@@ -215,8 +220,8 @@ class _MonthViewState extends State<MonthView> {
       return Container(
         color: Colors.white,
         padding: const EdgeInsets.only(
-          left: 5,
-          right: 5,
+          left: 2,
+          right: 2,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,6 +266,8 @@ class _MonthViewState extends State<MonthView> {
               shrinkWrap: true,
               crossAxisCount: 7,
               children: dayWidgets,
+              mainAxisSpacing: 0.5,
+              crossAxisSpacing: 0.5,
             ),
           ],
         ),

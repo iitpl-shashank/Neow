@@ -159,6 +159,7 @@ class _SplashViewState extends State<SplashViewVdo> {
     mViewModel = Provider.of<SplashViewModel>(context);
     return AppPreferences.instance.getIsFirstTime()
         ? Scaffold(
+            backgroundColor: Colors.white,
             body: GestureDetector(
               onTap: () async {
                 if (isPlayingStart) {
@@ -192,7 +193,10 @@ class _SplashViewState extends State<SplashViewVdo> {
               },
               child: FittedBox(
                 fit: BoxFit.cover,
-                child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
                   width: MediaQuery.of(context).size.width,
                   // vdo_Controller.value.size.width,
                   height: MediaQuery.of(context).size.height,
