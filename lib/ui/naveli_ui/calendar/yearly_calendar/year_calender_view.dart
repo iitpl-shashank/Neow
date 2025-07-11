@@ -25,7 +25,7 @@ class _YearCalendarViewState extends State<YearCalendarView> {
     return Scaffold(
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 2,
           childAspectRatio: (1 / 1.4),
         ),
         itemCount: 12,
@@ -220,8 +220,8 @@ class _MonthViewState extends State<MonthView> {
       return Container(
         color: Colors.white,
         padding: const EdgeInsets.only(
-          left: 2,
-          right: 2,
+          left: 5,
+          right: 5,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
