@@ -30,15 +30,18 @@ class _YearCalendarViewState extends State<YearCalendarView> {
         ),
         itemCount: 12,
         itemBuilder: (context, index) {
-          return MonthView(
-            month: index + 1,
-            year: DateTime.now().year,
-            onDateSelected: (date) {
-              setState(() {
-                selectedDate = date;
-              });
-            },
-            selectedDate: selectedDate, // Uncommented selectedDate here
+          return SizedBox(
+            height: 250,
+            child: MonthView(
+              month: index + 1,
+              year: DateTime.now().year,
+              onDateSelected: (date) {
+                setState(() {
+                  selectedDate = date;
+                });
+              },
+              selectedDate: selectedDate, // Uncommented selectedDate here
+            ),
           );
         },
       ),
@@ -88,7 +91,7 @@ class _MonthViewState extends State<MonthView> {
       // Add empty containers for days before the first day of the month
       return Container();
     });
-    List<String> weekDay = ["M", "T", "W", "T", "F", "S", "S"];
+    List<String> weekDay = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
     // Generate day widgets for the actual days in the month
     for (int i = 1; i <= daysInMonth; i++) {
@@ -195,8 +198,7 @@ class _MonthViewState extends State<MonthView> {
                     '$i',
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 6,
+                      fontSize: 10,
                       color: (isSelectedDate ||
                               (isHighlighted &&
                                   !isFuturePredictedHighlighted) ||
@@ -218,6 +220,7 @@ class _MonthViewState extends State<MonthView> {
     return Builder(builder: (context) {
       var lang = Provider.of<AppModel>(context).locale;
       return Container(
+        height: 200,
         color: Colors.white,
         padding: const EdgeInsets.only(
           left: 5,
@@ -225,52 +228,110 @@ class _MonthViewState extends State<MonthView> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                lang == 'hi'
-                    ? DateFormat.MMMM('hi')
-                        .format(DateTime(widget.year, widget.month))
-                    : DateFormat.MMMM()
-                        .format(DateTime(widget.year, widget.month)),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12),
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: Text(
+                  lang == 'hi'
+                      ? DateFormat.MMMM('hi')
+                          .format(DateTime(widget.year, widget.month))
+                      : DateFormat.MMMM()
+                          .format(DateTime(widget.year, widget.month)),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
 
-            Container(
-              color: Color(0xFFFFFFFF),
-              padding: const EdgeInsets.only(top: 10, bottom: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(
-                  weekDay.length,
-                  (index) => Flexible(
-                    child: Text(
-                      weekDay[index],
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w500,
+            // Week days - Fixed height
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Color(0xFFFFFFFF),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                    weekDay.length,
+                    (index) => Expanded(
+                      child: Center(
+                        child: Text(
+                          weekDay[index],
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-            // Display dates
-            GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 7,
-              children: dayWidgets,
-              mainAxisSpacing: 0.5,
-              crossAxisSpacing: 0.5,
+
+            // Calendar grid - Most space
+            Expanded(
+              flex: 6,
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 7,
+                children: dayWidgets,
+                mainAxisSpacing: 0.5,
+                crossAxisSpacing: 0.5,
+              ),
             ),
           ],
         ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //   children: [
+        //     Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: Text(
+        //         lang == 'hi'
+        //             ? DateFormat.MMMM('hi')
+        //                 .format(DateTime(widget.year, widget.month))
+        //             : DateFormat.MMMM()
+        //                 .format(DateTime(widget.year, widget.month)),
+        //         textAlign: TextAlign.center,
+        //         style: TextStyle(fontSize: 12),
+        //       ),
+        //     ),
+
+        //     Container(
+        //       color: Color(0xFFFFFFFF),
+        //       padding: const EdgeInsets.only(top: 10, bottom: 0),
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //         children: List.generate(
+        //           weekDay.length,
+        //           (index) => Flexible(
+        //             child: Text(
+        //               weekDay[index],
+        //               style: const TextStyle(
+        //                 color: Colors.black,
+        //                 fontSize: 12,
+        //                 fontWeight: FontWeight.w500,
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     // Display dates
+        //     GridView.count(
+        //       physics: const NeverScrollableScrollPhysics(),
+        //       shrinkWrap: true,
+        //       crossAxisCount: 7,
+        //       children: dayWidgets,
+        //       mainAxisSpacing: 0.5,
+        //       crossAxisSpacing: 0.5,
+        //     ),
+        //   ],
+        // ),
       );
     });
   }

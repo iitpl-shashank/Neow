@@ -581,9 +581,18 @@ class _HomeViewState extends State<HomeView> {
       if (gUserType == AppConstants.NEOWME)
         CommonDailyInsightContainer(
           onTap: () {
+            if (!mViewModel.isPeriodLog) {
+              showCustomDayDialog(
+                context,
+                "username",
+                6,
+              );
+            }
             // TODO : Changed from log dats to prediction days also as per client request
-            if (mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
-                    mViewModel.periodEndLogDateTime, mViewModel.today) ||
+            else if (mViewModel.isWithinNoTime(
+                    mViewModel.periodStartLogDateTime,
+                    mViewModel.periodEndLogDateTime,
+                    mViewModel.today) ||
                 mViewModel.isWithinNoTime(mViewModel.periodStartdateTime,
                     mViewModel.periodEnddateTime, mViewModel.today)) {
               push(const LogYourSymptoms());
@@ -676,7 +685,9 @@ class _HomeViewState extends State<HomeView> {
               // backgroundColor:Colors.red,
               title: Text(
                   // "${S.of(context)!.hi}, NeoW ${lang == 'hi' ? (mViewModel.hindiTransliterations.isNotEmpty ? mViewModel.hindiTransliterations[0] : '') : globalUserMaster?.name.toString().split(' ')[0] ?? ''} !",
-                  "${S.of(context)!.hi}, NeoW ${globalUserMaster?.name.toString().split(' ')[0] ?? ''} !",
+                  gUserType == AppConstants.BUDDY
+                      ? "${S.of(context)!.hi}, Buddy ${globalUserMaster?.name.toString().split(' ')[0] ?? ''} !"
+                      : "${S.of(context)!.hi}, NeoW ${globalUserMaster?.name.toString().split(' ')[0] ?? ''} !",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight:
