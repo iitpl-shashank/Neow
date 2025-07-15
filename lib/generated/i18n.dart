@@ -1463,6 +1463,55 @@ class S implements WidgetsLocalizations {
   String get start => 'Start';
 
   String get stop => 'Stop';
+
+  String get breathingTechnique => "4-7-8 Breathing";
+
+  String get technique => "Technique";
+
+  String get techniquePoint1 => "Inhale gently through the nose for 4 seconds.";
+
+  String get techniquePoint2 => "Hold your breath for 7 seconds.";
+
+  String get techniquePoint3 =>
+      "Exhale slowly through the mouth for 8 seconds, making a soft whooshing sound.";
+
+  String get techniquePoint4 =>
+      "Can be practiced while sitting or lying down, ideally with eyes closed to enhance focus.";
+
+  String get techniquePoint5 =>
+      "Especially helpful before bedtime, during stress, or anytime you feel overwhelmed.";
+
+  String get techniquePoint6 =>
+      "Start with 4–5 times per session and increase gradually as you become more comfortable.";
+
+  String get benefits => "Benefits";
+
+  String get benefitPoint1 =>
+      "Activates the parasympathetic nervous system, helping to reduce stress and anxiety.";
+
+  String get benefitPoint2 =>
+      "Slows heart rate and supports emotional balance.";
+
+  String get benefitPoint3 => "Improves focus, clarity, and mindfulness.";
+
+  String get benefitPoint4 => "Encourages deeper, more restful sleep.";
+
+  String get benefitPoint5 =>
+      "Effective during moments of anxiety, panic, or mental fatigue.";
+
+  String get disclaimer => "Disclaimer";
+
+  String get disclaimerPoint1 =>
+      "This technique is a supportive wellness practice and not a substitute for medical care.";
+
+  String get disclaimerPoint2 =>
+      "If you have respiratory, cardiovascular, or mental health conditions, consult your healthcare provider before starting.";
+
+  String get disclaimerPoint3 =>
+      "Stop immediately if you feel dizzy, breathless, or uncomfortable.";
+
+  String get disclaimerPoint4 =>
+      "Practice with ease — the breath should feel natural, never forced.";
 }
 
 class $en extends S {
@@ -1473,6 +1522,76 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get disclaimerPoint1 =>
+      "यह तकनीक एक सहायक कल्याणकारी अभ्यास है और चिकित्सा देखभाल का विकल्प नहीं है।";
+
+  @override
+  String get disclaimerPoint2 =>
+      "यदि आपको श्वसन, हृदय संबंधी, या मानसिक स्वास्थ्य की समस्याएं हैं, तो शुरू करने से पहले अपने स्वास्थ्य सेवा प्रदाता से सलाह लें।";
+
+  @override
+  String get disclaimerPoint3 =>
+      "यदि आपको चक्कर आना, सांस की तकलीफ, या असहजता महसूस हो तो तुरंत रुक जाएं।";
+
+  @override
+  String get disclaimerPoint4 =>
+      "आसानी से अभ्यास करें — सांस प्राकृतिक होनी चाहिए, कभी भी जबरदस्ती नहीं।";
+
+  @override
+  String get disclaimer => "अस्वीकरण";
+
+  @override
+  String get benefitPoint1 =>
+      "पैरासिम्पैथेटिक नर्वस सिस्टम को सक्रिय करता है, तनाव और चिंता को कम करने में मदद करता है।";
+
+  @override
+  String get benefitPoint2 =>
+      "हृदय गति को धीमा करता है और भावनात्मक संतुलन का समर्थन करता है।";
+
+  @override
+  String get benefitPoint3 =>
+      "फोकस, स्पष्टता और माइंडफुलनेस में सुधार करता है।";
+
+  @override
+  String get benefitPoint4 => "गहरी और आरामदायक नींद को बढ़ावा देता है।";
+
+  @override
+  String get benefitPoint5 =>
+      "चिंता, घबराहट या मानसिक थकान के क्षणों में प्रभावी है।";
+
+  @override
+  String get benefits => "लाभ";
+
+  @override
+  String get techniquePoint1 =>
+      "4 सेकंड के लिए नाक के द्वारा धीरे से सांस लें।";
+
+  @override
+  String get techniquePoint2 => "7 सेकंड के लिए सांस रोकें।";
+
+  @override
+  String get techniquePoint3 =>
+      "8 सेकंड के लिए मुंह से धीरे-धीरे सांस छोड़ें, एक मुलायम सीटी की आवाज़ के साथ।";
+
+  @override
+  String get techniquePoint4 =>
+      "बैठकर या लेटकर अभ्यास किया जा सकता है, फोकस बढ़ाने के लिए आंखें बंद करना बेहतर है।";
+
+  @override
+  String get techniquePoint5 =>
+      "सोने से पहले, तनाव के दौरान, या जब भी आप परेशान महसूस करें तो विशेष रूप से सहायक है।";
+
+  @override
+  String get techniquePoint6 =>
+      "प्रति सेशन 4-5 बार से शुरू करें और जैसे-जैसे आप सहज हों, धीरे-धीरे बढ़ाएं।";
+
+  @override
+  String get technique => "तकनीक";
+
+  @override
+  String get breathingTechnique => "4-7-8 सांस लेने की तकनीक";
+
   @override
   String get stop => 'रोकें';
 

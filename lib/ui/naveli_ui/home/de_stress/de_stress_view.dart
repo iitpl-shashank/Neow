@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/de_stress/de_stress_info.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/constant.dart';
 import 'package:naveli_2023/utils/local_images.dart';
@@ -10,6 +11,7 @@ import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../generated/i18n.dart';
+import '../../../../utils/common_utils.dart';
 
 class DeStressView extends StatefulWidget {
   const DeStressView({super.key});
@@ -269,12 +271,37 @@ class _DeStressViewState extends State<DeStressView> {
                 ),
               ),
               if (!isLoading)
-                Text(S.of(context)!.destressYourself,
-                    style: TextStyle(
-                      color: CommonColors.blackColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      S.of(context)!.destressYourself,
+                      style: TextStyle(
+                        color: CommonColors.blackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        push(const DeStressInfo());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: CommonColors.primaryColor.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 18,
+                          color: CommonColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               if (!isLoading)
                 Text(
                   S.of(context)!.takeAMomentToRelax,
