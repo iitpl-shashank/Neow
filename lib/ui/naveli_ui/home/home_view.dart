@@ -10,6 +10,7 @@ import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track_helath_view_all/track_health_view_all_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/user_notifications/notification_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
@@ -610,20 +611,20 @@ class _HomeViewState extends State<HomeView> {
           ],
           borderColor: CommonColors.purple,
         ),
-      // if (false) kCommonSpaceH10,
-      // if (false) //TODO : Hidden for now
-      //   CommonDailyInsightContainer(
-      //     onTap: () {
-      //       push(const TrackView());
-      //     },
-      //     text: S.of(context)!.track,
-      //     image: LocalImages.img_track,
-      //     gradientColors: const [
-      //       Color(0xFF9E72C3),
-      //       Color(0xFF7338A0),
-      //     ],
-      //     borderColor: CommonColors.purple,
-      //   ),
+      if (gUserType == AppConstants.NEOWME) kCommonSpaceH10,
+      if (gUserType == AppConstants.NEOWME)
+        CommonDailyInsightContainer(
+          onTap: () {
+            push(const TrackView());
+          },
+          text: S.of(context)!.track,
+          image: LocalImages.img_track,
+          gradientColors: const [
+            Color(0xFF9E72C3),
+            Color(0xFF7338A0),
+          ],
+          borderColor: CommonColors.purple,
+        ),
       kCommonSpaceH10,
       CommonDailyInsightContainer(
         onTap: () {

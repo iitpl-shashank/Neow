@@ -102,21 +102,23 @@ class _WelComeGifViewState extends State<WelComeGifView> {
                                             ),
                                           ),
                                           kCommonSpaceH5,
-                                          Flexible(
-                                            child: Text(
-                                              globalUserMaster?.name
-                                                      .toString()
-                                                      .split(' ')[0] ??
-                                                  '',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                  color:
-                                                      CommonColors.primaryColor,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
+                                          if (globalUserMaster != null)
+                                            Flexible(
+                                              child: Text(
+                                                (globalUserMaster?.name
+                                                        ?.toString()
+                                                        .split(' ')[0] ??
+                                                    ''),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                    color: CommonColors
+                                                        .primaryColor,
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
-                                          ),
                                         ],
                                       ),
                                     ],
