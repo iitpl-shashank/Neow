@@ -6,6 +6,7 @@ import 'package:naveli_2023/models/buddy_request_master.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
+import 'package:naveli_2023/models/shorts_model.dart';
 import 'package:naveli_2023/models/symptom_report_model.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import 'package:naveli_2023/services/api_url.dart';
@@ -408,6 +409,29 @@ class ApiServices extends BaseServices {
       try {
         log("HealthMix Screen list : $response");
         return HealthMixPostMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ShortsModel?> getAllShorts({
+    required Map<String, dynamic> params,
+    required Map<String, dynamic> body,
+  }) async {
+    dynamic response = await appBaseClient.postApiWithTokenCall(
+      url: ApiUrl.getAllShorts,
+      queryParams: params,
+      postParams: body,
+    );
+    if (response != null) {
+      try {
+        log("HealthMix Screen list : $response");
+        return ShortsModel.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

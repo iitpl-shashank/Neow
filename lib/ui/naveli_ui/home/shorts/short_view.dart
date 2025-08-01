@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_swipe_screen.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
+import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:provider/provider.dart';
 import '../../../../generated/i18n.dart';
-import '../../../../utils/common_colors.dart';
 import '../../../../widgets/common_appbar.dart';
-import '../../health_mix/health_mix_view_model.dart';
 
 class ShortsView extends StatefulWidget {
   const ShortsView({
@@ -15,48 +16,88 @@ class ShortsView extends StatefulWidget {
 }
 
 class _ShortsViewState extends State<ShortsView> {
-  late HealthMixViewModel mViewHealthMixModel;
-  late HealthMixViewModel mViewModel;
+  late ShortsViewModel shortsViewModel;
   int selectedTabIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+  List<Map<String, dynamic>> tabOptions = [
+    {
+      "titleKey": "Latest",
+      "titleId": 1,
+      "type": "latest",
+    },
+    {
+      "titleKey": "Popular",
+      "titleId": 1,
+      "type": "popular",
+    },
+    {
+      "titleKey": "Oldest",
+      "titleId": 1,
+      "type": "oldest",
+    },
+  ];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      mViewModel.attachedContext(context);
-      mViewHealthMixModel =
-          Provider.of<HealthMixViewModel>(context, listen: false);
-      mViewHealthMixModel.getHealthMixPostsApi(titleId: 1, type: "latest");
+      shortsViewModel.attachedContext(context);
+      shortsViewModel.getShortsPostsApi(
+        shortType: "1",
+        type: "latest",
+        isRefresh: true,
+      );
+      tabOptions = [
+        {
+          "titleKey": S.of(context)!.latest,
+          "titleId": 1,
+          "type": "latest",
+        },
+        {
+          "titleKey": S.of(context)!.popular,
+          "titleId": 1,
+          "type": "popular",
+        },
+        {
+          "titleKey": S.of(context)!.oldest,
+          "titleId": 1,
+          "type": "oldest",
+        },
+      ];
+      setState(() {});
     });
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        shortsViewModel.hasMore &&
+        !shortsViewModel.isLoading) {
+      shortsViewModel.getShortsPostsApi(
+        shortType: tabOptions[selectedTabIndex]["titleId"].toString(),
+        type: tabOptions[selectedTabIndex]["type"],
+        page: shortsViewModel.currentPage,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    mViewModel = Provider.of<HealthMixViewModel>(context);
-    final List<Map<String, dynamic>> tabOptions = [
-      {
-        "titleKey": S.of(context)!.latest,
-        "titleId": 1,
-        "type": "latest",
-      },
-      {
-        "titleKey": S.of(context)!.popular,
-        "titleId": 1,
-        "type": "popular",
-      },
-      {
-        "titleKey": S.of(context)!.oldest,
-        "titleId": 1,
-        "type": "oldest",
-      },
-    ];
+    shortsViewModel = Provider.of<ShortsViewModel>(context);
+
     return Scaffold(
       appBar: CommonAppBar(
         title: S.of(context)!.shorts,
       ),
       body: Column(
         children: [
-          // Tab buttons
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -83,9 +124,10 @@ class _ShortsViewState extends State<ShortsView> {
                       setState(() {
                         selectedTabIndex = index;
                       });
-                      mViewHealthMixModel.getHealthMixPostsApi(
-                        titleId: tabOptions[index]["titleId"],
+                      shortsViewModel.getShortsPostsApi(
+                        shortType: tabOptions[index]["titleId"].toString(),
                         type: tabOptions[index]["type"],
+                        isRefresh: true,
                       );
                     },
                   );
@@ -93,29 +135,126 @@ class _ShortsViewState extends State<ShortsView> {
               ),
             ),
           ),
-          // Grid of shorts
           Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(8.0),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-                childAspectRatio: 0.8,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              padding: EdgeInsets.only(left: 15),
+              child: Wrap(
+                spacing: 15.0,
+                runSpacing: 0.0,
+                children: List.generate(
+                  shortsViewModel.shortsPostsList.length,
+                  (index) {
+                    final item = shortsViewModel.shortsPostsList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ShortsSwipeScreen(
+                              shortsList: shortsViewModel.shortsPostsList,
+                              initialIndex: index,
+                              fetchMore: () async {
+                                await shortsViewModel.getShortsPostsApi(
+                                  shortType: tabOptions[selectedTabIndex]
+                                          ["titleId"]
+                                      .toString(),
+                                  type: tabOptions[selectedTabIndex]["type"],
+                                  page: shortsViewModel.currentPage,
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 2 - 20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  height: 220,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.network(
+                                      item.image??
+                                      'https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg',
+                                      fit: BoxFit.cover,
+                                      scale: 0.5,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Icon(Icons.broken_image,
+                                            size: 50, color: Colors.grey);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            20,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(5),
+                                        bottomRight: Radius.circular(5),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.description ?? '',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          item.diffrenceTime ?? '',
+                                          style: TextStyle(
+                                            color:
+                                                Colors.white.withOpacity(0.8),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-              itemCount: mViewModel.healthPostsList.length,
-              itemBuilder: (context, index) {
-                return _buildShortCard(
-                  context,
-                  mViewModel.healthPostsList[index].hashtags ?? '',
-                  mViewModel.healthPostsList[index].description ?? '',
-                  mViewModel.healthPostsList[index].diffrenceTime ?? '',
-                  mViewModel.healthPostsList[index].mediaType == 'image'
-                      ? mViewModel.healthPostsList[index].media ??
-                          "https://static.vecteezy.com/system/resources/thumbnails/047/580/461/small/youtube-popular-social-media-logo-free-png.png"
-                      : 'https://static.vecteezy.com/system/resources/thumbnails/047/580/461/small/youtube-popular-social-media-logo-free-png.png',
-                );
-              },
             ),
           ),
         ],
@@ -133,7 +272,8 @@ class _ShortsViewState extends State<ShortsView> {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.purple : Colors.grey[300],
+          backgroundColor:
+              isSelected ? CommonColors.primaryColor : Colors.grey[300],
         ),
         child: Text(
           title,
@@ -141,97 +281,6 @@ class _ShortsViewState extends State<ShortsView> {
             color: isSelected ? Colors.white : Colors.black,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildShortCard(
-    BuildContext context,
-    String title,
-    String subtitle,
-    String time,
-    String imageAsset,
-  ) {
-    return Container(
-      height: 250,
-      decoration: ShapeDecoration(
-        color: CommonColors.mWhite,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x3F000000),
-            blurRadius: 5,
-            offset: Offset(0, 2),
-            spreadRadius: 0,
-          )
-        ],
-        image: DecorationImage(
-          image: NetworkImage(imageAsset),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 200, // Adjusted height for image
-                width: double.infinity,
-              ),
-              Positioned(
-                top: 150, // Position text a bit lower for spacing
-                left: 15,
-                right: 15,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Text(
-                    subtitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0.5, 0),
-                          blurRadius: 1.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 200,
-                left: 15,
-                right: 15,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Text(
-                    time,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0.5, 0),
-                          blurRadius: 1.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    overflow: TextOverflow.ellipsis, // Prevent overflow
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

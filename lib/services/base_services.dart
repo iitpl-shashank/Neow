@@ -1,4 +1,5 @@
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
+import 'package:naveli_2023/models/shorts_model.dart';
 import 'package:naveli_2023/models/signup_master.dart';
 import 'package:naveli_2023/models/vaccination_model.dart';
 import '../models/about_us_master.dart';
@@ -108,6 +109,11 @@ abstract class BaseServices {
 
   Future<HealthMixPostMaster?> getHealthMixPosts(
       {required Map<String, dynamic> params});
+
+  Future<ShortsModel?> getAllShorts({
+    required Map<String, dynamic> params,
+    required Map<String, dynamic> body,
+  });
 
   Future<HealthMixLatestPost?> getHealthMixLatestPostList(
       {required Map<String, dynamic> params});

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/monthly_reminders_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -164,6 +165,8 @@ class AppState extends State<App> {
         ChangeNotifierProvider<AllPostsModel>(create: (_) => AllPostsModel()),
         ChangeNotifierProvider<HealthMixViewModel>(
             create: (_) => HealthMixViewModel()),
+        ChangeNotifierProvider<ShortsViewModel>(
+            create: (_) => ShortsViewModel()),
         ChangeNotifierProvider<ParticularDateDetailsViewModel>(
             create: (_) => ParticularDateDetailsViewModel()),
         ChangeNotifierProvider<QuizViewModel>(create: (_) => QuizViewModel()),

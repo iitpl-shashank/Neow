@@ -137,6 +137,7 @@ flutter:
     - assets/
     - assets/emojis/
     - assets/icons/
+    - assets/icon/
     - assets/gif/
     - assets/images/
     - assets/audio/

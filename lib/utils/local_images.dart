@@ -490,4 +490,7 @@ class LocalSvgs {
   static const String icTwitter = 'assets/svgs/ic_twitter.svg';
   static const String icYoutube = 'assets/svgs/ic_youtube.svg';
   static const String icWhatsapp = 'assets/svgs/ic_whatsapp.svg';
+  static const String icHeartFill = 'assets/svgs/heart_fill.svg';
+  static const String icHeartOutline = 'assets/svgs/heart_outline.svg';
+  static const String icShare = 'assets/svgs/ic_share.svg';
 }

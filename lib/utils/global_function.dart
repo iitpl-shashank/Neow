@@ -18,6 +18,18 @@ List<DateTime> findOvulationDates(
   return ovulationDates;
 }
 
+String formatNumberToShortString(int number) {
+  if (number >= 1000000000) {
+    return '${(number / 1000000000).toStringAsFixed((number % 1000000000 == 0) ? 0 : 1)}B';
+  } else if (number >= 1000000) {
+    return '${(number / 1000000).toStringAsFixed((number % 1000000 == 0) ? 0 : 1)}M';
+  } else if (number >= 1000) {
+    return '${(number / 1000).toStringAsFixed((number % 1000 == 0) ? 0 : 1)}k';
+  } else {
+    return number.toString();
+  }
+}
+
 DateTime calculateOvulationDate(DateTime cycleStartDate, int cycleLength) {
   // Ovulation typically occurs 14 days before the next period
   return cycleStartDate.add(Duration(days: cycleLength - 14));

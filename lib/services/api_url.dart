@@ -119,4 +119,7 @@ class ApiUrl {
   static const String saveHealthMixPost = "${BASE_URL}userHealthMixSave";
   static const String getNotificationList = "${BASE_URL}notifications";
   static const String deactivateAccount = "${BASE_URL}change-status";
+  static const String getAllShorts = "${BASE_URL}get-all-shorts";
+  static const String userShortsLikeDislike =
+      "${BASE_URL}userShortsLikeDislike";
 }

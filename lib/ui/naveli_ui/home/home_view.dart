@@ -10,6 +10,7 @@ import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart
 import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track_helath_view_all/track_health_view_all_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/user_notifications/notification_screen.dart';
@@ -1395,14 +1396,14 @@ class _HomeViewState extends State<HomeView> {
                         GestureDetector(
                           onTap: () {
                             // TODO : Change here from old shorts to HealthMix as per client request
-                            // push(
-                            //   ShortsView(),
-                            // );
                             push(
-                              HealthMixView(
-                                title: S.of(context)!.shorts,
-                              ),
+                              ShortsView(),
                             );
+                            // push(
+                            //   HealthMixView(
+                            //     title: S.of(context)!.shorts,
+                            //   ),
+                            // );
                           },
                           child: Container(
                             decoration: BoxDecoration(
