@@ -99,6 +99,7 @@ dependencies:
   firebase_app_installations:
   photo_view: ^0.15.0
   flutter_html: ^3.0.0
+  app_links: ^6.4.0
 dependency_overrides:
   intl: ^0.18.1
 

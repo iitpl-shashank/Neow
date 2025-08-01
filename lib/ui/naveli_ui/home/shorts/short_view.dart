@@ -136,125 +136,136 @@ class _ShortsViewState extends State<ShortsView> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              padding: EdgeInsets.only(left: 15),
-              child: Wrap(
-                spacing: 15.0,
-                runSpacing: 0.0,
-                children: List.generate(
-                  shortsViewModel.shortsPostsList.length,
-                  (index) {
-                    final item = shortsViewModel.shortsPostsList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ShortsSwipeScreen(
-                              shortsList: shortsViewModel.shortsPostsList,
-                              initialIndex: index,
-                              fetchMore: () async {
-                                await shortsViewModel.getShortsPostsApi(
-                                  shortType: tabOptions[selectedTabIndex]
-                                          ["titleId"]
-                                      .toString(),
-                                  type: tabOptions[selectedTabIndex]["type"],
-                                  page: shortsViewModel.currentPage,
-                                );
-                              },
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Wrap(
+                    spacing: 15.0,
+                    runSpacing: 0.0,
+                    children: List.generate(
+                      shortsViewModel.shortsPostsList.length,
+                      (index) {
+                        final item = shortsViewModel.shortsPostsList[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ShortsSwipeScreen(
+                                  shortsList: shortsViewModel.shortsPostsList,
+                                  initialIndex: index,
+                                  fetchMore: () async {
+                                    await shortsViewModel.getShortsPostsApi(
+                                      shortType: tabOptions[selectedTabIndex]
+                                              ["titleId"]
+                                          .toString(),
+                                      type: tabOptions[selectedTabIndex]
+                                          ["type"],
+                                      page: shortsViewModel.currentPage,
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2 - 20,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.1),
+                                            blurRadius: 5,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      height: 220,
+                                      width: double.infinity,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: Image.network(
+                                          item.image ??
+                                              'https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg',
+                                          fit: BoxFit.cover,
+                                          scale: 0.5,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Icon(Icons.broken_image,
+                                                size: 50, color: Colors.grey);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                20,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(5),
+                                            bottomRight: Radius.circular(5),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.description ?? '',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              item.diffrenceTime ?? '',
+                                              style: TextStyle(
+                                                color: Colors.white
+                                                    .withOpacity(0.8),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                              ],
                             ),
                           ),
                         );
                       },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 2 - 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  height: 220,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(
-                                      item.image??
-                                      'https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg',
-                                      fit: BoxFit.cover,
-                                      scale: 0.5,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Icon(Icons.broken_image,
-                                            size: 50, color: Colors.grey);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2 -
-                                            20,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(5),
-                                        bottomRight: Radius.circular(5),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.description ?? '',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          item.diffrenceTime ?? '',
-                                          style: TextStyle(
-                                            color:
-                                                Colors.white.withOpacity(0.8),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 15),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
+                if (shortsViewModel.isLoading)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
             ),
           ),
         ],

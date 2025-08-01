@@ -4,6 +4,7 @@ import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
 import 'package:naveli_2023/utils/global_function.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:naveli_2023/models/shorts_model.dart';
 
@@ -247,7 +248,15 @@ class _ShortsSwipeScreenState extends State<ShortsSwipeScreen> {
                             ),
                             const SizedBox(height: 23),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                final shortId = widget.shortsList[index].id;
+                                final page = (index ~/ 5) +
+                                    1; // Assuming 5 shorts per page
+                                final type = 'latest'; // Or your current type
+                                final shareUrl =
+                                    'https://lab1.invoidea.work/neow/shorts?shortId=$shortId&page=$page&type=$type';
+                                Share.share('Check out this short: $shareUrl');
+                              },
                               child: SvgPicture.asset(
                                 LocalSvgs.icShare,
                                 height: 19,

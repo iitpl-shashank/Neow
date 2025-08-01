@@ -75,10 +75,10 @@ class ShortsViewModel with ChangeNotifier {
       }
     } catch (e) {
       log("Error in getShortsPostsApi: $e");
-      CommonUtils.showSnackBar(
-        "No new shorts available",
-        color: Colors.red,
-      );
+      // CommonUtils.showSnackBar(
+      //   "No new shorts available",
+      //   color: Colors.red,
+      // );
       hasMore = false;
     } finally {
       isLoading = false;

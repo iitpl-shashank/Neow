@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_swipe_screen.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/monthly_reminders_view_model.dart';
 import 'package:provider/provider.dart';
@@ -73,6 +75,15 @@ class AppState extends State<App> {
   StreamSubscription<ConnectivityResult>? subscription;
   final Connectivity _connectivity = Connectivity();
 
+  late final AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSub;
+
+  @override
+  void dispose() {
+    _linkSub?.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,6 +99,57 @@ class AppState extends State<App> {
     });
 
     Services().configAPI();
+
+// --- Deep link handling ---
+    _appLinks = AppLinks();
+    _linkSub = _appLinks.uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && uri.path == '/neow/shorts') {
+        final shortId = uri.queryParameters['shortId'];
+        final page = int.tryParse(uri.queryParameters['page'] ?? '1') ?? 1;
+        final type = uri.queryParameters['type'] ?? 'latest';
+
+        // Get ShortsViewModel from Provider
+        final shortsViewModel =
+            Provider.of<ShortsViewModel>(context, listen: false);
+
+        // Fetch the correct page
+        await shortsViewModel.getShortsPostsApi(
+          shortType: "1",
+          type: type,
+          page: page,
+          isRefresh: true,
+        );
+
+        // Find the short in the list
+        final shortsList = shortsViewModel.shortsPostsList;
+        final index = shortsList.indexWhere((s) => s.id.toString() == shortId);
+
+        Navigator.push(
+          mainNavKey.currentContext!,
+          MaterialPageRoute(
+            builder: (_) => ShortsSwipeScreen(
+              shortsList: shortsList,
+              initialIndex: index != -1 ? index : 0,
+              fetchMore: () async {
+                await shortsViewModel.getShortsPostsApi(
+                  shortType: "1",
+                  type: type,
+                  page: shortsViewModel.currentPage,
+                );
+              },
+            ),
+          ),
+        );
+
+        if (index == -1) {
+          ScaffoldMessenger.of(mainNavKey.currentContext!).showSnackBar(
+            const SnackBar(
+                content:
+                    Text('Shared short not found, showing available shorts.')),
+          );
+        }
+      }
+    });
   }
 
   Future<void> initConnectivity() async {
