@@ -469,6 +469,7 @@ class LocalImages {
   static const String heartFace = 'assets/images/heart_face.png';
   static const String oldWomanEng = 'assets/images/old_woman_eng.png';
   static const String oldWomanHi = 'assets/images/old_woman_hi.png';
+  static const String welcomeForum = 'assets/images/welcome_forum.png';
   static const String alertPad = 'assets/images/alert_pad.png';
   static const String icShorts = 'assets/images/ic_short.png';
   static const String aajPhirJeeneEng = 'assets/images/aaj_phir_jeene_eng.png';
@@ -481,6 +482,8 @@ class LocalImages {
   static const String logPeriodNotification =
       'assets/images/log_period_notification.png';
   static const String icMagicWand = 'assets/images/magic.png';
+  static const String icLogo = 'assets/icon/neow_icon.png';
+  static const String icCommentIcon = 'assets/images/comment_icon.png';
 }
 
 class LocalSvgs {
@@ -492,5 +495,9 @@ class LocalSvgs {
   static const String icWhatsapp = 'assets/svgs/ic_whatsapp.svg';
   static const String icHeartFill = 'assets/svgs/heart_fill.svg';
   static const String icHeartOutline = 'assets/svgs/heart_outline.svg';
+  static const String icHeartIcon = 'assets/svgs/heart_icon.svg';
+  static const String icCommentIcon = 'assets/svgs/comment_icon.svg';
   static const String icShare = 'assets/svgs/ic_share.svg';
+  static const String icInfo = 'assets/svgs/ic_info.svg';
+  static const String icInterestEdit = 'assets/svgs/ic_interest_edit.svg';
 }
