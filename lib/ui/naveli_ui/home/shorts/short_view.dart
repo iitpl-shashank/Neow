@@ -100,38 +100,41 @@ class _ShortsViewState extends State<ShortsView> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: List.generate(
-                tabOptions.length,
-                (index) {
-                  String title = "";
-                  switch (tabOptions[index]["type"]) {
-                    case "latest":
-                      title = S.of(context)!.latest;
-                      break;
-                    case "popular":
-                      title = S.of(context)!.popular;
-                      break;
-                    case "oldest":
-                      title = S.of(context)!.oldest;
-                      break;
-                  }
-                  return _buildTabButton(
-                    title,
-                    selectedTabIndex == index,
-                    () {
-                      setState(() {
-                        selectedTabIndex = index;
-                      });
-                      shortsViewModel.getShortsPostsApi(
-                        shortType: tabOptions[index]["titleId"].toString(),
-                        type: tabOptions[index]["type"],
-                        isRefresh: true,
-                      );
-                    },
-                  );
-                },
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List.generate(
+                  tabOptions.length,
+                  (index) {
+                    String title = "";
+                    switch (tabOptions[index]["type"]) {
+                      case "latest":
+                        title = S.of(context)!.latest;
+                        break;
+                      case "popular":
+                        title = S.of(context)!.popular;
+                        break;
+                      case "oldest":
+                        title = S.of(context)!.oldest;
+                        break;
+                    }
+                    return _buildTabButton(
+                      title,
+                      selectedTabIndex == index,
+                      () {
+                        setState(() {
+                          selectedTabIndex = index;
+                        });
+                        shortsViewModel.getShortsPostsApi(
+                          shortType: tabOptions[index]["titleId"].toString(),
+                          type: tabOptions[index]["type"],
+                          isRefresh: true,
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -140,7 +143,6 @@ class _ShortsViewState extends State<ShortsView> {
               children: [
                 SingleChildScrollView(
                   controller: _scrollController,
-                  padding: EdgeInsets.only(left: 15),
                   child: Wrap(
                     spacing: 15.0,
                     runSpacing: 0.0,
@@ -197,7 +199,15 @@ class _ShortsViewState extends State<ShortsView> {
                                           item.image ??
                                               'https://i.cdn.newsbytesapp.com/images/l51320241229130933.jpeg',
                                           fit: BoxFit.cover,
-                                          scale: 0.5,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          },
                                           errorBuilder:
                                               (context, error, stackTrace) {
                                             return Icon(Icons.broken_image,
