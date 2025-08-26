@@ -9,6 +9,9 @@ import 'database/app_preferences.dart';
 import 'firebase_options.dart';
 import 'notification_service/notification_service.dart';
 
+// Phone : 8595324499
+// Pass: 123456
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AwesomeNotifications().initialize(
