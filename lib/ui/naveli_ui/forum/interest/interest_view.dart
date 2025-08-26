@@ -4,7 +4,9 @@ import 'package:naveli_2023/utils/local_images.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/i18n.dart';
 import '../../../../utils/common_colors.dart';
+import '../../../../utils/global_variables.dart';
 import '../../../../widgets/common_appbar.dart';
 import '../../../../widgets/common_interest_filter_container.dart';
 import '../../../../widgets/common_interest_option.dart';
@@ -63,8 +65,8 @@ class _InterestViewState extends State<InterestView> {
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
-        appBar: const CommonAppBar(
-          title: "Forum",
+        appBar: CommonAppBar(
+          title: S.of(mainNavKey.currentContext!)!.interests,
         ),
         body: Padding(
           padding: kCommonScreenPadding,
@@ -75,12 +77,12 @@ class _InterestViewState extends State<InterestView> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    CommonFilterContainer(
-                      title: 'My',
-                      isIcon: true,
-                      onTap: () => onPageSelected(0),
-                      isSelected: currentIndex == 0,
-                    ),
+                    // CommonFilterContainer(
+                    //   title: 'My',
+                    //   isIcon: true,
+                    //   onTap: () => onPageSelected(0),
+                    //   isSelected: currentIndex == 0,
+                    // ),
                     CommonFilterContainer(
                       title: 'All',
                       onTap: () => onPageSelected(1),

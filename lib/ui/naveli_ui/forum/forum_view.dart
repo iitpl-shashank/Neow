@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
@@ -8,7 +7,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/local_images.dart';
 import '../../../widgets/common_appbar.dart';
 import '../../../widgets/scaffold_bg.dart';
-import 'forum_full_post/forum_full_post_view.dart';
+import '../../common_ui/forum/forum_post_widget.dart';
 import 'forum_view_model.dart';
 import 'interest/interest_view.dart';
 import 'interest/interest_view_model.dart';
@@ -125,155 +124,169 @@ class _ForumViewState extends State<ForumView> {
                     ],
                   ),
                 ),
-                kCommonSpaceV20,
-                Container(
-                  width: kDeviceWidth / 1,
-                  // height: kDeviceHeight / 3.5,
-                  decoration: ShapeDecoration(
-                    color: CommonColors.primaryLite,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    // shadows: [
-                    //   BoxShadow(
-                    //     color: Color(0x3F000000),
-                    //     blurRadius: 8,
-                    //     offset: Offset(0, 2),
-                    //     spreadRadius: 0,
-                    //   )
-                    // ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          LocalImages.img_welcome_our_forum,
-                          fit: BoxFit.contain,
-                        ),
-                        kCommonSpaceV5,
-                        Flexible(
-                          child: Text(
-                            S.of(context)!.welcomeToNeow,
-                            style: getAppStyle(
-                                color: CommonColors.mGrey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                height: 1),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                // kCommonSpaceV20,
+                // Container(
+                //   width: kDeviceWidth / 1,
+                //   // height: kDeviceHeight / 3.5,
+                //   decoration: ShapeDecoration(
+                //     color: CommonColors.primaryLite,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     // shadows: [
+                //     //   BoxShadow(
+                //     //     color: Color(0x3F000000),
+                //     //     blurRadius: 8,
+                //     //     offset: Offset(0, 2),
+                //     //     spreadRadius: 0,
+                //     //   )
+                //     // ],
+                //   ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(10.0),
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.min,
+                //       // crossAxisAlignment: CrossAxisAlignment.center,
+                //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Image.asset(
+                //           LocalImages.img_welcome_our_forum,
+                //           fit: BoxFit.contain,
+                //         ),
+                //         kCommonSpaceV5,
+                //         Flexible(
+                //           child: Text(
+                //             S.of(context)!.welcomeToNeow,
+                //             style: getAppStyle(
+                //                 color: CommonColors.mGrey,
+                //                 fontSize: 16,
+                //                 fontWeight: FontWeight.w400,
+                //                 height: 1),
+                //           ),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 kCommonSpaceV10,
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: mViewModel.forumPostList.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: InkWell(
-                        onTap: () {
-                          push(ForumFullPostView(
-                            time: mViewModel.forumPostList[index].time ?? '--',
-                            title:
-                                mViewModel.forumPostList[index].title ?? '--',
-                            description:
-                                mViewModel.forumPostList[index].description ??
-                                    '--',
-                            forumId: mViewModel.forumPostList[index].id ?? 0,
-                          ));
-                        },
-                        child: Container(
-                          width: kDeviceWidth / 1,
-                          // height: kDeviceHeight / 5,
-                          decoration: ShapeDecoration(
-                            color: CommonColors.primaryLite,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage(LocalImages.img_app_logo),
-                                      radius: 30,
-                                    ),
-                                    kCommonSpaceH10,
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Neow',
-                                          style: getAppStyle(
-                                            color: CommonColors.blackColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        Text(
-                                          mViewModel
-                                                  .forumPostList[index].time ??
-                                              '--',
-                                          style: getAppStyle(
-                                            color: CommonColors.mGrey,
-                                            fontSize: 14,
-                                            height: 0.5,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: Text(
-                                  mViewModel.forumPostList[index].title ?? '--',
-                                  textAlign: TextAlign.start,
-                                  style: getAppStyle(
-                                    color: CommonColors.blackColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 8),
-                                child: Text(
-                                  mViewModel.forumPostList[index].description ??
-                                      '--',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: getAppStyle(
-                                    color: CommonColors.mGrey,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                // ListView.builder(
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   itemCount: mViewModel.forumPostList.length,
+                //   shrinkWrap: true,
+                //   itemBuilder: (context, index) {
+                //     return Padding(
+                //       padding: const EdgeInsets.only(top: 8, bottom: 8),
+                //       child: InkWell(
+                //         onTap: () {
+                //           push(ForumFullPostView(
+                //             time: mViewModel.forumPostList[index].time ?? '--',
+                //             title:
+                //                 mViewModel.forumPostList[index].title ?? '--',
+                //             description:
+                //                 mViewModel.forumPostList[index].description ??
+                //                     '--',
+                //             forumId: mViewModel.forumPostList[index].id ?? 0,
+                //           ));
+                //         },
+                //         child: Container(
+                //           width: kDeviceWidth / 1,
+                //           // height: kDeviceHeight / 5,
+                //           decoration: ShapeDecoration(
+                //             color: CommonColors.primaryLite,
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //           ),
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Padding(
+                //                 padding: const EdgeInsets.all(8.0),
+                //                 child: Row(
+                //                   children: [
+                //                     const CircleAvatar(
+                //                       backgroundImage:
+                //                           AssetImage(LocalImages.img_app_logo),
+                //                       radius: 30,
+                //                     ),
+                //                     kCommonSpaceH10,
+                //                     Column(
+                //                       crossAxisAlignment:
+                //                           CrossAxisAlignment.start,
+                //                       children: [
+                //                         Text(
+                //                           'Neow',
+                //                           style: getAppStyle(
+                //                             color: CommonColors.blackColor,
+                //                             fontSize: 16,
+                //                             fontWeight: FontWeight.w400,
+                //                           ),
+                //                         ),
+                //                         Text(
+                //                           mViewModel
+                //                                   .forumPostList[index].time ??
+                //                               '--',
+                //                           style: getAppStyle(
+                //                             color: CommonColors.mGrey,
+                //                             fontSize: 14,
+                //                             height: 0.5,
+                //                             fontWeight: FontWeight.w400,
+                //                           ),
+                //                         )
+                //                       ],
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //               Padding(
+                //                 padding:
+                //                     const EdgeInsets.only(left: 8, right: 8),
+                //                 child: Text(
+                //                   mViewModel.forumPostList[index].title ?? '--',
+                //                   textAlign: TextAlign.start,
+                //                   style: getAppStyle(
+                //                     color: CommonColors.blackColor,
+                //                     fontSize: 18,
+                //                     fontWeight: FontWeight.w600,
+                //                   ),
+                //                 ),
+                //               ),
+                //               Padding(
+                //                 padding: const EdgeInsets.only(
+                //                     left: 8, right: 8, bottom: 8),
+                //                 child: Text(
+                //                   mViewModel.forumPostList[index].description ??
+                //                       '--',
+                //                   maxLines: 3,
+                //                   overflow: TextOverflow.ellipsis,
+                //                   style: getAppStyle(
+                //                     color: CommonColors.mGrey,
+                //                     fontSize: 13,
+                //                     fontWeight: FontWeight.w400,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
+
+                ForumPostWidget(
+                  username: "NeoW",
+                  timeAgo: "1 min ago",
+                  postText:
+                      "What rights do women lack?\nWhere are the barriers that are locking them out of the economic system?",
+                  likes: 54,
+                  comment: "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
+                  onLike: null,
+                  onComment: null,
+                  onShare: null,
+                  commentUser: "NeoW User", commentsCount: 1,
                 ),
+
               ],
             ),
           ),

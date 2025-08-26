@@ -34,69 +34,79 @@ class _CommonInterestOptionState extends State<CommonInterestOption> {
     return Column(
       children: [
         kCommonSpaceV10,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            widget.isMainTitle
-                ? Text(
-                    widget.title,
-                    style: getGoogleFontStyle(fontSize: 30),
-                  )
-                : Text(
-                    widget.title,
-                    style: getAppStyle(
-                      color: CommonColors.primaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+        Padding(
+          padding:  EdgeInsets.symmetric(horizontal:widget.isOption?20: 10.0, vertical: 5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              widget.isMainTitle
+                  ? Text(
+                      widget.title,
+                      style: getAppStyle(
+                        color: CommonColors.blackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  : Text(
+                      widget.title,
+                      style: getAppStyle(
+                        color: CommonColors.blackColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+              const Spacer(),
+              if (widget.isOption) ...[
+                IconButton(
+                  style: IconButton.styleFrom(
+                      backgroundColor: widget.isFavouriteSelected
+                          ? CommonColors.mGrey200
+                          : CommonColors.mGrey200,
+                      foregroundColor: widget.isFavouriteSelected
+                          ? CommonColors.darkPink
+                          : CommonColors.mWhite),
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(
+                    Icons.favorite_outlined,
+                    size: 25,
                   ),
-            const Spacer(),
-            if (widget.isOption) ...[
-              IconButton(
-                style: IconButton.styleFrom(
-                    backgroundColor: widget.isFavouriteSelected
-                        ? CommonColors.darkPink
-                        : CommonColors.mGrey200,
-                    foregroundColor: widget.isFavouriteSelected
-                        ? CommonColors.mWhite
-                        : CommonColors.blackColor),
-                padding: EdgeInsets.zero,
-                icon: const Icon(
-                  Icons.favorite_outlined,
-                  size: 25,
+                  onPressed: () {
+                    widget.onFavouriteSelectionChanged
+                        ?.call(widget.title, widget.isFavouriteSelected);
+                  },
                 ),
-                onPressed: () {
-                  widget.onFavouriteSelectionChanged
-                      ?.call(widget.title, widget.isFavouriteSelected);
-                },
-              ),
-              // IconButton(
-              //   style: IconButton.styleFrom(
-              //       backgroundColor: widget.isNotInterestedSelected
-              //           ? CommonColors.darkPink
-              //           : CommonColors.mGrey200,
-              //       foregroundColor: widget.isNotInterestedSelected
-              //           ? CommonColors.mWhite
-              //           : CommonColors.blackColor),
-              //   padding: EdgeInsets.zero,
-              //   icon: Icon(
-              //     Icons.not_interested_outlined,
-              //     size: 25,
-              //   ),
-              //   onPressed: () {
-              //     widget.onNotInterestedSelectionChanged
-              //         ?.call(widget.title, widget.isNotInterestedSelected);
-              //   },
-              // ),
-            ]
-          ],
+                // IconButton(
+                //   style: IconButton.styleFrom(
+                //       backgroundColor: widget.isNotInterestedSelected
+                //           ? CommonColors.darkPink
+                //           : CommonColors.mGrey200,
+                //       foregroundColor: widget.isNotInterestedSelected
+                //           ? CommonColors.mWhite
+                //           : CommonColors.blackColor),
+                //   padding: EdgeInsets.zero,
+                //   icon: Icon(
+                //     Icons.not_interested_outlined,
+                //     size: 25,
+                //   ),
+                //   onPressed: () {
+                //     widget.onNotInterestedSelectionChanged
+                //         ?.call(widget.title, widget.isNotInterestedSelected);
+                //   },
+                // ),
+              ]
+            ],
+          ),
         ),
         kCommonSpaceV5,
         widget.isOption
-            ? Container(
-                height: 1,
-                color: CommonColors.mGrey300,
-              )
+            ? Padding(
+          padding:  EdgeInsets.symmetric(horizontal:widget.isOption?20: 10.0,),
+              child: Container(
+                  height: 1,
+                  color: CommonColors.mGrey300,
+                ),
+            )
             : const SizedBox.shrink()
       ],
     );

@@ -20,7 +20,7 @@ class CommonFilterContainer extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: CommonColors.bglightPinkColor,
+              color: isSelected ? CommonColors.primaryColor : CommonColors.greyShade,
               border: isSelected ? Border.all(width: 1,color: CommonColors.primaryColor) : null,
           ),
           child: Padding(
@@ -30,7 +30,7 @@ class CommonFilterContainer extends StatelessWidget {
                 Text(
                   title,
                   style: getAppStyle(
-                      color: CommonColors.primaryColor,
+                      color:isSelected ? CommonColors.mWhite : CommonColors.blackColor,
                       height: 1,
                     fontWeight: FontWeight.w500
                   ),

@@ -126,7 +126,7 @@ class S implements WidgetsLocalizations {
 
   String get comment => "Comment ";
 
-  String get welcomeForum => "Welcome to NeoW’s Forum";
+  String get welcomeForum => "Forum";
 
   String get water => "Water";
 
@@ -1512,6 +1512,11 @@ class S implements WidgetsLocalizations {
 
   String get disclaimerPoint4 =>
       "Practice with ease — the breath should feel natural, never forced.";
+
+  String get interests => "Interests";
+  String get comments => "Comments";
+  String get leaveAComment => "Leave a comment...";
+
 }
 
 class $en extends S {
@@ -1522,6 +1527,15 @@ class $mr extends S {
   $mr();
 
   // hindi words start //
+  @override
+  String get leaveAComment => "टिप्पणी लिखें...";
+
+  @override
+  String get comments => "टिप्पणियाँ";
+
+  @override
+  String get interests => "रुचियाँ";
+
   @override
   String get disclaimerPoint1 =>
       "यह तकनीक एक सहायक कल्याणकारी अभ्यास है और चिकित्सा देखभाल का विकल्प नहीं है।";
@@ -2694,7 +2708,7 @@ class $mr extends S {
   String get comment => "टिप्पणी";
 
   @override
-  String get welcomeForum => "Neow's Forum में आपका स्वागत है";
+  String get welcomeForum => "Forum";
 
   @override
   String get water => "पानी";
