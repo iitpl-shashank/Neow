@@ -277,6 +277,20 @@ class _ShortsSwipeScreenState extends State<ShortsSwipeScreen> {
                       Image.network(
                         widget.shortsList[index].image!,
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.black,
+                            child: Center(
+                              child: Icon(Icons.broken_image,
+                                  color: Colors.grey, size: 64),
+                            ),
+                          );
+                        },
                       ),
                     const Center(child: CircularProgressIndicator()),
                   ],
