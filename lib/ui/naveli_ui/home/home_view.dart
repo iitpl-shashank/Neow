@@ -612,20 +612,20 @@ class _HomeViewState extends State<HomeView> {
           ],
           borderColor: CommonColors.purple,
         ),
-      if (gUserType == AppConstants.NEOWME) kCommonSpaceH10,
-      if (gUserType == AppConstants.NEOWME)
-        CommonDailyInsightContainer(
-          onTap: () {
-            push(const TrackView());
-          },
-          text: S.of(context)!.track,
-          image: LocalImages.img_track,
-          gradientColors: const [
-            Color(0xFF9E72C3),
-            Color(0xFF7338A0),
-          ],
-          borderColor: CommonColors.purple,
-        ),
+      // if (gUserType == AppConstants.NEOWME) kCommonSpaceH10,
+      // if (gUserType == AppConstants.NEOWME)
+      //   CommonDailyInsightContainer(
+      //     onTap: () {
+      //       push(const TrackView());
+      //     },
+      //     text: S.of(context)!.track,
+      //     image: LocalImages.img_track,
+      //     gradientColors: const [
+      //       Color(0xFF9E72C3),
+      //       Color(0xFF7338A0),
+      //     ],
+      //     borderColor: CommonColors.purple,
+      //   ),
       kCommonSpaceH10,
       CommonDailyInsightContainer(
         onTap: () {

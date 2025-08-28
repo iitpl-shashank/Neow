@@ -60,13 +60,10 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
                   color: Colors.purple.shade200,
                   shape: BoxShape.circle,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Image.asset(
-                    height: 42,
-                    width: 42,
-                    LocalImages.postCardIcon,
-                  ),
+                child: Image.asset(
+                  height: 42,
+                  width: 42,
+                  LocalImages.postCardIcon,
                 ),
               ),
               const SizedBox(width: 8),
