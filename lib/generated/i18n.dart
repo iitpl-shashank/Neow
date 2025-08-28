@@ -1517,6 +1517,10 @@ class S implements WidgetsLocalizations {
   String get comments => "Comments";
   String get leaveAComment => "Leave a comment...";
 
+  String get welcomeForumSubtitle =>
+      "Hey New Women! Engage in insightful discussions, find support, and be inspired to thrive in every aspect of your life.\n\nJoin us to connect, grow, and celebrate the journey of womanhood together.";
+
+  String get welcomeToNeowForum => "Welcome to NeoW’s Forum!";
 }
 
 class $en extends S {
