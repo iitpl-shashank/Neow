@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
@@ -107,6 +108,27 @@ class _ForumViewState extends State<ForumView> {
         appBar: CommonAppBar(
           title: S.of(context)!.welcomeForum,
           automaticallyImplyLeading: false,
+          actions: [
+            SvgPicture.asset(
+              LocalSvgs.icInfo,
+              height: 20,
+              width: 20,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(width: 16),
+            GestureDetector(
+              onTap: () {
+                push(const InterestView()).then((value) => getData());
+              },
+              child: SvgPicture.asset(
+                LocalSvgs.icInterestEdit,
+                height: 20,
+                width: 20,
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(width: 20),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -304,13 +326,14 @@ class _ForumViewState extends State<ForumView> {
                   postText:
                       "What rights do women lack?\nWhere are the barriers that are locking them out of the economic system?",
                   likes: 54,
-                  comment: "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
+                  comment:
+                      "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
                   onLike: null,
                   onComment: null,
                   onShare: null,
-                  commentUser: "NeoW User", commentsCount: 1,
+                  commentUser: "NeoW User",
+                  commentsCount: 1,
                 ),
-
               ],
             ),
           ),
