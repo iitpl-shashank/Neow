@@ -133,7 +133,7 @@ class _ForumViewState extends State<ForumView> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 15),
+                const EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -148,28 +148,28 @@ class _ForumViewState extends State<ForumView> {
                 //   ),
                 // ),
                 // kCommonSpaceV10,
-                GestureDetector(
-                  onTap: () {
-                    push(const InterestView()).then((value) => getData());
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.favorite_outlined,
-                        color: CommonColors.darkPink,
-                        size: 22,
-                      ),
-                      Text(
-                        S.of(context)!.interest,
-                        style: getAppStyle(
-                            fontSize: 18,
-                            color: CommonColors.primaryColor,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     push(const InterestView()).then((value) => getData());
+                //   },
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       const Icon(
+                //         Icons.favorite_outlined,
+                //         color: CommonColors.darkPink,
+                //         size: 22,
+                //       ),
+                //       Text(
+                //         S.of(context)!.interest,
+                //         style: getAppStyle(
+                //             fontSize: 18,
+                //             color: CommonColors.primaryColor,
+                //             fontWeight: FontWeight.w500),
+                //       )
+                //     ],
+                //   ),
+                // ),
                 // kCommonSpaceV20,
                 // Container(
                 //   width: kDeviceWidth / 1,

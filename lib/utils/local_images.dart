@@ -502,4 +502,6 @@ class LocalSvgs {
   static const String icHeartFill = 'assets/svgs/heart_fill.svg';
   static const String icHeartOutline = 'assets/svgs/heart_outline.svg';
   static const String icShare = 'assets/svgs/ic_share.svg';
+  static const String icInfo = 'assets/svgs/ic_info.svg';
+  static const String icInterestEdit = 'assets/svgs/ic_interest_edit.svg';
 }
