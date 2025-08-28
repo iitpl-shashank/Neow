@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -31,6 +32,29 @@ class _ForumViewState extends State<ForumView> {
       mInterestViewModel =
           Provider.of<InterestViewModel>(context, listen: false);
       getData();
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.welcomeForum,
+          height: 173,
+          width: 293,
+          subtitleText: S.of(context)!.welcomeToNeowForum,
+          subtitleTextStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          prepareText: S.of(context)!.welcomeForumSubtitle,
+          prepareTextStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: CommonColors.greyText,
+          ),
+        ),
+      );
     });
   }
 

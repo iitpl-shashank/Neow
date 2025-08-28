@@ -370,6 +370,7 @@ class LocalImages {
   static const String hangout_binge_watch =
       'assets/emojis/hangout_binge_watch.png';
   static const String hangout_cafe = 'assets/emojis/hangout_cafe.png';
+  static const String welcomeForum = 'assets/images/welcome_forum.png';
   static const String hangout_mall = 'assets/emojis/hangout_mall.png';
   static const String hangout_park = 'assets/emojis/hangout_park.png';
   static const String hangout_party = 'assets/emojis/hangout_party.png';
@@ -481,13 +482,14 @@ class LocalImages {
   static const String logPeriodNotification =
       'assets/images/log_period_notification.png';
   static const String icMagicWand = 'assets/images/magic.png';
+
   ///forum images
-    static const String unknownUser = 'assets/icons/unknown_user.png';
-    static const String bookmark = 'assets/icons/bookmark.png';
-    static const String shareCustom = 'assets/icons/share_custom.png';
-    static const String chat = 'assets/icons/chat.png';
-    static const String postBackground = 'assets/images/post_background.png';
-    static const String postCardIcon = 'assets/icons/post_card_icon.png';
+  static const String unknownUser = 'assets/icons/unknown_user.png';
+  static const String bookmark = 'assets/icons/bookmark.png';
+  static const String shareCustom = 'assets/icons/share_custom.png';
+  static const String chat = 'assets/icons/chat.png';
+  static const String postBackground = 'assets/images/post_background.png';
+  static const String postCardIcon = 'assets/icons/post_card_icon.png';
 }
 
 class LocalSvgs {

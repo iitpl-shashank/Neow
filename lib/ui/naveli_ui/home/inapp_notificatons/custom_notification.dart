@@ -16,6 +16,8 @@ class CustomNotification extends StatelessWidget {
   final VoidCallback? purpleOnPress;
   final String? whiteLabel;
   final VoidCallback? whiteOnPress;
+  final TextStyle? subtitleTextStyle;
+  final TextStyle? prepareTextStyle;
 
   const CustomNotification({
     super.key,
@@ -31,6 +33,8 @@ class CustomNotification extends StatelessWidget {
     this.purpleOnPress,
     this.whiteLabel,
     this.whiteOnPress,
+    this.subtitleTextStyle,
+    this.prepareTextStyle,
   });
 
   @override
@@ -78,22 +82,24 @@ class CustomNotification extends StatelessWidget {
                 Text(
                   subtitleText,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
+                  style: subtitleTextStyle ??
+                      const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
                 ),
                 if (prepareText != null) const SizedBox(height: 20),
                 if (prepareText != null)
                   Text(
                     prepareText ?? "",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
+                    style: prepareTextStyle ??
+                        const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
                   ),
                 if (purpleLabel != null) const SizedBox(height: 20),
                 if (purpleLabel != null)
