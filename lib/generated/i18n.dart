@@ -1532,6 +1532,13 @@ class $mr extends S {
 
   // hindi words start //
   @override
+  String get welcomeToNeowForum => "NeoW के फ़ोरम में आपका स्वागत है!";
+
+  @override
+  String get welcomeForumSubtitle =>
+      "हे नई महिलाएं! व्यावहारिक चर्चाओं में शामिल हों, समर्थन प्राप्त करें और अपने जीवन के हर पहलू में फलने-फूलने के लिए प्रेरित हों।\n\nएक साथ जुड़ने, बढ़ने और नारीत्व की यात्रा का जश्न मनाने के लिए हमारे साथ जुड़ें!";
+
+  @override
   String get leaveAComment => "टिप्पणी लिखें...";
 
   @override
