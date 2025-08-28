@@ -63,7 +63,8 @@ class _ForumViewState extends State<ForumView> {
     mViewModel.getForumPostApi().whenComplete(() => mInterestViewModel
         .loadSelectedOptions()
         .whenComplete(() => filterPostsBySelectedOptions()));
-    // print("....Interested category.... :: ${mInterestViewModel.previousSelectedOptions.length}");
+    print(
+        "....Interested category.... :: ${mInterestViewModel.previousSelectedOptions.length}");
   }
 
   void filterPostsBySelectedOptions() {
@@ -117,32 +118,58 @@ class _ForumViewState extends State<ForumView> {
             SizedBox(width: 20),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                kCommonSpaceV10,
-                ForumPostWidget(
-                  username: "NeoW",
-                  timeAgo: "1 min ago",
-                  postText:
-                      "What rights do women lack?\nWhere are the barriers that are locking them out of the economic system?",
-                  likes: 54,
-                  comment:
-                      "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
-                  onLike: null,
-                  onComment: null,
-                  onShare: null,
-                  commentUser: "NeoW User",
-                  commentsCount: 1,
+        body: mViewModel.forumPostList.isEmpty
+            ? Center(
+                child: Text(S.of(context)!.noData),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 25, left: 15, right: 15, top: 5),
+                child: ListView.builder(
+                  itemCount: mViewModel.forumPostList.length,
+                  itemBuilder: (context, index) {
+                    final post = mViewModel.forumPostList[index];
+                    return ForumPostWidget(
+                      username: "NeoW",
+                      timeAgo: post.time ?? "1 min ago",
+                      postText: post.title ?? "",
+                      likes: 0,
+                      comment: "",
+                      onLike: null,
+                      onComment: null,
+                      onShare: null,
+                      commentUser: "NeoW User",
+                      commentsCount: 0,
+                    );
+                  },
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
+        // SingleChildScrollView(
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(
+        //           bottom: 25, left: 15, right: 15, top: 5),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.end,
+        //         children: [
+        //           kCommonSpaceV10,
+        //           ForumPostWidget(
+        //             username: "NeoW",
+        //             timeAgo: "1 min ago",
+        //             postText:
+        //                 "What rights do women lack?\nWhere are the barriers that are locking them out of the economic system?",
+        //             likes: 54,
+        //             comment:
+        //                 "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
+        //             onLike: null,
+        //             onComment: null,
+        //             onShare: null,
+        //             commentUser: "NeoW User",
+        //             commentsCount: 1,
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
       ),
     );
   }

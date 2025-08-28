@@ -526,13 +526,13 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<ForumPostMaster?> getForumAllPost(
+  Future<ForumModel?> getForumAllPost(
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.GET_FORUM_POST, postParams: params);
     if (response != null) {
       try {
-        return ForumPostMaster.fromJson(response);
+        return ForumModel.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

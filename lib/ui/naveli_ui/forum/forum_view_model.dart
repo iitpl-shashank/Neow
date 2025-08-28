@@ -10,7 +10,7 @@ import '../../../utils/common_utils.dart';
 class ForumViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
-  List<ForumPostData> forumPostList = [];
+  List<ForumData> forumPostList = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -22,8 +22,7 @@ class ForumViewModel with ChangeNotifier {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
-    ForumPostMaster? master =
-        await _services.api!.getForumAllPost(params: params);
+    ForumModel? master = await _services.api!.getForumAllPost(params: params);
     CommonUtils.hideProgressDialog();
     if (master == null) {
       CommonUtils.oopsMSG();
