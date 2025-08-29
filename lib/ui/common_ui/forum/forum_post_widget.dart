@@ -7,12 +7,13 @@ import '../../../utils/constant.dart';
 import '../../../utils/local_images.dart';
 
 class ForumPostWidget extends StatefulWidget {
+  final int forumId;
   final String username;
   final String timeAgo;
   final String postText;
   final int likes;
   final String comment;
-  final VoidCallback? onLike;
+  final ValueChanged<int>? onLike; 
   final VoidCallback? onComment;
   final VoidCallback? onShare;
   final bool isComments;
@@ -31,7 +32,8 @@ class ForumPostWidget extends StatefulWidget {
     this.onShare,
     this.isComments = true,
     required this.commentsCount,
-    required this.commentUser,
+    required this.commentUser, 
+    required this.forumId,
   });
 
   @override
@@ -123,7 +125,7 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
           Row(
             children: [
               GestureDetector(
-                onTap: widget.onLike,
+              onTap: () => widget.onLike?.call(widget.forumId),
                 child: Row(
                   children: [
                     const Icon(Icons.favorite, color: Colors.red),

@@ -136,4 +136,6 @@ class ApiParams {
   static const String chatbot_answer = "answer";
   static const String post_id = "post_id";
   static const String is_saved = "is_saved";
+  static const String forumId = "forum_id";
+  static const String isLike = "is_like";
 }

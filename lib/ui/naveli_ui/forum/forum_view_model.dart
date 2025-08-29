@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 
 import '../../../database/app_preferences.dart';
@@ -42,4 +44,48 @@ class ForumViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+  Future<void> forumPostLikeDislike({
+  required int forumId,
+}) async {
+  CommonUtils.showProgressDialog();
+      // ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+  try {
+    final params = <String, dynamic>{
+      ApiParams.forumId: forumId,
+      ApiParams.isLike: 1,
+    };
+    final resp = await _services.api!.forumPostLikeDislike(params: params);
+
+    CommonUtils.hideProgressDialog();
+
+    if (resp.success == true) {
+    
+      forumPostList = resp.data ?? [];
+      CommonUtils.showSnackBar(
+        resp.message,
+        color: CommonColors.greenColor,
+      );
+    } else if (resp.success == false) {
+      
+      CommonUtils.showSnackBar(
+        resp.message,
+        color: CommonColors.mRed,
+      );
+    } else {
+ 
+      CommonUtils.oopsMSG();
+    }
+  } catch (e) {
+    CommonUtils.hideProgressDialog();
+    log("Exception :: $e");
+    CommonUtils.oopsMSG();
+  }
+
+  notifyListeners();
+}
+
+
+
 }

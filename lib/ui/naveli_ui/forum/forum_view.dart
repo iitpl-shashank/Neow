@@ -130,12 +130,16 @@ class _ForumViewState extends State<ForumView> {
                   itemBuilder: (context, index) {
                     final post = mViewModel.forumPostList[index];
                     return ForumPostWidget(
+                      forumId: post.id ?? 0,
                       username: "NeoW",
                       timeAgo: post.time ?? "1 min ago",
                       postText: post.title ?? "",
                       likes: 0,
                       comment: "",
-                      onLike: null,
+                      onLike: (forumId)=> mViewModel.forumPostLikeDislike(
+                        forumId: forumId,
+                      
+                      ),
                       onComment: null,
                       onShare: null,
                       commentUser: "NeoW User",

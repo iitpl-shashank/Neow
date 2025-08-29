@@ -52,6 +52,7 @@ class ApiUrl {
   static const String STORE_QUESTION_ANSWER = "${BASE_URL}question-answer";
   static const String GET_FORUM_COMMENT = "${BASE_URL}getUsersCommentList";
   static const String STORE_FORUM_COMMENT = "${BASE_URL}forumCommentStore";
+  static const String GET_FORUM_CATEGORY = "${BASE_URL}forumsCategory";
   static const String GET_SLIDER_VIDEO = "${BASE_URL}getHomePage";
   static const String GET_ABOUT_US = "${BASE_URL}getAboutAndDescription";
   static const String GET_MONYHLY_MISSION = "${BASE_URL}getMonthlyMisssion";
@@ -122,4 +123,6 @@ class ApiUrl {
   static const String getAllShorts = "${BASE_URL}get-all-shorts";
   static const String userShortsLikeDislike =
       "${BASE_URL}userShortsLikeDislike";
+
+    static const String forum_post_like_dislike = "${BASE_URL}forumsLikeDislike";
 }

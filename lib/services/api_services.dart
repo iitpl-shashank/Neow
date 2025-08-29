@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/models/about_us_master.dart';
 import 'package:naveli_2023/models/buddy_request_master.dart';
+import 'package:naveli_2023/models/forum_category_model.dart';
+import 'package:naveli_2023/models/forum_post_like_dislike_model.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
@@ -1610,6 +1612,62 @@ class ApiServices extends BaseServices {
     } on Exception catch (e) {
       log("Exception api:: $e");
       return DeactivateAccountModel();
+    }
+  }
+
+  @override
+  Future<ForumCategoryModel> getForumCategory() async {
+    try {
+      dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.GET_FORUM_CATEGORY,
+      );
+      debugPrint("POST API Data: ${response}");
+      if (response != null) {
+        try {
+          debugPrint("POST API Data: $response");
+          return ForumCategoryModel.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception :: $e");
+          return ForumCategoryModel();
+        }
+      } else {
+        return ForumCategoryModel();
+      }
+    } on Exception catch (e) {
+      log("Exception api:: $e");
+      return ForumCategoryModel();
+    }
+  }
+
+  @override
+  Future<ForumPostLikeDislike> forumPostLikeDislike({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+       debugPrint("params: $params");
+      final response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.forum_post_like_dislike,
+        queryParams: params,
+      );
+
+      debugPrint("response in like dislike: $response");
+
+      if (response != null && response is Map<String, dynamic>) {
+        return ForumPostLikeDislike.fromJson(response);
+      } else {
+        return ForumPostLikeDislike(
+          data: null,
+          success: false,
+          message: "Invalid response",
+        );
+      }
+    } on Exception catch (e) {
+      log("Exception :: $e");
+      return ForumPostLikeDislike(
+        data: null,
+        success: false,
+        message: "Something went wrong",
+      );
     }
   }
 }

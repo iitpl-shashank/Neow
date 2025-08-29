@@ -1,3 +1,5 @@
+import 'package:naveli_2023/models/forum_category_model.dart';
+import 'package:naveli_2023/models/forum_post_like_dislike_model.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/shorts_model.dart';
 import 'package:naveli_2023/models/signup_master.dart';
@@ -276,4 +278,8 @@ abstract class BaseServices {
       {required String lang});
 
   // Future<PostModel> getSavedPostApi({required Map<String, dynamic> params});
+
+  Future<ForumCategoryModel> getForumCategory();
+ Future<ForumPostLikeDislike> forumPostLikeDislike({required Map<String, dynamic> params});
+
 }
