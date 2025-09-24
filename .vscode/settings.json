@@ -1,6 +1,6 @@
 {
   "java.configuration.updateBuildConfiguration": "disabled",
-  "dart.flutterSdkPath": ".fvm/versions/3.27.0",
+  "dart.flutterSdkPath": ".fvm/versions/3.27.1",
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 500
 }

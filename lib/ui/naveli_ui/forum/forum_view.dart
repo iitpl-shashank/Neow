@@ -71,17 +71,18 @@ class _ForumViewState extends State<ForumView> {
     if (mInterestViewModel.previousSelectedOptions.isNotEmpty) {
       mViewModel.forumPostList = mViewModel.forumPostList.where((post) {
         bool containsOption = false;
-        if (post.forumSubCategory != null) {
-          if (mInterestViewModel.previousSelectedOptions
-              .contains(post.forumSubCategory!.name)) {
-            containsOption = true;
-          }
-        } else if (post.forumCategory != null) {
-          if (mInterestViewModel.previousSelectedOptions
-              .contains(post.forumCategory!.name)) {
-            containsOption = true;
-          }
-        }
+        //TODO: Need to check with backend team for subcategory
+        // if (post.forumSubCategory != null) {
+        //   if (mInterestViewModel.previousSelectedOptions
+        //       .contains(post.forumSubCategory!.name)) {
+        //     containsOption = true;
+        //   }
+        // } else if (post.forumCategory != null) {
+        //   if (mInterestViewModel.previousSelectedOptions
+        //       .contains(post.forumCategory!.name)) {
+        //     containsOption = true;
+        //   }
+        // }
         return containsOption;
       }).toList();
     }
@@ -134,8 +135,10 @@ class _ForumViewState extends State<ForumView> {
                       username: "NeoW",
                       timeAgo: post.time ?? "1 min ago",
                       postText: post.title ?? "",
-                      likes: 0,
+                      isLike: post.liked ?? false,
+                      likes: post.totalLike ?? 10,
                       comment: "",
+                      commentsCount: post.commentCount ?? 0,
                       onLike: (forumId)=> mViewModel.forumPostLikeDislike(
                         forumId: forumId,
                       
@@ -143,7 +146,7 @@ class _ForumViewState extends State<ForumView> {
                       onComment: null,
                       onShare: null,
                       commentUser: "NeoW User",
-                      commentsCount: 0,
+                     
                     );
                   },
                 ),

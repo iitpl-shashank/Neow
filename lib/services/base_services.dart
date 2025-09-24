@@ -135,7 +135,7 @@ abstract class BaseServices {
 
   Future<WomenNewsMaster?> getWomenNews({required Map<String, dynamic> params});
 
-  Future<ForumModel?> getForumAllPost({required Map<String, dynamic> params});
+  Future<ForumPostModel?> getForumAllPost({required Map<String, dynamic> params});
 
   Future<CommonMaster?> storeForumComment(
       {required Map<String, dynamic> params});

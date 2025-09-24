@@ -12,38 +12,59 @@ import '../../../utils/common_utils.dart';
 class ForumViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
-  List<ForumData> forumPostList = [];
+  List<ForumPost> forumPostList = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
     notifyListeners();
   }
 
-  Future<void> getForumPostApi() async {
-    CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
-    };
-    ForumModel? master = await _services.api!.getForumAllPost(params: params);
+ Future<void> getForumPostApi() async {
+  CommonUtils.showProgressDialog();
+
+  Map<String, dynamic> params = <String, dynamic>{
+    ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+  };
+
+  try {
+    // Call API and parse response into ForumPostModel
+    final response = await _services.api!.getForumAllPost(params: params);
+
+    ForumPostModel? master;
+    if (response != null) {
+      master = response;
+      forumPostList=master.data??[];
+    }
+
     CommonUtils.hideProgressDialog();
+
     if (master == null) {
       CommonUtils.oopsMSG();
-      print(
-          "................................Forum view oops.............................");
+      print(" Forum view response is null");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
         color: CommonColors.mRed,
       );
-    } else if (master.success == true) {
-      forumPostList = master.data ?? [];
-      //  CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
     }
-    notifyListeners();
+    //  else if (master.success == true) {
+    //   forumPostList = master.data ?? [];
+    //   // Optional: show success message
+    //   // CommonUtils.showSnackBar(
+    //   //   master.message ?? "Success",
+    //   //   color: CommonColors.greenColor,
+    //   // );
+    // }
+  } catch (e, s) {
+    CommonUtils.hideProgressDialog();
+    print("Exception in getForumPostApi: $e");
+    print(s);
+    CommonUtils.oopsMSG();
   }
+
+  notifyListeners();
+}
+
 
 
   Future<void> forumPostLikeDislike({
