@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -24,7 +25,29 @@ class ForumView extends StatelessWidget {
       debugPrint("Error loading data: $e");
     }
   }
-
+  showInfoDialog(BuildContext context ) {
+      return showDialog(
+        context: context,
+        builder: (context) => CustomNotification(
+          imagePath: LocalImages.welcomeForum,
+          height: 173,
+          width: 293,
+          subtitleText: S.of(context)!.welcomeToNeowForum,
+          subtitleTextStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          prepareText: S.of(context)!.welcomeForumSubtitle,
+          prepareTextStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: CommonColors.greyText,
+          ),
+        ),
+      );
+    
+  }
 
 
   @override
@@ -32,7 +55,9 @@ class ForumView extends StatelessWidget {
   
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<ForumViewModel>(context, listen: false);
+      viewModel.attachedContext(context);
       viewModel.getForumPostApi();
+   
     });
 
     return ScaffoldBG(
@@ -42,11 +67,16 @@ class ForumView extends StatelessWidget {
           title: S.of(context)!.welcomeForum,
           automaticallyImplyLeading: false,
           actions: [
-            SvgPicture.asset(
-              LocalSvgs.icInfo,
-              height: 20,
-              width: 20,
-              fit: BoxFit.contain,
+            GestureDetector(
+              onTap: () {
+                   showInfoDialog( context );
+              },
+              child: SvgPicture.asset(
+                LocalSvgs.icInfo,
+                height: 20,
+                width: 20,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(width: 16),
             GestureDetector(
@@ -70,12 +100,12 @@ class ForumView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(S.of(context)!.noData),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => getData(context),
-                      child: Text("Retry"),
-                    ),
+                    // Text(S.of(context)!.noData),
+                    // const SizedBox(height: 16),
+                    // ElevatedButton(
+                    //   onPressed: () => getData(context),
+                    //   child: Text("Retry"),
+                    // ),
                   ],
                 ),
               );

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:naveli_2023/generated/i18n.dart';
 import 'package:naveli_2023/models/common_master.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/forum_post_master.dart';
@@ -11,7 +12,7 @@ import '../../../utils/common_utils.dart';
 class ForumViewModel with ChangeNotifier {
   bool _hasShownWelcomeDialog = false;
   bool get hasShownWelcomeDialog => _hasShownWelcomeDialog;
-  
+
   late BuildContext context;
   final _services = Services();
   List<ForumPost> forumPostList = [];
@@ -89,23 +90,21 @@ class ForumViewModel with ChangeNotifier {
       final resp = await _services.api!.forumPostLikeDislike(params: params);
 
       if (resp.success == true) {
-        CommonUtils.showSnackBar(
-          resp.message ?? "Success",
-          color: CommonColors.greenColor,
-        );
-        // Refresh without showing loader
+        // CommonUtils.showSnackBar(
+        //   resp.message ?? S.of(context)!.savedSuccess,
+        //   color: CommonColors.greenColor,
+        // );
         await getForumPostApi(showLoader: false);
       } else {
-        // Revert optimistic update
         _updatePost(forumId, (post) {
           post.liked = isLike != 1;
           post.totalLike = (post.totalLike ?? 0) - (isLike == 1 ? 1 : -1);
         });
-        
-        CommonUtils.showSnackBar(
-          resp.message ?? "Failed",
-          color: CommonColors.mRed,
-        );
+
+        // CommonUtils.showSnackBar(
+        //   resp.message ?? "Failed",
+        //   color: CommonColors.mRed,
+        // );
       }
     } catch (e) {
       log("Exception in forumPostLikeDislike: $e");
@@ -135,22 +134,21 @@ class ForumViewModel with ChangeNotifier {
       final resp = await _services.api!.forumPostSaveUnsave(params: params);
 
       if (resp.success == true) {
-        CommonUtils.showSnackBar(
-          resp.message ?? "Success",
-          color: CommonColors.greenColor,
+         CommonUtils.showSnackBar(
+          isSaved == 1 ? S.of(context)!.postSavedSuccessfully : S.of(context)!.postRemoved,
+          color: CommonColors.mRed,
         );
-        // Refresh without showing loader
         await getForumPostApi(showLoader: false);
       } else {
-        // Revert optimistic update
+      
         _updatePost(forumId, (post) {
           post.saved = isSaved == 0 ? "yes" : "no";
         });
-        
-        CommonUtils.showSnackBar(
-          resp.message ?? "Failed",
-          color: CommonColors.mRed,
-        );
+        // CommonUtils.showSnackBar(
+        // S.of(context)!.somethingWentWrong,
+        //   color: CommonColors.mRed,
+        // );
+      
       }
     } catch (e) {
       log("Exception in forumPostSaveUnsave: $e");
@@ -180,7 +178,8 @@ class ForumViewModel with ChangeNotifier {
         ApiParams.comment: comment.trim(),
       };
 
-      final CommonMaster resp = await _services.api!.forumPostComment(params: params);
+      final CommonMaster resp =
+          await _services.api!.forumPostComment(params: params);
 
       if (resp.success == true) {
         CommonUtils.showSnackBar(

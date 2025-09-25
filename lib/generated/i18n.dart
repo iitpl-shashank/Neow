@@ -1521,6 +1521,8 @@ class S implements WidgetsLocalizations {
       "Hey New Women! Engage in insightful discussions, find support, and be inspired to thrive in every aspect of your life.\n\nJoin us to connect, grow, and celebrate the journey of womanhood together.";
 
   String get welcomeToNeowForum => "Welcome to NeoW’s Forum!";
+  String get postSavedSuccessfully => "Post Saved Successfully";
+  String get postRemoved => "Post Removed From Saved";
 }
 
 class $en extends S {
@@ -1530,7 +1532,16 @@ class $en extends S {
 class $mr extends S {
   $mr();
 
+
+
   // hindi words start //
+
+    @override
+  String get postSavedSuccessfully => "पोस्ट सफलतापूर्वक सहेजी गई";
+  @override
+  String get postRemoved => "सहेजी गई पोस्ट हटा दी गई";
+
+
   @override
   String get welcomeToNeowForum => "NeoW के फ़ोरम में आपका स्वागत है!";
 
