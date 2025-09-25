@@ -5,6 +5,7 @@ import 'package:naveli_2023/models/about_us_master.dart';
 import 'package:naveli_2023/models/buddy_request_master.dart';
 import 'package:naveli_2023/models/forum_category_model.dart';
 import 'package:naveli_2023/models/forum_post_like_dislike_model.dart';
+import 'package:naveli_2023/models/forum_post_save_model.dart';
 import 'package:naveli_2023/models/healthmix_latest_posts.dart';
 import 'package:naveli_2023/models/login_master.dart';
 import 'package:naveli_2023/models/monthly_reminder_master.dart';
@@ -532,8 +533,10 @@ class ApiServices extends BaseServices {
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.GET_FORUM_POST, postParams: params);
+        print("Forum Post Response: $response");
     if (response != null) {
       try {
+        
         return ForumPostModel.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
@@ -1616,7 +1619,7 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<ForumCategoryModel> getForumCategory() async {
+  Future<ForumCategoryResponse> getForumCategory() async {
     try {
       dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.GET_FORUM_CATEGORY,
@@ -1625,49 +1628,127 @@ class ApiServices extends BaseServices {
       if (response != null) {
         try {
           debugPrint("POST API Data: $response");
-          return ForumCategoryModel.fromJson(response);
+          return ForumCategoryResponse.fromJson(response);
         } on Exception catch (e) {
           log("Exception :: $e");
-          return ForumCategoryModel();
+          return ForumCategoryResponse();
         }
       } else {
-        return ForumCategoryModel();
+        return ForumCategoryResponse();
       }
     } on Exception catch (e) {
       log("Exception api:: $e");
-      return ForumCategoryModel();
+      return ForumCategoryResponse();
     }
   }
 
-  @override
-  Future<ForumPostLikeDislike> forumPostLikeDislike({
-    required Map<String, dynamic> params,
-  }) async {
-    try {
-       debugPrint("params: $params");
-      final response = await appBaseClient.postApiWithTokenCall(
-        url: ApiUrl.forum_post_like_dislike,
-        queryParams: params,
+ @override
+Future<ForumPostLikeDislike> forumPostLikeDislike({
+  required Map<String, dynamic> params,
+}) async {
+  try {
+    debugPrint("params: $params");
+    final response = await appBaseClient.postApiWithTokenCall(
+      url: ApiUrl.forum_post_like_dislike,
+      queryParams: params,
+    );
+
+    debugPrint("response in like dislike: $response");
+
+    if (response != null && response is Map<String, dynamic>) {
+      // Create ForumPostLikeDislike object directly from response
+      return ForumPostLikeDislike(
+        data: response['data'],  // This can be null
+        success: response['success'] as bool?,
+        message: response['message'] as String?,
       );
-
-      debugPrint("response in like dislike: $response");
-
-      if (response != null && response is Map<String, dynamic>) {
-        return ForumPostLikeDislike.fromJson(response);
-      } else {
-        return ForumPostLikeDislike(
-          data: null,
-          success: false,
-          message: "Invalid response",
-        );
-      }
-    } on Exception catch (e) {
-      log("Exception :: $e");
+    } else {
       return ForumPostLikeDislike(
         data: null,
         success: false,
-        message: "Something went wrong",
+        message: "Invalid response",
       );
     }
+  } on Exception catch (e) {
+    log("Exception :: $e");
+    return ForumPostLikeDislike(
+      data: null,
+      success: false,
+      message: "Something went wrong",
+    );
   }
+}
+
+ @override
+Future<ForumPostSave> forumPostSaveUnsave({
+  required Map<String, dynamic> params,
+}) async {
+  try {
+    debugPrint("params: $params");
+    final response = await appBaseClient.postApiWithTokenCall(
+      url: ApiUrl.forum_post_save_unsave,
+      queryParams: params,
+    );
+
+    debugPrint("response in save/unsave: $response");
+
+    if (response != null && response is Map<String, dynamic>) {
+      return ForumPostSave(
+        data: response['data'],  
+        success: response['success'] as bool?,
+        message: response['message'] as String?,
+      );
+    } else {
+      return ForumPostSave(
+        data: null,
+        success: false,
+        message: "Invalid response",
+      );
+    }
+  } on Exception catch (e) {
+    log("Exception :: $e");
+    return ForumPostSave(
+      data: null,
+      success: false,
+      message: "Something went wrong",
+    );
+  }
+}
+
+@override
+Future<Map<String, dynamic>> forumPostComment({
+  required Map<String, dynamic> params,
+}) async {
+  try {
+    debugPrint("params: $params");
+    final response = await appBaseClient.postApiWithTokenCall(
+      url: ApiUrl.forum_post_comment,
+      queryParams: params,
+    );
+
+    debugPrint("response in comment post: $response");
+
+    if (response != null && response is Map<String, dynamic>) {
+      return {
+        "data": response['data'],
+        "success": response['success'] as bool? ?? false,
+        "message": response['message'] as String? ?? "No message",
+      };
+    } else {
+      return {
+        "data": null,
+        "success": false,
+        "message": "Invalid response",
+      };
+    }
+  } on Exception catch (e) {
+    log("Exception :: $e");
+    return {
+      "data": null,
+      "success": false,
+      "message": "Something went wrong",
+    };
+  }
+}
+
 }

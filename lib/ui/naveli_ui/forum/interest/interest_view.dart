@@ -20,36 +20,8 @@ class InterestView extends StatefulWidget {
 }
 
 class _InterestViewState extends State<InterestView> {
-  final PageController pageController = PageController(
-    initialPage: 0,
-  );
-  late InterestViewModel mViewModel;
-
-  int currentIndex = 0;
-
-  void onPageSelected(int index) {
-    pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void handleOptionSelection(String title, bool isSelected) {
-    mViewModel.toggleOption(title);
-  }
-
-  void handleFavouriteSelection(String title, bool isSelected) {
-    mViewModel.toggleOption(title);
-  }
-
-  void handleNotInterestedSelection(String title, bool isSelected) {
-    if (isSelected) {
-      mViewModel.addOption(title);
-    } else {
-      mViewModel.removeOption(title);
-    }
-  }
+ 
+late InterestViewModel mViewModel;
 
   @override
   void initState() {
@@ -82,15 +54,15 @@ class _InterestViewState extends State<InterestView> {
                     if (index == 0) {
                       return CommonFilterContainer(
                         title: "All",
-                        onTap: () => onPageSelected(0),
-                        isSelected: currentIndex == 0,
+                        onTap: () => mViewModel.onPageSelected(0),
+                        isSelected: mViewModel.currentIndex == 0,
                       );
                     } else {
                       final category = mViewModel.forumCategoryList[index - 1];
                       return CommonFilterContainer(
                         title: category.name ?? "",
-                        onTap: () => onPageSelected(index),
-                        isSelected: currentIndex == index,
+                        onTap: () => mViewModel.onPageSelected(index),
+                        isSelected: mViewModel.currentIndex == index,
                       );
                     }
                   },
@@ -99,17 +71,16 @@ class _InterestViewState extends State<InterestView> {
               kCommonSpaceV10,
               Expanded(
                 child: PageView.builder(
-                  controller: pageController,
+                  controller: mViewModel.pageController,
                   itemCount: mViewModel.forumCategoryList.length + 1,
                   physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: (value) {
                     setState(() {
-                      currentIndex = value;
+                      mViewModel.currentIndex = value;
                     });
                   },
                   itemBuilder: (context, pageIndex) {
                     if (pageIndex == 0) {
-                      
                       return ListView.builder(
                         itemCount: mViewModel.forumCategoryList.length,
                         itemBuilder: (context, index) {
@@ -133,10 +104,10 @@ class _InterestViewState extends State<InterestView> {
                                       category.subCategories?[topicIndex];
                                   return CommonInterestOption(
                                     title: topic?.name ?? "",
-                                    isFavouriteSelected: mViewModel
-                                        .isFavoriteSelected(topic?.name ?? ""),
+                                    isFavouriteSelected:
+                                        topic?.isLike ?? false, 
                                     onFavouriteSelectionChanged:
-                                        handleFavouriteSelection,
+                                        mViewModel.handleFavouriteSelection,
                                   );
                                 },
                               ),
@@ -145,7 +116,6 @@ class _InterestViewState extends State<InterestView> {
                         },
                       );
                     } else {
-                 
                       final category =
                           mViewModel.forumCategoryList[pageIndex - 1];
                       return ListView(
@@ -168,7 +138,7 @@ class _InterestViewState extends State<InterestView> {
                                 isFavouriteSelected: mViewModel
                                     .isFavoriteSelected(topic?.name ?? ""),
                                 onFavouriteSelectionChanged:
-                                    handleFavouriteSelection,
+                                    mViewModel.handleFavouriteSelection,
                               );
                             },
                           ),

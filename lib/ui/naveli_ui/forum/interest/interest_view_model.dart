@@ -8,11 +8,18 @@ import 'package:naveli_2023/utils/common_utils.dart';
 import '../../../../database/app_preferences.dart';
 
 class InterestViewModel with ChangeNotifier {
+   final PageController pageController = PageController(
+    initialPage: 0,
+  );
+  late InterestViewModel mViewModel;
+
+  int currentIndex = 0;
+
   late BuildContext context;
   List<String> selectedOptions = [];
     final _services = Services();
   List<String> previousSelectedOptions = [];
-  List<ForumCategory> forumCategoryList = [];
+  List<Category> forumCategoryList = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -29,9 +36,9 @@ class InterestViewModel with ChangeNotifier {
     return selectedOptions.contains(title);
   }
 
-  // bool isNotInterestedSelected(String title) {
-  //   return !selectedOptions.contains(title);
-  // }
+  bool isNotInterestedSelected(String title) {
+    return !selectedOptions.contains(title);
+  }
 
   Future<void> addOption(String title) async {
     if (!selectedOptions.contains(title)) {
@@ -65,7 +72,7 @@ class InterestViewModel with ChangeNotifier {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
-    ForumCategoryModel? forums = await _services.api!.getForumCategory();
+    ForumCategoryResponse? forums = await _services.api!.getForumCategory();
     CommonUtils.hideProgressDialog();
     if (forums == null) {
       CommonUtils.oopsMSG();
@@ -83,5 +90,29 @@ class InterestViewModel with ChangeNotifier {
       // );
     }
     notifyListeners();
+  }
+
+    void onPageSelected(int index) {
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void handleOptionSelection(String title, bool isSelected) {
+    toggleOption(title);
+  }
+
+  void handleFavouriteSelection(String title, bool isSelected) {
+    toggleOption(title);
+  }
+
+  void handleNotInterestedSelection(String title, bool isSelected) {
+    if (isSelected) {
+      addOption(title);
+    } else {
+      removeOption(title);
+    }
   }
 }

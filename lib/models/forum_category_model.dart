@@ -1,87 +1,90 @@
 import 'dart:convert';
 
-ForumCategoryModel forumCategoryModelFromJson(String str) =>
-    ForumCategoryModel.fromJson(json.decode(str));
+class ForumCategoryResponse {
+  List<Category>? data;
+  bool? success;
+  String? message;
 
-String forumCategoryModelToJson(ForumCategoryModel data) =>
-    json.encode(data.toJson());
-
-class ForumCategoryModel {
-  final List<ForumCategory>? data;
-  final bool? success;
-  final String? message;
-
-  ForumCategoryModel({
+  ForumCategoryResponse({
     this.data,
     this.success,
     this.message,
   });
 
-  factory ForumCategoryModel.fromJson(Map<String, dynamic> json) {
-    return ForumCategoryModel(
-      data: (json["data"] as List<dynamic>?)
-              ?.map((x) => ForumCategory.fromJson(x as Map<String, dynamic>))
-              .toList() ??
-          [],
-      success: json["success"] as bool?,
-      message: json["message"] as String?,
-    );
-  }
+  factory ForumCategoryResponse.fromJson(Map<String, dynamic> json) =>
+      ForumCategoryResponse(
+        data: json["data"] == null
+            ? []
+            : List<Category>.from(
+                json["data"].map((x) => Category.fromJson(x))),
+        success: json["success"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-        "data": data?.map((x) => x.toJson()).toList() ?? [],
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "success": success,
         "message": message,
       };
+
+  /// Helpers for raw string conversion
+  factory ForumCategoryResponse.fromRawJson(String str) =>
+      ForumCategoryResponse.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 }
 
-class ForumCategory {
-  final int? id;
-  final String? name;
-  final List<SubCategory>? subCategories;
+class Category {
+  int? id;
+  String? name;
+  List<SubCategory>? subCategories;
 
-  ForumCategory({
+  Category({
     this.id,
     this.name,
     this.subCategories,
   });
 
-  factory ForumCategory.fromJson(Map<String, dynamic> json) {
-    return ForumCategory(
-      id: json["id"] as int?,
-      name: json["name"] as String?,
-      subCategories: (json["sub_categories"] as List<dynamic>?)
-              ?.map((x) => SubCategory.fromJson(x as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-  }
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: json["name"],
+        subCategories: json["sub_categories"] == null
+            ? []
+            : List<SubCategory>.from(
+                json["sub_categories"].map((x) => SubCategory.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "sub_categories": subCategories?.map((x) => x.toJson()).toList() ?? [],
+        "sub_categories": subCategories == null
+            ? []
+            : List<dynamic>.from(subCategories!.map((x) => x.toJson())),
       };
 }
 
 class SubCategory {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
+  bool? isLike;
 
   SubCategory({
     this.id,
     this.name,
+    this.isLike,
   });
 
-  factory SubCategory.fromJson(Map<String, dynamic> json) {
-    return SubCategory(
-      id: json["id"] as int?,
-      name: json["name"] as String?,
-    );
-  }
+  factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
+        id: json["id"],
+        name: json["name"],
+        isLike: json["is_like"],
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "is_like": isLike,
       };
 }

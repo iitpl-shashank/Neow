@@ -41,6 +41,8 @@ class ForumPost {
   String? description;
   String? media;
   String? time;
+  String? author;        // Added
+  String? authorImage;   // Added
   bool? liked;
   int? totalLike;
   String? saved;
@@ -55,6 +57,8 @@ class ForumPost {
     this.description,
     this.media,
     this.time,
+    this.author,         // Added
+    this.authorImage,    // Added
     this.liked,
     this.totalLike,
     this.saved,
@@ -74,19 +78,19 @@ class ForumPost {
         description: json["description"],
         media: json["media"],
         time: json["time"],
-     liked: json["liked"] == "1" ||
-       json["liked"] == 1 ||
-       json["liked"] == true ||
-       (json["liked"] is String && json["liked"].toLowerCase() == "yes"),
-
-
-        totalLike: json["total_like"]??0,
+        author: json["author"],           // Added
+        authorImage: json["author_image"], // Added
+        liked: json["liked"] == "1" ||
+            json["liked"] == 1 ||
+            json["liked"] == true ||
+            (json["liked"] is String && json["liked"].toLowerCase() == "yes"),
+        totalLike: json["total_like"] ?? 0,
         saved: json["saved"],
         comments: json["comments"] == null
             ? []
             : List<Comment>.from(
                 json["comments"].map((x) => Comment.fromJson(x))),
-                commentCount: json["comments"] == null ? 0 : (json["comments"] as List).length,
+        commentCount: json["comments"] == null ? 0 : (json["comments"] as List).length,
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,6 +101,8 @@ class ForumPost {
         "description": description,
         "media": media,
         "time": time,
+        "author": author,            // Added
+        "author_image": authorImage, // Added
         "liked": liked,
         "total_like": totalLike,
         "saved": saved,

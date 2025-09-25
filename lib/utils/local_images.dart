@@ -504,4 +504,7 @@ class LocalSvgs {
   static const String icShare = 'assets/svgs/ic_share.svg';
   static const String icInfo = 'assets/svgs/ic_info.svg';
   static const String icInterestEdit = 'assets/svgs/ic_interest_edit.svg';
+  static const String icBookmarkSaved = 'assets/icons/icon_bookmark_saved.svg';
+  static const String icBookmark = 'assets/icons/icon_bookmark.svg';
+
 }

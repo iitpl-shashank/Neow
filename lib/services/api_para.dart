@@ -138,4 +138,5 @@ class ApiParams {
   static const String is_saved = "is_saved";
   static const String forumId = "forum_id";
   static const String isLike = "is_like";
+  static const String isSaved = "is_saved";
 }

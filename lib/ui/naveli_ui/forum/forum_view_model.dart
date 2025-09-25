@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
-
 import '../../../database/app_preferences.dart';
 import '../../../models/forum_post_master.dart';
 import '../../../services/api_para.dart';
@@ -27,6 +25,7 @@ class ForumViewModel with ChangeNotifier {
   };
 
   try {
+    
     // Call API and parse response into ForumPostModel
     final response = await _services.api!.getForumAllPost(params: params);
 
@@ -55,6 +54,8 @@ class ForumViewModel with ChangeNotifier {
     //   //   color: CommonColors.greenColor,
     //   // );
     // }
+ 
+   CommonUtils.hideProgressDialog();
   } catch (e, s) {
     CommonUtils.hideProgressDialog();
     print("Exception in getForumPostApi: $e");
@@ -69,16 +70,18 @@ class ForumViewModel with ChangeNotifier {
 
   Future<void> forumPostLikeDislike({
   required int forumId,
+  required int isLike,
 }) async {
   CommonUtils.showProgressDialog();
       // ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
   try {
+      
     final params = <String, dynamic>{
       ApiParams.forumId: forumId,
-      ApiParams.isLike: 1,
+      ApiParams.isLike: isLike,
     };
     final resp = await _services.api!.forumPostLikeDislike(params: params);
-
+   
     CommonUtils.hideProgressDialog();
 
     if (resp.success == true) {
@@ -98,6 +101,7 @@ class ForumViewModel with ChangeNotifier {
  
       CommonUtils.oopsMSG();
     }
+       await getForumPostApi();
   } catch (e) {
     CommonUtils.hideProgressDialog();
     log("Exception :: $e");
@@ -107,6 +111,91 @@ class ForumViewModel with ChangeNotifier {
   notifyListeners();
 }
 
+Future<void> forumPostSaveUnsave({
+  required int forumId,
+  required int isSaved,
+}) async {
+  CommonUtils.showProgressDialog();
+      // ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+  try {
+      
+    final params = <String, dynamic>{
+      ApiParams.forumId: forumId,
+      ApiParams.is_saved: isSaved,
+    };
+    final resp = await _services.api!.forumPostSaveUnsave(params: params);
+   
+    CommonUtils.hideProgressDialog();
+
+    if (resp.success == true) {
+    
+      forumPostList = resp.data ?? [];
+      CommonUtils.showSnackBar(
+        resp.message,
+        color: CommonColors.greenColor,
+      );
+    } else if (resp.success == false) {
+      
+      CommonUtils.showSnackBar(
+        resp.message,
+        color: CommonColors.mRed,
+      );
+    } else {
+ 
+      CommonUtils.oopsMSG();
+    }
+       await getForumPostApi();
+  } catch (e) {
+    CommonUtils.hideProgressDialog();
+    log("Exception :: $e");
+    CommonUtils.oopsMSG();
+  }
+
+  notifyListeners();
+
 
 
 }
+Future<void> forumPostComment({
+  required String comment,
+  required int forumId,
+}) async {
+  CommonUtils.showProgressDialog();
+
+  try {
+    final params = <String, dynamic>{
+      ApiParams.forumId: forumId,
+      ApiParams.comment: comment,
+    };
+
+    final resp = await _services.api!.forumPostComment(params: params);
+
+    CommonUtils.hideProgressDialog();
+
+    if (resp["success"] == true) {
+      CommonUtils.showSnackBar(
+        resp["message"] ?? "--",
+        color: CommonColors.greenColor,
+      );
+    } else if (resp["success"] == false) {
+      CommonUtils.showSnackBar(
+        resp["message"] ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else {
+      CommonUtils.oopsMSG();
+    }
+
+    // Refresh the forum posts after adding comment
+    await getForumPostApi();
+  } catch (e) {
+    CommonUtils.hideProgressDialog();
+    log("Exception :: $e");
+    CommonUtils.oopsMSG();
+  }
+
+  notifyListeners();
+}
+
+}
+

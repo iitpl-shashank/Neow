@@ -131,22 +131,20 @@ class _ForumViewState extends State<ForumView> {
                   itemBuilder: (context, index) {
                     final post = mViewModel.forumPostList[index];
                     return ForumPostWidget(
-                      forumId: post.id ?? 0,
-                      username: "NeoW",
-                      timeAgo: post.time ?? "1 min ago",
-                      postText: post.title ?? "",
-                      isLike: post.liked ?? false,
-                      likes: post.totalLike ?? 10,
-                      comment: "",
-                      commentsCount: post.commentCount ?? 0,
-                      onLike: (forumId)=> mViewModel.forumPostLikeDislike(
-                        forumId: forumId,
-                      
-                      ),
-                      onComment: null,
-                      onShare: null,
-                      commentUser: "NeoW User",
-                     
+                      post: post,
+                      onLike: (id) {
+                        mViewModel.forumPostLikeDislike(forumId: post.id??0, isLike: post.liked ==true ? 0 : 1);
+                      },
+                      onCommentSubmit: (commentText, forumId) {
+                        mViewModel.forumPostComment(
+                            forumId: post.id ?? 0, comment: commentText);
+                      },
+                      onSave: () {
+                        mViewModel.forumPostSaveUnsave(forumId: post.id??0, isSaved: post.saved == "yes" ? 0 : 1);
+                      },
+                      onShare: () {
+                        // Handle share
+                      },
                     );
                   },
                 ),
