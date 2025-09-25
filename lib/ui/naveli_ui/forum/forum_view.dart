@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -14,83 +13,28 @@ import 'forum_view_model.dart';
 import 'interest/interest_view.dart';
 import 'interest/interest_view_model.dart';
 
-class ForumView extends StatefulWidget {
+class ForumView extends StatelessWidget {
   const ForumView({super.key});
 
-  @override
-  State<ForumView> createState() => _ForumViewState();
-}
-
-class _ForumViewState extends State<ForumView> {
-  late ForumViewModel mViewModel;
-  late InterestViewModel mInterestViewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      mViewModel.attachedContext(context);
-      mInterestViewModel =
-          Provider.of<InterestViewModel>(context, listen: false);
-      getData();
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        builder: (context) => CustomNotification(
-          imagePath: LocalImages.welcomeForum,
-          height: 173,
-          width: 293,
-          subtitleText: S.of(context)!.welcomeToNeowForum,
-          subtitleTextStyle: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          prepareText: S.of(context)!.welcomeForumSubtitle,
-          prepareTextStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: CommonColors.greyText,
-          ),
-        ),
-      );
-    });
-  }
-
-  void getData() {
-    mViewModel.getForumPostApi().whenComplete(() => mInterestViewModel
-        .loadSelectedOptions()
-        .whenComplete(() => filterPostsBySelectedOptions()));
-    print(
-        "....Interested category.... :: ${mInterestViewModel.previousSelectedOptions.length}");
-  }
-
-  void filterPostsBySelectedOptions() {
-    if (mInterestViewModel.previousSelectedOptions.isNotEmpty) {
-      mViewModel.forumPostList = mViewModel.forumPostList.where((post) {
-        bool containsOption = false;
-        //TODO: Need to check with backend team for subcategory
-        // if (post.forumSubCategory != null) {
-        //   if (mInterestViewModel.previousSelectedOptions
-        //       .contains(post.forumSubCategory!.name)) {
-        //     containsOption = true;
-        //   }
-        // } else if (post.forumCategory != null) {
-        //   if (mInterestViewModel.previousSelectedOptions
-        //       .contains(post.forumCategory!.name)) {
-        //     containsOption = true;
-        //   }
-        // }
-        return containsOption;
-      }).toList();
+  Future<void> getData(BuildContext context) async {
+    try {
+      final viewModel = Provider.of<ForumViewModel>(context, listen: false);
+      await viewModel.getForumPostApi();
+    } catch (e) {
+      debugPrint("Error loading data: $e");
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    mViewModel = Provider.of<ForumViewModel>(context);
+  
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModel = Provider.of<ForumViewModel>(context, listen: false);
+      viewModel.getForumPostApi();
+    });
+
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
@@ -104,10 +48,10 @@ class _ForumViewState extends State<ForumView> {
               width: 20,
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             GestureDetector(
               onTap: () {
-                push(const InterestView()).then((value) => getData());
+                push(const InterestView()).then((_) => getData(context));
               },
               child: SvgPicture.asset(
                 LocalSvgs.icInterestEdit,
@@ -116,65 +60,68 @@ class _ForumViewState extends State<ForumView> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
           ],
         ),
-        body: mViewModel.forumPostList.isEmpty
-            ? Center(
-                child: Text(S.of(context)!.noData),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 25, left: 15, right: 15, top: 5),
-                child: ListView.builder(
-                  itemCount: mViewModel.forumPostList.length,
-                  itemBuilder: (context, index) {
-                    final post = mViewModel.forumPostList[index];
-                    return ForumPostWidget(
-                      post: post,
-                      onLike: (id) {
-                        mViewModel.forumPostLikeDislike(forumId: post.id??0, isLike: post.liked ==true ? 0 : 1);
-                      },
-                      onCommentSubmit: (commentText, forumId) {
-                        mViewModel.forumPostComment(
-                            forumId: post.id ?? 0, comment: commentText);
-                      },
-                      onSave: () {
-                        mViewModel.forumPostSaveUnsave(forumId: post.id??0, isSaved: post.saved == "yes" ? 0 : 1);
-                      },
-                      onShare: () {
-                        // Handle share
-                      },
-                    );
-                  },
+        body: Consumer<ForumViewModel>(
+          builder: (context, viewModel, _) {
+            if (viewModel.forumPostList.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(S.of(context)!.noData),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => getData(context),
+                      child: Text("Retry"),
+                    ),
+                  ],
                 ),
+              );
+            }
+
+            return RefreshIndicator(
+              onRefresh: () => getData(context),
+              child: ListView.builder(
+                padding: const EdgeInsets.only(
+                  bottom: 25,
+                  left: 15,
+                  right: 15,
+                  top: 5,
+                ),
+                itemCount: viewModel.forumPostList.length,
+                itemBuilder: (context, index) {
+                  final post = viewModel.forumPostList[index];
+                  return ForumPostWidget(
+                    post: post,
+                    onLike: (id) {
+                      viewModel.forumPostLikeDislike(
+                        forumId: id,
+                        isLike: post.liked == true ? 0 : 1,
+                      );
+                    },
+                    onCommentSubmit: (commentText, forumId) {
+                      viewModel.forumPostComment(
+                        forumId: forumId,
+                        comment: commentText,
+                      );
+                    },
+                    onSave: () {
+                      viewModel.forumPostSaveUnsave(
+                        forumId: post.id ?? 0,
+                        isSaved: post.saved == "yes" ? 0 : 1,
+                      );
+                    },
+                    onShare: () {
+                      // Implement share functionality
+                    },
+                  );
+                },
               ),
-        // SingleChildScrollView(
-        //     child: Padding(
-        //       padding: const EdgeInsets.only(
-        //           bottom: 25, left: 15, right: 15, top: 5),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.end,
-        //         children: [
-        //           kCommonSpaceV10,
-        //           ForumPostWidget(
-        //             username: "NeoW",
-        //             timeAgo: "1 min ago",
-        //             postText:
-        //                 "What rights do women lack?\nWhere are the barriers that are locking them out of the economic system?",
-        //             likes: 54,
-        //             comment:
-        //                 "I never realized how much diet and exercise could impact my period until I tried these tips! Feeling so much better during that time of the month now 💪",
-        //             onLike: null,
-        //             onComment: null,
-        //             onShare: null,
-        //             commentUser: "NeoW User",
-        //             commentsCount: 1,
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
+            );
+          },
+        ),
       ),
     );
   }

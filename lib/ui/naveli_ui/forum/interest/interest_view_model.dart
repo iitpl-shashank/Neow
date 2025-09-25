@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:naveli_2023/models/common_master.dart';
 import 'package:naveli_2023/models/forum_category_model.dart';
 import 'package:naveli_2023/services/api_para.dart';
 import 'package:naveli_2023/services/index.dart';
@@ -8,91 +9,40 @@ import 'package:naveli_2023/utils/common_utils.dart';
 import '../../../../database/app_preferences.dart';
 
 class InterestViewModel with ChangeNotifier {
-   final PageController pageController = PageController(
+  final PageController pageController = PageController(
     initialPage: 0,
   );
-  late InterestViewModel mViewModel;
 
   int currentIndex = 0;
 
-  late BuildContext context;
   List<String> selectedOptions = [];
-    final _services = Services();
+  final _services = Services();
   List<String> previousSelectedOptions = [];
   List<Category> forumCategoryList = [];
 
-  void attachedContext(BuildContext context) {
-    this.context = context;
-    notifyListeners();
-  }
-
-  Future<void> loadSelectedOptions() async {
-    previousSelectedOptions = await AppPreferences.instance.getInterestFavourite() ?? [];
-    selectedOptions = List.from(previousSelectedOptions);
-    notifyListeners();
-  }
-
-  bool isFavoriteSelected(String title) {
-    return selectedOptions.contains(title);
-  }
-
-  bool isNotInterestedSelected(String title) {
-    return !selectedOptions.contains(title);
-  }
-
-  Future<void> addOption(String title) async {
-    if (!selectedOptions.contains(title)) {
-      selectedOptions.add(title);
-      await AppPreferences.instance.setInterestFavourite(selectedOptions);
-      notifyListeners();
-    }
-  }
-
-  Future<void> removeOption(String title) async {
-    if (selectedOptions.contains(title)) {
-      selectedOptions.remove(title);
-      await AppPreferences.instance.setInterestFavourite(selectedOptions);
-      notifyListeners();
-    }
-  }
-
-  Future<void> toggleOption(String title) async {
-    if (selectedOptions.contains(title)) {
-      await removeOption(title);
-      loadSelectedOptions();
-    } else {
-      await addOption(title);
-      loadSelectedOptions();
-    }
-    notifyListeners();
-  }
-
-   Future<void> getForumCategory() async {
+  Future<void> getForumCategory() async {
     CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
-    };
+    // Map<String, dynamic> params = <String, dynamic>{
+    //   ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    // };
     ForumCategoryResponse? forums = await _services.api!.getForumCategory();
     CommonUtils.hideProgressDialog();
-    if (forums == null) {
-      CommonUtils.oopsMSG();
-
-    } else if (forums.success == false) {
+    if (forums.success == false) {
       CommonUtils.showSnackBar(
-        forums.message ?? "--",
+        forums.message ?? "Something went wrong",
         color: CommonColors.mRed,
       );
     } else if (forums.success == true) {
       forumCategoryList = forums.data ?? [];
       //  CommonUtils.showSnackBar(
-      //   master.message,
+      //   forums.message,
       //   color: CommonColors.greenColor,
       // );
     }
     notifyListeners();
   }
 
-    void onPageSelected(int index) {
+  void onPageSelected(int index) {
     pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 100),
@@ -100,19 +50,46 @@ class InterestViewModel with ChangeNotifier {
     );
   }
 
-  void handleOptionSelection(String title, bool isSelected) {
-    toggleOption(title);
-  }
+  Future<void> handleFavouriteSelection(
+      int subCategoryId, bool isSelected) async {
+    try {
+      CommonUtils.showProgressDialog();
 
-  void handleFavouriteSelection(String title, bool isSelected) {
-    toggleOption(title);
-  }
+      Map<String, dynamic> params = <String, dynamic>{
+        ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+        ApiParams.categoryId: subCategoryId,
+        ApiParams.isLike: isSelected ? 0 : 1,
+      };
 
-  void handleNotInterestedSelection(String title, bool isSelected) {
-    if (isSelected) {
-      addOption(title);
-    } else {
-      removeOption(title);
+      final CommonMaster response =
+          await _services.api!.updateFavouriteCatgoryStatus(
+        params: params,
+      );
+
+      CommonUtils.hideProgressDialog();
+
+      if (response.success == true) {
+        CommonUtils.showSnackBar(
+          !isSelected ? "Added to favourites" : "Removed from favourites",
+          color: CommonColors.greenColor,
+        );
+
+        // Optionally refresh the data
+        await getForumCategory(); // If you want to refresh the list
+      } else {
+        CommonUtils.showSnackBar(
+          response.message ?? "Failed to update favourite status",
+          color: CommonColors.mRed,
+        );
+      }
+    } catch (e) {
+      CommonUtils.hideProgressDialog();
+      CommonUtils.showSnackBar(
+        "Error updating favourite status",
+        color: CommonColors.mRed,
+      );
     }
+
+    notifyListeners();
   }
 }

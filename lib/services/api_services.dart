@@ -1716,7 +1716,7 @@ Future<ForumPostSave> forumPostSaveUnsave({
 }
 
 @override
-Future<Map<String, dynamic>> forumPostComment({
+Future<CommonMaster> forumPostComment({
   required Map<String, dynamic> params,
 }) async {
   try {
@@ -1729,26 +1729,56 @@ Future<Map<String, dynamic>> forumPostComment({
     debugPrint("response in comment post: $response");
 
     if (response != null && response is Map<String, dynamic>) {
-      return {
-        "data": response['data'],
-        "success": response['success'] as bool? ?? false,
-        "message": response['message'] as String? ?? "No message",
-      };
+      return CommonMaster(
+        result: response['success'] ?? false,
+        message: response['message'] ?? "No message",
+      );
     } else {
-      return {
-        "data": null,
-        "success": false,
-        "message": "Invalid response",
-      };
+      return CommonMaster(
+        result: false,
+        message: "Invalid response",
+      );
     }
   } on Exception catch (e) {
     log("Exception :: $e");
-    return {
-      "data": null,
-      "success": false,
-      "message": "Something went wrong",
-    };
+    return CommonMaster(
+      result: false,
+      message: "Something went wrong",
+    );
   }
 }
 
+@override
+Future<CommonMaster> updateFavouriteCatgoryStatus({
+  required Map<String, dynamic> params,
+}) async {
+  try {
+    debugPrint("params: $params");
+    final response = await appBaseClient.postApiWithTokenCall(
+      url: ApiUrl.forumsCategoryLikeDislike,
+      queryParams: params,
+    );
+
+    debugPrint("response in updateFavouriteCategoryStatus: $response");
+
+    if (response != null && response is Map<String, dynamic>) {
+      return CommonMaster(
+        result: response['success'] ?? false,
+        message: response['message'] ?? "No message",
+      
+      );
+    } else {
+      return CommonMaster(
+        result: false,
+        message: "Invalid response",
+      );
+    }
+  } on Exception catch (e) {
+    log("Exception :: $e");
+    return CommonMaster(
+      result: false,
+      message: "Something went wrong",
+    );
+  }
+}
 }

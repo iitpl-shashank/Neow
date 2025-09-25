@@ -27,7 +27,7 @@ late InterestViewModel mViewModel;
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      mViewModel.loadSelectedOptions();
+    
       mViewModel.getForumCategory();
     });
   }
@@ -91,6 +91,7 @@ late InterestViewModel mViewModel;
                               kCommonSpaceV10,
                               CommonInterestOption(
                                 title: category.name ?? "",
+                                id: category.id ?? 0,
                                 isFavouriteSelected: false,
                                 isMainTitle: true,
                                 isOption: false,
@@ -104,10 +105,11 @@ late InterestViewModel mViewModel;
                                       category.subCategories?[topicIndex];
                                   return CommonInterestOption(
                                     title: topic?.name ?? "",
+                                    id: topic?.id ?? 0,
                                     isFavouriteSelected:
-                                        topic?.isLike ?? false, 
-                                    onFavouriteSelectionChanged:
-                                        mViewModel.handleFavouriteSelection,
+                                        topic?.isLike ?? false,
+                                    onFavouriteSelectionChanged: (id, isSelected) =>
+                                        mViewModel.handleFavouriteSelection(id, isSelected),
                                   );
                                 },
                               ),
@@ -123,6 +125,7 @@ late InterestViewModel mViewModel;
                           kCommonSpaceV10,
                           CommonInterestOption(
                             title: category.name ?? "",
+                            id: category.id ?? 0,
                             isFavouriteSelected: false,
                             isMainTitle: true,
                             isOption: false,
@@ -134,9 +137,9 @@ late InterestViewModel mViewModel;
                             itemBuilder: (context, topicIndex) {
                               final topic = category.subCategories?[topicIndex];
                               return CommonInterestOption(
+                                id: topic?.id ?? 0,
                                 title: topic?.name ?? "",
-                                isFavouriteSelected: mViewModel
-                                    .isFavoriteSelected(topic?.name ?? ""),
+                                isFavouriteSelected: topic?.isLike ?? false,
                                 onFavouriteSelectionChanged:
                                     mViewModel.handleFavouriteSelection,
                               );

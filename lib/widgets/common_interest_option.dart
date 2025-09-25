@@ -7,9 +7,10 @@ class CommonInterestOption extends StatefulWidget {
   final String title;
   final bool isMainTitle;
   final bool isOption;
+  final int id;
   final bool isFavouriteSelected;
   // final bool isNotInterestedSelected;
-  final Function(String title, bool isSelected)? onFavouriteSelectionChanged;
+  final Function(int categoryId, bool isSelected)? onFavouriteSelectionChanged;
   // final Function(String title, bool isSelected)?
   //     onNotInterestedSelectionChanged;
 
@@ -18,6 +19,7 @@ class CommonInterestOption extends StatefulWidget {
     required this.title,
     this.isMainTitle = false,
     this.isOption = true,
+    required this.id,
     this.onFavouriteSelectionChanged,
     // this.onNotInterestedSelectionChanged,
     required this.isFavouriteSelected,
@@ -73,7 +75,7 @@ class _CommonInterestOptionState extends State<CommonInterestOption> {
                   ),
                   onPressed: () {
                     widget.onFavouriteSelectionChanged
-                        ?.call(widget.title, widget.isFavouriteSelected);
+                        ?.call(widget.id, widget.isFavouriteSelected);
                   },
                 ),
                 // IconButton(

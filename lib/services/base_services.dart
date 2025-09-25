@@ -281,8 +281,13 @@ abstract class BaseServices {
   // Future<PostModel> getSavedPostApi({required Map<String, dynamic> params});
 
   Future<ForumCategoryResponse> getForumCategory();
+
  Future<ForumPostLikeDislike> forumPostLikeDislike({required Map<String, dynamic> params});
+
  Future<ForumPostSave> forumPostSaveUnsave({required Map<String, dynamic> params});
- Future<Map<String,dynamic>> forumPostComment({required Map<String, dynamic> params});
+
+ Future<CommonMaster> forumPostComment({required Map<String, dynamic> params});
+
+ Future<CommonMaster> updateFavouriteCatgoryStatus({required Map<String, dynamic> params,});
 
 }

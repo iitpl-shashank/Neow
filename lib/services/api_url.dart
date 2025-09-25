@@ -127,4 +127,5 @@ class ApiUrl {
     static const String forum_post_like_dislike = "${BASE_URL}forumsLikeDislike";
     static const String forum_post_save_unsave = "${BASE_URL}forumsSave";
     static const String forum_post_comment = "${BASE_URL}forumCommentStore";
+    static const String forumsCategoryLikeDislike = "${BASE_URL}forumsCategoryLikeDislike";
 }
