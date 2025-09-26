@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/generated/i18n.dart';
 import 'package:naveli_2023/models/common_master.dart';
+import 'package:naveli_2023/services/api_url.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/forum_post_master.dart';
 import '../../../services/api_para.dart';
@@ -10,6 +12,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 
 class ForumViewModel with ChangeNotifier {
+  final String baseUrl = ApiUrl.BASE_URL;
   bool _hasShownWelcomeDialog = false;
   bool get hasShownWelcomeDialog => _hasShownWelcomeDialog;
   int _currentPage = 1;
@@ -93,7 +96,7 @@ class ForumViewModel with ChangeNotifier {
         // _hasMoreData = newPosts.length >= _perPage;
         if (_hasMoreData) {
           _currentPage++;
-        } 
+        }
       }
     } catch (e, s) {
       log("Exception in getForumPostApi: $e\n$s");
@@ -202,7 +205,7 @@ class ForumViewModel with ChangeNotifier {
   }) async {
     if (comment.trim().isEmpty) {
       CommonUtils.showSnackBar(
-        "Please enter a comment",
+        S.of(context)!.commentEmpty,
         color: CommonColors.mRed,
       );
       return;
@@ -221,14 +224,14 @@ class ForumViewModel with ChangeNotifier {
 
       if (resp.success == true) {
         CommonUtils.showSnackBar(
-          resp.message ?? "Comment added successfully",
+          S.of(context)!.commentAddedSuccess,
           color: CommonColors.greenColor,
         );
-        // Refresh without showing loader
+   
         await getForumPostApi(showLoader: false);
       } else {
         CommonUtils.showSnackBar(
-          resp.message ?? "Failed to add comment",
+          S.of(context)!.somethingWentWrong,
           color: CommonColors.mRed,
         );
       }
@@ -245,6 +248,23 @@ class ForumViewModel with ChangeNotifier {
     if (index != -1) {
       update(forumPostList[index]);
       notifyListeners();
+    }
+  }
+
+  void sharePost({
+    required int postId,
+    required int index,
+  }) {
+    try {
+      String endpoint = ApiUrl.GET_FORUM_POST;
+      String url = endpoint +
+          "?id=${postId.toString()}&index=${index.toString()}&page=${_currentPage.toString()}";
+
+      log('Share URL: $url');
+
+      Share.share(url);
+    } catch (e) {
+      debugPrint('Error creating share URL: $e');
     }
   }
 }

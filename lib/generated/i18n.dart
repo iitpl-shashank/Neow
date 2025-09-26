@@ -1524,6 +1524,9 @@ class S implements WidgetsLocalizations {
   String get postSavedSuccessfully => "Post Saved Successfully";
   String get postRemoved => "Post Removed From Saved";
   String get noMorePosts => "No more posts.";
+  String get commentAddedSuccess => "Comment added successfully";
+  String get commentAddFailed => "Failed to add comment";
+  String get commentEmpty => "Please enter a comment";
 }
 
 class $en extends S {
@@ -1533,18 +1536,20 @@ class $en extends S {
 class $mr extends S {
   $mr();
 
-
-
   // hindi words start //
   @override
+  String get commentAddedSuccess => "टिप्पणी सफलतापूर्वक जोड़ी गई";
+  @override
+  String get commentAddFailed => "टिप्पणी जोड़ने में विफल";
+  @override
+  String get commentEmpty => "कृपया टिप्पणी दर्ज करें";
+
+  @override
   String get noMorePosts => "कोई और पोस्ट नहीं।";
-  
-    @override
+  @override
   String get postSavedSuccessfully => "पोस्ट सफलतापूर्वक सहेजी गई";
   @override
   String get postRemoved => "सहेजी गई पोस्ट हटा दी गई";
-
-
 
   @override
   String get welcomeToNeowForum => "NeoW के फ़ोरम में आपका स्वागत है!";

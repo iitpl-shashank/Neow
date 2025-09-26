@@ -178,7 +178,13 @@ class ForumView extends StatelessWidget {
                         isSaved: post.saved == "yes" ? 0 : 1,
                       );
                     },
-                    onShare: () {},
+                    onShare: () {
+                      viewModel.sharePost(
+                        postId: post.id ?? 0,
+                        index: index,
+                       
+                      );
+                    },
                   );
                 },
               ),
