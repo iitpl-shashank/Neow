@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_view/gif_view.dart';
@@ -28,6 +30,7 @@ class _SplashViewState extends State<SplashViewVdo> {
   bool isPlayingFirstGif = true;
   bool isMute = true;
   bool isPlayingStart = false;
+
 
   loadVideoPlayer(String vpath) {
     vdo_Controller = VideoPlayerController.asset(vpath);
@@ -72,6 +75,8 @@ class _SplashViewState extends State<SplashViewVdo> {
     player2 = AudioPlayer();
     player1.setAsset(LocalImages.au_knock_door);
     player2.setAsset(LocalImages.knock_door_full_video);
+
+   
   }
 
   void onFinished() {

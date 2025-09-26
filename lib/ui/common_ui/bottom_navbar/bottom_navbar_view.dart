@@ -19,14 +19,11 @@ class BottomNavbarView extends StatefulWidget {
 
 class _BottomNavbarViewState extends State<BottomNavbarView> {
   late BottomNavbarViewModel mViewModel;
-  int _selectedIndex = 0;
-  late Map<String, IconData> iconDataMap = {};
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
 
   @override
   void initState() {
     super.initState();
-
     // Lock orientation to portrait
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -48,56 +45,55 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
     super.dispose();
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      mViewModel.selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      const HomeView(),
-      HealthMixView(
-        title: S.of(context)!.healthMix,
-      ),
-      const ForumView(),
-      const ProfileView(),
-      const ForumView(),
-    ];
-    return Scaffold(
-      body: pages[mViewModel.selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: S.of(context)!.home,
+    return Consumer<BottomNavbarViewModel>(
+      builder: (context, viewModel, child) {
+        final pages = [
+          const HomeView(),
+          HealthMixView(
+            title: S.of(context)!.healthMix,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.volunteer_activism_outlined),
-            label: S.of(context)!.healthMix,
+           ForumView(),
+          const ProfileView(),
+        ];
+
+        return Scaffold(
+          body: IndexedStack(
+            index: viewModel.selectedIndex,
+            children: pages,
           ),
-          BottomNavigationBarItem(
-            // icon: Icon(Icons.menu_book_outlined),
-            icon: Icon(Icons.group),
-            // label: 'Secret Diary',
-            label: S.of(context)!.forum,
+          bottomNavigationBar: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home_outlined),
+                label: S.of(context)!.home,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.volunteer_activism_outlined),
+                label: S.of(context)!.healthMix,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.group),
+                label: S.of(context)!.forum,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.account_circle_outlined),
+                label: S.of(context)!.profile,
+              ),
+            ],
+            currentIndex: viewModel.selectedIndex,
+            selectedItemColor: CommonColors.primaryColor,
+            unselectedItemColor: Colors.grey[600],
+            showUnselectedLabels: true,
+            type: BottomNavigationBarType.fixed,
+            onTap: viewModel.onMenuTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: S.of(context)!.profile,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: CommonColors.primaryColor,
-        unselectedItemColor: Colors.grey[600],
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
-      ),
+        );
+      },
     );
   }
+
   // void dateRangePicker() async {
   //   String selectedDateRange = "";
   //   DateTimeRange? picked = await showDateRangePicker(

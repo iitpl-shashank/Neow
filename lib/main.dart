@@ -3,6 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:naveli_2023/services/deep_link_service.dart';
 import 'package:naveli_2023/ui/app/app_view.dart';
 import 'package:provider/provider.dart';
 import 'database/app_preferences.dart';
@@ -55,6 +56,9 @@ Future<void> main() async {
   // await NotificationService.initializeNotification();
   // tz.initializeTimeZones();
   HttpOverrides.global = MyHttpOverrides();
+
+  final deepLinkService = DeepLinkService();
+  deepLinkService.initialize();
   runApp(const App());
 }
 

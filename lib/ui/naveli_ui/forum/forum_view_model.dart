@@ -12,12 +12,23 @@ import '../../../utils/common_utils.dart';
 class ForumViewModel with ChangeNotifier {
   bool _hasShownWelcomeDialog = false;
   bool get hasShownWelcomeDialog => _hasShownWelcomeDialog;
-
+  int _currentPage = 1;
+  int? _perPage;
   late BuildContext context;
   final _services = Services();
   List<ForumPost> forumPostList = [];
   bool isLoading = false;
   bool _isRefreshing = false;
+  bool _hasMoreData = true;
+  bool _isLoadingMore = false;
+  bool get hasMoreData => _hasMoreData;
+  bool get isLoadingMore => _isLoadingMore;
+  int get perPage => _perPage ?? 5;
+  bool hasShownEndMessage = false;
+
+  void _resetEndMessage() {
+    hasShownEndMessage = false;
+  }
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -28,12 +39,23 @@ class ForumViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getForumPostApi({bool showLoader = true}) async {
-    if (_isRefreshing) return; // Prevent multiple simultaneous calls
-    _isRefreshing = true;
+  Future<void> getForumPostApi({
+    bool showLoader = true,
+    bool loadMore = false,
+  }) async {
+    if (_isRefreshing || (_isLoadingMore && loadMore)) return;
 
+    if (loadMore) {
+      _isLoadingMore = true;
+    } else {
+      _isRefreshing = true;
+      _currentPage = 1;
+      forumPostList.clear();
+      _resetEndMessage();
+    }
+    notifyListeners();
     try {
-      if (showLoader) {
+      if (showLoader && !loadMore) {
         isLoading = true;
         notifyListeners();
         CommonUtils.showProgressDialog();
@@ -41,6 +63,7 @@ class ForumViewModel with ChangeNotifier {
 
       final params = <String, dynamic>{
         ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+        ApiParams.page: _currentPage,
       };
 
       final response = await _services.api!.getForumAllPost(params: params);
@@ -51,20 +74,35 @@ class ForumViewModel with ChangeNotifier {
       }
 
       if (response.success == true) {
-        forumPostList = response.data ?? [];
-      } else {
-        CommonUtils.showSnackBar(
-          response.message ?? "--",
-          color: CommonColors.mRed,
-        );
+        final newPosts = response.data ?? [];
+        if (response.pagination != null) {
+          _perPage = response.pagination?.perPage;
+          _hasMoreData = response.pagination?.nextPageUrl != null;
+          _currentPage = response.pagination?.currentPage ?? _currentPage;
+        } else {
+          _hasMoreData = newPosts.length >= (perPage);
+        }
+
+        if (loadMore) {
+          forumPostList.addAll(newPosts);
+        } else {
+          forumPostList = newPosts;
+        }
+
+        // // Check if we have more data to load
+        // _hasMoreData = newPosts.length >= _perPage;
+        if (_hasMoreData) {
+          _currentPage++;
+        } 
       }
     } catch (e, s) {
       log("Exception in getForumPostApi: $e\n$s");
       CommonUtils.oopsMSG();
     } finally {
       _isRefreshing = false;
+      _isLoadingMore = false;
       isLoading = false;
-      if (showLoader) CommonUtils.hideProgressDialog();
+      if (showLoader && !loadMore) CommonUtils.hideProgressDialog();
       notifyListeners();
     }
   }
@@ -134,13 +172,14 @@ class ForumViewModel with ChangeNotifier {
       final resp = await _services.api!.forumPostSaveUnsave(params: params);
 
       if (resp.success == true) {
-         CommonUtils.showSnackBar(
-          isSaved == 1 ? S.of(context)!.postSavedSuccessfully : S.of(context)!.postRemoved,
+        CommonUtils.showSnackBar(
+          isSaved == 1
+              ? S.of(context)!.postSavedSuccessfully
+              : S.of(context)!.postRemoved,
           color: CommonColors.mRed,
         );
         await getForumPostApi(showLoader: false);
       } else {
-      
         _updatePost(forumId, (post) {
           post.saved = isSaved == 0 ? "yes" : "no";
         });
@@ -148,7 +187,6 @@ class ForumViewModel with ChangeNotifier {
         // S.of(context)!.somethingWentWrong,
         //   color: CommonColors.mRed,
         // );
-      
       }
     } catch (e) {
       log("Exception in forumPostSaveUnsave: $e");

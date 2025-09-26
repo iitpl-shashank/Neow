@@ -1523,6 +1523,7 @@ class S implements WidgetsLocalizations {
   String get welcomeToNeowForum => "Welcome to NeoW’s Forum!";
   String get postSavedSuccessfully => "Post Saved Successfully";
   String get postRemoved => "Post Removed From Saved";
+  String get noMorePosts => "No more posts.";
 }
 
 class $en extends S {
@@ -1535,11 +1536,14 @@ class $mr extends S {
 
 
   // hindi words start //
-
+  @override
+  String get noMorePosts => "कोई और पोस्ट नहीं।";
+  
     @override
   String get postSavedSuccessfully => "पोस्ट सफलतापूर्वक सहेजी गई";
   @override
   String get postRemoved => "सहेजी गई पोस्ट हटा दी गई";
+
 
 
   @override

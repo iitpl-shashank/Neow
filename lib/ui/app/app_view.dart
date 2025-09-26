@@ -6,11 +6,15 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:naveli_2023/services/deep_link_service.dart';
+import 'package:naveli_2023/ui/common_ui/bottom_navbar/bottom_navbar_view.dart';
+import 'package:naveli_2023/ui/common_ui/bottom_navbar/bottom_navbar_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/viewModel/ai_chatbot_viewmodel.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_swipe_screen.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/monthly_reminders_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/i18n.dart';
 import '../../services/index.dart';
@@ -89,7 +93,9 @@ class AppState extends State<App> {
     super.initState();
     initConnectivity();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkPendingDeepLinks();
       try {
+
         final appModel = Provider.of<AppModel>(context, listen: false);
         appModel.attachedContext(context);
         appModel.changeLanguage(); // Ensure language is applied
@@ -102,54 +108,85 @@ class AppState extends State<App> {
 
 // --- Deep link handling ---
     _appLinks = AppLinks();
-    _linkSub = _appLinks.uriLinkStream.listen((Uri? uri) async {
-      if (uri != null && uri.path == '/neow/shorts') {
-        final shortId = uri.queryParameters['shortId'];
-        final page = int.tryParse(uri.queryParameters['page'] ?? '1') ?? 1;
-        final type = uri.queryParameters['type'] ?? 'latest';
-
-        // Get ShortsViewModel from Provider
-        final shortsViewModel =
-            Provider.of<ShortsViewModel>(context, listen: false);
-
-        // Fetch the correct page
-        await shortsViewModel.getShortsPostsApi(
-          shortType: "1",
-          type: type,
-          page: page,
-          isRefresh: true,
-        );
-
-        // Find the short in the list
-        final shortsList = shortsViewModel.shortsPostsList;
-        final index = shortsList.indexWhere((s) => s.id.toString() == shortId);
-
-        Navigator.push(
-          mainNavKey.currentContext!,
-          MaterialPageRoute(
-            builder: (_) => ShortsSwipeScreen(
-              shortsList: shortsList,
-              initialIndex: index != -1 ? index : 0,
-              fetchMore: () async {
-                await shortsViewModel.getShortsPostsApi(
-                  shortType: "1",
-                  type: type,
-                  page: shortsViewModel.currentPage,
-                );
-              },
-            ),
-          ),
-        );
-
-        if (index == -1) {
-          ScaffoldMessenger.of(mainNavKey.currentContext!).showSnackBar(
-            const SnackBar(
-                content:
-                    Text('Shared short not found, showing available shorts.')),
-          );
+    // _linkSub = _appLinks.uriLinkStream.listen((Uri? uri) async {
+    //   // log('Received deep link: $uri');
+    //   // await handleDeepLink(uri);
+    // }); 
+  }
+ Future<void> _checkPendingDeepLinks() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final hasPendingDeepLink = prefs.getBool('has_pending_deeplink') ?? false;
+      
+      if (hasPendingDeepLink && mounted) {
+        final deepLinkUri = prefs.getString('pending_deeplink_path');
+        if (deepLinkUri != null) {
+          final uri = Uri.parse(deepLinkUri);
+          await DeepLinkService().processDeepLink(uri);
         }
       }
-    });
+    } catch (e) {
+      log('Error checking pending deep links: $e');
+    }
+  }
+  Future<void> handleDeepLink(Uri? uri) async {
+    try {
+      log('Handling deep link: $uri');
+      final BottomNavbarViewModel bottomNavbarViewModel = Provider.of<BottomNavbarViewModel>(context, listen: false);
+         bottomNavbarViewModel.onMenuTapped(2);
+      // if (uri != null && uri.path.startsWith('/neow/api')) {
+      //   final shortId = uri.queryParameters['shortId'];
+      //   final page = int.tryParse(uri.queryParameters['page'] ?? '1') ?? 1;
+      //   final type = uri.queryParameters['type'] ?? 'latest';
+
+      //   // Get ShortsViewModel from Provider
+      //   final shortsViewModel =
+      //       Provider.of<ShortsViewModel>(context, listen: false);
+
+      //   // Fetch the correct page
+      //   await shortsViewModel.getShortsPostsApi(
+      //     shortType: "1",
+      //     type: type,
+      //     page: page,
+      //     isRefresh: true,
+      //   );
+
+      //   // Find the short in the list
+      //   final shortsList = shortsViewModel.shortsPostsList;
+      //   final index = shortsList.indexWhere((s) => s.id.toString() == shortId);
+
+      //   Navigator.push(
+      //     mainNavKey.currentContext!,
+      //     MaterialPageRoute(
+      //       builder: (_) => ShortsSwipeScreen(
+      //         shortsList: shortsList,
+      //         initialIndex: index != -1 ? index : 0,
+      //         fetchMore: () async {
+      //           await shortsViewModel.getShortsPostsApi(
+      //             shortType: "1",
+      //             type: type,
+      //             page: shortsViewModel.currentPage,
+      //           );
+      //         },
+      //       ),
+      //     ),
+      //   );
+
+      //   if (index == -1) {
+      //     ScaffoldMessenger.of(mainNavKey.currentContext!).showSnackBar(
+      //       const SnackBar(
+      //           content:
+      //               Text('Shared short not found, showing available shorts.')),
+      //     );
+      //   }
+      // }
+    } catch (e, s) {
+      // Log the error and optionally show a user-friendly message
+      log('Error handling deep link: $e\n$s');
+      ScaffoldMessenger.of(mainNavKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Failed to open shared short.')),
+      );
+    }
   }
 
   Future<void> initConnectivity() async {

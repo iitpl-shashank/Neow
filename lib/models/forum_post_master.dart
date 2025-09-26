@@ -4,34 +4,97 @@ class ForumPostModel {
   List<ForumPost>? data;
   bool? success;
   String? message;
+  Pagination? pagination;
 
   ForumPostModel({
     this.data,
-    this.success, 
+    this.success,
     this.message,
+    this.pagination,
   });
 
-  factory ForumPostModel.fromJson(Map<String, dynamic> json) => ForumPostModel(
-        data: json["data"] == null
-            ? []
-            : List<ForumPost>.from(
-                json["data"].map((x) => ForumPost.fromJson(x))),
-        success: json["success"],
-        message: json["message"],
+  factory ForumPostModel.fromJson(Map<String, dynamic> json) {
+    // Handle both data structures
+    List<ForumPost> parseData(dynamic jsonData) {
+      if (jsonData == null) return [];
+      
+      // Handle case where data is wrapped in another "data" object
+      if (jsonData is Map && jsonData.containsKey("data")) {
+        jsonData = jsonData["data"];
+      }
+      
+      return List<ForumPost>.from(
+        jsonData.map((x) => ForumPost.fromJson(x))
       );
+    }
+
+    // Handle pagination data if present
+    Pagination? parsePagination(dynamic jsonData) {
+      if (jsonData is Map && jsonData.containsKey("data") && 
+          jsonData["data"] is Map && jsonData["data"].containsKey("pagination")) {
+        return Pagination.fromJson(jsonData["data"]["pagination"]);
+      }
+      return null;
+    }
+
+    return ForumPostModel(
+      data: parseData(json["data"]),
+      success: json["success"],
+      message: json["message"],
+      pagination: parsePagination(json),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "success": success,
-        "message": message,
-      };
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "success": success,
+    "message": message,
+    "pagination": pagination?.toJson(),
+  };
 
-  /// Helper to parse from JSON string
   factory ForumPostModel.fromRawJson(String str) =>
       ForumPostModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 }
+
+
+class Pagination {
+  int? currentPage;
+  String? nextPageUrl;
+  String? prevPageUrl;
+  int? total;
+  int? perPage;
+  int? lastPage;
+
+  Pagination({
+    this.currentPage,
+    this.nextPageUrl,
+    this.prevPageUrl,
+    this.total,
+    this.perPage,
+    this.lastPage,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
+    currentPage: json["current_page"],
+    nextPageUrl: json["next_page_url"],
+    prevPageUrl: json["prev_page_url"],
+    total: json["total"],
+    perPage: json["per_page"],
+    lastPage: json["last_page"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "current_page": currentPage,
+    "next_page_url": nextPageUrl,
+    "prev_page_url": prevPageUrl,
+    "total": total,
+    "per_page": perPage,
+    "last_page": lastPage,
+  };
+}
+
 
 class ForumPost {
   int? id;

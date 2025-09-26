@@ -1,5 +1,8 @@
 library;
 
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_view/gif_view.dart';
 import 'package:just_audio/just_audio.dart';
@@ -25,6 +28,8 @@ class _SplashViewState extends State<SplashView> {
   late AudioPlayer player1;
   late AudioPlayer player2;
   bool isPlayingFirstGif = true;
+    late final AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSub;
 
   @override
   void initState() {
@@ -48,6 +53,10 @@ class _SplashViewState extends State<SplashView> {
     player2 = AudioPlayer();
     player1.setAsset(LocalImages.au_knock_door);
     player2.setAsset(LocalImages.knock_door_full_video);
+
+
+      
+  
   }
 
   void onFinished() {
