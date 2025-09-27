@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:naveli_2023/ui/naveli_ui/forum/forum_full_post/forum_full_post_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
@@ -36,9 +37,8 @@ class ForumView extends StatelessWidget {
           S.of(context)!.noMorePosts,
           color: CommonColors.greyText,
         );
-        }
+      }
     }
-
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -158,33 +158,35 @@ class ForumView extends StatelessWidget {
                         : const SizedBox.shrink();
                   }
                   final post = viewModel.forumPostList[index];
-                  return ForumPostWidget(
-                    post: post,
-                    onLike: (id) {
-                      viewModel.forumPostLikeDislike(
-                        forumId: id,
-                        isLike: post.liked == true ? 0 : 1,
-                      );
-                    },
-                    onCommentSubmit: (commentText, forumId) {
-                      viewModel.forumPostComment(
-                        forumId: forumId,
-                        comment: commentText,
-                      );
-                    },
-                    onSave: () {
-                      viewModel.forumPostSaveUnsave(
-                        forumId: post.id ?? 0,
-                        isSaved: post.saved == "yes" ? 0 : 1,
-                      );
-                    },
-                    onShare: () {
-                      viewModel.sharePost(
-                        postId: post.id ?? 0,
-                        index: index,
-                       
-                      );
-                    },
+                  return GestureDetector(
+                    onTap: ()=>push( ForumFullPostView(post: post, index: index,currentPage: viewModel.currentPage,)).then((_) => getData(context)),
+                    child: ForumPostWidget(
+                      post: post,
+                      onLike: (id) {
+                        viewModel.forumPostLikeDislike(
+                          forumId: id,
+                          isLike: post.liked == true ? 0 : 1,
+                        );
+                      },
+                      onCommentSubmit: (commentText, forumId) {
+                        viewModel.forumPostComment(
+                          forumId: forumId,
+                          comment: commentText,
+                        );
+                      },
+                      onSave: () {
+                        viewModel.forumPostSaveUnsave(
+                          forumId: post.id ?? 0,
+                          isSaved: post.saved == "yes" ? 0 : 1,
+                        );
+                      },
+                      onShare: () {
+                        viewModel.sharePost(
+                          postId: post.id ?? 0,
+                          index: index,
+                        );
+                      },
+                    ),
                   );
                 },
               ),

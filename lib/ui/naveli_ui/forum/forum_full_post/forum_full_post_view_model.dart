@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-
+import 'package:naveli_2023/generated/i18n.dart';
+import 'package:naveli_2023/models/forum_post_master.dart';
+import 'package:naveli_2023/services/api_url.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../models/common_master.dart';
 import '../../../../models/forum_comment_master.dart';
 import '../../../../services/api_para.dart';
@@ -11,8 +14,11 @@ import '../../../../utils/common_utils.dart';
 
 class ForumFullPostViewModel with ChangeNotifier {
   late BuildContext context;
+  int index = 0;
+  int currentPage = 0;
   final _services = Services();
   List<CommentData> commentList = [];
+  ForumPost? post;
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -80,5 +86,148 @@ class ForumFullPostViewModel with ChangeNotifier {
       );
     }
     notifyListeners();
+  }
+
+  Future<void> forumPostLikeDislike({
+    required int forumId,
+    required int isLike,
+  }) async {
+    try {
+      CommonUtils.showProgressDialog();
+
+      final params = <String, dynamic>{
+        ApiParams.forumId: forumId,
+        ApiParams.isLike: isLike,
+      };
+
+      final resp = await _services.api!.forumPostLikeDislike(params: params);
+
+      if (resp.success == true) {
+        // CommonUtils.showSnackBar(
+        //   resp.message ?? S.of(context)!.savedSuccess,
+        //   color: CommonColors.greenColor,
+        // );
+        // await getForumPostApi(showLoader: false);
+      } else {
+       
+
+        // CommonUtils.showSnackBar(
+        //   resp.message ?? "Failed",
+        //   color: CommonColors.mRed,
+        // );
+      }
+    } catch (e) {
+      log("Exception in forumPostLikeDislike: $e");
+      CommonUtils.oopsMSG();
+    } finally {
+      CommonUtils.hideProgressDialog();
+      notifyListeners();
+    }
+  }
+
+  Future<void> forumPostSaveUnsave({
+    required int forumId,
+    required int isSaved,
+  }) async {
+    try {
+      CommonUtils.showProgressDialog();
+
+      final params = <String, dynamic>{
+        ApiParams.forumId: forumId,
+        ApiParams.is_saved: isSaved,
+      };
+
+      final resp = await _services.api!.forumPostSaveUnsave(params: params);
+
+      if (resp.success == true) {
+        CommonUtils.showSnackBar(
+          isSaved == 1
+              ? S.of(context)!.postSavedSuccessfully
+              : S.of(context)!.postRemoved,
+          color: CommonColors.mRed,
+        );
+        // await getForumPostApi(showLoader: false);
+      } else {
+    
+        // CommonUtils.showSnackBar(
+        // S.of(context)!.somethingWentWrong,
+        //   color: CommonColors.mRed,
+        // );
+      }
+    } catch (e) {
+      log("Exception in forumPostSaveUnsave: $e");
+      CommonUtils.oopsMSG();
+    } finally {
+      CommonUtils.hideProgressDialog();
+    }
+  }
+
+  Future<void> forumPostComment({
+    required String comment,
+    required int forumId,
+  }) async {
+    if (comment.trim().isEmpty) {
+      CommonUtils.showSnackBar(
+        S.of(context)!.commentEmpty,
+        color: CommonColors.mRed,
+      );
+      return;
+    }
+
+    try {
+      CommonUtils.showProgressDialog();
+
+      final params = <String, dynamic>{
+        ApiParams.forumId: forumId,
+        ApiParams.comment: comment.trim(),
+      };
+
+      final CommonMaster resp =
+          await _services.api!.forumPostComment(params: params);
+
+      if (resp.success == true) {
+        CommonUtils.showSnackBar(
+          S.of(context)!.commentAddedSuccess,
+          color: CommonColors.greenColor,
+        );
+
+        // await getForumPostApi(showLoader: false);
+      } else {
+        CommonUtils.showSnackBar(
+          S.of(context)!.somethingWentWrong,
+          color: CommonColors.mRed,
+        );
+      }
+    } catch (e) {
+      log("Exception in forumPostComment: $e");
+      CommonUtils.oopsMSG();
+    } finally {
+      CommonUtils.hideProgressDialog();
+    }
+  }
+
+  // void _updatePost(int forumId, Function(ForumPost post) update) {
+  //   final index = forumPostList.indexWhere((post) => post.id == forumId);
+  //   if (index != -1) {
+  //     update(forumPostList[index]);
+  //     notifyListeners();
+  //   }
+  // }
+
+  void sharePost({
+    required int postId,
+    required int index,
+  }) {
+    try {
+      String endpoint = ApiUrl.GET_FORUM_POST;
+      String url = endpoint +
+          "?id=${postId.toString()}&index=${index.toString()}&page=${currentPage.toString()}";
+
+      log('Share URL: $url');
+
+      Share.share(url);
+    } catch (e) {
+      debugPrint('Error creating share URL: $e');
+    }
   }
 }

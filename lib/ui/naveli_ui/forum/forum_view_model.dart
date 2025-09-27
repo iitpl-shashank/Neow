@@ -26,6 +26,7 @@ class ForumViewModel with ChangeNotifier {
   bool _isLoadingMore = false;
   bool get hasMoreData => _hasMoreData;
   bool get isLoadingMore => _isLoadingMore;
+  int get currentPage => _currentPage;
   int get perPage => _perPage ?? 5;
   bool hasShownEndMessage = false;
 
