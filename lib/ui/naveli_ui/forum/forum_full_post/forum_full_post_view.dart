@@ -16,11 +16,12 @@ class ForumFullPostView extends StatefulWidget {
   final int index;
   final int currentPage;
 
-  const ForumFullPostView(
-      {super.key,
-      required this.post,
-      required this.index,
-      required this.currentPage});
+  const ForumFullPostView({
+    super.key,
+    required this.post,
+    required this.index,
+    required this.currentPage,
+  });
 
   @override
   State<ForumFullPostView> createState() => _ForumFullPostViewState();
@@ -32,15 +33,30 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
 
   @override
   void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeViewModel();
+    });
+  }
+
+  void _initializeViewModel() {
+    mViewModel = Provider.of<ForumFullPostViewModel>(context, listen: false);
+    mViewModel.attachedContext(context);
+    
+    // Set the properties
     mViewModel.post = widget.post;
     mViewModel.index = widget.index;
     mViewModel.currentPage = widget.currentPage;
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      mViewModel = Provider.of<ForumFullPostViewModel>(context, listen: false);
-      mViewModel.attachedContext(context);
-      mViewModel.getForumsCommentApi(forumId: widget.post.id ?? 0);
-    });
+    
+    // Fetch comments
+    mViewModel.getForumsCommentApi(forumId: widget.post.id ?? 0);
+  }
+
+  @override
+  void dispose() {
+    commentController.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,124 +99,128 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
             },
           ),
         ),
-        // floatingActionButton: FloatingActionButton.small(
-        //   backgroundColor: CommonColors.mWhite,
-        //   onPressed: () {
-        //     showDialog(
-        //       barrierDismissible: true,
-        //       context: context,
-        //       builder: (BuildContext context) {
-        //         return Dialog(
-        //           child: StatefulBuilder(
-        //             builder: (BuildContext context, StateSetter setState) {
-        //               return Column(
-        //                 mainAxisSize: MainAxisSize.min,
-        //                 crossAxisAlignment: CrossAxisAlignment.start,
-        //                 children: [
-        //                   kCommonSpaceV10,
-        //                   Padding(
-        //                     padding: const EdgeInsets.only(left: 20),
-        //                     child: Text(
-        //                       'Add Comment',
-        //                       style: getAppStyle(
-        //                           color: CommonColors.primaryColor,
-        //                           fontSize: 16,
-        //                           fontWeight: FontWeight.w500),
-        //                     ),
-        //                   ),
-        //                   kCommonSpaceV5,
-        //                   Padding(
-        //                     padding: const EdgeInsets.only(left: 8, right: 8),
-        //                     child: Container(
-        //                       decoration: ShapeDecoration(
-        //                         color: CommonColors.mWhite,
-        //                         shape: RoundedRectangleBorder(
-        //                           borderRadius: BorderRadius.circular(10),
-        //                         ),
-        //                       ),
-        //                       child: Column(
-        //                         children: [
-        //                           SizedBox(
-        //                             child: TextField(
-        //                               controller: commentController,
-        //                               maxLines: null,
-        //                               maxLength: 500,
-        //                               keyboardType: TextInputType.multiline,
-        //                               textInputAction: TextInputAction.newline,
-        //                               decoration: InputDecoration(
-        //                                 contentPadding:
-        //                                     const EdgeInsets.all(8.0),
-        //                                 counterText: '',
-        //                                 hintStyle: getAppStyle(
-        //                                   color: CommonColors.mGrey,
-        //                                   fontSize: 14,
-        //                                   fontWeight: FontWeight.w400,
-        //                                 ),
-        //                                 hintText: 'add your comment',
-        //                                 border: InputBorder.none,
-        //                               ),
-        //                             ),
-        //                           ),
-        //                           Align(
-        //                             alignment: Alignment.bottomRight,
-        //                             child: Padding(
-        //                               padding: const EdgeInsets.only(right: 5),
-        //                               child: Text(
-        //                                 '(Max. 500 Character)',
-        //                                 style: getAppStyle(
-        //                                   color: CommonColors.primaryColor,
-        //                                   fontSize: 12,
-        //                                   fontWeight: FontWeight.w400,
-        //                                 ),
-        //                               ),
-        //                             ),
-        //                           )
-        //                         ],
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   Row(
-        //                     mainAxisAlignment: MainAxisAlignment.end,
-        //                     children: [
-        //                       TextButton(
-        //                         onPressed: () {
-        //                           Navigator.of(context).pop();
-        //                         },
-        //                         child: const Text('Cancel'),
-        //                       ),
-        //                       TextButton(
-        //                         onPressed: () {
-        //                           if (isValid()) {
-        //                             Navigator.pop(context);
-        //                             mViewModel.storeForumCommentApi(
-        //                                 forumId: widget.post.id ?? 0,
-        //                                 comment: commentController.text.trim());
-        //                             commentController.clear();
-        //                           }
-        //                         },
-        //                         child: const Text('OK'),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ],
-        //               );
-        //             },
-        //           ),
-        //         );
-        //       },
-        //     );
-        //   },
-        //   shape: RoundedRectangleBorder(
-        //       side:
-        //           const BorderSide(width: 1, color: CommonColors.primaryColor),
-        //       borderRadius: BorderRadius.circular(100)),
-        //   child: const Icon(
-        //     Icons.add,
-        //     color: CommonColors.primaryColor,
-        //     size: 30,
-        //   ),
-        // ),
+        floatingActionButton: FloatingActionButton.small(
+          backgroundColor: CommonColors.mWhite,
+          onPressed: () => _showCommentDialog(),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 1, color: CommonColors.primaryColor),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: const Icon(
+            Icons.add,
+            color: CommonColors.primaryColor,
+            size: 30,
+          ),
+        ),
       ),
+    );
+  }
+
+  // ✅ Extracted dialog method for cleaner code
+  void _showCommentDialog() {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  kCommonSpaceV10,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Add Comment',
+                      style: getAppStyle(
+                        color: CommonColors.primaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  kCommonSpaceV5,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        color: CommonColors.mWhite,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            child: TextField(
+                              controller: commentController,
+                              maxLines: null,
+                              maxLength: 500,
+                              keyboardType: TextInputType.multiline,
+                              textInputAction: TextInputAction.newline,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(8.0),
+                                counterText: '',
+                                hintStyle: getAppStyle(
+                                  color: CommonColors.mGrey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                hintText: 'add your comment',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Text(
+                                '(Max. 500 Character)',
+                                style: getAppStyle(
+                                  color: CommonColors.primaryColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (isValid()) {
+                            Navigator.pop(context);
+                            mViewModel.storeForumCommentApi(
+                              forumId: widget.post.id ?? 0,
+                              comment: commentController.text.trim(),
+                            );
+                            commentController.clear();
+                          }
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
