@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/constant.dart';
 
-class S implements WidgetsLocalizations {
+class S {
   const S();
 
   static S? current;
@@ -15,7 +15,6 @@ class S implements WidgetsLocalizations {
 
   static S? of(BuildContext context) => Localizations.of<S>(context, S);
 
-  @override
   TextDirection get textDirection => TextDirection.ltr;
 
   String get appName => "Naveli";

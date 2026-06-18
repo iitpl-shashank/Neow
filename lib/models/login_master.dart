@@ -28,9 +28,19 @@ class LoginMaster {
   set message(String? message) => _message = message;
 
   LoginMaster.fromJson(Map<String, dynamic> json) {
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    _success = json['success'];
-    _message = json['message'];
+    final dataValue = json['data'] ?? json['data '];
+    _data = dataValue != null ? Data.fromJson(dataValue) : null;
+    final successValue = json['success'] ?? json['success '];
+    if (successValue is bool) {
+      _success = successValue;
+    } else if (successValue is String) {
+      _success = successValue == 'true';
+    } else if (successValue is num) {
+      _success = successValue == 1;
+    } else {
+      _success = null;
+    }
+    _message = (json['message'] ?? json['message '])?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -66,8 +76,9 @@ class Data {
   set token(String? token) => _token = token;
 
   Data.fromJson(Map<String, dynamic> json) {
-    _user = json['user'] != null ? UserMaster.fromJson(json['user']) : null;
-    _token = json['token'];
+    final userVal = json['user'] ?? json['user '];
+    _user = userVal != null ? UserMaster.fromJson(userVal) : null;
+    _token = (json['token'] ?? json['token '])?.toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -5,7 +5,7 @@ class ApiUrl {
   // Live
   // static const String BASE_URL = "https://new-naveli.harmistechnology.com/api/";
   // static const String BASE_URL = "https://neowindia.com/api/"; //OLD URL FROM CLIENT
-  static const String BASE_URL = "https://lab1.invoidea.work/neow/api/";
+  static const String BASE_URL = "https://lab1.invoidea.work/neow/public/api/";
   // static const String BASE_URL = "https://naveli.smartscan.in/api/";
 
   static const String SIGN_UP = "${BASE_URL}signup";
@@ -124,8 +124,9 @@ class ApiUrl {
   static const String userShortsLikeDislike =
       "${BASE_URL}userShortsLikeDislike";
 
-    static const String forum_post_like_dislike = "${BASE_URL}forumsLikeDislike";
-    static const String forum_post_save_unsave = "${BASE_URL}forumsSave";
-    static const String forum_post_comment = "${BASE_URL}forumCommentStore";
-    static const String forumsCategoryLikeDislike = "${BASE_URL}forumsCategoryLikeDislike";
+  static const String forum_post_like_dislike = "${BASE_URL}forumsLikeDislike";
+  static const String forum_post_save_unsave = "${BASE_URL}forumsSave";
+  static const String forum_post_comment = "${BASE_URL}forumCommentStore";
+  static const String forumsCategoryLikeDislike =
+      "${BASE_URL}forumsCategoryLikeDislike";
 }

@@ -23,9 +23,18 @@ class CheckDeviceTokenMaster {
   set message(String? message) => _message = message;
 
   CheckDeviceTokenMaster.fromJson(Map<String, dynamic> json) {
-    _data = json['data'];
-    _success = json['success'];
-    _message = json['message'];
+    _data = (json['data'] ?? json['data '])?.toString();
+    final successValue = json['success'] ?? json['success '];
+    if (successValue is bool) {
+      _success = successValue;
+    } else if (successValue is String) {
+      _success = successValue == 'true';
+    } else if (successValue is num) {
+      _success = successValue == 1;
+    } else {
+      _success = null;
+    }
+    _message = (json['message'] ?? json['message '])?.toString();
   }
 
   Map<String, dynamic> toJson() {

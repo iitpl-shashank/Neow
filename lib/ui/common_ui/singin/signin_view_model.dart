@@ -45,7 +45,8 @@ class SignInViewModel with ChangeNotifier {
     };
 
     LoginMaster? master = await _services.api!.login(params: params);
-    debugPrint("Login Response :: ${jsonEncode(master)}");
+    debugPrint("Login Response :: ${(master)}");
+    debugPrint("Login success: ${master?.success}, message: ${master?.message}");
     CommonUtils.hideProgressDialog();
     if (master == null) {
       // TODO : For testing login error
@@ -88,6 +89,7 @@ class SignInViewModel with ChangeNotifier {
     CheckDeviceTokenMaster? master =
         await _services.api!.checkDeviceToken(params: params);
     CommonUtils.hideProgressDialog();
+    log("master data value from check device token api .........................${master?.data}");
     // try {
     //   CommonUtils.showSnackBar(
     //     "Login check issue here 1. $master",
@@ -183,10 +185,17 @@ class SignInViewModel with ChangeNotifier {
       {required String phoneNumber,
       required Function onCodeSent,
       required BuildContext context}) async {
+    log("verifyPhone :: Initiating phone verification for +91$phoneNumber");
     CommonUtils.showProgressDialog();
     final PhoneCodeSent smsOTPSent = (String verId, [int? forceCodeResend]) {
+      log("verifyPhone :: codeSent callback invoked. verId: $verId, forceCodeResend: $forceCodeResend");
       CommonUtils.hideProgressDialog();
       var phoneNumberWithCountryCode = "+91$phoneNumber";
+      try {
+        onCodeSent();
+      } catch (e) {
+        log("verifyPhone :: error calling onCodeSent callback: $e");
+      }
       pushAndRemoveUntil(OTPView(
         phoneNumber: phoneNumberWithCountryCode,
         verificationId: verId,
@@ -194,11 +203,12 @@ class SignInViewModel with ChangeNotifier {
       ));
     } as PhoneCodeSent;
     try {
-      log("verifyPhone Function call");
+      log("verifyPhone :: Calling _auth.verifyPhoneNumber");
       await _auth.verifyPhoneNumber(
           phoneNumber: "+91$phoneNumber",
           // PHONE NUMBER TO SEND OTP
           codeAutoRetrievalTimeout: (String verId) {
+            log("verifyPhone :: codeAutoRetrievalTimeout callback invoked. verId: $verId");
             //Starts the phone number verification process for the given phone number.
             //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
             // this.verificationId = verId;
@@ -207,6 +217,7 @@ class SignInViewModel with ChangeNotifier {
           // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
           timeout: const Duration(seconds: 40),
           verificationCompleted: (AuthCredential phoneAuthCredential) {
+            log("verifyPhone :: verificationCompleted callback invoked. Credential: $phoneAuthCredential");
             CommonUtils.hideProgressDialog();
           },
           // codeAutoRetrievalTimeout: (String verId) {
@@ -215,6 +226,7 @@ class SignInViewModel with ChangeNotifier {
           // },
 
           verificationFailed: (FirebaseAuthException exceptio) {
+            log("verifyPhone :: verificationFailed callback invoked. Code: ${exceptio.code}, Message: ${exceptio.message}, Details: ${exceptio.email}");
             CommonUtils.hideProgressDialog();
             // final snackBar = SnackBar(content: Text(exceptio.message));
             log("verification New\n${exceptio.message}");
@@ -233,7 +245,9 @@ class SignInViewModel with ChangeNotifier {
             log("verification failed\n${exceptio.message}");
             notifyListeners();
           });
-    } catch (e) {
+    } catch (e, stack) {
+      log("verifyPhone :: Exception caught in try block: $e",
+          error: e, stackTrace: stack);
       CommonUtils.hideProgressDialog();
       notifyListeners();
     }

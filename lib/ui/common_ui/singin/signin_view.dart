@@ -131,6 +131,7 @@ class _SignInViewState extends State<SignInView> {
                                         mobile:
                                             emailOrPhoneController.text.trim());
                                     log('${mViewModel.isDeviceStatus}::mViewModel.isDeviceStatus==================');
+
                                     if (mViewModel.isDeviceStatus == "no") {
                                       mViewModel.verifyPhone(
                                         phoneNumber:
@@ -147,7 +148,10 @@ class _SignInViewState extends State<SignInView> {
                                         phoneNumber:
                                             emailOrPhoneController.text.trim(),
                                         context: context,
-                                        onCodeSent: () {},
+                                        onCodeSent: () {
+                                          print(
+                                              "Code Sent ==================== ");
+                                        },
                                       );
                                     }
                                   }

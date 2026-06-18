@@ -122,12 +122,20 @@ class DefaultFirebaseOptions {
     }
   }
 
+  // static const FirebaseOptions android = FirebaseOptions(
+  //   apiKey: 'AIzaSyAJp1mHMYoNRFvjSkeNWucmcKfxj1GflSI',
+  //   appId: '1:208696305866:android:b8ac75ef6a6422005bac33',
+  //   messagingSenderId: '208696305866',
+  //   projectId: 'naveli-india-a7a83',
+  //   storageBucket: 'naveli-india-a7a83.appspot.com',
+  // );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAJp1mHMYoNRFvjSkeNWucmcKfxj1GflSI',
-    appId: '1:208696305866:android:b8ac75ef6a6422005bac33',
-    messagingSenderId: '208696305866',
-    projectId: 'naveli-india-a7a83',
-    storageBucket: 'naveli-india-a7a83.appspot.com',
+    apiKey: 'AIzaSyCW2-vNQUTQWt7ll642TLczLraut9nuLC8',
+    appId: '1:587089425057:android:65936a8cbd688b32f436e0',
+    messagingSenderId: '587089425057',
+    projectId: 'neow-invoidea',
+    storageBucket: 'neow-invoidea.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

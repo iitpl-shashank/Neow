@@ -105,8 +105,10 @@ class ApiServices extends BaseServices {
 
   @override
   Future<LoginMaster?> login({required Map<String, dynamic> params}) async {
+    log("reques params $params");
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.LOGIN, postParams: params);
+    print("response in login $response");
     if (response != null) {
       try {
         return LoginMaster.fromJson(response);
@@ -533,10 +535,9 @@ class ApiServices extends BaseServices {
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
         url: ApiUrl.GET_FORUM_POST, postParams: params);
-        print("Forum Post Response: $response");
+    print("Forum Post Response: $response");
     if (response != null) {
       try {
-        
         return ForumPostModel.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
@@ -1235,6 +1236,7 @@ class ApiServices extends BaseServices {
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.CHECK_DEVICE_TOKEN, postParams: params);
+    log("Check device token response :: $response");
     if (response != null) {
       // CommonUtils.showSnackBar(
       //   "Login response check. $response",
@@ -1243,7 +1245,7 @@ class ApiServices extends BaseServices {
       // );
       try {
         return CheckDeviceTokenMaster.fromJson(response);
-      } on Exception catch (e) {
+      } catch (e) {
         log("Exception :: $e");
         return null;
       }
@@ -1262,6 +1264,7 @@ class ApiServices extends BaseServices {
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithoutTokenCall(
         url: ApiUrl.REMOVE_DEVICE_TOKEN, postParams: params);
+    log("Remove device token response :: $response");
     if (response != null) {
       try {
         return CommonMaster.fromJson(response);
@@ -1642,143 +1645,142 @@ class ApiServices extends BaseServices {
     }
   }
 
- @override
-Future<ForumPostLikeDislike> forumPostLikeDislike({
-  required Map<String, dynamic> params,
-}) async {
-  try {
-    debugPrint("params: $params");
-    final response = await appBaseClient.postApiWithTokenCall(
-      url: ApiUrl.forum_post_like_dislike,
-      queryParams: params,
-    );
-
-    debugPrint("response in like dislike: $response");
-
-    if (response != null && response is Map<String, dynamic>) {
-      // Create ForumPostLikeDislike object directly from response
-      return ForumPostLikeDislike(
-        data: response['data'],  // This can be null
-        success: response['success'] as bool?,
-        message: response['message'] as String?,
+  @override
+  Future<ForumPostLikeDislike> forumPostLikeDislike({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+      debugPrint("params: $params");
+      final response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.forum_post_like_dislike,
+        queryParams: params,
       );
-    } else {
+
+      debugPrint("response in like dislike: $response");
+
+      if (response != null && response is Map<String, dynamic>) {
+        // Create ForumPostLikeDislike object directly from response
+        return ForumPostLikeDislike(
+          data: response['data'], // This can be null
+          success: response['success'] as bool?,
+          message: response['message'] as String?,
+        );
+      } else {
+        return ForumPostLikeDislike(
+          data: null,
+          success: false,
+          message: "Invalid response",
+        );
+      }
+    } on Exception catch (e) {
+      log("Exception :: $e");
       return ForumPostLikeDislike(
         data: null,
         success: false,
-        message: "Invalid response",
+        message: "Something went wrong",
       );
     }
-  } on Exception catch (e) {
-    log("Exception :: $e");
-    return ForumPostLikeDislike(
-      data: null,
-      success: false,
-      message: "Something went wrong",
-    );
   }
-}
 
- @override
-Future<ForumPostSave> forumPostSaveUnsave({
-  required Map<String, dynamic> params,
-}) async {
-  try {
-    debugPrint("params: $params");
-    final response = await appBaseClient.postApiWithTokenCall(
-      url: ApiUrl.forum_post_save_unsave,
-      queryParams: params,
-    );
-
-    debugPrint("response in save/unsave: $response");
-
-    if (response != null && response is Map<String, dynamic>) {
-      return ForumPostSave(
-        data: response['data'],  
-        success: response['success'] as bool?,
-        message: response['message'] as String?,
+  @override
+  Future<ForumPostSave> forumPostSaveUnsave({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+      debugPrint("params: $params");
+      final response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.forum_post_save_unsave,
+        queryParams: params,
       );
-    } else {
+
+      debugPrint("response in save/unsave: $response");
+
+      if (response != null && response is Map<String, dynamic>) {
+        return ForumPostSave(
+          data: response['data'],
+          success: response['success'] as bool?,
+          message: response['message'] as String?,
+        );
+      } else {
+        return ForumPostSave(
+          data: null,
+          success: false,
+          message: "Invalid response",
+        );
+      }
+    } on Exception catch (e) {
+      log("Exception :: $e");
       return ForumPostSave(
         data: null,
         success: false,
-        message: "Invalid response",
+        message: "Something went wrong",
       );
     }
-  } on Exception catch (e) {
-    log("Exception :: $e");
-    return ForumPostSave(
-      data: null,
-      success: false,
-      message: "Something went wrong",
-    );
   }
-}
 
-@override
-Future<CommonMaster> forumPostComment({
-  required Map<String, dynamic> params,
-}) async {
-  try {
-    debugPrint("params: $params");
-    final response = await appBaseClient.postApiWithTokenCall(
-      url: ApiUrl.forum_post_comment,
-      queryParams: params,
-    );
-
-    debugPrint("response in comment post: $response");
-
-    if (response != null && response is Map<String, dynamic>) {
-      return CommonMaster(
-        result: response['success'] ?? false,
-        message: response['message'] ?? "No message",
+  @override
+  Future<CommonMaster> forumPostComment({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+      debugPrint("params: $params");
+      final response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.forum_post_comment,
+        queryParams: params,
       );
-    } else {
+
+      debugPrint("response in comment post: $response");
+
+      if (response != null && response is Map<String, dynamic>) {
+        return CommonMaster(
+          result: response['success'] ?? false,
+          message: response['message'] ?? "No message",
+        );
+      } else {
+        return CommonMaster(
+          result: false,
+          message: "Invalid response",
+        );
+      }
+    } on Exception catch (e) {
+      log("Exception :: $e");
       return CommonMaster(
         result: false,
-        message: "Invalid response",
+        message: "Something went wrong",
       );
     }
-  } on Exception catch (e) {
-    log("Exception :: $e");
-    return CommonMaster(
-      result: false,
-      message: "Something went wrong",
-    );
   }
-}
 
-@override
-Future<CommonMaster> updateFavouriteCatgoryStatus({
-  required Map<String, dynamic> params,
-}) async {
-  try {
-    debugPrint("params: $params");
-    final response = await appBaseClient.postApiWithTokenCall(
-      url: ApiUrl.forumsCategoryLikeDislike,
-      queryParams: params,
-    );
-
-    debugPrint("response in updateFavouriteCategoryStatus: $response");
-
-    if (response != null && response is Map<String, dynamic>) {
-      return CommonMaster(
-        result: response['success'] ?? false,
-        message: response['message'] ?? "No message",
-      
+  @override
+  Future<CommonMaster> updateFavouriteCatgoryStatus({
+    required Map<String, dynamic> params,
+  }) async {
+    try {
+      debugPrint("params: $params");
+      final response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.forumsCategoryLikeDislike,
+        queryParams: params,
       );
-    } else {
+
+      debugPrint("response in updateFavouriteCategoryStatus: $response");
+
+      if (response != null && response is Map<String, dynamic>) {
+        return CommonMaster(
+          result: response['success'] ?? false,
+          message: response['message'] ?? "No message",
+        );
+      } else {
+        return CommonMaster(
+          result: false,
+          message: "Invalid response",
+        );
+      }
+    } on Exception catch (e) {
+      log("Exception :: $e");
       return CommonMaster(
         result: false,
-        message: "Invalid response",
+        message: "Something went wrong",
       );
     }
-  } on Exception catch (e) {
-    log("Exception :: $e");
-    return CommonMaster(
-      result: false,
-      message: "Something went wrong",
-    );
   }
-}
 }
