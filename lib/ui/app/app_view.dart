@@ -95,10 +95,8 @@ class AppState extends State<App> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkPendingDeepLinks();
       try {
-
-        final appModel = Provider.of<AppModel>(context, listen: false);
-        appModel.attachedContext(context);
-        appModel.changeLanguage(); // Ensure language is applied
+        _app.attachedContext(context);
+        _app.changeLanguage(); // Ensure language is applied
       } catch (e) {
         debugPrint("Error accessing Provider<AppModel>: $e");
       }
@@ -228,7 +226,7 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AppModel>(create: (_) => AppModel()),
+        ChangeNotifierProvider<AppModel>(create: (_) => _app),
         ChangeNotifierProvider<SplashViewModel>(
             create: (_) => SplashViewModel()),
         ChangeNotifierProvider<SignupViewModel>(

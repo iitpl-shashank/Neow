@@ -109,10 +109,10 @@ class SplashViewModel with ChangeNotifier {
       CommonUtils.oopsMSG();
       print(
           "................................Splash oops.............................");
-    } else if (master.success! && master.data != null) {
+    } else if (master.success == true && master.data != null) {
       AppPreferences.instance.setUserDetails(jsonEncode(master.data));
       globalUserMaster = master.data;
-    } else if (!master.success!) {
+    } else if (master.success != true) {
       CommonUtils.showRedToastMessage(
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,
       );

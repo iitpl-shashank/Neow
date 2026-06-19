@@ -23,14 +23,15 @@ class CityMaster {
   set message(String? message) => _message = message;
 
   CityMaster.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
+    final rawData = json['data'] ?? json['data '];
+    if (rawData != null) {
       _data = <CityData>[];
-      json['data'].forEach((v) {
+      rawData.forEach((v) {
         _data!.add(CityData.fromJson(v));
       });
     }
-    _success = json['success'];
-    _message = json['message'];
+    _success = json['success'] ?? json['success '];
+    _message = json['message'] ?? json['message '];
   }
 
   Map<String, dynamic> toJson() {

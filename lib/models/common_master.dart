@@ -30,9 +30,10 @@ class CommonMaster {
 
 
   CommonMaster.fromJson(Map<String, dynamic> json) {
-    _success = json['success'];
-    _message = json['message'];
-    _data = json['data'].toString();
+    _success = json['success'] ?? json['success '];
+    _message = json['message'] ?? json['message '];
+    final rawData = json['data'] ?? json['data '];
+    _data = rawData?.toString();
   }
 
   Map<String, dynamic> toJson() {

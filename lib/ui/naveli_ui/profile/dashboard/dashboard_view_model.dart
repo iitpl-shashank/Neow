@@ -586,7 +586,7 @@ class DashBoardViewModel with ChangeNotifier {
       CommonUtils.oopsMSG();
       print(
           "................................Splash oops.............................");
-    } else if (master.success! && master.data != null) {
+    } else if (master.success == true && master.data != null) {
       userPersonalInformation = master;
       userNameController.text = userPersonalInformation?.data?.name ?? '';
       humApkeKonController.text =
@@ -610,7 +610,7 @@ class DashBoardViewModel with ChangeNotifier {
       calculateAge(dateOfBirth: userPersonalInformation!.data!.birthdate!);
 
       notifyListeners();
-    } else if (!master.success!) {
+    } else if (master.success != true) {
       CommonUtils.showRedToastMessage(
         master.message ?? "User data sync failed",
       );

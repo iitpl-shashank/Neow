@@ -72,16 +72,16 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_widget_from_html: ^0.16.0
   firebase_app_check: ^0.1.1+14
-  timezone: ^0.9.2
+  timezone: ^0.10.0
   ikchatbot: ^1.0.5
   gradient_borders: ^1.0.1
   date_picker_timeline: ^1.2.6
-  syncfusion_flutter_calendar: ^27.2.3
+  syncfusion_flutter_calendar: ^28.1.38
 
   #Firebase
   firebase_core: ^2.8.0
   firebase_messaging: ^14.3.0
-  flutter_local_notifications: ^17.2.3
+  flutter_local_notifications: ^18.0.1
   firebase_auth:  any
 
 

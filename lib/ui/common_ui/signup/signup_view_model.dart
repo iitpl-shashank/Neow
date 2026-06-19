@@ -48,7 +48,7 @@ class SignupViewModel with ChangeNotifier {
         master.message,
         color: CommonColors.mRed,
       );
-    } else if (master.success! && master.data != null) {
+    } else if (master.success == true && master.data != null) {
       CommonUtils.showSnackBar(master.message,
           color: CommonColors.primaryColor);
       Navigator.pop(mainNavKey.currentContext!);

@@ -22,28 +22,69 @@ class StateSelectionViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+  }
+
+  void selectState(int? stateId) {
+    if (stateId == null) {
+      selectedState = StateData();
+      selectedCity = CityData();
+      cityList = [];
+    } else {
+      selectedState = stateList.firstWhere(
+        (e) => e.id == stateId,
+        orElse: () => StateData(),
+      );
+
+      selectedCity = CityData();
+      cityList = [];
+
+      getCityListApi(stateId: stateId);
+    }
+
+    notifyListeners();
+  }
+
+  void selectCity(int? cityId) {
+    if (cityId == null) {
+      selectedCity = CityData();
+    } else {
+      selectedCity = cityList.firstWhere(
+        (city) => city.id == cityId,
+        orElse: () => CityData(),
+      );
+    }
     notifyListeners();
   }
 
   Future<void> getStateListApi() async {
     CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
+
+    Map<String, dynamic> params = {
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
+
     StateMaster? master = await _services.api!.getStateList(params: params);
+
     CommonUtils.hideProgressDialog();
+
     if (master == null) {
       CommonUtils.oopsMSG();
-      print(
-          "................................State selection oops.............................");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
         color: CommonColors.mRed,
       );
-    } else if (master.success == true) {
-      stateList = master.data ?? [];
+    } else {
+      final seenIds = <int>{};
+
+      stateList = (master.data ?? []).where((state) {
+        if (state.id == null) return false;
+        return seenIds.add(state.id!);
+      }).toList();
+
+      print("States Loaded: ${stateList.length}");
     }
+
     notifyListeners();
   }
 
@@ -51,85 +92,80 @@ class StateSelectionViewModel with ChangeNotifier {
     required int? stateId,
   }) async {
     CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
+
+    Map<String, dynamic> params = {
       ApiParams.state_id: stateId,
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
-    log(params.toString());
+
     CityMaster? master = await _services.api!.getCityList(params: params);
+
     CommonUtils.hideProgressDialog();
+
     if (master == null) {
       CommonUtils.oopsMSG();
-      print(
-          "................................State selection oops.............................");
     } else if (master.success == false) {
       CommonUtils.showSnackBar(
         master.message ?? "--",
         color: CommonColors.mRed,
       );
-    } else if (master.success == true) {
-      cityList = master.data ?? [];
-      // CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
+    } else {
+      final seenIds = <int>{};
+
+      cityList = (master.data ?? []).where((city) {
+        if (city.id == null) return false;
+        return seenIds.add(city.id!);
+      }).toList();
+
+      print("Cities Loaded: ${cityList.length}");
     }
+
     notifyListeners();
   }
 
-  Future<void> storeCityApi({
+  Future<void> storeStateAndCity({
+    required int? stateId,
     required int? cityId,
   }) async {
     CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.city_id: cityId,
-    };
-    log(params.toString());
-    CommonMaster? master = await _services.api!.storeCity(params: params);
-    CommonUtils.hideProgressDialog();
-    if (master == null) {
-      CommonUtils.oopsMSG();
-      print(
-          "................................State selection oops.............................");
-    } else if (master.success == false) {
-      CommonUtils.showSnackBar(
-        master.message ?? "--",
-        color: CommonColors.mRed,
-      );
-    } else if (master.success == true) {
-      pushAndRemoveUntil(const WelcomeView());
-      // CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
-    }
-    notifyListeners();
-  }
 
-  Future<void> storeStateApi({
-    required int? stateId,
-  }) async {
-    CommonUtils.showProgressDialog();
-    Map<String, dynamic> params = <String, dynamic>{
+    // 1. Store State
+    Map<String, dynamic> stateParams = <String, dynamic>{
       ApiParams.state_id: stateId,
     };
-    log(params.toString());
-    CommonMaster? master = await _services.api!.storeState(params: params);
-    CommonUtils.hideProgressDialog();
-    if (master == null) {
+    log(stateParams.toString());
+    CommonMaster? stateMaster = await _services.api!.storeState(params: stateParams);
+
+    if (stateMaster == null) {
+      CommonUtils.hideProgressDialog();
       CommonUtils.oopsMSG();
-      print(
-          "................................State selection oops.............................");
-    } else if (master.success == false) {
+      return;
+    } else if (stateMaster.success == false) {
+      CommonUtils.hideProgressDialog();
       CommonUtils.showSnackBar(
-        master.message ?? "--",
+        stateMaster.message ?? "--",
         color: CommonColors.mRed,
       );
-    } else if (master.success == true) {
-      // CommonUtils.showSnackBar(
-      //   master.message,
-      //   color: CommonColors.greenColor,
-      // );
+      return;
+    }
+
+    // 2. Store City
+    Map<String, dynamic> cityParams = <String, dynamic>{
+      ApiParams.city_id: cityId,
+    };
+    log(cityParams.toString());
+    CommonMaster? cityMaster = await _services.api!.storeCity(params: cityParams);
+    CommonUtils.hideProgressDialog();
+
+    if (cityMaster == null) {
+      CommonUtils.oopsMSG();
+    } else if (cityMaster.success == false) {
+      CommonUtils.showSnackBar(
+        cityMaster.message ?? "--",
+        color: CommonColors.mRed,
+      );
+    } else if (cityMaster.success == true) {
+      pushAndRemoveUntil(const WelcomeView());
     }
     notifyListeners();
   }

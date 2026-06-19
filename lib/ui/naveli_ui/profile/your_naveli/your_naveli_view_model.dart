@@ -66,7 +66,7 @@ class YourNaveliViewModel with ChangeNotifier {
       CommonUtils.oopsMSG();
       print(
           "................................your naveli oops.............................");
-    } else if (master.success! && master.data != null) {
+    } else if (master.success == true && master.data != null) {
       // AppPreferences.instance.setUserDetails(jsonEncode(master.data));
       // globalUserMaster = master.data;
       globalUserMaster?.averageCycleLength = master.data?.averageCycleLength;
@@ -78,7 +78,7 @@ class YourNaveliViewModel with ChangeNotifier {
       log("Accepted Unique ID avgCycle: ${master.data?.averageCycleLength}");
       log("Accepted Unique ID avgPeriod: ${master.data?.averagePeriodLength}");
       log("Accepted Unique ID previous: ${master.data?.previousPeriodsBegin}");
-    } else if (!master.success!) {
+    } else if (master.success != true) {
       CommonUtils.showRedToastMessage(
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,
       );

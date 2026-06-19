@@ -34,11 +34,11 @@ class AilmentsViewModel with ChangeNotifier {
     CommonMedicationAilmentMaster? master =
         await _services.api!.getAilmentsName(params: params);
     CommonUtils.hideProgressDialog();
-    if (master != null && master.success! && master.data != null) {
+    if (master != null && master.success == true && master.data != null) {
       ailmentList = master.data ?? [];
       await getStoredAilmentsListApi(true);
       // gUserSymptomsMaster = master.data;
-    } else if (master != null && !master.success!) {
+    } else if (master != null && master.success != true) {
       CommonUtils.showSnackBar(
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,
         color: CommonColors.mRed,
@@ -65,7 +65,7 @@ class AilmentsViewModel with ChangeNotifier {
       CommonUtils.oopsMSG();
       print(
           "................................ailments oops.............................");
-    } else if (master.success! && master.data != null) {
+    } else if (master.success == true && master.data != null) {
       if (isAilmentsScreen) {
         updateSelectedAilmentsFromStored(master.data!.ailmentId ?? []);
       }

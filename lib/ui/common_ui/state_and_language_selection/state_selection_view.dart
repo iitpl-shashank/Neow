@@ -93,96 +93,52 @@ class _StateSelectionViewState extends State<StateSelectionView> {
                       ),
                       kCommonSpaceV50,
                       DropdownButtonFormField<int>(
-                        value: mViewModel.selectedState.id,
-                        items: [
-                          DropdownMenuItem<int>(
-                            value: null,
-                            child: Text(
-                              S.of(context)!.selectState,
-                              style: const TextStyle(height: 1),
-                            ),
-                          ),
-                          ...mViewModel.stateList.map((state) {
-                            return DropdownMenuItem<int>(
-                              value: state.id,
-                              child: Text(state.name ?? '',
-                                  style: const TextStyle(height: 1)),
-                            );
-                          }),
-                        ],
-                        onChanged: (int? value) {
-                          setState(() {
-                            if (value == null) {
-                              // Reset selectedState and selectedCity
-                              mViewModel.selectedState = StateData();
-                              mViewModel.selectedCity = CityData();
-                              mViewModel.selectedCity.id = 0;
-                            } else {
-                              mViewModel.selectedState = mViewModel.stateList
-                                  .firstWhere((state) => state.id == value);
-                              mViewModel.selectedCity = CityData();
-                              mViewModel.selectedCity.id = null;
-                              print(
-                                  'Selected State ID: ${mViewModel.selectedState.id}, Name: ${mViewModel.selectedState.name}');
-                            }
-                          });
-                          if (value != null) {
-                            mViewModel.getCityListApi(
-                                stateId: mViewModel.selectedState.id);
-                          }
-                        },
+                        value: mViewModel.stateList
+                                .any((e) => e.id == mViewModel.selectedState.id)
+                            ? mViewModel.selectedState.id
+                            : null,
+                        hint: Text(S.of(context)!.selectState),
                         decoration: InputDecoration(
                           labelText: S.of(context)!.selectState,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
+                        items: mViewModel.stateList.map((state) {
+                          return DropdownMenuItem<int>(
+                            value: state.id,
+                            child: Text(
+                              state.name ?? '',
+                              style: const TextStyle(height: 1),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: mViewModel.selectState,
                       ),
                       kCommonSpaceV20,
                       DropdownButtonFormField<int>(
-                        value: mViewModel.selectedCity.id,
-                        items: [
-                          DropdownMenuItem<int>(
-                            value: null,
-                            child: Text(
-                              S.of(context)!.selectDistrict,
-                              style: const TextStyle(height: 1),
-                            ),
-                          ),
-                          ...mViewModel.cityList.map((state) {
-                            return DropdownMenuItem<int>(
-                              value: state.id,
-                              child: Text(
-                                state.name ?? '',
-                                style: const TextStyle(height: 1),
-                              ),
-                            );
-                          }),
-                        ],
-                        onChanged: (int? value) {
-                          setState(() {
-                            if (value == null) {
-                              // Reset selectedState and selectedCity
-                              mViewModel.selectedCity = CityData();
-                            } else {
-                              mViewModel.selectedCity = mViewModel.cityList
-                                  .firstWhere((state) => state.id == value);
-                              print(
-                                  'Selected State ID: ${mViewModel.selectedCity.id}, Name: ${mViewModel.selectedCity.name}');
-                            }
-                          });
-                          if (value != null) {
-                            mViewModel.getCityListApi(
-                                stateId: mViewModel.selectedState.id);
-                          }
-                        },
+                        value: mViewModel.cityList
+                                .any((e) => e.id == mViewModel.selectedCity.id)
+                            ? mViewModel.selectedCity.id
+                            : null,
+                        hint: Text(S.of(context)!.selectDistrict),
                         decoration: InputDecoration(
                           labelText: S.of(context)!.selectDistrict,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                      ),
+                        items: mViewModel.cityList.map((city) {
+                          return DropdownMenuItem<int>(
+                            value: city.id,
+                            child: Text(
+                              city.name ?? '',
+                              style: const TextStyle(height: 1),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: mViewModel.selectCity,
+                      )
                     ],
                   ),
                   PrimaryButton(
@@ -191,10 +147,10 @@ class _StateSelectionViewState extends State<StateSelectionView> {
                     buttonColor: CommonColors.primaryColor,
                     onPress: () {
                       if (isValid()) {
-                        mViewModel.storeStateApi(
-                            stateId: mViewModel.selectedState.id);
-                        mViewModel.storeCityApi(
-                            cityId: mViewModel.selectedCity.id);
+                        mViewModel.storeStateAndCity(
+                          stateId: mViewModel.selectedState.id,
+                          cityId: mViewModel.selectedCity.id,
+                        );
                       }
                     },
                   ),

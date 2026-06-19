@@ -38,7 +38,7 @@ class MedicationViewModel with ChangeNotifier {
     CommonMedicationAilmentMaster? master =
         await _services.api!.getMedicineName(params: params);
     CommonUtils.hideProgressDialog();
-    if (master != null && master.success! && master.data != null) {
+    if (master != null && master.success == true && master.data != null) {
       medicineList = master.data;
       for (var fruit in medicineList!) {
         print("================================================fruit");
@@ -49,7 +49,7 @@ class MedicationViewModel with ChangeNotifier {
       print(medicineList?.toString());
       print("================================================medicineList");
       await getStoredMedicineListApi(true, aid);
-    } else if (master != null && !master.success!) {
+    } else if (master != null && master.success != true) {
       CommonUtils.showSnackBar(
         master.message ?? S.of(mainNavKey.currentContext!)!.userDataSyncFailed,
         color: CommonColors.mRed,
@@ -282,7 +282,7 @@ class MedicationViewModel with ChangeNotifier {
       CommonUtils.hideProgressDialog();
     }
     // print('${master?.data}');
-    if (master != null && master.success! && master.data != null) {
+    if (master != null && master.success == true && master.data != null) {
       if (isMedicationScreen) {
         updateSelectedMedicineFromStored(master.data!.medicineId);
       }
@@ -295,7 +295,7 @@ class MedicationViewModel with ChangeNotifier {
       isExist = false;
       print("................${master.data?.otherMedicine?.length}");
       storedOtherMedicineList = master.data?.otherMedicine ?? [];
-    } else if (master != null && !master.success!) {}
+    } else if (master != null && master.success != true) {}
     notifyListeners();
   }
 
