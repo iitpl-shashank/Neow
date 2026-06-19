@@ -8,6 +8,16 @@ class ApiUrl {
   static const String BASE_URL = "https://lab1.invoidea.work/neow/public/api/";
   // static const String BASE_URL = "https://naveli.smartscan.in/api/";
 
+  static final String MAIN_SITE_URL = BASE_URL.replaceAll("api/", "");
+  static final String CUSTOM_BASE_URL = "${MAIN_SITE_URL}customeApi/";
+
+  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}getUserDetails.php";
+  static final String MEDICATION_PHP = "${CUSTOM_BASE_URL}medication.php";
+  static final String WATER_REMINDER_HISTORY_PHP = "${CUSTOM_BASE_URL}water_reminder_history.php";
+  static final String WEIGHT_HISTORY_PHP = "${CUSTOM_BASE_URL}weight_history.php";
+  static final String SLEEP_HISTORY_PHP = "${CUSTOM_BASE_URL}sleep_history.php";
+  static final String PERIOD_INFO_PHP = "${CUSTOM_BASE_URL}periodinfo.php";
+
   static const String SIGN_UP = "${BASE_URL}signup";
   static const String LOGIN = "${BASE_URL}login";
   static const String DynamicText = "${BASE_URL}get-dyanamic-text";

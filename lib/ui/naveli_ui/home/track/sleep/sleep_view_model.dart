@@ -12,6 +12,8 @@ import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../services/api_url.dart';
+
 class SleepViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
@@ -86,7 +88,7 @@ class SleepViewModel with ChangeNotifier {
     String numberString = "${globalUserMaster?.id}";
     // CommonUtils.showProgressDialog();
 
-    final url = Uri.parse('https://neowindia.com/customeApi/sleep_history.php');
+    final url = Uri.parse(ApiUrl.SLEEP_HISTORY_PHP);
 
     // Create headers
     final Map<String, String> data = {
@@ -115,7 +117,7 @@ class SleepViewModel with ChangeNotifier {
     // CommonUtils.showProgressDialog();
 
     final url = Uri.parse(
-        'https://neowindia.com/customeApi/sleep_history.php?user_id=' +
+        '${ApiUrl.SLEEP_HISTORY_PHP}?user_id=' +
             numberString);
 
     // Create headers

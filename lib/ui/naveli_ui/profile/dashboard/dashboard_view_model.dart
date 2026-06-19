@@ -21,6 +21,7 @@ import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../services/api_url.dart';
 import '../../../../utils/constant.dart';
 
 class User {
@@ -297,9 +298,7 @@ class DashBoardViewModel with ChangeNotifier {
     String accessToken = AppPreferences.instance.getAccessToken();
     String numberString = "${globalUserMaster?.id}";
     peroidCustomeList.clear();
-    final url = Uri.parse(
-        "https://neowindia.com/customeApi/getUserDetails.php?user_id=" +
-            numberString);
+    final url = Uri.parse("${ApiUrl.GET_USER_DETAILS_PHP}?user_id=$numberString");
     final headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $accessToken"

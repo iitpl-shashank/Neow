@@ -11,6 +11,7 @@ import '../../../utils/local_images.dart';
 class ForumPostWidget extends StatefulWidget {
   final ForumPost post;
   final ValueChanged<int>? onLike;
+  final bool? showCommentField;
 
   final VoidCallback? onShare;
   final VoidCallback? onSave;
@@ -19,6 +20,7 @@ class ForumPostWidget extends StatefulWidget {
 
   const ForumPostWidget({
     super.key,
+    this.showCommentField = true,
     required this.post,
     this.onLike,
     this.onShare,
@@ -268,7 +270,8 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
                       //  > 2
                       //     ? 2
                       //     : widget.post.comments!.length,
-                      ,itemBuilder: (context, index) {
+                      ,
+                      itemBuilder: (context, index) {
                         final comment = widget.post.comments![index];
                         return Container(
                           padding: const EdgeInsets.symmetric(
@@ -383,7 +386,7 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
               ),
 
             // Comment input field
-            if (showComment)
+            if (widget.showCommentField ?? true)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(

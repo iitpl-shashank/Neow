@@ -13,6 +13,8 @@ import '../../../../../services/index.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 
+import '../../../../../services/api_url.dart';
+
 class WeightViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
@@ -108,7 +110,7 @@ class WeightViewModel with ChangeNotifier {
     // CommonUtils.showProgressDialog();
 
     final url =
-        Uri.parse('https://neowindia.com/customeApi/weight_history.php');
+        Uri.parse(ApiUrl.WEIGHT_HISTORY_PHP);
 
     // Create headers
     final Map<String, String> data = {
@@ -137,7 +139,7 @@ class WeightViewModel with ChangeNotifier {
     // CommonUtils.showProgressDialog();
 
     final url = Uri.parse(
-        'https://neowindia.com/customeApi/weight_history.php?user_id=' +
+        '${ApiUrl.WEIGHT_HISTORY_PHP}?user_id=' +
             numberString);
 
     final response = await http.get(

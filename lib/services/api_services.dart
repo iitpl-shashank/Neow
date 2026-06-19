@@ -1379,7 +1379,7 @@ class ApiServices extends BaseServices {
         queryParams: params,
       );
       if (response != null) {
-        debugPrint("HealthMixCategoryList Response: $response");
+        log("HealthMixCategoryList Response: $response");
         return HealthMixCategoryModel.fromJson(response);
       } else {
         debugPrint("HealthMixCategoryList Response is null");

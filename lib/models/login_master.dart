@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class LoginMaster {
   Data? _data;
   bool? _success;
@@ -381,7 +383,11 @@ class UserMaster {
     _profession = json['profession'] as String?;
     _roleId = json['role_id'] as int?;
     _uuId = json['uuId'] as String?;
-    _birthdate = json['birthdate'] as String?;
+    _birthdate = json['birthdate'] == null
+        ? null
+        : DateFormat('yyyy-MM-dd').format(
+            DateTime.parse(json['birthdate']),
+          );
     _age = json['age'] as int?;
     _height =
         json['height']?.toString(); // Convert to string to avoid type mismatch

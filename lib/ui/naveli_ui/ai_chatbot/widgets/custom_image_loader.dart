@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/widgets/full_screen_image.dart';
 import 'package:naveli_2023/utils/constant.dart';
+import 'package:naveli_2023/services/api_url.dart';
 
 class CustomImageLoader extends StatelessWidget {
   final String imageUrl;
@@ -18,7 +19,7 @@ class CustomImageLoader extends StatelessWidget {
           .split(',')
           .map((e) => e.trim().startsWith('http')
               ? e.trim()
-              : 'https://neowindia.com/${e.trim()}')
+              : '${ApiUrl.MAIN_SITE_URL}${e.trim()}')
           .toList();
 
       return _MultiImageViewer(urls: urls);

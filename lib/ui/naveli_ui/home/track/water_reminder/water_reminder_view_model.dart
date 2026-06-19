@@ -14,6 +14,8 @@ import '../../../../../utils/common_utils.dart';
 import '../../../../../utils/local_images.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../services/api_url.dart';
+
 class WaterReminderViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
@@ -235,7 +237,7 @@ class WaterReminderViewModel with ChangeNotifier {
     // CommonUtils.showProgressDialog();
 
     final url = Uri.parse(
-        'https://neowindia.com/customeApi/water_reminder_history.php?user_id=' +
+        '${ApiUrl.WATER_REMINDER_HISTORY_PHP}?user_id=' +
             numberString);
     final response = await http.get(
       url,

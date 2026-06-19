@@ -63,10 +63,12 @@ class _TrackHealthViewAllViewState extends State<TrackHealthViewAllView>
                   if (gUserType == AppConstants.NEOWME)
                     CommonDailyInsightContainer(
                       onTap: () {
-                        if (mViewModel.dateWiseTextList.msg.periodMsg!
-                                .contains("Period Day") ||
-                            mViewModel.dateWiseTextList.msg.periodMsg!
-                                .contains("पीरियड दिन")) {
+                        if (mViewModel.dateWiseTextList.msg.periodMsg
+                                    ?.contains("Period Day") ==
+                                true ||
+                            mViewModel.dateWiseTextList.msg.periodMsg
+                                    ?.contains("पीरियड दिन") ==
+                                true) {
                           push(const LogYourSymptoms());
                         } else {
                           CommonUtils.showToastMessage(

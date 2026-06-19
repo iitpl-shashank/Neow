@@ -14,6 +14,8 @@ import '../../../../../utils/common_utils.dart';
 import '../../../../../utils/global_variables.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../services/api_url.dart';
+
 class MedicationViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
@@ -68,7 +70,7 @@ class MedicationViewModel with ChangeNotifier {
 
     CommonUtils.showProgressDialog();
 
-    final url = Uri.parse('https://neowindia.com/customeApi/medication.php');
+    final url = Uri.parse(ApiUrl.MEDICATION_PHP);
 
     // Create headers
     final headers = {
@@ -116,7 +118,7 @@ class MedicationViewModel with ChangeNotifier {
     String uId = "${globalUserMaster?.id}";
 
     final url = Uri.parse(
-      'https://neowindia.com/customeApi/medication.php?aid=' +
+      '${ApiUrl.MEDICATION_PHP}?aid=' +
           numberString +
           '&user_id=' +
           uId,
@@ -211,7 +213,7 @@ class MedicationViewModel with ChangeNotifier {
   }
 
   Future<void> deleteMedication(String aid, id) async {
-    final String baseUrl = 'https://neowindia.com/customeApi/medication.php';
+    final String baseUrl = ApiUrl.MEDICATION_PHP;
     final Uri url = Uri.parse('$baseUrl?aid=$aid');
     print(url);
 

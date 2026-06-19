@@ -43,12 +43,12 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
   void _initializeViewModel() {
     mViewModel = Provider.of<ForumFullPostViewModel>(context, listen: false);
     mViewModel.attachedContext(context);
-    
+
     // Set the properties
     mViewModel.post = widget.post;
     mViewModel.index = widget.index;
     mViewModel.currentPage = widget.currentPage;
-    
+
     // Fetch comments
     mViewModel.getForumsCommentApi(forumId: widget.post.id ?? 0);
   }
@@ -73,6 +73,7 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
           padding: kCommonScreenPadding,
           child: ForumPostWidget(
             post: mViewModel.post ?? widget.post,
+            showCommentField: false,
             onLike: (id) {
               // mViewModel.forumPostLikeDislike(
               //   forumId: id,

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/hindi_translation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/healthmix_category_model.dart';
 import '../../../models/period_log_model.dart';
@@ -21,6 +20,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
+import '../../../services/api_url.dart';
 
 class HomeViewModel with ChangeNotifier {
   bool startChatBot = false;
@@ -489,7 +489,7 @@ class HomeViewModel with ChangeNotifier {
     String numberString = "${globalUserMaster?.id}";
     peroidCustomeList.clear();
     final url = Uri.parse(
-        "https://neowindia.com/customeApi/periodinfo.php?user_id=" +
+        "${ApiUrl.PERIOD_INFO_PHP}?user_id=" +
             numberString); // Replace with your API endpoint
     final headers = {
       "Content-Type": "application/json",
@@ -659,12 +659,8 @@ class HomeViewModel with ChangeNotifier {
       debugPrint("dateWiseTextList ====>${dateWiseTextList.toJson()}");
 
       try {
-        if (dateWiseTextList.msg.periodMsg!.contains("दिन लेट") ||
-                dateWiseTextList.msg.periodMsg!.contains("Period late by")
-            //TOD : Log fixed here
-            //  ||
-            // !isPeriodLog
-            ) {
+        if (dateWiseTextList.msg.periodMsg?.contains("दिन लेट") == true ||
+            dateWiseTextList.msg.periodMsg?.contains("Period late by") == true) {
           peroidCustomeList.clear();
         }
       } catch (e) {
@@ -757,8 +753,7 @@ class HomeViewModel with ChangeNotifier {
 
       if (response != null && response.success == true) {
         healthMixCategoryList = response.data?.records ?? [];
-        debugPrint(
-            "HealthMixCategoryList fetched successfully: $healthMixCategoryList");
+        log("healthMixCategoryList :: ${healthMixCategoryList.toList()}");
       } else if (response != null && response.success == false) {
         CommonUtils.showSnackBar(
           response.message ?? "Failed to fetch Health Mix Category List",
