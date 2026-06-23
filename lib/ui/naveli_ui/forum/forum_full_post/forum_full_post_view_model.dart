@@ -46,7 +46,7 @@ class ForumFullPostViewModel with ChangeNotifier {
         color: CommonColors.mRed,
       );
     } else if (master.success == true) {
-      commentList = master.data ?? [];
+      commentList = (master.data ?? []).reversed.toList();
       // CommonUtils.showSnackBar(
       //   master.message,
       //   color: CommonColors.greenColor,
@@ -84,6 +84,21 @@ class ForumFullPostViewModel with ChangeNotifier {
         master.message,
         color: CommonColors.greenColor,
       );
+
+      // Fetch only the updated post to copy its data locally
+      final updatedPostModel =
+          await _services.api!.getForumAllPost(params: {"id": forumId});
+      if (updatedPostModel != null &&
+          updatedPostModel.success == true &&
+          updatedPostModel.data != null &&
+          updatedPostModel.data!.isNotEmpty) {
+        post?.copyFrom(updatedPostModel.data!.first);
+      } else {
+        // Fallback local update if API fails
+        if (post != null) {
+          post!.commentCount = (post!.commentCount ?? 0) + 1;
+        }
+      }
     }
     notifyListeners();
   }

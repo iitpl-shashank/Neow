@@ -229,7 +229,22 @@ class ForumViewModel with ChangeNotifier {
           color: CommonColors.greenColor,
         );
    
-        await getForumPostApi(showLoader: false);
+        // Fetch only the updated post to copy its data locally
+        final updatedPostModel =
+            await _services.api!.getForumAllPost(params: {"id": forumId});
+        if (updatedPostModel != null &&
+            updatedPostModel.success == true &&
+            updatedPostModel.data != null &&
+            updatedPostModel.data!.isNotEmpty) {
+          _updatePost(forumId, (post) {
+            post.copyFrom(updatedPostModel.data!.first);
+          });
+        } else {
+          // Fallback local update if API fails
+          _updatePost(forumId, (post) {
+            post.commentCount = (post.commentCount ?? 0) + 1;
+          });
+        }
       } else {
         CommonUtils.showSnackBar(
           S.of(context)!.somethingWentWrong,

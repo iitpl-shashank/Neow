@@ -74,6 +74,7 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
           child: ForumPostWidget(
             post: mViewModel.post ?? widget.post,
             showCommentField: false,
+            isFullPost: true,
             onLike: (id) {
               // mViewModel.forumPostLikeDislike(
               //   forumId: id,

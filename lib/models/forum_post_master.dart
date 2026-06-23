@@ -129,6 +129,23 @@ class ForumPost {
     this.commentCount,
   });
 
+  void copyFrom(ForumPost other) {
+    id = other.id;
+    forumCategory = other.forumCategory;
+    forumSubCategory = other.forumSubCategory;
+    title = other.title;
+    description = other.description;
+    media = other.media;
+    time = other.time;
+    author = other.author;
+    authorImage = other.authorImage;
+    liked = other.liked;
+    totalLike = other.totalLike;
+    saved = other.saved;
+    comments = other.comments;
+    commentCount = other.commentCount;
+  }
+
   factory ForumPost.fromJson(Map<String, dynamic> json) => ForumPost(
         id: json["id"],
         forumCategory: json["forum_category"] == null

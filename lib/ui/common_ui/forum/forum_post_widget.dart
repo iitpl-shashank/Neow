@@ -18,6 +18,7 @@ class ForumPostWidget extends StatefulWidget {
   final VoidCallback? onSave;
   final Function(String, int)? onCommentSubmit;
   final bool isComments;
+  final bool isFullPost;
 
   const ForumPostWidget({
     super.key,
@@ -28,6 +29,7 @@ class ForumPostWidget extends StatefulWidget {
     this.onSave,
     this.onCommentSubmit,
     this.isComments = true,
+    this.isFullPost = false,
   });
 
   @override
@@ -175,6 +177,8 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
                   widget.post.description!,
+                  maxLines: widget.isFullPost ? null : 3,
+                  overflow: widget.isFullPost ? null : TextOverflow.ellipsis,
                   style: getAppStyle(
                     fontSize: 14,
                     color: CommonColors.blackColor,
@@ -262,5 +266,3 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
     );
   }
 }
-
-

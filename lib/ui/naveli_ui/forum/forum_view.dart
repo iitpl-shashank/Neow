@@ -159,21 +159,25 @@ class ForumView extends StatelessWidget {
                   }
                   final post = viewModel.forumPostList[index];
                   return GestureDetector(
-                    onTap: ()=>push( ForumFullPostView(post: post, index: index,currentPage: viewModel.currentPage,)).then((_) => getData(context)),
+                    onTap: () => push(ForumFullPostView(
+                      post: post,
+                      index: index,
+                      currentPage: viewModel.currentPage,
+                    )).then((_) => getData(context)),
                     child: ForumPostWidget(
                       post: post,
+                      isFullPost: false,
                       onLike: (id) {
                         viewModel.forumPostLikeDislike(
                           forumId: id,
                           isLike: post.liked == true ? 0 : 1,
                         );
                       },
-                      onCommentSubmit: (commentText, forumId) {
-                        viewModel.forumPostComment(
-                          forumId: forumId,
-                          comment: commentText,
-                        );
-                      },
+                      onCommentSubmit: (commentText, forumId) =>
+                          viewModel.forumPostComment(
+                        forumId: forumId,
+                        comment: commentText,
+                      ),
                       onSave: () {
                         viewModel.forumPostSaveUnsave(
                           forumId: post.id ?? 0,
