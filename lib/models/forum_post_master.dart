@@ -146,6 +146,40 @@ class ForumPost {
     commentCount = other.commentCount;
   }
 
+  ForumPost copyWith({
+    int? id,
+    ForumCategory? forumCategory,
+    ForumCategory? forumSubCategory,
+    String? title,
+    String? description,
+    String? media,
+    String? time,
+    String? author,
+    String? authorImage,
+    bool? liked,
+    int? totalLike,
+    String? saved,
+    List<Comment>? comments,
+    int? commentCount,
+  }) {
+    return ForumPost(
+      id: id ?? this.id,
+      forumCategory: forumCategory ?? this.forumCategory,
+      forumSubCategory: forumSubCategory ?? this.forumSubCategory,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      media: media ?? this.media,
+      time: time ?? this.time,
+      author: author ?? this.author,
+      authorImage: authorImage ?? this.authorImage,
+      liked: liked ?? this.liked,
+      totalLike: totalLike ?? this.totalLike,
+      saved: saved ?? this.saved,
+      comments: comments ?? this.comments,
+      commentCount: commentCount ?? this.commentCount,
+    );
+  }
+
   factory ForumPost.fromJson(Map<String, dynamic> json) => ForumPost(
         id: json["id"],
         forumCategory: json["forum_category"] == null

@@ -120,8 +120,10 @@ class ForumViewModel with ChangeNotifier {
 
       // Optimistic update
       _updatePost(forumId, (post) {
-        post.liked = isLike == 1;
-        post.totalLike = (post.totalLike ?? 0) + (isLike == 1 ? 1 : -1);
+        return post.copyWith(
+          liked: isLike == 1,
+          totalLike: (post.totalLike ?? 0) + (isLike == 1 ? 1 : -1),
+        );
       });
 
       final params = <String, dynamic>{
@@ -131,22 +133,13 @@ class ForumViewModel with ChangeNotifier {
 
       final resp = await _services.api!.forumPostLikeDislike(params: params);
 
-      if (resp.success == true) {
-        // CommonUtils.showSnackBar(
-        //   resp.message ?? S.of(context)!.savedSuccess,
-        //   color: CommonColors.greenColor,
-        // );
-        await getForumPostApi(showLoader: false);
-      } else {
+      if (resp.success != true) {
         _updatePost(forumId, (post) {
-          post.liked = isLike != 1;
-          post.totalLike = (post.totalLike ?? 0) - (isLike == 1 ? 1 : -1);
+          return post.copyWith(
+            liked: isLike != 1,
+            totalLike: (post.totalLike ?? 0) - (isLike == 1 ? 1 : -1),
+          );
         });
-
-        // CommonUtils.showSnackBar(
-        //   resp.message ?? "Failed",
-        //   color: CommonColors.mRed,
-        // );
       }
     } catch (e) {
       log("Exception in forumPostLikeDislike: $e");
@@ -165,7 +158,7 @@ class ForumViewModel with ChangeNotifier {
 
       // Optimistic update
       _updatePost(forumId, (post) {
-        post.saved = isSaved == 1 ? "yes" : "no";
+        return post.copyWith(saved: isSaved == 1 ? "yes" : "no");
       });
 
       final params = <String, dynamic>{
@@ -180,17 +173,16 @@ class ForumViewModel with ChangeNotifier {
           isSaved == 1
               ? S.of(context)!.postSavedSuccessfully
               : S.of(context)!.postRemoved,
-          color: CommonColors.mRed,
+          color: CommonColors.greenColor,
         );
-        await getForumPostApi(showLoader: false);
       } else {
         _updatePost(forumId, (post) {
-          post.saved = isSaved == 0 ? "yes" : "no";
+          return post.copyWith(saved: isSaved == 0 ? "yes" : "no");
         });
-        // CommonUtils.showSnackBar(
-        // S.of(context)!.somethingWentWrong,
-        //   color: CommonColors.mRed,
-        // );
+        CommonUtils.showSnackBar(
+          resp.message ?? S.of(context)!.somethingWentWrong,
+          color: CommonColors.mRed,
+        );
       }
     } catch (e) {
       log("Exception in forumPostSaveUnsave: $e");
@@ -238,11 +230,14 @@ class ForumViewModel with ChangeNotifier {
             updatedPostModel.data!.isNotEmpty) {
           _updatePost(forumId, (post) {
             post.copyFrom(updatedPostModel.data!.first);
+            return post;
           });
         } else {
           // Fallback local update if API fails
           _updatePost(forumId, (post) {
-            post.commentCount = (post.commentCount ?? 0) + 1;
+            return post.copyWith(
+              commentCount: (post.commentCount ?? 0) + 1,
+            );
           });
         }
       } else {
@@ -259,10 +254,10 @@ class ForumViewModel with ChangeNotifier {
     }
   }
 
-  void _updatePost(int forumId, Function(ForumPost post) update) {
+  void _updatePost(int forumId, ForumPost Function(ForumPost post) update) {
     final index = forumPostList.indexWhere((post) => post.id == forumId);
     if (index != -1) {
-      update(forumPostList[index]);
+      forumPostList[index] = update(forumPostList[index]);
       notifyListeners();
     }
   }

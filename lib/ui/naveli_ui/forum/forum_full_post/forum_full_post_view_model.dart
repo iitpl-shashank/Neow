@@ -118,18 +118,15 @@ class ForumFullPostViewModel with ChangeNotifier {
       final resp = await _services.api!.forumPostLikeDislike(params: params);
 
       if (resp.success == true) {
-        // CommonUtils.showSnackBar(
-        //   resp.message ?? S.of(context)!.savedSuccess,
-        //   color: CommonColors.greenColor,
-        // );
-        // await getForumPostApi(showLoader: false);
+        if (post != null) {
+          post!.liked = isLike == 1;
+          post!.totalLike = (post!.totalLike ?? 0) + (isLike == 1 ? 1 : -1);
+        }
       } else {
-       
-
-        // CommonUtils.showSnackBar(
-        //   resp.message ?? "Failed",
-        //   color: CommonColors.mRed,
-        // );
+        CommonUtils.showSnackBar(
+          resp.message ?? "Failed",
+          color: CommonColors.mRed,
+        );
       }
     } catch (e) {
       log("Exception in forumPostLikeDislike: $e");
@@ -155,25 +152,27 @@ class ForumFullPostViewModel with ChangeNotifier {
       final resp = await _services.api!.forumPostSaveUnsave(params: params);
 
       if (resp.success == true) {
+        if (post != null) {
+          post!.saved = isSaved == 1 ? "yes" : "no";
+        }
         CommonUtils.showSnackBar(
           isSaved == 1
               ? S.of(context)!.postSavedSuccessfully
               : S.of(context)!.postRemoved,
+          color: CommonColors.greenColor,
+        );
+      } else {
+        CommonUtils.showSnackBar(
+          resp.message ?? S.of(context)!.somethingWentWrong,
           color: CommonColors.mRed,
         );
-        // await getForumPostApi(showLoader: false);
-      } else {
-    
-        // CommonUtils.showSnackBar(
-        // S.of(context)!.somethingWentWrong,
-        //   color: CommonColors.mRed,
-        // );
       }
     } catch (e) {
       log("Exception in forumPostSaveUnsave: $e");
       CommonUtils.oopsMSG();
     } finally {
       CommonUtils.hideProgressDialog();
+      notifyListeners();
     }
   }
 

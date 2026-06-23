@@ -76,44 +76,44 @@ class _ForumFullPostViewState extends State<ForumFullPostView> {
             showCommentField: false,
             isFullPost: true,
             onLike: (id) {
-              // mViewModel.forumPostLikeDislike(
-              //   forumId: id,
-              //   isLike: widget.post.liked == true ? 0 : 1,
-              // );
+              mViewModel.forumPostLikeDislike(
+                forumId: id,
+                isLike: (mViewModel.post ?? widget.post).liked == true ? 0 : 1,
+              );
             },
             onCommentSubmit: (commentText, forumId) {
-              // mViewModel.forumPostComment(
-              //   forumId: forumId,
-              //   comment: commentText,
-              // );
+              mViewModel.forumPostComment(
+                forumId: forumId,
+                comment: commentText,
+              );
             },
             onSave: () {
-              // mViewModel.forumPostSaveUnsave(
-              //   forumId: widget.post.id ?? 0,
-              //   isSaved: widget.post.saved == "yes" ? 0 : 1,
-              // );
+              mViewModel.forumPostSaveUnsave(
+                forumId: (mViewModel.post ?? widget.post).id ?? 0,
+                isSaved: (mViewModel.post ?? widget.post).saved == "yes" ? 0 : 1,
+              );
             },
             onShare: () {
-              // mViewModel.sharePost(
-              //   postId: widget.post.id ?? 0,
-              //   index: widget.index,
-              // );
+              mViewModel.sharePost(
+                postId: (mViewModel.post ?? widget.post).id ?? 0,
+                index: widget.index,
+              );
             },
           ),
         ),
-        floatingActionButton: FloatingActionButton.small(
-          backgroundColor: CommonColors.mWhite,
-          onPressed: () => _showCommentDialog(),
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 1, color: CommonColors.primaryColor),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.add,
-            color: CommonColors.primaryColor,
-            size: 30,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton.small(
+        //   backgroundColor: CommonColors.mWhite,
+        //   onPressed: () => _showCommentDialog(),
+        //   shape: RoundedRectangleBorder(
+        //     side: const BorderSide(width: 1, color: CommonColors.primaryColor),
+        //     borderRadius: BorderRadius.circular(100),
+        //   ),
+        //   child: const Icon(
+        //     Icons.add,
+        //     color: CommonColors.primaryColor,
+        //     size: 30,
+        //   ),
+        // ),
       ),
     );
   }
