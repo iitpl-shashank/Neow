@@ -1520,7 +1520,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   height: 25),
                               kCommonSpaceH10,
                               Text(
-                                S.of(context)!.vaccination,
+                                S.of(context)!.medicalHistory,
                                 style: TextStyle(
                                   color: CommonColors.blackColor,
                                   fontSize: 16,

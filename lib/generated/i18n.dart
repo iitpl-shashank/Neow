@@ -1176,7 +1176,7 @@ class S {
 
   String get ageGroup => "Age Group";
 
-  String get vaccination => "Vaccination";
+  String get medicalHistory => "Medical History";
 
   String get aboutYouCycle => "About Your Cycle";
 
@@ -2065,7 +2065,7 @@ class $mr extends S {
   String get symptoms => "पीरियड के लक्षण";
 
   @override
-  String get vaccination => "टीकाकरण";
+  String get medicalHistory => "मेडिकल हिस्ट्री";
 
   @override
   String get deActiveYourAcc => "अपने खाते को निष्क्रिय करें";

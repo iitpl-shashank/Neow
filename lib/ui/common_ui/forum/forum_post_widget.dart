@@ -7,6 +7,7 @@ import 'package:naveli_2023/utils/global_variables.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/local_images.dart';
+import 'forum_comments_sheet.dart';
 
 class ForumPostWidget extends StatefulWidget {
   final ForumPost post;
@@ -34,28 +35,45 @@ class ForumPostWidget extends StatefulWidget {
 }
 
 class _ForumPostWidgetState extends State<ForumPostWidget> {
-  bool showComment = false;
-  final TextEditingController _commentController =
-      TextEditingController(); // Add this line
-  bool showAllComments = false;
+  late ValueNotifier<ForumPost> _postNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _postNotifier = ValueNotifier<ForumPost>(widget.post);
+  }
+
+  @override
+  void didUpdateWidget(covariant ForumPostWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.post != oldWidget.post) {
+      _postNotifier.value = widget.post;
+    }
+  }
+
   @override
   void dispose() {
-    _commentController.dispose(); // Add this line
+    _postNotifier.dispose();
     super.dispose();
   }
 
   void onTapComment() {
-    setState(() {
-      showComment = !showComment;
-    });
+    _showCommentsBottomSheet();
   }
 
-  void _submitComment() {
-    final comment = _commentController.text.trim();
-    if (comment.isNotEmpty && widget.post.id != null) {
-      widget.onCommentSubmit?.call(comment, widget.post.id!);
-      _commentController.clear();
-    }
+  void _showCommentsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return ForumCommentsSheet(
+          initialPost: widget.post,
+          postNotifier: _postNotifier,
+          onCommentSubmit: widget.onCommentSubmit,
+        );
+      },
+    );
   }
 
   @override
@@ -199,7 +217,6 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
                 GestureDetector(
                   onTap: () {
                     onTapComment();
-                    // widget.isCommentVisible?.call();
                   },
                   child: Row(
                     children: [
@@ -239,208 +256,11 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
                 ),
               ],
             ),
-            kCommonSpaceV10,
-
-            // Comments section
-            if (showComment &&
-                widget.post.comments != null &&
-                widget.post.comments!.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${S.of(mainNavKey.currentContext!)!.comments}",
-                    style: getAppStyle(
-                      fontSize: 16,
-                      color: CommonColors.greyText,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  kCommonSpaceV5,
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: widget.post.comments!.length == 1
-                          ? 180.0 // Height for single comment
-                          : 360.0, // Height for multiple comments
-                    ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: widget.post.comments!.length
-                      //  > 2
-                      //     ? 2
-                      //     : widget.post.comments!.length,
-                      ,
-                      itemBuilder: (context, index) {
-                        final comment = widget.post.comments![index];
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 10,
-                          ),
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: CommonColors.mGrey200,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  comment.userDetail?.image != null
-                                      ? ClipOval(
-                                          child: Image.network(
-                                            comment.userDetail!.image!,
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    Image.asset(
-                                              LocalImages.unknownUser,
-                                              height: 40,
-                                              width: 40,
-                                            ),
-                                          ),
-                                        )
-                                      : Image.asset(
-                                          LocalImages.unknownUser,
-                                          height: 40,
-                                          width: 40,
-                                        ),
-                                  kCommonSpaceH10,
-                                  Text(
-                                    comment.userDetail?.name ?? "",
-                                    style: getAppStyle(
-                                      fontSize: 16,
-                                      color: CommonColors.blackColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.more_horiz_outlined),
-                                  )
-                                ],
-                              ),
-                              kCommonSpaceV5,
-                              Text(
-                                comment.comment ?? "",
-                                style: getAppStyle(
-                                  fontSize: 16,
-                                  color: CommonColors.blackColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              if (comment.adminReply != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    "Admin Reply: ${comment.adminReply}",
-                                    style: getAppStyle(
-                                      fontSize: 14,
-                                      color: CommonColors.textPurple,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              if (comment.commentTime != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Text(
-                                    comment.commentTime!,
-                                    style: getAppStyle(
-                                      fontSize: 12,
-                                      color: CommonColors.greyText,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  // if (widget.post.comments!.length > 2)
-                  //   Padding(
-                  //     padding: const EdgeInsets.only(top: 8.0),
-                  //     child: GestureDetector(
-                  //       onTap: () {
-                  //         // widget.onComment?.call();
-                  //       },
-                  //       child: Text(
-                  //         "View all ${widget.post.comments!.length} comments",
-                  //         style: getAppStyle(
-                  //           fontSize: 14,
-                  //           color: CommonColors.primaryColor,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                ],
-              ),
-
-            // Comment input field
-            if (widget.showCommentField ?? true)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: CommonColors.mWhite,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: TextField(
-                          controller: _commentController, // Add this line
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            hintText:
-                                S.of(mainNavKey.currentContext!)!.leaveAComment,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 12),
-                            suffixIcon: Container(
-                              height: 30,
-                              margin: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: _commentController.text.trim().isEmpty
-                                    ? CommonColors.mGrey300
-                                    : CommonColors
-                                        .primaryColor, // Change color based on input
-                                shape: BoxShape.circle,
-                              ),
-                              child: GestureDetector(
-                                child: Icon(
-                                  Icons.arrow_upward_outlined,
-                                  color: _commentController.text.trim().isEmpty
-                                      ? CommonColors.blackColor
-                                      : CommonColors.mWhite,
-                                ),
-                                onTap: _submitComment,
-                              ),
-                            ),
-                          ),
-                          onSubmitted: (_) =>
-                              _submitComment(), // Allow submission with keyboard
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
           ],
         ),
       ),
     );
   }
 }
+
+
