@@ -2,8 +2,9 @@ class ForumCommentMaster {
   List<CommentData>? _data;
   bool? _success;
   String? _message;
+  CommentPagination? _pagination;
 
-  ForumCommentMaster({List<CommentData>? data, bool? success, String? message}) {
+  ForumCommentMaster({List<CommentData>? data, bool? success, String? message, CommentPagination? pagination}) {
     if (data != null) {
       _data = data;
     }
@@ -13,6 +14,9 @@ class ForumCommentMaster {
     if (message != null) {
       _message = message;
     }
+    if (pagination != null) {
+      _pagination = pagination;
+    }
   }
 
   List<CommentData>? get data => _data;
@@ -21,16 +25,32 @@ class ForumCommentMaster {
   set success(bool? success) => _success = success;
   String? get message => _message;
   set message(String? message) => _message = message;
+  CommentPagination? get pagination => _pagination;
+  set pagination(CommentPagination? pagination) => _pagination = pagination;
 
   ForumCommentMaster.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      _data = <CommentData>[];
-      json['data'].forEach((v) {
-        _data!.add(CommentData.fromJson(v));
-      });
-    }
     _success = json['success'];
     _message = json['message'];
+    
+    if (json['data'] != null) {
+      if (json['data'] is Map<String, dynamic>) {
+        final Map<String, dynamic> dataMap = json['data'];
+        if (dataMap['data'] != null) {
+          _data = <CommentData>[];
+          dataMap['data'].forEach((v) {
+            _data!.add(CommentData.fromJson(v));
+          });
+        }
+        if (dataMap['pagination'] != null) {
+          _pagination = CommentPagination.fromJson(dataMap['pagination']);
+        }
+      } else if (json['data'] is List) {
+        _data = <CommentData>[];
+        json['data'].forEach((v) {
+          _data!.add(CommentData.fromJson(v));
+        });
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -40,8 +60,47 @@ class ForumCommentMaster {
     }
     data['success'] = _success;
     data['message'] = _message;
+    if (_pagination != null) {
+      data['pagination'] = _pagination!.toJson();
+    }
     return data;
   }
+}
+
+class CommentPagination {
+  int? currentPage;
+  String? nextPageUrl;
+  String? prevPageUrl;
+  int? total;
+  int? perPage;
+  int? lastPage;
+
+  CommentPagination({
+    this.currentPage,
+    this.nextPageUrl,
+    this.prevPageUrl,
+    this.total,
+    this.perPage,
+    this.lastPage,
+  });
+
+  factory CommentPagination.fromJson(Map<String, dynamic> json) => CommentPagination(
+    currentPage: json["current_page"],
+    nextPageUrl: json["next_page_url"],
+    prevPageUrl: json["prev_page_url"],
+    total: json["total"],
+    perPage: json["per_page"],
+    lastPage: json["last_page"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "current_page": currentPage,
+    "next_page_url": nextPageUrl,
+    "prev_page_url": prevPageUrl,
+    "total": total,
+    "per_page": perPage,
+    "last_page": lastPage,
+  };
 }
 
 class CommentData {

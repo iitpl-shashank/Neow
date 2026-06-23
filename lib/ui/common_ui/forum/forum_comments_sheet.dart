@@ -27,38 +27,80 @@ class ForumCommentsSheet extends StatefulWidget {
 
 class _ForumCommentsSheetState extends State<ForumCommentsSheet> {
   late final TextEditingController _commentController;
+  late final ScrollController _scrollController;
   List<CommentData> _commentsList = [];
   bool _isLoading = true;
+  int _currentPage = 1;
+  bool _hasMoreData = true;
+  bool _isLoadingMore = false;
 
   @override
   void initState() {
     super.initState();
     _commentController = TextEditingController();
-    _fetchComments();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    _fetchComments(isRefresh: true);
   }
 
   @override
   void dispose() {
     _commentController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
-  Future<void> _fetchComments() async {
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (currentScroll >= maxScroll * 0.9) {
+      if (_hasMoreData && !_isLoading && !_isLoadingMore) {
+        _fetchMoreComments();
+      }
+    }
+  }
+
+  Future<void> _fetchComments({bool isRefresh = true}) async {
     if (widget.initialPost.id == null) return;
     
-    setState(() {
-      _isLoading = true;
-    });
+    if (isRefresh) {
+      setState(() {
+        _isLoading = true;
+        _currentPage = 1;
+        _hasMoreData = true;
+        _commentsList = [];
+      });
+    } else {
+      setState(() {
+        _isLoadingMore = true;
+      });
+    }
 
     try {
       final services = Services();
       final params = <String, dynamic>{
         "forum_id": widget.initialPost.id,
+        "page": _currentPage,
       };
       final response = await services.api!.getForumComment(params: params);
       if (response != null && response.success == true) {
+        final newComments = response.data ?? [];
         setState(() {
-          _commentsList = (response.data ?? []).reversed.toList();
+          if (isRefresh) {
+            _commentsList = newComments.reversed.toList();
+          } else {
+            _commentsList.addAll(newComments.reversed.toList());
+          }
+          
+          if (response.pagination != null) {
+            _hasMoreData = response.pagination?.nextPageUrl != null;
+            if (_hasMoreData) {
+              _currentPage = (response.pagination?.currentPage ?? _currentPage) + 1;
+            }
+          } else {
+            _hasMoreData = false;
+          }
         });
       }
     } catch (e) {
@@ -67,9 +109,14 @@ class _ForumCommentsSheetState extends State<ForumCommentsSheet> {
       if (mounted) {
         setState(() {
           _isLoading = false;
+          _isLoadingMore = false;
         });
       }
     }
+  }
+
+  void _fetchMoreComments() {
+    _fetchComments(isRefresh: false);
   }
 
   void _submitComment(ForumPost post) async {
@@ -86,7 +133,7 @@ class _ForumCommentsSheetState extends State<ForumCommentsSheet> {
         await Future.delayed(const Duration(milliseconds: 1000));
       }
       
-      _fetchComments();
+      _fetchComments(isRefresh: true);
     }
   }
 
@@ -200,10 +247,27 @@ class _ForumCommentsSheetState extends State<ForumCommentsSheet> {
                       maxHeight: MediaQuery.of(context).size.height * 0.5,
                     ),
                     child: ListView.builder(
+                      controller: _scrollController,
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: _commentsList.length,
+                      itemCount: _commentsList.length + (_isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
+                        if (index == _commentsList.length) {
+                          return const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Center(
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: CommonColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
                         final comment = _commentsList[index];
                         return Container(
                           padding: const EdgeInsets.all(12),

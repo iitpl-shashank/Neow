@@ -496,47 +496,67 @@ class CommonUtils {
     }
   }
 
+  static OverlayEntry? _overlayEntry;
+  static int _loadingCount = 0;
+
   static void showProgressDialog({from}) {
+    _loadingCount++;
+    if (_loadingCount > 1) {
+      debugPrint("Progress dialog already showing (count: $_loadingCount)");
+      return;
+    }
     isShowing = true;
-    showCupertinoDialog(
-      barrierDismissible: false,
-      context: mainNavKey.currentContext!,
+    final context = mainNavKey.currentContext;
+    if (context == null) return;
+    final overlay = Overlay.of(context, rootOverlay: true);
+    _overlayEntry = OverlayEntry(
       builder: (context) {
         return PopScope(
           canPop: false,
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
+          child: Stack(
+            children: [
+              ModalBarrier(
+                color: Colors.black.withAlpha(76),
+                dismissible: false,
               ),
-              child: const CircularProgressIndicator(
-                strokeWidth: 2,
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         );
       },
-    ).timeout(
-      const Duration(seconds: 60),
-      onTimeout: () {
-        hideProgressDialog();
-        // Unneccessary network error toast here
-        // oopsMSG();
-        isShowing = false;
-        print(
-            "................................process dialog oops.............................");
-      },
     );
+
+    overlay.insert(_overlayEntry!);
+
+    // Auto-dismiss after 60 seconds to prevent getting stuck
+    Future.delayed(const Duration(seconds: 60), () {
+      if (_loadingCount > 0 && _overlayEntry != null) {
+        _loadingCount = 0;
+        hideProgressDialog();
+      }
+    });
   }
 
   static void hideProgressDialog() {
-    if (isShowing) {
+    if (_loadingCount > 0) {
+      _loadingCount--;
+    }
+    if (_loadingCount == 0 && isShowing) {
       debugPrint("Hiding progress dialog...");
       print("Hiding progress dialog...");
-      Navigator.of(mainNavKey.currentContext!, rootNavigator: true)
-          .pop('dialog');
+      _overlayEntry?.remove();
+      _overlayEntry = null;
       isShowing = false;
     }
   }
