@@ -22,10 +22,8 @@ class LogYourSymptoms extends StatefulWidget {
   State<LogYourSymptoms> createState() => _LogYourSymptomsState();
 }
 
-class _LogYourSymptomsState extends State<LogYourSymptoms>
-    with SingleTickerProviderStateMixin {
+class _LogYourSymptomsState extends State<LogYourSymptoms> {
   late LogYourSymptomsModel mViewModel;
-  late AnimationController animationController;
 
   @override
   void initState() {

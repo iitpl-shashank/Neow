@@ -759,9 +759,9 @@ class _HomeViewState extends State<HomeView> {
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
                                   if (vModel.dateWiseTextList.msg.periodMsg ==
-                                              "Period late by 1" ||
+                                          "Period late by 1" ||
                                       vModel.dateWiseTextList.msg.periodMsg ==
-                                              "पीरियड 1 दिन लेट।") {
+                                          "पीरियड 1 दिन लेट।") {
                                     showCustomDayDialog(context, "", 5);
                                     _dialogShown = true;
                                   }
@@ -821,7 +821,8 @@ class _HomeViewState extends State<HomeView> {
                                               child: Center(
                                                 child: Text(
                                                   vModel.dateWiseTextList.msg
-                                                      .periodMsg ?? "",
+                                                          .periodMsg ??
+                                                      "",
                                                   style: TextStyle(
                                                       color: vModel
                                                               .dateWiseTextList
