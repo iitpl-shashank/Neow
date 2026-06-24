@@ -779,7 +779,7 @@ class _DashboardViewState extends State<DashboardView> {
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
                                         _tableCell(
-                                            S.of(context)!.createdAt,
+                                            S.of(context)!.updatedAt,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.5)),
                                       ],

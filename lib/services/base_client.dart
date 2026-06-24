@@ -90,7 +90,7 @@ class AppBaseClient {
       }
     } else {
       CommonUtils.showSnackBar(S.of(mainNavKey.currentContext!)!.noInternet,
-          color: CommonColors.mRed);
+          color: CommonColors.primaryColor);
       return null;
     }
   }
@@ -127,7 +127,7 @@ class AppBaseClient {
       }
     } else {
       CommonUtils.showSnackBar(S.of(mainNavKey.currentContext!)!.noInternet,
-          color: CommonColors.mRed);
+          color: CommonColors.primaryColor);
       return null;
     }
   }
@@ -163,7 +163,7 @@ class AppBaseClient {
       }
     } else {
       CommonUtils.showSnackBar(S.of(mainNavKey.currentContext!)!.noInternet,
-          color: CommonColors.mRed);
+          color: CommonColors.primaryColor);
       return null;
     }
   }
@@ -194,7 +194,7 @@ class AppBaseClient {
       }
     } else {
       CommonUtils.showSnackBar(S.of(mainNavKey.currentContext!)!.noInternet,
-          color: CommonColors.mRed);
+          color: CommonColors.primaryColor);
       return null;
     }
   }
@@ -324,7 +324,7 @@ class AppBaseClient {
     } else {
       CommonUtils.showSnackBar(
         S.of(mainNavKey.currentContext!)!.noInternet,
-        color: CommonColors.mRed,
+        color: CommonColors.primaryColor,
       );
       return null;
     }
@@ -385,7 +385,7 @@ class AppBaseClient {
     } else {
       CommonUtils.showSnackBar(
         S.of(mainNavKey.currentContext!)!.noInternet,
-        color: CommonColors.mRed,
+        color: CommonColors.primaryColor,
       );
       return null;
     }

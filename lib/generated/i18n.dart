@@ -563,7 +563,7 @@ class S {
 
   String get verificationFailed => "verification failed please try again!";
 
-  String get createdAt => "Created At";
+  String get updatedAt => "Updated At";
 
   String get newomeDescription =>
       "I am anyone who has periods and wants to understand my body better while staying healthy.";
@@ -1539,7 +1539,7 @@ class $mr extends S {
 
   // hindi words start //
 
-  String get createdAt => "निर्माण तिथि";
+  String get updatedAt => "निर्माण तिथि";
   @override
   String get commentAddedSuccess => "टिप्पणी सफलतापूर्वक जोड़ी गई";
   @override
