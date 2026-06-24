@@ -84,7 +84,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
           title: Center(
             child: Transform.translate(
               offset: const Offset(-30, 0),
-              child: Text('Neowme',
+              child: Text('Neow',
                   style: TextStyle(
                     color: CommonColors.blackColor,
                     fontSize: 18,
