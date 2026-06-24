@@ -37,15 +37,13 @@ class CustomOptionMultiButton extends StatelessWidget {
               vertical: 8,
               horizontal: 12,
             ),
-            child: Flexible(
-              child: Text(
-                textAlign: TextAlign.center,
-                text,
-                style: TextStyle(
-                  color: isSelected ? Colors.purple : Colors.black87,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
+            child: Text(
+              textAlign: TextAlign.center,
+              text,
+              style: TextStyle(
+                color: isSelected ? Colors.purple : Colors.black87,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
