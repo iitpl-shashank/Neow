@@ -220,26 +220,13 @@ class ForumViewModel with ChangeNotifier {
           S.of(context)!.commentAddedSuccess,
           color: CommonColors.greenColor,
         );
-   
-        // Fetch only the updated post to copy its data locally
-        final updatedPostModel =
-            await _services.api!.getForumAllPost(params: {"id": forumId});
-        if (updatedPostModel != null &&
-            updatedPostModel.success == true &&
-            updatedPostModel.data != null &&
-            updatedPostModel.data!.isNotEmpty) {
-          _updatePost(forumId, (post) {
-            post.copyFrom(updatedPostModel.data!.first);
-            return post;
-          });
-        } else {
-          // Fallback local update if API fails
-          _updatePost(forumId, (post) {
-            return post.copyWith(
-              commentCount: (post.commentCount ?? 0) + 1,
-            );
-          });
-        }
+
+        // Update comment count using copyWith locally
+        _updatePost(forumId, (post) {
+          return post.copyWith(
+            commentCount: (post.commentCount ?? 0) + 1,
+          );
+        });
       } else {
         CommonUtils.showSnackBar(
           S.of(context)!.somethingWentWrong,
@@ -260,6 +247,24 @@ class ForumViewModel with ChangeNotifier {
       forumPostList[index] = update(forumPostList[index]);
       notifyListeners();
     }
+  }
+
+  void syncPostCommentCount(int forumId, int commentCount) {
+    _updatePost(forumId, (post) {
+      return post.copyWith(commentCount: commentCount);
+    });
+  }
+
+  void syncPostLikeStatus(int forumId, bool liked, int totalLike) {
+    _updatePost(forumId, (post) {
+      return post.copyWith(liked: liked, totalLike: totalLike);
+    });
+  }
+
+  void syncPostSaveStatus(int forumId, String saved) {
+    _updatePost(forumId, (post) {
+      return post.copyWith(saved: saved);
+    });
   }
 
   void sharePost({

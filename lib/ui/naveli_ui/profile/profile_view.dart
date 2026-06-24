@@ -158,8 +158,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      launchUrl(
-                          "https://www.facebook.com/share/vgDh7TDfbcB3crNt/?mibextid=LQQJ4d");
+                      launchUrl("https://www.facebook.com/TheNeoWStory/");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icFacebook,
@@ -168,8 +167,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      launchUrl(
-                          "https://www.instagram.com/neowindiaa?utm_source=qr");
+                      launchUrl("https://www.instagram.com/theneowstory/");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icInstagram,
@@ -178,8 +176,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      launchUrl(
-                          "https://x.com/NeowIndia?t=zxTms01n1yiQ31W4qejuMA&s=08");
+                      launchUrl("https://x.com/TheNeoWStory");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icTwitter,
@@ -188,7 +185,8 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      launchUrl("https://www.youtube.com/@neowindia");
+                      launchUrl(
+                          "https://youtube.com/@theneowstory?si=mCBfc54w-ICx0yRja");
                     },
                     child: SvgPicture.asset(
                       LocalSvgs.icYoutube,
@@ -197,7 +195,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      launchUrl("https://www.neowindia.com/");
+                      launchUrl("https://lab1.invoidea.work/neow/public/");
                     },
                     child: Image.asset(
                       LocalImages.web,

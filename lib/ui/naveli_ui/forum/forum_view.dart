@@ -163,7 +163,7 @@ class ForumView extends StatelessWidget {
                       post: post,
                       index: index,
                       currentPage: viewModel.currentPage,
-                    )).then((_) => getData(context)),
+                    )),
                     child: ForumPostWidget(
                       post: post,
                       isFullPost: false,

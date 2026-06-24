@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:naveli_2023/generated/i18n.dart';
 import 'package:naveli_2023/models/forum_post_master.dart';
 import 'package:naveli_2023/services/api_url.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:naveli_2023/ui/naveli_ui/forum/forum_view_model.dart';
 import '../../../../models/common_master.dart';
 import '../../../../models/forum_comment_master.dart';
 import '../../../../services/api_para.dart';
@@ -85,18 +87,16 @@ class ForumFullPostViewModel with ChangeNotifier {
         color: CommonColors.greenColor,
       );
 
-      // Fetch only the updated post to copy its data locally
-      final updatedPostModel =
-          await _services.api!.getForumAllPost(params: {"id": forumId});
-      if (updatedPostModel != null &&
-          updatedPostModel.success == true &&
-          updatedPostModel.data != null &&
-          updatedPostModel.data!.isNotEmpty) {
-        post?.copyFrom(updatedPostModel.data!.first);
-      } else {
-        // Fallback local update if API fails
-        if (post != null) {
-          post!.commentCount = (post!.commentCount ?? 0) + 1;
+      if (post != null) {
+        post = post!.copyWith(
+          commentCount: (post!.commentCount ?? 0) + 1,
+        );
+        try {
+          final forumViewModel =
+              Provider.of<ForumViewModel>(context, listen: false);
+          forumViewModel.syncPostCommentCount(forumId, post!.commentCount ?? 0);
+        } catch (e) {
+          log("Sync error: $e");
         }
       }
     }
@@ -119,8 +119,18 @@ class ForumFullPostViewModel with ChangeNotifier {
 
       if (resp.success == true) {
         if (post != null) {
-          post!.liked = isLike == 1;
-          post!.totalLike = (post!.totalLike ?? 0) + (isLike == 1 ? 1 : -1);
+          post = post!.copyWith(
+            liked: isLike == 1,
+            totalLike: (post!.totalLike ?? 0) + (isLike == 1 ? 1 : -1),
+          );
+          try {
+            final forumViewModel =
+                Provider.of<ForumViewModel>(context, listen: false);
+            forumViewModel.syncPostLikeStatus(
+                forumId, post!.liked == true, post!.totalLike ?? 0);
+          } catch (e) {
+            log("Sync error: $e");
+          }
         }
       } else {
         CommonUtils.showSnackBar(
@@ -153,7 +163,14 @@ class ForumFullPostViewModel with ChangeNotifier {
 
       if (resp.success == true) {
         if (post != null) {
-          post!.saved = isSaved == 1 ? "yes" : "no";
+          post = post!.copyWith(saved: isSaved == 1 ? "yes" : "no");
+          try {
+            final forumViewModel =
+                Provider.of<ForumViewModel>(context, listen: false);
+            forumViewModel.syncPostSaveStatus(forumId, post!.saved ?? "no");
+          } catch (e) {
+            log("Sync error: $e");
+          }
         }
         CommonUtils.showSnackBar(
           isSaved == 1
@@ -205,7 +222,19 @@ class ForumFullPostViewModel with ChangeNotifier {
           color: CommonColors.greenColor,
         );
 
-        // await getForumPostApi(showLoader: false);
+        if (post != null) {
+          post = post!.copyWith(
+            commentCount: (post!.commentCount ?? 0) + 1,
+          );
+          try {
+            final forumViewModel =
+                Provider.of<ForumViewModel>(context, listen: false);
+            forumViewModel.syncPostCommentCount(
+                forumId, post!.commentCount ?? 0);
+          } catch (e) {
+            log("Sync error: $e");
+          }
+        }
       } else {
         CommonUtils.showSnackBar(
           S.of(context)!.somethingWentWrong,
@@ -217,6 +246,7 @@ class ForumFullPostViewModel with ChangeNotifier {
       CommonUtils.oopsMSG();
     } finally {
       CommonUtils.hideProgressDialog();
+      notifyListeners();
     }
   }
 

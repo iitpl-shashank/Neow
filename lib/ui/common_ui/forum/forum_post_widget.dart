@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naveli_2023/models/forum_post_master.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
-import 'package:naveli_2023/utils/global_variables.dart';
 
-import '../../../generated/i18n.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/local_images.dart';
 import 'forum_comments_sheet.dart';

@@ -17,21 +17,21 @@ class ForumPostModel {
     // Handle both data structures
     List<ForumPost> parseData(dynamic jsonData) {
       if (jsonData == null) return [];
-      
+
       // Handle case where data is wrapped in another "data" object
       if (jsonData is Map && jsonData.containsKey("data")) {
         jsonData = jsonData["data"];
       }
-      
-      return List<ForumPost>.from(
-        jsonData.map((x) => ForumPost.fromJson(x))
-      );
+
+      return List<ForumPost>.from(jsonData.map((x) => ForumPost.fromJson(x)));
     }
 
     // Handle pagination data if present
     Pagination? parsePagination(dynamic jsonData) {
-      if (jsonData is Map && jsonData.containsKey("data") && 
-          jsonData["data"] is Map && jsonData["data"].containsKey("pagination")) {
+      if (jsonData is Map &&
+          jsonData.containsKey("data") &&
+          jsonData["data"] is Map &&
+          jsonData["data"].containsKey("pagination")) {
         return Pagination.fromJson(jsonData["data"]["pagination"]);
       }
       return null;
@@ -46,18 +46,19 @@ class ForumPostModel {
   }
 
   Map<String, dynamic> toJson() => {
-    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-    "success": success,
-    "message": message,
-    "pagination": pagination?.toJson(),
-  };
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "success": success,
+        "message": message,
+        "pagination": pagination?.toJson(),
+      };
 
   factory ForumPostModel.fromRawJson(String str) =>
       ForumPostModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 }
-
 
 class Pagination {
   int? currentPage;
@@ -77,24 +78,23 @@ class Pagination {
   });
 
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-    currentPage: json["current_page"],
-    nextPageUrl: json["next_page_url"],
-    prevPageUrl: json["prev_page_url"],
-    total: json["total"],
-    perPage: json["per_page"],
-    lastPage: json["last_page"],
-  );
+        currentPage: json["current_page"],
+        nextPageUrl: json["next_page_url"],
+        prevPageUrl: json["prev_page_url"],
+        total: json["total"],
+        perPage: json["per_page"],
+        lastPage: json["last_page"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "current_page": currentPage,
-    "next_page_url": nextPageUrl,
-    "prev_page_url": prevPageUrl,
-    "total": total,
-    "per_page": perPage,
-    "last_page": lastPage,
-  };
+        "current_page": currentPage,
+        "next_page_url": nextPageUrl,
+        "prev_page_url": prevPageUrl,
+        "total": total,
+        "per_page": perPage,
+        "last_page": lastPage,
+      };
 }
-
 
 class ForumPost {
   int? id;
@@ -104,8 +104,8 @@ class ForumPost {
   String? description;
   String? media;
   String? time;
-  String? author;        // Added
-  String? authorImage;   // Added
+  String? author; // Added
+  String? authorImage; // Added
   bool? liked;
   int? totalLike;
   String? saved;
@@ -120,8 +120,8 @@ class ForumPost {
     this.description,
     this.media,
     this.time,
-    this.author,         // Added
-    this.authorImage,    // Added
+    this.author, // Added
+    this.authorImage, // Added
     this.liked,
     this.totalLike,
     this.saved,
@@ -181,31 +181,30 @@ class ForumPost {
   }
 
   factory ForumPost.fromJson(Map<String, dynamic> json) => ForumPost(
-        id: json["id"],
-        forumCategory: json["forum_category"] == null
-            ? null
-            : ForumCategory.fromJson(json["forum_category"]),
-        forumSubCategory: json["forum_sub_category"] == null
-            ? null
-            : ForumCategory.fromJson(json["forum_sub_category"]),
-        title: json["title"],
-        description: json["description"],
-        media: json["media"],
-        time: json["time"],
-        author: json["author"],           // Added
-        authorImage: json["author_image"], // Added
-        liked: json["liked"] == "1" ||
-            json["liked"] == 1 ||
-            json["liked"] == true ||
-            (json["liked"] is String && json["liked"].toLowerCase() == "yes"),
-        totalLike: json["total_like"] ?? 0,
-        saved: json["saved"],
-        comments: json["comments"] == null
-            ? []
-            : List<Comment>.from(
-                json["comments"].map((x) => Comment.fromJson(x))),
-        commentCount: json["comments"] == null ? 0 : (json["comments"] as List).length,
-      );
+      id: json["id"],
+      forumCategory: json["forum_category"] == null
+          ? null
+          : ForumCategory.fromJson(json["forum_category"]),
+      forumSubCategory: json["forum_sub_category"] == null
+          ? null
+          : ForumCategory.fromJson(json["forum_sub_category"]),
+      title: json["title"],
+      description: json["description"],
+      media: json["media"],
+      time: json["time"],
+      author: json["author"], // Added
+      authorImage: json["author_image"], // Added
+      liked: json["liked"] == "1" ||
+          json["liked"] == 1 ||
+          json["liked"] == true ||
+          (json["liked"] is String && json["liked"].toLowerCase() == "yes"),
+      totalLike: json["total_like"] ?? 0,
+      saved: json["saved"],
+      comments: json["comments"] == null
+          ? []
+          : List<Comment>.from(
+              json["comments"].map((x) => Comment.fromJson(x))),
+      commentCount: json["total_comment"] ?? 0);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -215,7 +214,7 @@ class ForumPost {
         "description": description,
         "media": media,
         "time": time,
-        "author": author,            // Added
+        "author": author, // Added
         "author_image": authorImage, // Added
         "liked": liked,
         "total_like": totalLike,
