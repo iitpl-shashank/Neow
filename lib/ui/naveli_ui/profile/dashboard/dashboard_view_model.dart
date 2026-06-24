@@ -298,7 +298,8 @@ class DashBoardViewModel with ChangeNotifier {
     String accessToken = AppPreferences.instance.getAccessToken();
     String numberString = "${globalUserMaster?.id}";
     peroidCustomeList.clear();
-    final url = Uri.parse("${ApiUrl.GET_USER_DETAILS_PHP}?user_id=$numberString");
+    final url =
+        Uri.parse("${ApiUrl.GET_USER_DETAILS_PHP}?user_id=$numberString");
     final headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $accessToken"

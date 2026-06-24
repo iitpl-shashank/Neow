@@ -39,29 +39,32 @@ class StressLogCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: logs.map((log) {
-              return Column(
-                children: [
-                  Text(
-                    log.level,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: logs.map((log) {
+                return Column(
+                  children: [
+                    Text(
+                      "• ${log.level}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    log.date,
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 10,
+                    SizedBox(height: 4),
+                    Text(
+                      log.date,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 10,
+                      ),
                     ),
-                  ),
-                ],
-              );
-            }).toList(),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         ),
       ],

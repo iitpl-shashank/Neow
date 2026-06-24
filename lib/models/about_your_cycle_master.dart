@@ -59,6 +59,7 @@ class CycleTableData {
   int? _periodLengthDeviation;
   bool? _periodCycleLengthInterpretation;
   bool? _cycleLengthInterpretation;
+  String? _createdAt;
 
   CycleTableData(
       {String? periodDate,
@@ -67,9 +68,9 @@ class CycleTableData {
       String? periodCycleLength,
       int? cycleLengthDeviation,
       int? periodLengthDeviation,
-        bool? periodCycleLengthInterpretation,
-        bool? cycleLengthInterpretation
-      }) {
+      String? createdAt,
+      bool? periodCycleLengthInterpretation,
+      bool? cycleLengthInterpretation}) {
     if (periodDate != null) {
       _periodDate = periodDate;
     }
@@ -95,9 +96,15 @@ class CycleTableData {
     if (period_start_date != null) {
       _period_start_date = period_start_date;
     }
+    if (createdAt != null) {
+      _createdAt = createdAt;
+    }
   }
 
   int? get cycleLengthDeviation => _cycleLengthDeviation;
+  String? get createdAt => _createdAt;
+
+  set createdAt(String? createdAt) => _createdAt = createdAt;
 
   set cycleLengthDeviation(int? deviation) => _cycleLengthDeviation = deviation;
 
@@ -107,15 +114,18 @@ class CycleTableData {
 
   int? get periodLengthDeviation => _periodLengthDeviation;
 
-  set periodLengthDeviation(int? deviation) => _periodLengthDeviation = deviation;
+  set periodLengthDeviation(int? deviation) =>
+      _periodLengthDeviation = deviation;
 
   bool? get cycleLengthInterpretation => _cycleLengthInterpretation;
 
-  set cycleLengthInterpretation(bool? inter) => _cycleLengthInterpretation = inter;
+  set cycleLengthInterpretation(bool? inter) =>
+      _cycleLengthInterpretation = inter;
 
   bool? get periodLengthInterpretation => _periodCycleLengthInterpretation;
 
-  set periodLengthInterpretation(bool? inter) => _periodCycleLengthInterpretation = inter;
+  set periodLengthInterpretation(bool? inter) =>
+      _periodCycleLengthInterpretation = inter;
 
   String? get periodDate => _periodDate;
 
@@ -123,7 +133,8 @@ class CycleTableData {
 
   String? get periodCycleLength => _periodCycleLength;
 
-  set periodCycleLength(String? periodCycleLength) => _periodCycleLength = periodCycleLength;
+  set periodCycleLength(String? periodCycleLength) =>
+      _periodCycleLength = periodCycleLength;
 
   String? get periodLength => _periodLength;
 
@@ -136,6 +147,7 @@ class CycleTableData {
     _cycleLengthDeviation = json['period_cycle_length_deviation'];
     _periodLengthDeviation = json['period_length_deviation'];
     _period_start_date = json['period_start_date'];
+    _createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -148,6 +160,7 @@ class CycleTableData {
     data['period_cycle_length_interpretation'] = _cycleLengthInterpretation;
     data['period_length_interpretation'] = _periodCycleLengthInterpretation;
     data['period_start_date'] = _period_start_date;
+    data['created_at'] = _createdAt;
     return data;
   }
 }

@@ -735,7 +735,7 @@ class _DashboardViewState extends State<DashboardView> {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: SizedBox(
-                                width: 600,
+                                width: 750,
                                 child: Table(
                                   border: TableBorder.all(
                                     width: 0.5,
@@ -778,6 +778,10 @@ class _DashboardViewState extends State<DashboardView> {
                                             S.of(context)!.tableInterpretation,
                                             CommonColors.primaryColor
                                                 .withOpacity(0.2)),
+                                        _tableCell(
+                                            S.of(context)!.createdAt,
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.5)),
                                       ],
                                     ),
                                     for (int index = 0;
@@ -852,6 +856,11 @@ class _DashboardViewState extends State<DashboardView> {
                                                       size: 25),
                                             ),
                                           ),
+                                          _tableCell(
+                                              mViewModel.dataList[index]
+                                                      .createdAt ??
+                                                  '',
+                                              CommonColors.mWhite),
                                         ],
                                       ),
                                   ],
