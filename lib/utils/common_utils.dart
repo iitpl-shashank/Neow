@@ -506,9 +506,8 @@ class CommonUtils {
       return;
     }
     isShowing = true;
-    final context = mainNavKey.currentContext;
-    if (context == null) return;
-    final overlay = Overlay.of(context, rootOverlay: true);
+    final overlay = mainNavKey.currentState?.overlay;
+    if (overlay == null) return;
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return PopScope(

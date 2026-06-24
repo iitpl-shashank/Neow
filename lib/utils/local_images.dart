@@ -293,12 +293,12 @@ class LocalImages {
   static const String img_myth_vs_fect = 'assets/images/img_myth_vs_fect.png';
   static const String img_nutrition_post =
       'assets/images/img_nutrition_post.png';
-  static const String au_knock_door = 'assets/audio/Door knock_revised.wav';
+  static const String au_knock_door = 'assets/audio/door_knock_revised.wav';
   static const String au_who_are_you = 'assets/audio/who_are_you.mp3';
   static const String knock_door_full_video =
       'assets/audio/knock_door_full_video.mp3';
   static const String au_yatrigan_kripya_dhyan_de =
-      'assets/audio/yatrigan_kripya_dhyan_de.mp3';
+      'assets/audio/yatrigan_kripya_dhyan_de.wav';
   static const String deStressVideo = 'assets/video/vi_de_stress_video.mp4';
 
   //secret diary banner month wise
@@ -506,5 +506,4 @@ class LocalSvgs {
   static const String icInterestEdit = 'assets/svgs/ic_interest_edit.svg';
   static const String icBookmarkSaved = 'assets/icons/icon_bookmark_saved.svg';
   static const String icBookmark = 'assets/icons/icon_bookmark.svg';
-
 }
