@@ -938,7 +938,7 @@ class S {
   String get youNeedFertilityWork =>
       "You need a fertility work up to find out the cause.";
 
-  String get clickHere => "Click Here";
+  String get okay => "Okay";
 
   String get keepTrying =>
       "Keep trying for at least 6 months - To know more about your fertile period";
@@ -966,8 +966,6 @@ class S {
   String get lessThanThreeYears => "Less Than 3 Years";
 
   String get repeatPapSmear => "Repeat a Pap smear today!";
-
-  String get okay => "Okay";
 
   String get getOneAfter3Years => "Get another one at an interval of 3 years!";
 
@@ -2426,9 +2424,6 @@ class $mr extends S {
 
   @override
   String get keepTrying => "कम से कम 6 महीने तक कोशिश करते रहें।";
-
-  @override
-  String get clickHere => "क्लिक करें।";
 
   @override
   String get youNeedFertilityWork =>

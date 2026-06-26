@@ -236,7 +236,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           showCloseIcon: true,
           showPurpleButton: true,
           title: S.of(context)!.keepTrying,
-          options: [DialogOption(S.of(context)!.clickHere, "click")],
+          options: [DialogOption(S.of(context)!.okay, "click")],
         );
       }
     }
