@@ -1002,7 +1002,6 @@ class _HomeViewState extends State<HomeView> {
                                                               "username",
                                                               6,
                                                             );
-                                                      ;
                                                     },
                                                     style: ButtonStyle(
                                                       padding:

@@ -488,9 +488,8 @@ class HomeViewModel with ChangeNotifier {
     String accessToken = AppPreferences.instance.getAccessToken();
     String numberString = "${globalUserMaster?.id}";
     peroidCustomeList.clear();
-    final url = Uri.parse(
-        "${ApiUrl.PERIOD_INFO_PHP}?user_id=" +
-            numberString); // Replace with your API endpoint
+    final url = Uri.parse("${ApiUrl.PERIOD_INFO_PHP}?user_id=" +
+        numberString); // Replace with your API endpoint
     final headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $accessToken"
@@ -532,7 +531,7 @@ class HomeViewModel with ChangeNotifier {
     log("getPeriodInfo data master ====>after");
     PeriodInfoListResponse? master = await _services.api!.getPeriodInfoList();
     ;
-    await Future.delayed(Duration(seconds: 1));
+    log("getPeriodInfo master ====>${master?.toJson()}");
     if (master == null) {
       startChatBot = false;
       getDateWiseText();
@@ -547,7 +546,8 @@ class HomeViewModel with ChangeNotifier {
       log("getPeriodInfo data master ====>${master.data.toJson()}");
       peroidCustomeList.clear();
       getDateWiseText();
-      int currentMonth = DateTime.now().month;
+      today = DateTime.now();
+      int currentMonth = today.month;
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
       //TODO : Log fixed here
@@ -555,15 +555,36 @@ class HomeViewModel with ChangeNotifier {
       peroidCustomeList.add(data);
       // }
 
+      // Find the prediction matching the current month and year of 'today'
+      PredictionData targetPrediction = data.predictions.first;
+      for (var prediction in data.predictions) {
+        final start = DateTime.tryParse(prediction.predictedStart);
+        if (start != null && start.month == today.month && start.year == today.year) {
+          targetPrediction = prediction;
+          break;
+        }
+      }
+      
+      // Fallback: If no match for month and year, try matching just the month
+      if (DateTime.tryParse(targetPrediction.predictedStart)?.month != today.month) {
+        for (var prediction in data.predictions) {
+          final start = DateTime.tryParse(prediction.predictedStart);
+          if (start != null && start.month == today.month) {
+            targetPrediction = prediction;
+            break;
+          }
+        }
+      }
+
       log("True check in check ====> $currentMonth");
       periodStartdateTime =
-          DateTime.parse(data.predictions.first.predictedStart);
-      periodEnddateTime = DateTime.parse(data.predictions.first.predictedEnd);
-      ovulationDateTime = DateTime.parse(data.predictions.first.ovulationDay);
+          DateTime.parse(targetPrediction.predictedStart);
+      periodEnddateTime = DateTime.parse(targetPrediction.predictedEnd);
+      ovulationDateTime = DateTime.parse(targetPrediction.ovulationDay);
       fertileStartDateTime =
-          DateTime.parse(data.predictions.first.fertileWindowStart);
+          DateTime.parse(targetPrediction.fertileWindowStart);
       fertileEndDateTime =
-          DateTime.parse(data.predictions.first.fertileWindowEnd);
+          DateTime.parse(targetPrediction.fertileWindowEnd);
 
       periodStartLogDateTime =
           DateTime.parse(data.periodData.first.periodStartDate);
@@ -575,28 +596,39 @@ class HomeViewModel with ChangeNotifier {
       log("predicted start ====> $periodStartdateTime");
       log("predicted end ====> $periodEnddateTime");
 
-      log("Check dates $periodEnddateTime and $today");
-      if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
-              isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
-              isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
-              isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
-              today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) &&
-          (isSameDate(periodStartdateTime, periodStartLogDateTime))) {
-        startChatBot = true;
-        notifyListeners();
-      } else {
+      // /// Commenting this 
+      // if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
+      //         isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
+      //         isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
+      //         isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
+      //         today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) &&
+      //     (isSameDate(periodStartdateTime, periodStartLogDateTime))) {
+      //   
+      //   startChatBot = true;
+      //   notifyListeners();
+      // } 
+      // 
+      // else {
+      //   startChatBot = false;
+      //   notifyListeners();
+      // }
+
+      if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
+          isWithinNoTime(periodStartdateTime, periodEnddateTime, today)) {
         startChatBot = false;
-        notifyListeners();
+      } else {
+        startChatBot = true;
       }
+      notifyListeners();
 
       log("True check out check ====> $currentMonth");
-      if (currentMonth == int.parse(data.predictions.first.month)) {
+      if (currentMonth == int.tryParse(targetPrediction.month)) {
         log("True check in check ====> $currentMonth");
-        String predictedDate = data.predictions.first.predictedStart;
+        String predictedDate = targetPrediction.predictedStart;
         log("predictedDate ====> $predictedDate");
         parsedDate = DateFormat('yyyy-MM-dd').parse(predictedDate);
         parsedEndDate =
-            DateFormat('yyyy-MM-dd').parse(data.predictions.first.predictedEnd);
+            DateFormat('yyyy-MM-dd').parse(targetPrediction.predictedEnd);
       }
       notifyListeners();
       getDateWiseText();
@@ -660,7 +692,8 @@ class HomeViewModel with ChangeNotifier {
 
       try {
         if (dateWiseTextList.msg.periodMsg?.contains("दिन लेट") == true ||
-            dateWiseTextList.msg.periodMsg?.contains("Period late by") == true) {
+            dateWiseTextList.msg.periodMsg?.contains("Period late by") ==
+                true) {
           peroidCustomeList.clear();
         }
       } catch (e) {
