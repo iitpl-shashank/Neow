@@ -8,10 +8,10 @@ class InfoItems extends StatelessWidget {
       required this.points,
       required this.title,
       required this.titleIcon});
-  String? imageUrl;
-  List<String>? points;
-  String title;
-  String titleIcon;
+  final String? imageUrl;
+  final List<String>? points;
+  final String title;
+  final String titleIcon;
 
   @override
   Widget build(BuildContext context) {

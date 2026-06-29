@@ -1,92 +1,143 @@
 import 'dart:developer';
-import 'dart:io';
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
+import 'package:naveli_2023/utils/local_images.dart';
 
 class DeStressViewModel with ChangeNotifier {
-  VideoPlayerController? _controller;
+  BetterPlayerController? _betterPlayerController;
   bool _isVideoActive = false;
   bool _isInitializing = false;
   bool _isInitialized = false;
+  bool _isBuffering = false;
 
-  VideoPlayerController? get controller => _controller;
+  BetterPlayerController? get betterPlayerController => _betterPlayerController;
   bool get isVideoActive => _isVideoActive;
   bool get isInitializing => _isInitializing;
   bool get isInitialized => _isInitialized;
 
-  bool get isBuffering =>
-      _controller != null && _controller!.value.isBuffering;
-
   bool get isVideoLoading {
     if (!_isVideoActive) return false;
-    if (_isInitializing || !_isInitialized || _controller == null) return true;
-    // Once video is actively playing or has position, hide loader immediately!
-    if (_controller!.value.isPlaying ||
-        _controller!.value.position > Duration.zero) {
-      return false;
+    if (_isInitializing || !_isInitialized || _betterPlayerController == null) {
+      return true;
     }
-    return _controller!.value.isBuffering;
+    return _isBuffering;
   }
 
-  Future<File?> _getLocalCachedFile() async {
-    try {
-      final tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/de_stress_cached_video.mp4');
-      if (await file.exists() && (await file.length()) > 1000000) {
-        return file;
+  Future<void> onScreenInit(String url) async {
+    _isVideoActive = true;
+    notifyListeners();
+
+    if (_betterPlayerController == null || !_isInitialized) {
+      await initializeVideo(url);
+    } else {
+      try {
+        _betterPlayerController!.play();
+      } catch (e) {
+        log("Error playing video on screen init, reinitializing: $e");
+        await initializeVideo(url);
+        _betterPlayerController?.play();
       }
-    } catch (e) {
-      log("Error checking local video cache: $e");
     }
-    return null;
+    notifyListeners();
+  }
+
+  void onScreenDispose() {
+    _isVideoActive = false;
+    if (_betterPlayerController != null && _isInitialized) {
+      try {
+        _betterPlayerController!.pause();
+        _betterPlayerController!.seekTo(Duration.zero);
+      } catch (e) {
+        log("Error pausing video on screen dispose: $e");
+      }
+    }
+    notifyListeners();
   }
 
   Future<void> initializeVideo(String url) async {
-    if (_controller != null && _isInitialized) return;
+    // If controller exists but was disposed or in bad state, clean up first
+    if (_betterPlayerController != null) {
+      try {
+        _betterPlayerController!.removeEventsListener(_onPlayerEvent);
+        _betterPlayerController!.dispose();
+      } catch (e) {
+        log("Error cleaning up existing controller: $e");
+      }
+      _betterPlayerController = null;
+      _isInitialized = false;
+    }
 
     _isInitializing = true;
     notifyListeners();
 
     try {
-      // 1. Check disk cache first for instant 0-latency playback
-      final cachedFile = await _getLocalCachedFile();
-      if (cachedFile != null) {
-        log("Loading DeStress video from local disk cache: ${cachedFile.path}");
-        _controller = VideoPlayerController.file(cachedFile);
-        _controller!.addListener(_onControllerUpdate);
-        await _controller!.initialize();
-        _controller!.setLooping(true);
-        _isInitialized = true;
-        return;
-      }
+      final betterPlayerConfiguration = BetterPlayerConfiguration(
+        autoPlay: true,
+        looping: true,
+        fit: BoxFit.contain,
+        expandToFill: false,
+        autoDispose: false, // Managed by ViewModel lifecycle safely
+        handleLifecycle: true,
+        fullScreenByDefault: false,
+        allowedScreenSleep: false,
+        deviceOrientationsAfterFullScreen: const [
+          DeviceOrientation.portraitUp,
+        ],
+        deviceOrientationsOnFullScreen: const [
+          DeviceOrientation.portraitUp,
+        ],
+        placeholder: Image.asset(
+          LocalImages.img_destress_img,
+          fit: BoxFit.contain,
+        ),
+        showPlaceholderUntilPlay: true,
+        controlsConfiguration: const BetterPlayerControlsConfiguration(
+          showControls: false,
+        ),
+      );
 
-      // 2. Load from network URL
-      log("Loading DeStress video from network URL: $url");
-      _controller = VideoPlayerController.networkUrl(Uri.parse(url));
-      _controller!.addListener(_onControllerUpdate);
-      await _controller!.initialize();
-      _controller!.setLooping(true);
+      final dataSource = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        url,
+        cacheConfiguration: const BetterPlayerCacheConfiguration(
+          useCache: true,
+          maxCacheSize: 50 * 1024 * 1024,
+          maxCacheFileSize: 50 * 1024 * 1024,
+          key: "de_stress_video_cache",
+        ),
+      );
+
+      _betterPlayerController =
+          BetterPlayerController(betterPlayerConfiguration);
+      _betterPlayerController!.addEventsListener(_onPlayerEvent);
+      await _betterPlayerController!.setupDataSource(dataSource);
       _isInitialized = true;
-
-      // Cache video in background for future instant playback
-      _cacheVideoToDiskInBackground(url);
+      if (_isVideoActive) {
+        _betterPlayerController!.play();
+      }
     } catch (e) {
-      log("Error initializing DeStress video with HTTPS: $e. Retrying HTTP fallback...");
+      log("Error initializing BetterPlayer in DeStressViewModel: $e");
       if (url.startsWith('https://')) {
         try {
           final httpUrl = url.replaceFirst('https://', 'http://');
-          _controller?.removeListener(_onControllerUpdate);
-          await _controller?.dispose();
-          _controller = VideoPlayerController.networkUrl(Uri.parse(httpUrl));
-          _controller!.addListener(_onControllerUpdate);
-          await _controller!.initialize();
-          _controller!.setLooping(true);
+          final fallbackDataSource = BetterPlayerDataSource(
+            BetterPlayerDataSourceType.network,
+            httpUrl,
+            cacheConfiguration: const BetterPlayerCacheConfiguration(
+              useCache: true,
+              maxCacheSize: 50 * 1024 * 1024,
+              maxCacheFileSize: 50 * 1024 * 1024,
+              key: "de_stress_video_cache_http",
+            ),
+          );
+          await _betterPlayerController?.setupDataSource(fallbackDataSource);
           _isInitialized = true;
-          _cacheVideoToDiskInBackground(httpUrl);
+          if (_isVideoActive) {
+            _betterPlayerController?.play();
+          }
         } catch (fallbackError) {
-          log("Error initializing DeStress video fallback: $fallbackError");
+          log("Error initializing BetterPlayer fallback: $fallbackError");
         }
       }
     } finally {
@@ -95,55 +146,63 @@ class DeStressViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> _cacheVideoToDiskInBackground(String url) async {
-    try {
-      final tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/de_stress_cached_video.mp4');
-      if (await file.exists() && (await file.length()) > 1000000) return;
-
-      log("Starting background video disk caching...");
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        await file.writeAsBytes(response.bodyBytes);
-        log("Successfully cached DeStress video to disk! (${response.bodyBytes.length} bytes)");
-      }
-    } catch (e) {
-      log("Background video caching error: $e");
+  void _onPlayerEvent(BetterPlayerEvent event) {
+    if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+      _isInitialized = true;
+      notifyListeners();
+    } else if (event.betterPlayerEventType ==
+        BetterPlayerEventType.bufferingStart) {
+      _isBuffering = true;
+      notifyListeners();
+    } else if (event.betterPlayerEventType ==
+            BetterPlayerEventType.bufferingEnd ||
+        event.betterPlayerEventType == BetterPlayerEventType.play) {
+      _isBuffering = false;
+      notifyListeners();
     }
-  }
-
-  void _onControllerUpdate() {
-    notifyListeners();
   }
 
   Future<void> startVideo(String url) async {
     _isVideoActive = true;
     notifyListeners();
 
-    if (_controller == null || !_isInitialized) {
+    if (_betterPlayerController == null || !_isInitialized) {
       await initializeVideo(url);
-    }
-
-    if (_controller != null && _isInitialized) {
-      await _controller!.play();
+    } else {
+      try {
+        _betterPlayerController!.play();
+      } catch (e) {
+        await initializeVideo(url);
+        _betterPlayerController?.play();
+      }
     }
     notifyListeners();
   }
 
   Future<void> stopVideo() async {
     _isVideoActive = false;
-    if (_controller != null && _isInitialized) {
-      await _controller!.pause();
-      await _controller!.seekTo(Duration.zero);
+    if (_betterPlayerController != null && _isInitialized) {
+      try {
+        _betterPlayerController!.pause();
+        _betterPlayerController!.seekTo(Duration.zero);
+      } catch (e) {
+        log("Error stopping video: $e");
+      }
     }
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _controller?.removeListener(_onControllerUpdate);
-    _controller?.dispose();
-    _controller = null;
+    if (_betterPlayerController != null) {
+      try {
+        _betterPlayerController!.removeEventsListener(_onPlayerEvent);
+        _betterPlayerController!.dispose();
+      } catch (e) {
+        log("Error disposing BetterPlayerController: $e");
+      }
+      _betterPlayerController = null;
+    }
     _isInitialized = false;
     _isVideoActive = false;
     super.dispose();

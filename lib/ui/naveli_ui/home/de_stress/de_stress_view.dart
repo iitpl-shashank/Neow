@@ -1,3 +1,4 @@
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:naveli_2023/services/api_url.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/de_stress/de_stress_info.dart';
@@ -9,7 +10,6 @@ import 'package:naveli_2023/widgets/common_appbar.dart';
 import 'package:naveli_2023/widgets/primary_button.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../../generated/i18n.dart';
 import '../../../../utils/common_utils.dart';
@@ -28,8 +28,17 @@ class _DeStressViewState extends State<DeStressView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      mViewModel = Provider.of<DeStressViewModel>(context, listen: false);
+      if (mounted) {
+        mViewModel = Provider.of<DeStressViewModel>(context, listen: false);
+        mViewModel.onScreenInit(ApiUrl.DE_STRESS_VIDEO_URL);
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    mViewModel.onScreenDispose();
+    super.dispose();
   }
 
   @override
@@ -51,18 +60,17 @@ class _DeStressViewState extends State<DeStressView> {
                           ? Stack(
                               alignment: Alignment.center,
                               children: [
-                                if (vModel.controller != null &&
+                                if (vModel.betterPlayerController != null &&
                                     vModel.isInitialized)
-                                  SizedBox.expand(
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: SizedBox(
-                                        width:
-                                            vModel.controller!.value.size.width,
-                                        height: vModel
-                                            .controller!.value.size.height,
-                                        child: VideoPlayer(vModel.controller!),
-                                      ),
+                                  AspectRatio(
+                                    aspectRatio: vModel
+                                        .betterPlayerController!
+                                        .videoPlayerController!
+                                        .value
+                                        .aspectRatio,
+                                    child: BetterPlayer(
+                                      controller:
+                                          vModel.betterPlayerController!,
                                     ),
                                   )
                                 else
@@ -73,15 +81,9 @@ class _DeStressViewState extends State<DeStressView> {
                                 if (vModel.isVideoLoading)
                                   Container(
                                     color: Colors.black.withValues(alpha: 0.3),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const CircularProgressIndicator(
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                          const SizedBox(height: 12),
-                                        ],
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: CommonColors.primaryColor,
                                       ),
                                     ),
                                   ),

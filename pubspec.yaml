@@ -62,6 +62,7 @@ dependencies:
   share_plus: ^10.0.2
   zodiac: ^0.0.2
   video_player: ^2.8.3
+  better_player_plus: ^1.0.6
   animated_weight_picker: ^1.0.3
   pretty_gauge: ^1.0.1
   youtube_player_flutter: ^9.0.0
@@ -70,7 +71,7 @@ dependencies:
   awesome_notifications: ^0.10.1
   pdf: ^3.10.8
   permission_handler: ^11.3.1
-  flutter_widget_from_html: ^0.16.0
+  flutter_widget_from_html: ^0.15.3
   firebase_app_check: ^0.1.1+14
   timezone: ^0.10.0
   ikchatbot: ^1.0.5
