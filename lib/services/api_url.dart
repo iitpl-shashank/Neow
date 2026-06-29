@@ -11,7 +11,7 @@ class ApiUrl {
   static final String MAIN_SITE_URL = BASE_URL.replaceAll("api/", "");
   static final String CUSTOM_BASE_URL = "${MAIN_SITE_URL}customeApi/";
 
-  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}getUserDetails.php";
+  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}user-details";
   static final String MEDICATION_PHP = "${CUSTOM_BASE_URL}medication.php";
   static final String WATER_REMINDER_HISTORY_PHP = "${CUSTOM_BASE_URL}water_reminder_history.php";
   static final String WEIGHT_HISTORY_PHP = "${CUSTOM_BASE_URL}weight_history.php";

@@ -775,10 +775,10 @@ class _HomeViewState extends State<HomeView> {
                                   }
                                 });
                               }
-                              print(
-                                  "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
-                              print(
-                                  "Period Message : ${vModel.dateWiseTextList.msg.description}");
+                              // print(
+                              //     "Image not shwoing issue: ${vModel.dateWiseTextList.msg.image}");
+                              // print(
+                              //     "Period Message : ${vModel.dateWiseTextList.msg.description}");
                               return Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
