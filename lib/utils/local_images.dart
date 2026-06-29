@@ -303,7 +303,8 @@ class LocalImages {
       'assets/audio/knock_door_full_video.mp3';
   static const String au_yatrigan_kripya_dhyan_de =
       'assets/audio/yatrigan_kripya_dhyan_de.wav';
-  static const String deStressVideo = 'assets/video/vi_de_stress_video.mp4';
+  // static const String deStressVideo =
+  //     '';
 
   //secret diary banner month wise
   static const String img_jan_banner = 'assets/images/img_jan_banner.png';

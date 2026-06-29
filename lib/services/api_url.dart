@@ -1,20 +1,21 @@
 class ApiUrl {
-  // Local
-  // static const String BASE_URL = "http://192.168.1.95/new_naveli/api/";
-
   // Live
   // static const String BASE_URL = "https://new-naveli.harmistechnology.com/api/";
   // static const String BASE_URL = "https://neowindia.com/api/"; //OLD URL FROM CLIENT
   static const String BASE_URL = "https://lab1.invoidea.work/neow/public/api/";
   // static const String BASE_URL = "https://naveli.smartscan.in/api/";
 
-  static final String MAIN_SITE_URL = BASE_URL.replaceAll("api/", "");
+  static final String MAIN_SITE_URL = "https://lab1.invoidea.work/neow/public/";
+  static final String DE_STRESS_VIDEO_URL =
+      "${MAIN_SITE_URL}assets/video/vi_de_stress_video.mp4";
   static final String CUSTOM_BASE_URL = "${MAIN_SITE_URL}customeApi/";
 
   static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}user-details";
   static final String MEDICATION_PHP = "${CUSTOM_BASE_URL}medication.php";
-  static final String WATER_REMINDER_HISTORY_PHP = "${CUSTOM_BASE_URL}water_reminder_history.php";
-  static final String WEIGHT_HISTORY_PHP = "${CUSTOM_BASE_URL}weight_history.php";
+  static final String WATER_REMINDER_HISTORY_PHP =
+      "${CUSTOM_BASE_URL}water_reminder_history.php";
+  static final String WEIGHT_HISTORY_PHP =
+      "${CUSTOM_BASE_URL}weight_history.php";
   static final String SLEEP_HISTORY_PHP = "${CUSTOM_BASE_URL}sleep_history.php";
   static final String PERIOD_INFO_PHP = "${CUSTOM_BASE_URL}periodinfo.php";
 
