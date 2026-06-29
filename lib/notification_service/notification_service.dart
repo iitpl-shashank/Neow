@@ -182,13 +182,17 @@ class NotificationService {
   final _firebaseMessaging = FirebaseMessaging.instance;
   Future<void> initService() async {
     debugPrint("initService called");
-    _firebaseMessaging.requestPermission();
-    debugPrint("initService called 2");
-    final fCMToken = await _firebaseMessaging.getToken();
-    debugPrint("initService called 3 ${fCMToken}");
-    log('FCM Token :: $fCMToken');
-    if (fCMToken != null) {
-      await AppPreferences.instance.setFCMToken(fCMToken);
+    try {
+      _firebaseMessaging.requestPermission();
+      debugPrint("initService called 2");
+      final fCMToken = await _firebaseMessaging.getToken();
+      debugPrint("initService called 3 ${fCMToken}");
+      log('FCM Token :: $fCMToken');
+      if (fCMToken != null) {
+        await AppPreferences.instance.setFCMToken(fCMToken);
+      }
+    } catch (e) {
+      debugPrint("Firebase Messaging getToken error (Network/Service unavailable): $e");
     }
     // initializeNotification();
   }

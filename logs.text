@@ -1,0 +1,248 @@
+
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+D/FlutterJNI(28091): Beginning load of flutter...
+D/FlutterJNI(28091): flutter (null) was loaded normally!
+I/flutter (28091): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+D/FlutterGeolocator(28091): Attaching Geolocator to activity
+D/FlutterGeolocator(28091): Creating service.
+D/FlutterGeolocator(28091): Binding to location service.
+D/FlutterGeolocator(28091): Geolocator foreground service connected
+D/FlutterGeolocator(28091): Initializing Geolocator services
+D/FlutterGeolocator(28091): Flutter engine connected. Connected engine count 1
+32
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+Connecting to VM Service at ws://127.0.0.1:15363/Wp-hSIeFExM=/ws
+Connected to the VM Service.
+13
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/eli.naveli_2023(28091): Compiler allocated 7008KB to compile void android.view.ViewRootImpl.performTraversals()
+10
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+[log] initAppPreferences called
+W/Android: [Awesome Notifications](28091): Channel model 'basic_channel' was not found (ChannelManager:88)
+D/Android: [Awesome Notifications](28091): Notification channel Basic Channel created (ChannelManager:214)
+11
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/FirebaseApp(28091): Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+4
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+W/Glide   (28091): Failed to find GeneratedAppGlideModule. You should include an annotationProcessor compile dependency on com.github.bumptech.glide:compiler in your application and a @GlideModule annotated AppGlideModule implementation or LibraryGlideModules will be silently ignored
+I/FIAM.Headless(28091): Starting InAppMessaging runtime with Installation ID cinxObi-R3OKin4XWHUTOK
+3
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/flutter (28091): Firebase Project ID: neow-invoidea
+I/flutter (28091): initService called
+I/flutter (28091): initService called 2
+4
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/callGcSupression(28091): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object java.lang.reflect.Method.invoke(java.lang.Object, java.lang.Object[])' on a null object reference
+D/ScrollOptim [SceneManager](28091): updateCurrentActivity: mCurrentActivityName=null, isOptEnable=true, isAnimAheadEnable=true, isFrameInsertEnable=true, InsertNum=1, isEnabledForScrollChanged=false
+56
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+E/FeatureFlagsImplExport(28091): android.os.flagging.AconfigStorageReadException: ERROR_PACKAGE_NOT_FOUND: package com.android.libcore cannot be found on the device
+62
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/ProfileInstaller(28091): Installing profile for com.naveli.naveli_2023
+34
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/callGcSupression(28091): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object java.lang.reflect.Method.invoke(java.lang.Object, java.lang.Object[])' on a null object reference
+D/ScrollOptim [SceneManager](28091): updateCurrentActivity: mCurrentActivityName=com.naveli.naveli_2023.MainActivity, isOptEnable=true, isAnimAheadEnable=true, isFrameInsertEnable=true, InsertNum=1, isEnabledForScrollChanged=false
+D/ActivityThread(28091): ComponentInfo{com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity} checkFinished=false 4
+D/ResourcesManagerExtImpl(28091): applyConfigurationToAppResourcesLocked app.getDisplayId() return callback.displayId:0
+I/FIAM.Headless(28091): went foreground
+I/FIAM.Display(28091): Binding to activity: MainActivity
+I/FIAM.Headless(28091): Setting display event component
+D/ViewRootImplExtImpl(28091): wrapConfigInfoIntoFlags rotation=0, smallestScreenWidthDp=360, relayoutAsync=false, flags=0, newFlags=23592960, residentWS=false, title=com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity
+D/VRI[MainActivity](28091): relayoutWindow result, sizeChanged:false, surfaceControlChanged:false, transformHintChanged:false, mSurfaceSize:Point(1080, 2400), mLastSurfaceSize:Point(1080, 2400), mWidth:1080, mHeight:2400, requestedWidth:1080, requestedHeight:2400, transformHint:0, installOrientation:0, displayRotation:0, isSurfaceValid:true, attr.flag:-2122252032, tmpFrames:ClientWindowFrames{frame=[0,0][1080,2400] display=[0,0][1080,2400] parentFrame=[0,0][0,0]}, relayoutAsync:false, mSyncSeqId:0
+W/VRI[MainActivity](28091): updateBlastSurfaceIfNeeded, surfaceSize:Point(1080, 2400), lastSurfaceSize:Point(1080, 2400), format:-3, blastBufferQueue:android.graphics.BLASTBufferQueue@597709a
+2
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/FIAM.Headless(28091): Forcing fetch from service rather than cache. Test Device: false | App Fresh Install: true
+I/FIAM.Headless(28091): Recoverable exception while reading cache: /data/user/0/com.naveli.naveli_2023/files/fiam_impressions_store_file: open failed: ENOENT (No such file or directory)
+13
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/eli.naveli_2023(28091): Background concurrent mark compact GC freed 11MB AllocSpace bytes, 22(960KB) LOS objects, 60% free, 3936KB/10080KB, paused 508us,2.094ms total 226.403ms
+2
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/FIAM.Headless(28091): Fetching campaigns from service.
+W/DynamiteModule(28091): Local module descriptor class for com.google.android.gms.providerinstaller.dynamite not found.
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/DynamiteModule(28091): Considering local module com.google.android.gms.providerinstaller.dynamite:0 and remote module com.google.android.gms.providerinstaller.dynamite:0
+W/ProviderInstaller(28091): Failed to load providerinstaller module: No acceptable module com.google.android.gms.providerinstaller.dynamite found. Local version is 0 and remote version is 0.
+D/ApplicationLoaders(28091): Returning zygote-cached class loader: /system/framework/org.apache.http.legacy.jar
+W/eli.naveli_2023(28091): Loading /data/misc/apexdata/com.android.art/dalvik-cache/arm64/system@framework@com.android.location.provider.jar@classes.odex non-executable as it requires an image which we failed to load
+D/nativeloader(28091): Configuring clns-8 for other apk /system/framework/com.android.location.provider.jar. target_sdk_version=37, uses_libraries=ALL, library_path=/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/lib/arm64:/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+D/nativeloader(28091): Extending system_exposed_libraries: libapuwareapusys.mtk.so:libapuwareapusys_v2.mtk.so:libapuwarexrp.mtk.so:libapuwarexrp_v2.mtk.so:libapuwareutils.mtk.so:libapuwareutils_v2.mtk.so:libapuwarehmp.mtk.so:libneuron_graph_delegate.mtk.so:libneuronusdk_adapter.mtk.so:libtflite_mtk.mtk.so:libarmnn_ndk.mtk.so:libcmdl_ndk.mtk.so:libnir_neon_driver_ndk.mtk.so:libmvpu_runtime.mtk.so:libmvpu_runtime_pub.mtk.so:libmvpu_engine_pub.mtk.so:libmvpu_pattern_pub.mtk.so:libmvpuop_mtk_cv.mtk.so:libmvpuop_mtk_nn.mtk.so:libmvpu_runtime_25.mtk.so:libmvpu_runtime_25_pub.mtk.so:libmvpu_engine_25_pub.mtk.so:libmvpu_pattern_25_pub.mtk.so:libmvpuop25_mtk_cv.mtk.so:libmvpuop25_mtk_nn.mtk.so:libaol_jni.oplus.so:libbleoffload_jni.oplus.so:libSloganJni.oplus.so:libsuperNight.oplus.so:libAPSClient-cmd-jni-extension.oplus.so:libsatellite_audio_jni.oplus.so:libortc_so.oplus.so:libsoundtouch.oplus.so:libsoundtouch_jni.oplus.so:libOplusStringJNI-extension.oplus.so:libapssuspend-jni.oplus.so
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/nativeloader(28091): Configuring clns-9 for other apk /system/framework/com.android.media.remotedisplay.jar. target_sdk_version=37, uses_libraries=ALL, library_path=/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/lib/arm64:/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+D/nativeloader(28091): Extending system_exposed_libraries: libapuwareapusys.mtk.so:libapuwareapusys_v2.mtk.so:libapuwarexrp.mtk.so:libapuwarexrp_v2.mtk.so:libapuwareutils.mtk.so:libapuwareutils_v2.mtk.so:libapuwarehmp.mtk.so:libneuron_graph_delegate.mtk.so:libneuronusdk_adapter.mtk.so:libtflite_mtk.mtk.so:libarmnn_ndk.mtk.so:libcmdl_ndk.mtk.so:libnir_neon_driver_ndk.mtk.so:libmvpu_runtime.mtk.so:libmvpu_runtime_pub.mtk.so:libmvpu_engine_pub.mtk.so:libmvpu_pattern_pub.mtk.so:libmvpuop_mtk_cv.mtk.so:libmvpuop_mtk_nn.mtk.so:libmvpu_runtime_25.mtk.so:libmvpu_runtime_25_pub.mtk.so:libmvpu_engine_25_pub.mtk.so:libmvpu_pattern_25_pub.mtk.so:libmvpuop25_mtk_cv.mtk.so:libmvpuop25_mtk_nn.mtk.so:libaol_jni.oplus.so:libbleoffload_jni.oplus.so:libSloganJni.oplus.so:libsuperNight.oplus.so:libAPSClient-cmd-jni-extension.oplus.so:libsatellite_audio_jni.oplus.so:libortc_so.oplus.so:libsoundtouch.oplus.so:libsoundtouch_jni.oplus.so:libOplusStringJNI-extension.oplus.so:libapssuspend-jni.oplus.so
+D/ApplicationLoaders(28091): Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+D/ApplicationLoaders(28091): Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+D/nativeloader(28091): Configuring clns-10 for other apk /data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/lib/arm64:/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+W/ProviderInstaller(28091): Failed to report request stats: com.google.android.gms.common.security.ProviderInstallerImpl.reportRequestStats [class android.content.Context, long, long]
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/eli.naveli_2023(28091): hiddenapi: Accessing hidden method Ldalvik/system/VMStack;->getStackClass2()Ljava/lang/Class; (runtime_flags=0, domain=core-platform, api=unsupported) from Lhjmw; (domain=app, TargetSdkVersion=36) using reflection: allowed
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+E/GoogleApiManager(28091): Failed to get service from broker. 
+E/GoogleApiManager(28091): java.lang.SecurityException: Unknown calling package name 'com.google.android.gms'.
+E/GoogleApiManager(28091): 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3271)
+E/GoogleApiManager(28091): 	at android.os.Parcel.createException(Parcel.java:3255)
+E/GoogleApiManager(28091): 	at android.os.Parcel.readException(Parcel.java:3238)
+E/GoogleApiManager(28091): 	at android.os.Parcel.readException(Parcel.java:3180)
+E/GoogleApiManager(28091): 	at bkqb.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):36)
+E/GoogleApiManager(28091): 	at bknx.y(:com.google.android.gms@262334035@26.23.34 (260400-933906539):143)
+E/GoogleApiManager(28091): 	at bjty.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):42)
+E/GoogleApiManager(28091): 	at android.os.Handler.handleCallback(Handler.java:973)
+E/GoogleApiManager(28091): 	at android.os.Handler.dispatchMessage(Handler.java:100)
+E/GoogleApiManager(28091): 	at dcus.mF(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+E/GoogleApiManager(28091): 	at dcus.dispatchMessage(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+E/GoogleApiManager(28091): 	at android.os.Looper.loopOnce(Looper.java:282)
+E/GoogleApiManager(28091): 	at android.os.Looper.loop(Looper.java:387)
+E/GoogleApiManager(28091): 	at android.os.HandlerThread.run(HandlerThread.java:85)
+W/GoogleApiManager(28091): Not showing notification since connectionResult is not user-facing: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagRegistrar(28091): Failed to register com.google.android.gms.providerinstaller#com.naveli.naveli_2023
+W/FlagRegistrar(28091): goux: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagRegistrar(28091): 	at gouz.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):13)
+W/FlagRegistrar(28091): 	at hpct.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):3)
+W/FlagRegistrar(28091): 	at hpcv.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):139)
+W/FlagRegistrar(28091): 	at hpfd.execute(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagRegistrar(28091): 	at hpdd.f(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagRegistrar(28091): 	at hpdd.m(:com.google.android.gms@262334035@26.23.34 (260400-933906539):101)
+W/FlagRegistrar(28091): 	at hpdd.q(:com.google.android.gms@262334035@26.23.34 (260400-933906539):16)
+W/FlagRegistrar(28091): 	at giec.hC(:com.google.android.gms@262334035@26.23.34 (260400-933906539):35)
+W/FlagRegistrar(28091): 	at fujs.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):12)
+W/FlagRegistrar(28091): 	at hpfd.execute(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagRegistrar(28091): 	at fujt.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):18)
+W/FlagRegistrar(28091): 	at fuki.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):34)
+W/FlagRegistrar(28091): 	at fukk.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):22)
+W/FlagRegistrar(28091): 	at bjrf.e(:com.google.android.gms@262334035@26.23.34 (260400-933906539):9)
+W/FlagRegistrar(28091): 	at bjtw.q(:com.google.android.gms@262334035@26.23.34 (260400-933906539):48)
+W/FlagRegistrar(28091): 	at bjtw.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):10)
+W/FlagRegistrar(28091): 	at bjtw.g(:com.google.android.gms@262334035@26.23.34 (260400-933906539):191)
+W/FlagRegistrar(28091): 	at bjtw.onConnectionFailed(:com.google.android.gms@262334035@26.23.34 (260400-933906539):2)
+W/FlagRegistrar(28091): 	at bjty.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):70)
+W/FlagRegistrar(28091): 	at android.os.Handler.handleCallback(Handler.java:973)
+W/FlagRegistrar(28091): 	at android.os.Handler.dispatchMessage(Handler.java:100)
+W/FlagRegistrar(28091): 	at dcus.mF(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagRegistrar(28091): 	at dcus.dispatchMessage(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+W/FlagRegistrar(28091): 	at android.os.Looper.loopOnce(Looper.java:282)
+W/FlagRegistrar(28091): 	at android.os.Looper.loop(Looper.java:387)
+W/FlagRegistrar(28091): 	at android.os.HandlerThread.run(HandlerThread.java:85)
+W/FlagRegistrar(28091): Caused by: bjpk: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagRegistrar(28091): 	at bknj.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):15)
+W/FlagRegistrar(28091): 	at bjri.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagRegistrar(28091): 	at bjrf.e(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+W/FlagRegistrar(28091): 	... 12 more
+W/FlagStore(28091): Unable to update local snapshot for com.google.android.gms.providerinstaller#com.naveli.naveli_2023, may result in stale flags.
+W/FlagStore(28091): java.util.concurrent.ExecutionException: goux: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagStore(28091): 	at hpdd.j(:com.google.android.gms@262334035@26.23.34 (260400-933906539):21)
+W/FlagStore(28091): 	at hpdm.t(:com.google.android.gms@262334035@26.23.34 (260400-933906539):24)
+W/FlagStore(28091): 	at hpdd.get(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at hphs.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):2)
+W/FlagStore(28091): 	at hpgi.s(:com.google.android.gms@262334035@26.23.34 (260400-933906539):10)
+W/FlagStore(28091): 	at gpaj.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at gozn.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+W/FlagStore(28091): 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:520)
+W/FlagStore(28091): 	at java.util.concurrent.FutureTask.run(FutureTask.java:328)
+W/FlagStore(28091): 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:323)
+W/FlagStore(28091): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+W/FlagStore(28091): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+W/FlagStore(28091): 	at java.lang.Thread.run(Thread.java:1572)
+W/FlagStore(28091): Caused by: goux: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagStore(28091): 	at gouz.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):13)
+W/FlagStore(28091): 	at hpct.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):3)
+W/FlagStore(28091): 	at hpcv.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):139)
+W/FlagStore(28091): 	at hpfd.execute(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at hpdd.f(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at hpdd.m(:com.google.android.gms@262334035@26.23.34 (260400-933906539):101)
+W/FlagStore(28091): 	at hpdd.q(:com.google.android.gms@262334035@26.23.34 (260400-933906539):16)
+W/FlagStore(28091): 	at giec.hC(:com.google.android.gms@262334035@26.23.34 (260400-933906539):35)
+W/FlagStore(28091): 	at fujs.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):12)
+W/FlagStore(28091): 	at hpfd.execute(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at fujt.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):18)
+W/FlagStore(28091): 	at fuki.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):34)
+W/FlagStore(28091): 	at fukp.B(:com.google.android.gms@262334035@26.23.34 (260400-933906539):17)
+W/FlagStore(28091): 	at fujk.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):60)
+W/FlagStore(28091): 	at hpfd.execute(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at fujl.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):8)
+W/FlagStore(28091): 	at fuki.b(:com.google.android.gms@262334035@26.23.34 (260400-933906539):34)
+W/FlagStore(28091): 	at fukk.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):22)
+W/FlagStore(28091): 	at bjrf.e(:com.google.android.gms@262334035@26.23.34 (260400-933906539):9)
+W/FlagStore(28091): 	at bjtw.q(:com.google.android.gms@262334035@26.23.34 (260400-933906539):48)
+W/FlagStore(28091): 	at bjtw.d(:com.google.android.gms@262334035@26.23.34 (260400-933906539):10)
+W/FlagStore(28091): 	at bjtw.g(:com.google.android.gms@262334035@26.23.34 (260400-933906539):191)
+W/FlagStore(28091): 	at bjtw.onConnectionFailed(:com.google.android.gms@262334035@26.23.34 (260400-933906539):2)
+W/FlagStore(28091): 	at bjty.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):70)
+W/FlagStore(28091): 	at android.os.Handler.handleCallback(Handler.java:973)
+W/FlagStore(28091): 	at android.os.Handler.dispatchMessage(Handler.java:100)
+W/FlagStore(28091): 	at dcus.mF(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at dcus.dispatchMessage(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+W/FlagStore(28091): 	at android.os.Looper.loopOnce(Looper.java:282)
+W/FlagStore(28091): 	at android.os.Looper.loop(Looper.java:387)
+W/FlagStore(28091): 	at android.os.HandlerThread.run(HandlerThread.java:85)
+W/FlagStore(28091): Caused by: bjpk: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+W/FlagStore(28091): 	at bknj.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):15)
+W/FlagStore(28091): 	at bjri.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+W/FlagStore(28091): 	at bjrf.e(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+W/FlagStore(28091): 	... 12 more
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/nativeloader(28091): Load /data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk!/lib/arm64-v8a/libconscrypt_gmscore_jni.so using class loader ns clns-10 (caller=/data/app/~~Rtw8ZQNYELU641HSxpnZKQ==/com.google.android.gms-U3OnPsEPtoF2gBdpeLrOng==/base.apk): ok
+V/NativeCrypto(28091): Registering com/google/android/gms/org/conscrypt/NativeCrypto's 337 native methods...
+I/eli.naveli_2023(28091): hiddenapi: Accessing hidden method Ljava/security/spec/ECParameterSpec;->getCurveName()Ljava/lang/String; (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app, TargetSdkVersion=36) using reflection: allowed
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/ProviderInstaller(28091): Installed default security provider GmsCore_OpenSSL
+317
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/eli.naveli_2023(28091): hiddenapi: Accessing hidden field Ljava/net/Socket;->impl:Ljava/net/SocketImpl; (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app, TargetSdkVersion=36) using reflection: allowed
+9
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/eli.naveli_2023(28091): hiddenapi: Accessing hidden method Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app, TargetSdkVersion=36) using reflection: allowed
+51
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+W/FIAM.Headless(28091): Service fetch error: PERMISSION_DENIED: Firebase In-App Messaging API has not been used in project 587089425057 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebaseinappmessaging.googleapis.com/overview?project=587089425057 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+98
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+W/OplusExSystemServiceHelper(28091): checkOplusExSystemService intent getComponent is null
+2
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+I/flutter (28091): initService called 3 cinxObi-R3OKin4XWHUTOK:APA91bHG-eg2hGCSZ35FIdQXRsfUMFSboXbgN-BXyF-Wir-HhWg-aC3eNKFkL9v0qllk6k2Je6kA4zzGxJl-AqPw7HMXohG-DwLIelf2og4zIyDe2KNYjfs
+[log] FCM Token :: cinxObi-R3OKin4XWHUTOK:APA91bHG-eg2hGCSZ35FIdQXRsfUMFSboXbgN-BXyF-Wir-HhWg-aC3eNKFkL9v0qllk6k2Je6kA4zzGxJl-AqPw7HMXohG-DwLIelf2og4zIyDe2KNYjfs
+I/GrallocExtra(28091): gralloc_extra_query:is_SW3D 0
+D/BLASTBufferQueue(28091): [SurfaceView[com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity]#1](f:0,a:1) acquireNextBufferLocked size=1080x2400 mFrameNumber=1 applyTransaction=true mTimestamp=9245337102088(auto) mPendingTransactions.size=0 graphicBufferId=120649926311946 transform=0
+W/libc    (28091): Access denied finding property "ro.vendor.mbrain.mode"
+D/eli.naveli_2023(28091): Can't load libmbrainSDK
+[log] Stored User Details :: null
+[log] User Language :: en
+I/Choreographer(28091): Skipped 100 frames!  The application may be doing too much work on its main thread.
+W/VRI[MainActivity](28091): performTraversals: cancelAndRedraw, mLastPerformTraversalsSkipDrawReasonpredraw_io.flutter.embedding.android.FlutterActivityAndFragmentDelegate$2
+D/SurfaceView(28091): 6748571 finishedDrawing
+D/SurfaceView(28091): 6748571 performDrawFinished mAttachedToWindow true
+D/ViewRootImplExtImpl(28091): wrapConfigInfoIntoFlags rotation=0, smallestScreenWidthDp=360, relayoutAsync=false, flags=0, newFlags=23592960, residentWS=false, title=com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity
+D/VRI[MainActivity](28091): relayoutWindow result, sizeChanged:false, surfaceControlChanged:false, transformHintChanged:false, mSurfaceSize:Point(1080, 2400), mLastSurfaceSize:Point(1080, 2400), mWidth:1080, mHeight:2400, requestedWidth:1080, requestedHeight:2400, transformHint:0, installOrientation:0, displayRotation:0, isSurfaceValid:true, attr.flag:-2122252032, tmpFrames:ClientWindowFrames{frame=[0,0][1080,2400] display=[0,0][1080,2400] parentFrame=[0,0][0,0]}, relayoutAsync:false, mSyncSeqId:0
+W/VRI[MainActivity](28091): updateBlastSurfaceIfNeeded, surfaceSize:Point(1080, 2400), lastSurfaceSize:Point(1080, 2400), format:-3, blastBufferQueue:android.graphics.BLASTBufferQueue@597709a
+D/VRI[MainActivity](28091):  debugCancelDraw  cancelDraw=false,count = 815,android.view.ViewRootImpl@dafb516
+I/SurfaceControl(28091):  setExtendedRangeBrightness sc=Surface(name=com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity)/@0xf9060ec,currentBufferRatio=1.0,desiredRatio=1.0
+D/SurfaceView(28091): 6748571 dispatchDraw mDrawFinished true isAboveParent false (mPrivateFlags & PFLAG_SKIP_DRAW) 128
+D/SurfaceView(28091): 6748571 clearSurfaceViewPort mCornerRadius 0.0
+D/BLASTBufferQueue(28091): [VRI[MainActivity][com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity]#0](f:0,a:1) acquireNextBufferLocked size=1080x2400 mFrameNumber=1 applyTransaction=true mTimestamp=9245666517242(auto) mPendingTransactions.size=0 graphicBufferId=120649926311954 transform=0
+D/VRI[MainActivity](28091): Received frameCommittedCallback lastAttemptedDrawFrameNum=1 didProduceBuffer=true syncBuffer=false
+D/VRI[MainActivity](28091): draw finished. seqId=0
+D/VRI[MainActivity](28091): onFocusEvent true
+E/GoogleApiManager(28091): Failed to get service from broker. 
+E/GoogleApiManager(28091): java.lang.SecurityException: Unknown calling package name 'com.google.android.gms'.
+E/GoogleApiManager(28091): 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3271)
+E/GoogleApiManager(28091): 	at android.os.Parcel.createException(Parcel.java:3255)
+E/GoogleApiManager(28091): 	at android.os.Parcel.readException(Parcel.java:3238)
+E/GoogleApiManager(28091): 	at android.os.Parcel.readException(Parcel.java:3180)
+E/GoogleApiManager(28091): 	at bkqb.a(:com.google.android.gms@262334035@26.23.34 (260400-933906539):36)
+E/GoogleApiManager(28091): 	at bknx.y(:com.google.android.gms@262334035@26.23.34 (260400-933906539):143)
+E/GoogleApiManager(28091): 	at bjty.run(:com.google.android.gms@262334035@26.23.34 (260400-933906539):42)
+E/GoogleApiManager(28091): 	at android.os.Handler.handleCallback(Handler.java:973)
+E/GoogleApiManager(28091): 	at android.os.Handler.dispatchMessage(Handler.java:100)
+E/GoogleApiManager(28091): 	at dcus.mF(:com.google.android.gms@262334035@26.23.34 (260400-933906539):1)
+E/GoogleApiManager(28091): 	at dcus.dispatchMessage(:com.google.android.gms@262334035@26.23.34 (260400-933906539):5)
+E/GoogleApiManager(28091): 	at android.os.Looper.loopOnce(Looper.java:282)
+E/GoogleApiManager(28091): 	at android.os.Looper.loop(Looper.java:387)
+E/GoogleApiManager(28091): 	at android.os.HandlerThread.run(HandlerThread.java:85)
+W/GoogleApiManager(28091): Not showing notification since connectionResult is not user-facing: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+D/OplusScrollToTopManager(28091): com.naveli.naveli_2023/com.naveli.naveli_2023.MainActivity,This com.android.internal.policy.DecorView{fe7fe4a V.E...... R....... 0,0-1080,2400 aid=0 alpha=1.0 viewInfo = }[MainActivity] change focus to true

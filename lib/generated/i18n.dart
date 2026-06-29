@@ -873,6 +873,8 @@ class S {
 
   String get getStarted => "Get Started";
 
+  String get skip => "Skip";
+
   String get neowNaamSunaHoga => "Naam to suna hi hoga";
 
   String get typeHere => "Type here";
@@ -2530,6 +2532,9 @@ class $mr extends S {
 
   @override
   String get getStarted => "शुरू करें";
+
+  @override
+  String get skip => "छोड़ें";
 
   @override
   String get helpUsPersonaliseyourExp =>

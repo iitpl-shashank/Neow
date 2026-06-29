@@ -29,6 +29,7 @@ import '../common_ui/select_options/select_option_view_model.dart';
 import '../common_ui/signup/signup_view_model.dart';
 import '../common_ui/singin/signin_view_model.dart';
 import '../common_ui/splash/splash_view_vdo.dart';
+import '../common_ui/splash/splash_view_image.dart';
 import '../common_ui/splash/splash_view_model.dart';
 import '../common_ui/state_and_language_selection/state_selection_view_model.dart';
 import '../common_ui/welcome/welcome_view_model.dart';
@@ -401,7 +402,7 @@ class AppState extends State<App> {
           supportedLocales: S.delegate.supportedLocales,
           localeListResolutionCallback: S.delegate.listResolution(
               fallback: const Locale(AppConstants.LANGUAGE_ENGLISH, '')),
-          home: const SplashViewVdo(),
+          home: const SplashViewImage(),
         ),
       ),
     );

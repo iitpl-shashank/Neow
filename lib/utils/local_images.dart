@@ -14,6 +14,10 @@ class LocalImages {
   static const String naveli_shahrukh_pose_animation =
       'assets/gif/naveli_shahrukh_pose_animation.gif';
   static const String gif_splash_door = 'assets/gif/gif_splash_door.gif';
+  static const String splash_1 = 'assets/images/splash_1.png';
+  static const String splash_2 = 'assets/images/splash_2.png';
+  static const String splash_3 = 'assets/images/splash_3.png';
+  static const String splash_4 = 'assets/images/splash_4.png';
   static const String gif_opendoor = 'assets/gif/gif_opendoor.gif';
   static const String gif_naveli_aarati = 'assets/gif/gif_naveli_aarati.gif';
   static const String gif_star = 'assets/gif/gif_star.gif';

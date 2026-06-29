@@ -41,20 +41,13 @@ Future<void> main() async {
     ],
   );
   await AppPreferences.initPref();
-  await Future.delayed(const Duration(milliseconds: 300));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final firebaseApp = Firebase.app();
   final options = firebaseApp.options;
-  // print('Firebase Project ID: ${options.projectId}');
-  // await FirebaseAppCheck.instance.activate(
-  //     androidProvider:
-  //         kDebugMode ? AndroidProvider.playIntegrity : AndroidProvider.playIntegrity);
   print('Firebase Project ID: ${options.projectId}');
-  await NotificationService().initService();
-  // await NotificationService.initializeNotification();
-  // tz.initializeTimeZones();
+  NotificationService().initService(); // Run FCM token init in background without blocking startup
   HttpOverrides.global = MyHttpOverrides();
 
   final deepLinkService = DeepLinkService();
