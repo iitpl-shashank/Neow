@@ -25,7 +25,10 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfileViewState extends State<ProfileView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   void launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -36,6 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,

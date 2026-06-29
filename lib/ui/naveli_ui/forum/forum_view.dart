@@ -13,8 +13,41 @@ import '../../common_ui/forum/forum_post_widget.dart';
 import 'forum_view_model.dart';
 import 'interest/interest_view.dart';
 
-class ForumView extends StatelessWidget {
-  ForumView({super.key});
+class ForumView extends StatefulWidget {
+  const ForumView({super.key});
+
+  @override
+  State<ForumView> createState() => _ForumViewState();
+}
+
+class _ForumViewState extends State<ForumView>
+    with AutomaticKeepAliveClientMixin {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final viewModel = Provider.of<ForumViewModel>(context, listen: false);
+        viewModel.attachedContext(context);
+        viewModel.getForumPostApi();
+
+        _scrollController.addListener(() {
+          _onScroll(_scrollController, context);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<void> getData(BuildContext context) async {
     try {
@@ -41,7 +74,6 @@ class ForumView extends StatelessWidget {
     }
   }
 
-  final ScrollController _scrollController = ScrollController();
   showInfoDialog(BuildContext context) {
     return showDialog(
       context: context,
@@ -67,16 +99,7 @@ class ForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = Provider.of<ForumViewModel>(context, listen: false);
-      viewModel.attachedContext(context);
-      viewModel.getForumPostApi();
-
-      _scrollController.addListener(() {
-        _onScroll(_scrollController, context);
-      });
-    });
-
+    super.build(context);
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
@@ -116,14 +139,7 @@ class ForumView extends StatelessWidget {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Text(S.of(context)!.noData),
-                    // const SizedBox(height: 16),
-                    // ElevatedButton(
-                    //   onPressed: () => getData(context),
-                    //   child: Text("Retry"),
-                    // ),
-                  ],
+                  children: const [],
                 ),
               );
             }

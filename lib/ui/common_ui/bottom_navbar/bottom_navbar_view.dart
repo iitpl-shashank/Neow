@@ -20,6 +20,7 @@ class BottomNavbarView extends StatefulWidget {
 class _BottomNavbarViewState extends State<BottomNavbarView> {
   late BottomNavbarViewModel mViewModel;
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
+  List<Widget>? _pages;
 
   @override
   void initState() {
@@ -46,22 +47,26 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _pages ??= [
+      const HomeView(),
+      HealthMixView(
+        title: S.of(context)!.healthMix,
+      ),
+      ForumView(),
+      const ProfileView(),
+    ];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<BottomNavbarViewModel>(
       builder: (context, viewModel, child) {
-        final pages = [
-          const HomeView(),
-          HealthMixView(
-            title: S.of(context)!.healthMix,
-          ),
-           ForumView(),
-          const ProfileView(),
-        ];
-
         return Scaffold(
           body: IndexedStack(
             index: viewModel.selectedIndex,
-            children: pages,
+            children: _pages!,
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: <BottomNavigationBarItem>[

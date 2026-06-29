@@ -51,7 +51,9 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late HomeViewModel mViewModel;
   LogYourSymptomsModel? mViewSymptomsModel;
   late HealthMixViewModel mViewHealthMixModel;
@@ -559,6 +561,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     mViewModel = Provider.of<HomeViewModel>(context);
     mViewHealthMixModel = Provider.of<HealthMixViewModel>(context);
     mViewSymptomsModel = Provider.of<LogYourSymptomsModel>(context);

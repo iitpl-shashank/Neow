@@ -22,7 +22,9 @@ class HealthMixView extends StatefulWidget {
 }
 
 class _HealthMixViewState extends State<HealthMixView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   TabController? tabController;
   TabController? tabController2;
   late HealthMixViewModel mViewModel;
@@ -96,6 +98,7 @@ class _HealthMixViewState extends State<HealthMixView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     mViewModel = Provider.of<HealthMixViewModel>(context);
     mHomeViewModel = Provider.of<HomeViewModel>(context);
 
