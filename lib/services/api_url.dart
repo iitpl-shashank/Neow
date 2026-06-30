@@ -2,15 +2,15 @@ class ApiUrl {
   // Live
   // static const String BASE_URL = "https://new-naveli.harmistechnology.com/api/";
   // static const String BASE_URL = "https://neowindia.com/api/"; //OLD URL FROM CLIENT
-  static const String BASE_URL = "https://lab1.invoidea.work/neow/public/api/";
+  static const String BASE_URL = "https://invoidea.app/neow/public/api/";
   // static const String BASE_URL = "https://naveli.smartscan.in/api/";
 
-  static final String MAIN_SITE_URL = "https://lab1.invoidea.work/neow/public/";
+  static final String MAIN_SITE_URL = "https://invoidea.app/neow/public/";
   static final String DE_STRESS_VIDEO_URL =
       "${MAIN_SITE_URL}assets/video/vi_de_stress_video.mp4";
   static final String CUSTOM_BASE_URL = "${MAIN_SITE_URL}customeApi/";
 
-  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}user-details";
+  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}getUserDetails.php";
   static final String MEDICATION_PHP = "${CUSTOM_BASE_URL}medication.php";
   static final String WATER_REMINDER_HISTORY_PHP =
       "${CUSTOM_BASE_URL}water_reminder_history.php";
