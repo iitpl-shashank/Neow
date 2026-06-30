@@ -51,7 +51,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
+class _HomeViewState extends State<HomeView>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   late HomeViewModel mViewModel;
@@ -996,15 +997,18 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
                                                       // TODO : Change here from old chatbot to new ai chatbot
                                                       // push(
                                                       //     const SymptomsBotView());
-                                                      mViewModel.startChatBot
-                                                          ? push(
-                                                              AiChatBotScreen(),
-                                                            )
-                                                          : showCustomDayDialog(
-                                                              context,
-                                                              "username",
-                                                              6,
-                                                            );
+                                                      // mViewModel.startChatBot
+                                                      //     ? push(
+                                                      //         AiChatBotScreen(),
+                                                      //       )
+                                                      //     : showCustomDayDialog(
+                                                      //         context,
+                                                      //         "username",
+                                                      //         6,
+                                                      //       );
+                                                      push(
+                                                        AiChatBotScreen(),
+                                                      );
                                                     },
                                                     style: ButtonStyle(
                                                       padding:
