@@ -130,6 +130,7 @@ class LogYourSymptomsModel with ChangeNotifier {
   }
 
   void _resetAllVariables() {
+    userSymptomsData = null;
     selectedStaining = null;
     selectedClotSize = null;
     selectedWorkingAbility = null;
@@ -176,7 +177,7 @@ class LogYourSymptomsModel with ChangeNotifier {
               children: [
                 kCommonSpaceV20,
                 Text(
-                  'Mera to zindgi kharab kr diya',
+                  'Mera to zindagi kharab kr diya',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.piedra(
                     color: CommonColors.primaryColor,
@@ -259,10 +260,22 @@ class LogYourSymptomsModel with ChangeNotifier {
         master.data?.logs != null &&
         master.data!.logs!.isNotEmpty) {
       final log = master.data!.logs!.first;
+      userSymptomsData = log;
       selectedStaining = log.staining;
       selectedClotSize = log.clotSize;
       selectedWorkingAbility = log.workingAbility;
-      selectedLocationArray = log.location != null ? [log.location!] : [];
+
+      if (log.location != null && log.location!.isNotEmpty) {
+        selectedLocationArray = log.location!
+            .split(',')
+            .map((e) => int.tryParse(e.trim()))
+            .where((e) => e != null)
+            .cast<int>()
+            .toList();
+      } else {
+        selectedLocationArray = [];
+      }
+
       selectedCramps = log.cramps;
       selectedDays = log.days;
       selectedCollection = log.collectionMethod;

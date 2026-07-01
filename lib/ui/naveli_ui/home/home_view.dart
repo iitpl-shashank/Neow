@@ -11,7 +11,6 @@ import 'package:naveli_2023/ui/naveli_ui/health_mix/healthmix_latest_detail_view
 import 'package:naveli_2023/ui/naveli_ui/health_mix/video_particular.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/shorts/short_view.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/track/track_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track_helath_view_all/track_health_view_all_view.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/user_notifications/notification_screen.dart';
 import 'package:naveli_2023/utils/common_colors.dart';
@@ -19,7 +18,6 @@ import 'package:naveli_2023/utils/common_utils.dart';
 import 'package:naveli_2023/utils/local_images.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_player/video_player.dart';
 
 // import 'package:naveli_2023/ui/navaeli_ui/symptom_bot/symptom_bot_view.dart';
 
@@ -59,7 +57,6 @@ class _HomeViewState extends State<HomeView>
   LogYourSymptomsModel? mViewSymptomsModel;
   late HealthMixViewModel mViewHealthMixModel;
   late YourNaveliViewModel mViewYourNaveliModel;
-  late VideoPlayerController vdo_Controller;
   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
   String? acceptedUniqueId;
@@ -78,16 +75,6 @@ class _HomeViewState extends State<HomeView>
 
       _startAutoSlide();
       // TODO : Here is the InAPP Notification
-
-      vdo_Controller =
-          VideoPlayerController.asset('assets/video/home_screen.mp4')
-            ..initialize().then((_) {
-              vdo_Controller
-                  .setLooping(true); // Set looping for continuous playback
-              vdo_Controller.play();
-              // Ensure the first frame is shown after the video is initialized
-              setState(() {});
-            });
 
       mViewModel.attachedContext(context);
       mViewModel.fetchHealthMixCategoryList();
@@ -555,7 +542,6 @@ class _HomeViewState extends State<HomeView>
   @override
   void dispose() {
     _timer.cancel();
-    vdo_Controller.dispose();
     mViewModel.timerSlider?.cancel();
     super.dispose();
   }
@@ -1605,17 +1591,5 @@ class _HomeViewState extends State<HomeView>
             ),
           );
         });
-  }
-
-  loadVideoPlayer(String vpath) {
-    vdo_Controller = VideoPlayerController.asset(vpath);
-    vdo_Controller.addListener(() {
-      setState(() {});
-    });
-    vdo_Controller.initialize().then((value) {
-      vdo_Controller.play();
-      vdo_Controller.setLooping(true);
-      setState(() {});
-    });
   }
 }
