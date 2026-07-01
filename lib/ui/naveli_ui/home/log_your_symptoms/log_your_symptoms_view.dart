@@ -511,7 +511,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                           imagePath: LocalImages.img_location_1,
                           isUnderText: true,
                           underText: S.of(context)!.headache,
-                          imgHeight: 80,
+                          imgHeight: 20,
                           isSelected:
                               mViewModel.selectedLocationArray!.contains(1),
                         ),
@@ -524,7 +524,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                           isUnderText: true,
                           imagePath: LocalImages.img_location_2,
                           underText: S.of(context)!.backache,
-                          imgHeight: 80,
+                          imgHeight: 20,
                           isSelected:
                               mViewModel.selectedLocationArray!.contains(2),
                         ),
@@ -542,7 +542,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                           imagePath: LocalImages.img_location_3,
                           underText: S.of(context)!.legPain,
                           isUnderText: true,
-                          imgHeight: 80,
+                          imgHeight: 20,
                           isSelected:
                               mViewModel.selectedLocationArray!.contains(3),
                         ),
@@ -555,7 +555,7 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                           isUnderText: true,
                           imagePath: LocalImages.img_location_4,
                           underText: S.of(context)!.abdominalPain,
-                          imgHeight: 80,
+                          imgHeight: 20,
                           isSelected:
                               mViewModel.selectedLocationArray!.contains(4),
                         ),
@@ -717,48 +717,50 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                     ),
                   ),
                   kCommonSpaceV10,
-                  IntrinsicHeight(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CommonSymptomsWidget(
-                          onTap: () {
-                            mViewModel.updateCollection(1);
-                          },
-                          underText: S.of(context)!.sanitaryPads,
-                          isUnderText: true,
-                          imagePath: LocalImages.img_collection_4,
-                          isSelected: mViewModel.selectedCollection == 1,
-                        ),
-                        CommonSymptomsWidget(
-                          onTap: () {
-                            mViewModel.updateCollection(2);
-                          },
-                          underText: S.of(context)!.period_panty,
-                          isUnderText: true,
-                          imagePath: LocalImages.img_collection_1,
-                          isSelected: mViewModel.selectedCollection == 2,
-                        ),
-                        CommonSymptomsWidget(
-                          onTap: () {
-                            mViewModel.updateCollection(3);
-                          },
-                          underText: S.of(context)!.tampons,
-                          isUnderText: true,
-                          imagePath: LocalImages.img_collection_2,
-                          isSelected: mViewModel.selectedCollection == 3,
-                        ),
-                        CommonSymptomsWidget(
-                          onTap: () {
-                            mViewModel.updateCollection(4);
-                          },
-                          underText: S.of(context)!.cups,
-                          isUnderText: true,
-                          imagePath: LocalImages.img_collection_3,
-                          isSelected: mViewModel.selectedCollection == 4,
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CommonSymptomsWidget(
+                        onTap: () {
+                          mViewModel.updateCollection(1);
+                        },
+                        underText: S.of(context)!.sanitaryPads,
+                        isUnderText: true,
+                        imgHeight: 40,
+                        imagePath: LocalImages.img_collection_4,
+                        isSelected: mViewModel.selectedCollection == 1,
+                      ),
+                      CommonSymptomsWidget(
+                        onTap: () {
+                          mViewModel.updateCollection(2);
+                        },
+                        underText: S.of(context)!.period_panty,
+                        isUnderText: true,
+                        imgHeight: 40,
+                        imagePath: LocalImages.img_collection_1,
+                        isSelected: mViewModel.selectedCollection == 2,
+                      ),
+                      CommonSymptomsWidget(
+                        onTap: () {
+                          mViewModel.updateCollection(3);
+                        },
+                        underText: S.of(context)!.tampons,
+                        isUnderText: true,
+                        imgHeight: 40,
+                        imagePath: LocalImages.img_collection_2,
+                        isSelected: mViewModel.selectedCollection == 3,
+                      ),
+                      CommonSymptomsWidget(
+                        onTap: () {
+                          mViewModel.updateCollection(4);
+                        },
+                        underText: S.of(context)!.cups,
+                        isUnderText: true,
+                        imgHeight: 40,
+                        imagePath: LocalImages.img_collection_3,
+                        isSelected: mViewModel.selectedCollection == 4,
+                      ),
+                    ],
                   ),
                   kCommonSpaceV30,
                   CommonSymptomsTitle(

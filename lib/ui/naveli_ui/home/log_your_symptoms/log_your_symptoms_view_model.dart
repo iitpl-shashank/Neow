@@ -116,6 +116,9 @@ class LogYourSymptomsModel with ChangeNotifier {
 
   void updateClotSize(int clotSize) {
     selectedClotSize = clotSize;
+    if (selectedClotSize == 3) {
+      showMeriZindagiKharabHai();
+    }
     notifyListeners();
   }
 
@@ -147,57 +150,111 @@ class LogYourSymptomsModel with ChangeNotifier {
   }
 
   void checkMoreThenThreeSelected() {
-    if (selectedStaining == 3) count += 1;
-    if (selectedClotSize == 3) count += 1;
-    if (selectedWorkingAbility == 4) count += 1;
-    if (selectedLocation == 4) count += 1;
-    if (selectedCramps == 4) count += 1;
-    if (selectedDays == 4) count += 1;
-    if (selectedCollection == 4) count += 1;
-    if (selectedFrequency == 4) count += 1;
-    if (selectedMood == 3) count += 1;
-    if (selectedEnergy == 3) count += 1;
-    if (selectedStress == 3) count += 1;
-    if (selectedAcne == 3) count += 1;
+    count = 0; // Reset count to calculate fresh from current selections
+    debugPrint("--- checkMoreThenThreeSelected() Started ---");
 
-    print("Count is.... :: $count");
+    if (selectedStaining == 3) {
+      count += 1;
+      debugPrint(
+          "Staining is High (selectedStaining == 3). Count increased to: $count");
+    }
+    if (selectedClotSize == 3) {
+      count += 1;
+      debugPrint(
+          "Clot Size is Large (selectedClotSize == 3). Count increased to: $count");
+    }
+    if (selectedWorkingAbility == 4) {
+      count += 1;
+      debugPrint(
+          "Working Ability is Inactive (selectedWorkingAbility == 4). Count increased to: $count");
+    }
+    if (selectedLocation == 4) {
+      count += 1;
+      debugPrint(
+          "Location is Abdominal Pain (selectedLocation == 4). Count increased to: $count");
+    }
+    if (selectedCramps == 4) {
+      count += 1;
+      debugPrint(
+          "Cramps are Hurt Worst (selectedCramps == 4). Count increased to: $count");
+    }
+    if (selectedDays == 4) {
+      count += 1;
+      debugPrint(
+          "Days of Pain is 3-4 days (selectedDays == 4). Count increased to: $count");
+    }
+    if (selectedCollection == 4) {
+      count += 1;
+      debugPrint(
+          "Collection Method is Cups (selectedCollection == 4). Count increased to: $count");
+    }
+    if (selectedFrequency == 4) {
+      count += 1;
+      debugPrint(
+          "Frequency of Change is 1 time (selectedFrequency == 4). Count increased to: $count");
+    }
+    if (selectedMood == 3) {
+      count += 1;
+      debugPrint("Mood is Sad (selectedMood == 3). Count increased to: $count");
+    }
+    if (selectedEnergy == 3) {
+      count += 1;
+      debugPrint(
+          "Energy is Tired (selectedEnergy == 3). Count increased to: $count");
+    }
+    if (selectedStress == 3) {
+      count += 1;
+      debugPrint(
+          "Stress is High (selectedStress == 3). Count increased to: $count");
+    }
+    if (selectedAcne == 3) {
+      count += 1;
+      debugPrint(
+          "Acne is Severe (selectedAcne == 3). Count increased to: $count");
+    }
+
+    debugPrint("Final Count is: $count");
 
     if (count == 3) {
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          Future.delayed(const Duration(seconds: 3), () {
-            Navigator.of(context).pop();
-          });
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                kCommonSpaceV20,
-                Text(
-                  'Mera to zindagi kharab kr diya',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.piedra(
-                    color: CommonColors.primaryColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                kCommonSpaceV20,
-                Image.asset(
-                  LocalImages.img_zindgi_kharab,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height / 3.5,
-                ),
-              ],
-            ),
-          );
-        },
-      );
+      // showMeriZindagiKharabHai();
     }
     notifyListeners();
+  }
+
+  void showMeriZindagiKharabHai() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        Future.delayed(const Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              kCommonSpaceV20,
+              Text(
+                'Mera to zindagi kharab kr diya',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.piedra(
+                  color: CommonColors.primaryColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              kCommonSpaceV20,
+              Image.asset(
+                LocalImages.img_zindgi_kharab,
+                fit: BoxFit.cover,
+                height: MediaQuery.of(context).size.height / 3.5,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> getSymptomsScoreApi({

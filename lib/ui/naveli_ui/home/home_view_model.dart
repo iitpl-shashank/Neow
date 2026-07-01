@@ -758,7 +758,11 @@ class HomeViewModel with ChangeNotifier {
           cycleLength: int.parse(globalUserMaster?.averageCycleLength ?? "28"),
           periodLength:
               int.parse(globalUserMaster?.averagePeriodLength ?? "5"));
-      print("CycleDates date is :::::::::: ${gCycleDates[0].periodDay}");
+      if (gCycleDates.isNotEmpty) {
+        print("CycleDates date is :::::::::: ${gCycleDates[0].periodDay}");
+      } else {
+        print("CycleDates is empty");
+      }
       generateDaysList();
       print("Next date is :::::::::: ${nextCycleDates}");
 
