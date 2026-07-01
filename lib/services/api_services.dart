@@ -27,6 +27,7 @@ import '../models/common_master.dart';
 import '../models/daily_diary_master.dart';
 import '../models/deactivate_account_model.dart';
 import '../models/download_pdf_master.dart';
+import '../models/download_symptom_report_master.dart';
 import '../models/festival_master.dart';
 import '../models/forum_comment_master.dart';
 import '../models/forum_post_master.dart';
@@ -1205,6 +1206,22 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return DownloadPdfMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<DownloadSymptomReportMaster?> downloadSymptomReport() async {
+    dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.DOWNLOAD_SYMPTOM_REPORT, postParams: <String, dynamic>{});
+    if (response != null) {
+      try {
+        return DownloadSymptomReportMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

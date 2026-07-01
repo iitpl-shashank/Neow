@@ -15,6 +15,7 @@ import 'package:naveli_2023/ui/naveli_ui/home/shorts/shorts_view_model.dart';
 import 'package:naveli_2023/ui/naveli_ui/secret_diary/monthly_reminders_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../generated/i18n.dart';
 import '../../services/index.dart';
@@ -312,14 +313,14 @@ class AppState extends State<App> {
         builder: (context, value, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           color: CommonColors.primaryColor,
-          builder: (context, child) {
+          builder: EasyLoading.init(builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(1.0),
+                textScaler: const TextScaler.linear(1.0),
               ),
               child: child!,
             );
-          },
+          }),
           navigatorKey: mainNavKey,
           theme: ThemeData(
             useMaterial3: true,

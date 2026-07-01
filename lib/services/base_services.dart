@@ -20,6 +20,7 @@ import '../models/common_master.dart';
 import '../models/daily_diary_master.dart';
 import '../models/deactivate_account_model.dart';
 import '../models/download_pdf_master.dart';
+import '../models/download_symptom_report_master.dart';
 import '../models/festival_master.dart';
 import '../models/forum_comment_master.dart';
 import '../models/forum_post_master.dart';
@@ -228,6 +229,8 @@ abstract class BaseServices {
 
   Future<DownloadPdfMaster?> downloadReportPdf(
       {required Map<String, dynamic> params});
+
+  Future<DownloadSymptomReportMaster?> downloadSymptomReport();
 
   Future<UserDetailMaster?> getDataFromUniqueId(
       {required Map<String, dynamic> params});

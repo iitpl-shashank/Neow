@@ -45,6 +45,8 @@ class S {
 
   String get download => "Download PDF";
 
+  String get downloadReport => "Download Report";
+
   String get reports => "Graphs & Reports";
 
   String get askYourQuestion => "Ask your Question";
@@ -2618,6 +2620,9 @@ class $mr extends S {
 
   @override
   String get download => "डाउनलोड पीडीऍफ़";
+
+  @override
+  String get downloadReport => "रिपोर्ट डाउनलोड करें";
 
   @override
   String get reports => "रिपोर्ट्स";

@@ -27,6 +27,7 @@ import '../../home/track/medication/medication_view_model.dart';
 import 'dashboard_view_model.dart';
 import 'bar_data.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/track/weight/weight_view_model.dart';
+import 'package:naveli_2023/ui/naveli_ui/profile/reports/reports_view.dart';
 
 // import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -1264,7 +1265,47 @@ class _DashboardViewState extends State<DashboardView> {
                       );
                     }),
                   ),
-                // if (false) kCommonSpaceV20,
+                if (gUserType != AppConstants.CYCLE_EXPLORER) kCommonSpaceV20,
+                if (gUserType != AppConstants.CYCLE_EXPLORER)
+                  Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFFFF1F1),
+                          border: Border(
+                              bottom: BorderSide(
+                                  width: 1, color: CommonColors.blackColor))),
+                      child: InkWell(
+                        onTap: () {
+                          mViewModel.downloadSymptomReportApi();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.download_outlined,
+                                  color: Colors.green,
+                                ),
+                                kCommonSpaceH10,
+                                Text(
+                                  S.of(context)!.downloadReport,
+                                  style: TextStyle(
+                                    color: CommonColors.blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_right,
+                              color: CommonColors.blackColor,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      )),
                 // TODO  Track is hidden now in profile
                 // Container(
                 //     padding: const EdgeInsets.all(10),
