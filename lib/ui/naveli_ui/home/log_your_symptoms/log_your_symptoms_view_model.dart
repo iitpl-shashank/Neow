@@ -429,9 +429,11 @@ class LogYourSymptomsModel with ChangeNotifier {
     };
 
     try {
+      CommonUtils.showProgressDialog();
       Map<String, dynamic> master =
           await _services.api!.postUserSymptoms(body: body);
       debugPrint("master: $master");
+      CommonUtils.hideProgressDialog();
 
       if (master.isEmpty) {
         _showSnackBar(context, S.of(context)!.failedToLogSymptoms);
@@ -453,6 +455,7 @@ class LogYourSymptomsModel with ChangeNotifier {
           context,
         );
     } catch (e) {
+      CommonUtils.hideProgressDialog();
       debugPrint("Error logging symptoms: $e");
       _showSnackBar(context, S.of(context)!.failedToLogSymptoms);
     }
