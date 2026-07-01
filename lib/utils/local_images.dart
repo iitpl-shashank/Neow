@@ -242,8 +242,8 @@ class LocalImages {
   static const String img_pl_log_symptoms =
       'assets/images/img_pl_log_symptoms.png';
   static const String img_acne_1 = 'assets/images/img_acne_1.png';
-  static const String img_acne_2 = 'assets/images/img_acne_3.png';
-  static const String img_acne_3 = 'assets/images/img_acne_2.png';
+  static const String img_acne_2 = 'assets/images/img_acne_2.png';
+  static const String img_acne_3 = 'assets/images/img_acne_3.png';
   static const String img_days_1 = 'assets/images/img_days_1.png';
   static const String img_days_2 = 'assets/images/img_days_2.png';
   static const String img_days_3 = 'assets/images/img_days_3.png';

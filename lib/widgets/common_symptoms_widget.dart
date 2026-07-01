@@ -103,8 +103,8 @@ class _CommonSymptomsWidgetState extends State<CommonSymptomsWidget> {
                       )
                     : Column(children: [
                         Container(
-                          width: 75,
-                          height: 80,
+                          width: widget.width ?? 75,
+                          height: widget.height ?? 80,
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             // shape: BoxShape.circle,
@@ -137,6 +137,8 @@ class _CommonSymptomsWidgetState extends State<CommonSymptomsWidget> {
                           ),
                           child: Image.asset(
                             widget.imagePath!,
+                            width: widget.imgWidth,
+                            height: widget.imgHeight,
                             fit: widget.isBoxFit ? BoxFit.cover : null,
                           ),
                         ),
