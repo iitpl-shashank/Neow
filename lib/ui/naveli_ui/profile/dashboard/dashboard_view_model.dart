@@ -889,7 +889,11 @@ class DashBoardViewModel with ChangeNotifier {
 
   Future<void> downloadSymptomReportApi() async {
     CommonUtils.showProgressDialog();
-    DownloadSymptomReportMaster? master = await _services.api!.downloadSymptomReport();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    DownloadSymptomReportMaster? master = await _services.api!.downloadSymptomReport(
+        params: params);
 
     if (master == null) {
       CommonUtils.hideProgressDialog();

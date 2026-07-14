@@ -1217,9 +1217,10 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<DownloadSymptomReportMaster?> downloadSymptomReport() async {
+  Future<DownloadSymptomReportMaster?> downloadSymptomReport(
+      {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(
-        url: ApiUrl.DOWNLOAD_SYMPTOM_REPORT, postParams: <String, dynamic>{});
+        url: ApiUrl.DOWNLOAD_SYMPTOM_REPORT, postParams: params);
     if (response != null) {
       try {
         return DownloadSymptomReportMaster.fromJson(response);
@@ -1579,7 +1580,8 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<SavedPostMaster?> getSavedPosts({Map<String, dynamic>? queryParams}) async {
+  Future<SavedPostMaster?> getSavedPosts(
+      {Map<String, dynamic>? queryParams}) async {
     try {
       dynamic response = await appBaseClient.getApiWithTokenCall(
         url: ApiUrl.getSavedPost,

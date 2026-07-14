@@ -231,7 +231,7 @@ abstract class BaseServices {
   Future<DownloadPdfMaster?> downloadReportPdf(
       {required Map<String, dynamic> params});
 
-  Future<DownloadSymptomReportMaster?> downloadSymptomReport();
+  Future<DownloadSymptomReportMaster?> downloadSymptomReport({required Map<String, dynamic> params});
 
   Future<UserDetailMaster?> getDataFromUniqueId(
       {required Map<String, dynamic> params});
