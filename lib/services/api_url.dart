@@ -10,7 +10,8 @@ class ApiUrl {
       "${MAIN_SITE_URL}assets/video/vi_de_stress_video.mp4";
   static final String CUSTOM_BASE_URL = "${MAIN_SITE_URL}customeApi/";
 
-  static final String GET_USER_DETAILS_PHP = "${CUSTOM_BASE_URL}getUserDetails.php";
+  static final String GET_USER_DETAILS_PHP =
+      "${CUSTOM_BASE_URL}getUserDetails.php";
   static final String MEDICATION_PHP = "${CUSTOM_BASE_URL}medication.php";
   static final String WATER_REMINDER_HISTORY_PHP =
       "${CUSTOM_BASE_URL}water_reminder_history.php";
@@ -70,7 +71,8 @@ class ApiUrl {
   static const String GET_REFLECTION = "${BASE_URL}getReflectionData";
   static const String GET_BUDDY_REQUEST = "${BASE_URL}getBuddiesRequest";
   static const String DOWNLOAD_REPORT_PDF = "${BASE_URL}downloadUserDataPdf";
-  static const String DOWNLOAD_SYMPTOM_REPORT = "${BASE_URL}downloadSymptomReport";
+  static const String DOWNLOAD_SYMPTOM_REPORT =
+      "${BASE_URL}downloadSymptomReport";
   static const String USER_SYMPTOMS_SCORE = "${BASE_URL}listuserSymptomsLogs";
   static const String CHECK_DEVICE_TOKEN = "${BASE_URL}checkDeviceToken";
   static const String REMOVE_DEVICE_TOKEN =
@@ -127,8 +129,7 @@ class ApiUrl {
       "${BASE_URL}userReportSymptomsLogs";
   static const String startChatbot = "${BASE_URL}chatbot";
   static const String savePost = "${BASE_URL}userPostsSave";
-  static const String getSavedPost =
-      "${BASE_URL}getSavepost"; // TODO : Not implemented
+  static const String getSavedPost = "${BASE_URL}getSavepost";
   static const String saveHealthMixPost = "${BASE_URL}userHealthMixSave";
   static const String getNotificationList = "${BASE_URL}notifications";
   static const String deactivateAccount = "${BASE_URL}change-status";

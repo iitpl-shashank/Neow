@@ -41,6 +41,7 @@ import '../naveli_ui/forum/interest/interest_view_model.dart';
 import '../naveli_ui/health_mix/health_mix_view_model.dart';
 import '../naveli_ui/home/de_stress/de_stress_view_model.dart';
 import '../naveli_ui/home/all_about_periods/all_about_periods_view_model.dart';
+import '../naveli_ui/home/all_about_periods/saved_post_view_model.dart';
 import '../naveli_ui/home/ask_your_question/ask_your_question_view_model.dart';
 import '../naveli_ui/home/ask_your_question/question_of_the_day/question_of_the_day_view_model.dart';
 import '../naveli_ui/home/home_view_model.dart';
@@ -288,6 +289,8 @@ class AppState extends State<App> {
         ChangeNotifierProvider<SleepViewModel>(create: (_) => SleepViewModel()),
         ChangeNotifierProvider<AllAboutPeriodsViewModel>(
             create: (_) => AllAboutPeriodsViewModel()),
+        ChangeNotifierProvider<SavedPostViewModel>(
+            create: (_) => SavedPostViewModel()),
         ChangeNotifierProvider<StateSelectionViewModel>(
             create: (_) => StateSelectionViewModel()),
         ChangeNotifierProvider<AboutUsViewModel>(

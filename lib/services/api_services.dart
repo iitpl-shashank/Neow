@@ -56,6 +56,7 @@ import '../models/user_symptoms_score_master.dart';
 import '../models/water_master.dart';
 import '../models/weight_master.dart';
 import '../models/women_news_master.dart';
+import '../models/saved_post_master.dart';
 import '../ui/naveli_ui/home/user_notifications/model/notification_list_model.dart';
 import '../utils/common_colors.dart';
 import '../utils/common_utils.dart';
@@ -1574,6 +1575,29 @@ class ApiServices extends BaseServices {
     } catch (e) {
       log("Exception in saveHealthMixPost: $e");
       return PostModel();
+    }
+  }
+
+  @override
+  Future<SavedPostMaster?> getSavedPosts({Map<String, dynamic>? queryParams}) async {
+    try {
+      dynamic response = await appBaseClient.getApiWithTokenCall(
+        url: ApiUrl.getSavedPost,
+        queryParams: queryParams,
+      );
+      if (response != null) {
+        try {
+          return SavedPostMaster.fromJson(response);
+        } on Exception catch (e) {
+          log("Exception parsing SavedPostMaster :: $e");
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } on Exception catch (e) {
+      log("Exception in getSavedPosts :: $e");
+      return null;
     }
   }
 
