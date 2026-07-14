@@ -391,7 +391,10 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  String calculateDaysToGo(DateTime currentDate) {
+  String calculateDaysToGo(DateTime? currentDate) {
+    if (currentDate == null || nextCycleDates.isEmpty) {
+      return "0 days";
+    }
     nextCycleDates.sort();
     nextCycleDates = nextCycleDates.toSet().toList();
     DateTime nextCycleStartDate = nextCycleDates.firstWhere(
@@ -766,10 +769,13 @@ class HomeViewModel with ChangeNotifier {
       generateDaysList();
       print("Next date is :::::::::: ${nextCycleDates}");
 
-      DateTime? nextCycleDate = nextCycleDates.firstWhere(
-        (date) => date.isAfter(today),
-        orElse: () => nextCycleDates.last,
-      );
+      DateTime? nextCycleDate;
+      if (nextCycleDates.isNotEmpty) {
+        nextCycleDate = nextCycleDates.firstWhere(
+          (date) => date.isAfter(today),
+          orElse: () => nextCycleDates.last,
+        );
+      }
 
       // Pass the next cycle date to the calculateDaysToGo method
       String daysToGo = calculateDaysToGo(nextCycleDate);
