@@ -5,6 +5,7 @@ import '../../../../database/app_preferences.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
 import '../model/ai_chatbot_model.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AiChatBotViewModel with ChangeNotifier {
   AiChatBotModel? _chatBotData;
@@ -13,6 +14,16 @@ class AiChatBotViewModel with ChangeNotifier {
   final _services = Services();
   List<int> _visibleIndexes = [];
   bool _showTypingIndicator = false;
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  Future<void> _playChatSound() async {
+    try {
+      await _audioPlayer.setAsset('assets/audio/messege_send_sound.mp3');
+      _audioPlayer.play();
+    } catch (e) {
+      debugPrint("Error playing chat sound: $e");
+    }
+  }
 
   AiChatBotModel? get chatBotData => _chatBotData;
   bool get isLoading => _isLoading;
@@ -36,6 +47,7 @@ class AiChatBotViewModel with ChangeNotifier {
   }
 
   Future<void> handleOptionSelection(Option option) async {
+    _playChatSound();
     for (var opt in lastQuestionOptions) {
       opt.isSelected = false;
     }
@@ -187,8 +199,15 @@ class AiChatBotViewModel with ChangeNotifier {
         await Future.delayed(const Duration(seconds: 2));
         setShowTypingIndicator(false);
         addVisibleIndex(i);
+        _playChatSound();
         await Future.delayed(const Duration(milliseconds: 500));
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 }
