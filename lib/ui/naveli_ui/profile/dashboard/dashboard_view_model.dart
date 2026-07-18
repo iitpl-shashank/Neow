@@ -977,4 +977,96 @@ class DashBoardViewModel with ChangeNotifier {
       CommonUtils.hideProgressDialog();
     }
   }
+
+  Future<void> downloadVaccinationReportApi() async {
+    CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
+    };
+    DownloadSymptomReportMaster? master = await _services.api!.downloadVaccinationReport(
+        params: params);
+
+    if (master == null) {
+      CommonUtils.hideProgressDialog();
+      CommonUtils.oopsMSG();
+      return;
+    } else if (master.success == false) {
+      CommonUtils.hideProgressDialog();
+      CommonUtils.showSnackBar(
+        master.msg ?? "--",
+        color: CommonColors.mRed,
+      );
+      return;
+    } else if (master.success == true && master.data?.fileUrl != null) {
+      String fileUrl = master.data!.fileUrl!;
+      String fileName = fileUrl.split('/').last;
+
+      if (Platform.isAndroid) {
+        var status = await Permission.storage.status;
+        if (!status.isGranted) {
+          status = await Permission.storage.request();
+        }
+      }
+
+      String? downloadPath;
+      if (Platform.isAndroid) {
+        downloadPath = "/storage/emulated/0/Download";
+        final dir = Directory(downloadPath);
+        if (!await dir.exists()) {
+          final externalDir = await getExternalStorageDirectory();
+          downloadPath = "${externalDir?.path}/Download";
+        }
+      } else {
+        final documentsDir = await getApplicationDocumentsDirectory();
+        downloadPath = documentsDir.path;
+      }
+
+      final saveDir = Directory(downloadPath);
+      if (!await saveDir.exists()) {
+        await saveDir.create(recursive: true);
+      }
+
+      final String filePath = "$downloadPath/$fileName";
+      debugPrint("Downloading to: $filePath");
+
+      try {
+        final response = await http.get(Uri.parse(fileUrl));
+        CommonUtils.hideProgressDialog();
+
+        if (response.statusCode == 200) {
+          final file = File(filePath);
+          await file.writeAsBytes(response.bodyBytes);
+
+          CommonUtils.showSnackBar(
+            "Report downloaded successfully to: $filePath",
+            color: CommonColors.greenColor,
+          );
+
+          final result = await OpenFilex.open(filePath);
+          if (result.type != ResultType.done) {
+            debugPrint("Failed to open file: ${result.message}");
+            CommonUtils.showSnackBar(
+              "Could not open file: ${result.message}",
+              color: CommonColors.mRed,
+            );
+          }
+        } else {
+          CommonUtils.showSnackBar(
+            "Failed to download report (Status: ${response.statusCode})",
+            color: CommonColors.mRed,
+          );
+        }
+      } catch (e) {
+        CommonUtils.hideProgressDialog();
+        debugPrint("Download error: $e");
+        CommonUtils.showSnackBar(
+          "Download failed: $e",
+          color: CommonColors.mRed,
+        );
+      }
+    } else {
+      CommonUtils.hideProgressDialog();
+    }
+  }
 }
+

@@ -73,6 +73,8 @@ class ApiUrl {
   static const String DOWNLOAD_REPORT_PDF = "${BASE_URL}downloadUserDataPdf";
   static const String DOWNLOAD_SYMPTOM_REPORT =
       "${BASE_URL}downloadSymptomReport";
+  static const String DOWNLOAD_VACCINATION_REPORT =
+      "${BASE_URL}downloadVaccinationReport";
   static const String USER_SYMPTOMS_SCORE = "${BASE_URL}listuserSymptomsLogs";
   static const String CHECK_DEVICE_TOKEN = "${BASE_URL}checkDeviceToken";
   static const String REMOVE_DEVICE_TOKEN =

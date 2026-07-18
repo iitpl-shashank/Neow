@@ -1234,6 +1234,23 @@ class ApiServices extends BaseServices {
   }
 
   @override
+  Future<DownloadSymptomReportMaster?> downloadVaccinationReport(
+      {required Map<String, dynamic> params}) async {
+    dynamic response = await appBaseClient.postApiWithTokenCall(
+        url: ApiUrl.DOWNLOAD_VACCINATION_REPORT, postParams: params);
+    if (response != null) {
+      try {
+        return DownloadSymptomReportMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
   Future<UserSymptomsScoreMaster?> getSymptomsScore(
       {required Map<String, dynamic> params}) async {
     dynamic response = await appBaseClient.postApiWithTokenCall(

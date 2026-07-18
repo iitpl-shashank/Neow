@@ -233,6 +233,8 @@ abstract class BaseServices {
 
   Future<DownloadSymptomReportMaster?> downloadSymptomReport({required Map<String, dynamic> params});
 
+  Future<DownloadSymptomReportMaster?> downloadVaccinationReport({required Map<String, dynamic> params});
+
   Future<UserDetailMaster?> getDataFromUniqueId(
       {required Map<String, dynamic> params});
 

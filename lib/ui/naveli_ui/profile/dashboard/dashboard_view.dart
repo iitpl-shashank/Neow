@@ -2016,22 +2016,46 @@ class _DashboardViewState extends State<DashboardView> {
                           // _displayBox(100,
                           //     'Possible causes can be estrogen deficiency, vaginal dryness, or cancer.Get an ultrasound and a Pap Smear now!'),
                           SizedBox(height: 20),
-                          SizedBox(
-                            width: double.infinity, // <-- match_parent
-                            height: 40, // <-- match-parent
-                            child: ElevatedButton(
-                              onPressed: () {
-                                mViewModel.updateVaccinationInfo();
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                    CommonColors.primaryColor),
-                                foregroundColor: WidgetStateProperty.all<Color>(
-                                    Colors.white),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      mViewModel.updateVaccinationInfo();
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStateProperty.all<Color>(
+                                          CommonColors.primaryColor),
+                                      foregroundColor: WidgetStateProperty.all<Color>(
+                                          Colors.white),
+                                    ),
+                                    child: Text(S.of(context)!.submit,
+                                        style: const TextStyle(fontSize: 16)),
+                                  ),
+                                ),
                               ),
-                              child: Text(S.of(context)!.submit,
-                                  style: TextStyle(fontSize: 16)),
-                            ),
+                              kCommonSpaceH10,
+                              Expanded(
+                                child: SizedBox(
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      mViewModel.downloadVaccinationReportApi();
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStateProperty.all<Color>(
+                                          CommonColors.secondaryColor),
+                                      foregroundColor: WidgetStateProperty.all<Color>(
+                                          Colors.white),
+                                    ),
+                                    child: Text(S.of(context)!.downloadReport,
+                                        style: const TextStyle(fontSize: 14)),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
