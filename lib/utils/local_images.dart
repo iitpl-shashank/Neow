@@ -488,6 +488,18 @@ class LocalImages {
       'assets/images/log_period_notification.png';
   static const String icMagicWand = 'assets/images/magic.png';
 
+  // Reel onboarding images
+  static const String reel_1 = 'assets/images/reel_1.png';
+  static const String reel_2 = 'assets/images/reel_2.png';
+  static const String reel_3 = 'assets/images/reel_3.png';
+  static const String reel_4 = 'assets/images/reel_4.png';
+  static const String reel_5 = 'assets/images/reel_5.png';
+  static const String reel_6 = 'assets/images/reel_6.png';
+  static const String reel_7 = 'assets/images/reel_7.png';
+  static const String reel_8 = 'assets/images/reel_8.png';
+  static const String reel_9 = 'assets/images/reel_9.png';
+  static const String reel_10 = 'assets/images/reel_10.png';
+
   ///forum images
   static const String unknownUser = 'assets/icons/unknown_user.png';
   static const String bookmark = 'assets/icons/bookmark.png';

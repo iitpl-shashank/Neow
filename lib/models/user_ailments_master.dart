@@ -97,7 +97,9 @@ class Data {
         _ailmentId!.add(AilmentId.fromJson(v));
       });
     }
-    _otherAilments = json['other_ailments'].cast<String>();
+    if (json['other_ailments'] != null) {
+      _otherAilments = json['other_ailments'].cast<String>();
+    }
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }

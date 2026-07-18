@@ -24,7 +24,11 @@ class VaccinationModel {
         dataList = List<VaccineInfo>.from(
             json["data"].map((x) => VaccineInfo.fromJson(x)));
       } else if (json["data"] is Map<String, dynamic>) {
-        dataList = [VaccineInfo.fromJson(json["data"])];
+        if (json["data"]["current_details"] != null) {
+          dataList = [VaccineInfo.fromJson(json["data"]["current_details"])];
+        } else {
+          dataList = [VaccineInfo.fromJson(json["data"])];
+        }
       }
     }
     return VaccinationModel(

@@ -312,6 +312,21 @@ class _DashboardViewState extends State<DashboardView> {
                 otherAilments.substring(1, otherAilments.length - 1);
             medicalConditionController.text = "$ailments  $otherAilments";
           });
+          mMedicationViewModel.getStoredMedicineListApi(false, '').whenComplete(() {
+            var medication = mMedicationViewModel.userPreviousMedication.toString();
+            medication = medication.substring(1, medication.length - 1);
+            var otherMedication = mMedicationViewModel.storedOtherMedicineList
+                .map((e) => e.name ?? '')
+                .where((name) => name.isNotEmpty)
+                .join(', ');
+            if (medication.isEmpty) {
+              medicationController.text = otherMedication;
+            } else if (otherMedication.isEmpty) {
+              medicationController.text = medication;
+            } else {
+              medicationController.text = "$medication, $otherMedication";
+            }
+          });
           if (globalUserMaster?.weight != null) {
             weightController.text = "${globalUserMaster?.weight} Kg";
           }
@@ -2461,13 +2476,6 @@ double convertToMeters(double value, String fromUnit) {
     default:
       throw Exception('Unsupported unit: $fromUnit');
   }
-}
-
-void main() {
-  double value = 8.5;
-  String unit = 'feet';
-  double meters = convertToMeters(value, unit);
-  print('$value $unit is equal to $meters meters');
 }
 
 Widget _quizCell(context, String text, String info) {

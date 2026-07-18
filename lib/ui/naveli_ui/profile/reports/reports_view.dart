@@ -76,15 +76,21 @@ class _ReportsViewState extends State<ReportsView> {
       mAilmentsViewModel.storedOtherAilmentsList.clear();
       medicationController.clear();
       ailmentsController.clear();
-      /* mMedicationViewModel.getStoredMedicineListApi(false).whenComplete(() {
+      mMedicationViewModel.getStoredMedicineListApi(false, '').whenComplete(() {
         var medication = mMedicationViewModel.userPreviousMedication.toString();
         medication = medication.substring(1, medication.length - 1);
-        var otherMedication =
-            mMedicationViewModel.storedOtherMedicineList.toString();
-        otherMedication =
-            otherMedication.substring(1, otherMedication.length - 1);
-        medicationController.text = "$medication  $otherMedication";
-      }); */
+        var otherMedication = mMedicationViewModel.storedOtherMedicineList
+            .map((e) => e.name ?? '')
+            .where((name) => name.isNotEmpty)
+            .join(', ');
+        if (medication.isEmpty) {
+          medicationController.text = otherMedication;
+        } else if (otherMedication.isEmpty) {
+          medicationController.text = medication;
+        } else {
+          medicationController.text = "$medication, $otherMedication";
+        }
+      });
       mAilmentsViewModel.getStoredAilmentsListApi(false).whenComplete(() {
         var ailments = mAilmentsViewModel.userPreviousAilments.toString();
         ailments = ailments.substring(1, ailments.length - 1);
