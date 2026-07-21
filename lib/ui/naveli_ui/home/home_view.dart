@@ -4,6 +4,7 @@ import 'dart:math';
 
 // import 'package:widgets_easier/widgets_easier.dart';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:naveli_2023/ui/naveli_ui/ai_chatbot/views/ai_chatbot_screen.dart';
@@ -173,12 +174,126 @@ class _HomeViewState extends State<HomeView>
     String username,
     int? day,
   ) async {
-    developer.log("INSIDE: Dialog");
+    developer.log("INSIDE: Dynamic API-based Dialog, day: $day");
+    if (!mounted) return;
     if (gUserType != AppConstants.NEOWME) {
       return;
     }
-    if (day == null) day = 100;
 
+    final lang = Provider.of<AppModel>(context, listen: false).locale;
+
+    // API-based dynamic popup on app startup (when day is null)
+    if (day == null) {
+      final String? periodMsg = mViewModel.dateWiseTextList.msg.periodMsg;
+      if (periodMsg == null || periodMsg.isEmpty) {
+        developer.log(
+            "No periodMsg found in dateWiseTextList: ${mViewModel.dateWiseTextList.toJson()}");
+        return;
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final today = DateTime.now();
+      final todayStr = "${today.year}-${today.month}-${today.day}";
+      final lastShown = prefs.getString('api_dynamic_dialog_last_shown');
+
+      // Only show once per day
+      if (lastShown == todayStr) {
+        developer.log("Dynamic API dialog already shown today");
+        return;
+      }
+      await prefs.setString('api_dynamic_dialog_last_shown', todayStr);
+
+      if (periodMsg.contains("Period in 2 days") ||
+          periodMsg.contains("2 दिन")) {
+        // Case 1: Expected in 2 days (Heart card)
+        showDialog(
+          context: context,
+          builder: (context) => CustomNotification(
+            imagePath: LocalImages.heartFace,
+            imageText: S.of(context)!.jiyaDhadakDhadak,
+            subtitleText: S.of(context)!.periodExpectedToStartIn2Days,
+          ),
+        );
+      } else if (periodMsg.contains("Period May Start Tomorrow") ||
+          periodMsg.contains("कल")) {
+        // Case 2: Expected tomorrow (Old Woman card)
+        showDialog(
+          context: context,
+          builder: (context) => CustomNotification(
+            imagePath:
+                lang == 'hi' ? LocalImages.oldWomanHi : LocalImages.oldWomanEng,
+            height: 300,
+            width: 300,
+            subtitleText: S.of(context)!.periodExpectedToStartTomorrow,
+            isLeftShift: true,
+            prepareText: S.of(context)!.bePrepared,
+          ),
+        );
+      } else if (periodMsg.contains("Period May Start Today") ||
+          periodMsg.contains("आज") ||
+          periodMsg.contains("Period Day 1") ||
+          periodMsg.contains("Period starts today")) {
+        // Case 3: Expected today - Saree Woman ("Has your period started?")
+        showDialog(
+          context: context,
+          builder: (context) => CustomNotification(
+            imagePath: LocalImages.womanUndergroundEng,
+            height: 250,
+            width: 280,
+            isLeftShift: true,
+            subtitleText: S.of(context)!.hasPeriodStarted,
+            purpleLabel: S.of(context)!.yesLogSymptoms,
+            purpleOnPress: () {
+              Navigator.of(context).pop();
+              push(const LogYourSymptoms());
+            },
+            whiteLabel: S.of(context)!.no,
+            whiteOnPress: () {
+              Navigator.of(context).pop();
+              // Show delayed warning dialog
+              showDialog(
+                context: context,
+                builder: (context) => CustomNotification(
+                  imagePath: lang == 'hi'
+                      ? LocalImages.cryingWomanHi
+                      : LocalImages.cryingWoman,
+                  height: 250,
+                  width: 270,
+                  imageText: S.of(context)!.derNaHoJaye,
+                  subtitleText: S.of(context)!.dontWorryWaitFewHours,
+                ),
+              );
+            },
+          ),
+        );
+      } else if (periodMsg.contains("Period late by") ||
+          periodMsg.contains("लेट")) {
+        // Case 4: Period late (Crying Woman card)
+        final RegExp regExp = RegExp(r'\d+');
+        final String days = regExp.firstMatch(periodMsg)?.group(0) ?? "0";
+
+        final String displayMsg = lang == 'hi'
+            ? "आपके पीरियड $days दिन लेट हैं।"
+            : "Period late by $days";
+
+        showDialog(
+          context: context,
+          builder: (context) => CustomNotification(
+            imagePath: lang == 'hi'
+                ? LocalImages.cryingWomanHi
+                : LocalImages.cryingWoman,
+            height: 250,
+            width: 270,
+            imageText: S.of(context)!.derNaHoJaye,
+            subtitleText:
+                "$displayMsg. ${S.of(context)!.dontWorryWaitFewHours}",
+          ),
+        );
+      }
+      return;
+    }
+
+    // Fallback: If day is passed explicitly, perform the original logic
     if (day != 6) {
       if ((mViewModel.isSameDate(mViewModel.periodStartdateTime,
               mViewModel.periodStartLogDateTime)) &&
@@ -187,51 +302,6 @@ class _HomeViewState extends State<HomeView>
         developer.log("Its a match");
       } else
         return;
-    }
-
-    if (day == 100) {
-      if (mViewModel.parsedDate != null) {
-        DateTime today = DateTime.now();
-        int daysLeft = mViewModel.parsedDate!
-            .difference(DateTime(today.year, today.month, today.day))
-            .inDays;
-        developer.log("INSIDE: ${daysLeft}");
-        if (daysLeft == 2) {
-          day = 1;
-        } else if (daysLeft == 1) {
-          day = 2;
-        } else if (daysLeft == 0) {
-          day = mViewModel.isWithinNoTime(
-                  mViewModel.periodStartdateTime,
-                  mViewModel.periodEnddateTime,
-                  mViewModel.periodStartLogDateTime)
-              ? 100
-              : 3;
-        } else if (daysLeft == -1) {
-          day = mViewModel.isWithinNoTime(
-            mViewModel.periodStartdateTime,
-            mViewModel.periodEnddateTime,
-            mViewModel.periodStartLogDateTime!.add(
-              Duration(days: 1),
-            ),
-          )
-              ? 100
-              : 3;
-        } else if (daysLeft < -1) {
-          day = mViewModel.isWithinNoTime(mViewModel.periodStartLogDateTime,
-                  mViewModel.periodEndLogDateTime, DateTime.now())
-              ? 100
-              : 5;
-        }
-      } else if (mViewModel.parsedEndDate != null) {
-        DateTime today = DateTime.now();
-        int daysLeft = mViewModel.parsedEndDate!
-            .difference(DateTime(today.year, today.month, today.day))
-            .inDays;
-        if (daysLeft == 0) {
-          day = 7;
-        }
-      }
     }
 
     //TODO : Comment this for testing
@@ -254,7 +324,6 @@ class _HomeViewState extends State<HomeView>
 
     developer.log("INSIDE DAY: $day");
 
-    var lang = Provider.of<AppModel>(context, listen: false).locale;
     if (day == 1) {
       showDialog(
         context: context,
@@ -282,7 +351,7 @@ class _HomeViewState extends State<HomeView>
         context: context,
         builder: (context) => CustomNotification(
             imagePath: LocalImages.alertPad,
-            imageText: "${S.of(context)!.heyNeoW} ${username}",
+            imageText: "${S.of(context)!.heyNeoW} $username",
             height: 120,
             width: 120,
             subtitleText: S.of(context)!.expectPeriodToday,

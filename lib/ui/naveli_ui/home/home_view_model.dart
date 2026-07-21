@@ -537,18 +537,18 @@ class HomeViewModel with ChangeNotifier {
     log("getPeriodInfo master ====>${master?.toJson()}");
     if (master == null) {
       startChatBot = false;
-      getDateWiseText();
+      await getDateWiseText();
       notifyListeners();
       print(
           "................................period info list data oops.............................");
     } else if (master.success == false) {
       startChatBot = false;
-      getDateWiseText();
+      await getDateWiseText();
       notifyListeners();
     } else if (master.success == true) {
       log("getPeriodInfo data master ====>${master.data.toJson()}");
       peroidCustomeList.clear();
-      getDateWiseText();
+      await getDateWiseText();
       today = DateTime.now();
       int currentMonth = today.month;
       log("currentMonth ====> $currentMonth");
