@@ -143,34 +143,44 @@ class _ForumPostWidgetState extends State<ForumPostWidget> {
             ),
             const SizedBox(height: 12),
 
-            // Purple Question Box
-            Container(
-              height: 185,
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: CommonColors.textPurple,
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: AssetImage(LocalImages.postBackground),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  widget.post.title ?? "",
-                  textAlign: TextAlign.center,
-                  style: getAppStyle(
-                    fontSize: 18,
-                    color: CommonColors.mWhite,
-                    fontWeight: FontWeight.w500,
+            // Purple Question Box / Media Image Box
+            Builder(
+              builder: (context) {
+                final bool hasMedia = widget.post.media != null &&
+                    widget.post.media!.trim().isNotEmpty;
+                final ImageProvider bgImage = hasMedia
+                    ? NetworkImage(widget.post.media!)
+                    : AssetImage(LocalImages.postBackground) as ImageProvider;
+
+                return Container(
+                  height: 185,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: CommonColors.textPurple,
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: bgImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-              ),
+                  child: Center(
+                    child: Text(
+                      widget.post.title ?? "",
+                      textAlign: TextAlign.center,
+                      style: getAppStyle(
+                        fontSize: 18,
+                        color: CommonColors.mWhite,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
 
             if (widget.post.description != null &&
-                widget.post.description!.isNotEmpty)
+                widget.post.description!.trim().isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
