@@ -346,8 +346,11 @@ class _DashboardViewState extends State<DashboardView> {
                 otherAilments.substring(1, otherAilments.length - 1);
             medicalConditionController.text = "$ailments  $otherAilments";
           });
-          mMedicationViewModel.getStoredMedicineListApi(false, '').whenComplete(() {
-            var medication = mMedicationViewModel.userPreviousMedication.toString();
+          mMedicationViewModel
+              .getStoredMedicineListApi(false, '')
+              .whenComplete(() {
+            var medication =
+                mMedicationViewModel.userPreviousMedication.toString();
             medication = medication.substring(1, medication.length - 1);
             var otherMedication = mMedicationViewModel.storedOtherMedicineList
                 .map((e) => e.name ?? '')
@@ -1600,7 +1603,7 @@ class _DashboardViewState extends State<DashboardView> {
                         ],
                       ),
                     )),
-               
+
                 if (oth)
                   Container(
                     padding: const EdgeInsets.only(
@@ -1852,7 +1855,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 ),
                                 if (vModel.tryPregnant == 1) ...[
                                   kCommonSpaceV20,
-                                  _text(S.of(context)!.tryingSince12MonthsOrMore, 14),
+                                  _text(
+                                      S.of(context)!.tryingSince12MonthsOrMore,
+                                      14),
                                   Row(
                                     children: [
                                       _radioBtn(
@@ -1876,7 +1881,8 @@ class _DashboardViewState extends State<DashboardView> {
                                 ],
                                 if (currentAge == 0 || currentAge >= 21) ...[
                                   kCommonSpaceV20,
-                                  _text(S.of(context)!.ifYouAre21YearsOrMore, 14),
+                                  _text(
+                                      S.of(context)!.ifYouAre21YearsOrMore, 14),
                                   Row(
                                     children: [
                                       _radioBtn(
@@ -1900,7 +1906,8 @@ class _DashboardViewState extends State<DashboardView> {
                                 ],
                                 if (currentAge == 0 || currentAge >= 50) ...[
                                   kCommonSpaceV20,
-                                  _text(S.of(context)!.ifYouAre50YearsOrMore, 14),
+                                  _text(
+                                      S.of(context)!.ifYouAre50YearsOrMore, 14),
                                   Row(
                                     children: [
                                       _radioBtn(
@@ -2037,7 +2044,11 @@ class _DashboardViewState extends State<DashboardView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   kCommonSpaceV20,
-                                  _text(S.of(context)!.haveyouExpPostmenopausalSpotting, 14),
+                                  _text(
+                                      S
+                                          .of(context)!
+                                          .haveyouExpPostmenopausalSpotting,
+                                      14),
                                   Row(
                                     children: [
                                       _radioBtn(
@@ -2045,7 +2056,8 @@ class _DashboardViewState extends State<DashboardView> {
                                         1,
                                         vModel.expPostmenopausal,
                                         (value) {
-                                          vModel.updateExpPostmenopausal(value!);
+                                          vModel
+                                              .updateExpPostmenopausal(value!);
                                         },
                                       ),
                                       _radioBtn(
@@ -2053,7 +2065,8 @@ class _DashboardViewState extends State<DashboardView> {
                                         0,
                                         vModel.expPostmenopausal,
                                         (value) {
-                                          vModel.updateExpPostmenopausal(value!);
+                                          vModel
+                                              .updateExpPostmenopausal(value!);
                                         },
                                       ),
                                     ],
@@ -2075,10 +2088,12 @@ class _DashboardViewState extends State<DashboardView> {
                                       mViewModel.updateVaccinationInfo();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(
-                                          CommonColors.primaryColor),
-                                      foregroundColor: WidgetStateProperty.all<Color>(
-                                          Colors.white),
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              CommonColors.primaryColor),
+                                      foregroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              Colors.white),
                                     ),
                                     child: Text(S.of(context)!.submit,
                                         style: const TextStyle(fontSize: 16)),
@@ -2094,10 +2109,12 @@ class _DashboardViewState extends State<DashboardView> {
                                       mViewModel.downloadVaccinationReportApi();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(
-                                          CommonColors.secondaryColor),
-                                      foregroundColor: WidgetStateProperty.all<Color>(
-                                          Colors.white),
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              CommonColors.greenColor),
+                                      foregroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                              Colors.white),
                                     ),
                                     child: Text(S.of(context)!.downloadReport,
                                         style: const TextStyle(fontSize: 14)),
