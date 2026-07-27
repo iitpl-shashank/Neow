@@ -182,6 +182,7 @@ class WelcomeViewModel with ChangeNotifier {
           color: CommonColors.greenColor,
         );
         log("API Response: ${response.toJson()}");
+        clearAllAlertInfo();
       } else {
         CommonUtils.showSnackBar(
           "Failed to save vaccination details.",

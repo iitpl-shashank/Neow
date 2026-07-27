@@ -18,7 +18,6 @@ class AppPreferences {
   final String keyIsFirstTime = "KEY_IS_FIRST_TIME";
   final String keyInterestFavourite = "keyInterestFavourite";
 
-
   static final AppPreferences instance = AppPreferences.internal();
 
   factory AppPreferences() => instance;
@@ -132,6 +131,4 @@ class AppPreferences {
   Future<bool> clear() {
     return _pref!.clear();
   }
-
- 
 }

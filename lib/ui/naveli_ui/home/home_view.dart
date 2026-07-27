@@ -191,18 +191,6 @@ class _HomeViewState extends State<HomeView>
         return;
       }
 
-      final prefs = await SharedPreferences.getInstance();
-      final today = DateTime.now();
-      final todayStr = "${today.year}-${today.month}-${today.day}";
-      final lastShown = prefs.getString('api_dynamic_dialog_last_shown');
-
-      // Only show once per day
-      if (lastShown == todayStr) {
-        developer.log("Dynamic API dialog already shown today");
-        return;
-      }
-      await prefs.setString('api_dynamic_dialog_last_shown', todayStr);
-
       if (periodMsg.contains("Period in 2 days") ||
           periodMsg.contains("2 दिन")) {
         // Case 1: Expected in 2 days (Heart card)

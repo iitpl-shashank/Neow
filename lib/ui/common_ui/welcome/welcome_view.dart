@@ -113,46 +113,52 @@ class _WelcomeViewState extends State<WelcomeView> {
     );
 
     if (picked != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         setState(() {
           mDateController.text =
               CommonUtils.dateFormatyyyyMMDD(picked.toString());
-          int age = calculateAge(mDateController.text);
-          if (age < 7) {
-            CommonUtils.showSnackBar(
-              "Age must be at least 7 years",
-              color: CommonColors.mRed,
-            );
-            mDateController.clear();
-            return;
-          }
-          mViewModel.setAge(age);
-          debugPrint("Age===>: $age");
-          if (gUserType == AppConstants.NEOWME) {
-            print("Inside NEOWME");
-            if (age >= 9 && age <= 25) {
-              handle9To25Dialogs(context);
-              singInViewModel.userRoleId = "2";
-              gUserType = AppConstants.NEOWME;
-            } else if (age > 25 && age <= 45) {
-              handle25To45Dialogs(context);
-              //TODO : user role id is for what ?
-              singInViewModel.userRoleId = "2";
-              gUserType = AppConstants.NEOWME;
-            } else if (age > 45 && age <= 50) {
-              handle45To50Dialogs(context);
-              singInViewModel.userRoleId = "2";
-              gUserType = AppConstants.NEOWME;
-            } else if (age > 50) {
-              handle50PlusDialogs(context);
-            }
-          }
         });
+        int age = calculateAge(mDateController.text);
+        if (age < 7) {
+          CommonUtils.showSnackBar(
+            "Age must be at least 7 years",
+            color: CommonColors.mRed,
+          );
+          mDateController.clear();
+          return;
+        }
+        mViewModel.setAge(age);
+        debugPrint("Age===>: $age");
+        await triggerAgeGroupDialogsIfNeeded(context);
       });
     } else {
       print("Date selection canceled");
       singInViewModel.userRoleId = "2";
       gUserType = AppConstants.NEOWME;
+    }
+  }
+
+  Future<void> triggerAgeGroupDialogsIfNeeded(BuildContext context) async {
+    if (mDateController.text.trim().isEmpty) return;
+    int age = calculateAge(mDateController.text.trim());
+    mViewModel.setAge(age);
+    if (gUserType == AppConstants.NEOWME) {
+      print("Inside NEOWME age group check, age: $age");
+      if (age >= 9 && age <= 25) {
+        await handle9To25Dialogs(context);
+        singInViewModel.userRoleId = "2";
+        gUserType = AppConstants.NEOWME;
+      } else if (age > 25 && age <= 45) {
+        await handle25To45Dialogs(context);
+        singInViewModel.userRoleId = "2";
+        gUserType = AppConstants.NEOWME;
+      } else if (age > 45 && age <= 50) {
+        await handle45To50Dialogs(context);
+        singInViewModel.userRoleId = "2";
+        gUserType = AppConstants.NEOWME;
+      } else if (age > 50) {
+        await handle50PlusDialogs(context);
+      }
     }
   }
 
@@ -162,7 +168,9 @@ class _WelcomeViewState extends State<WelcomeView> {
       context: context,
       title: S.of(context)!.gottonYourselfVaccinated,
       options: [
-        DialogOption(S.of(context)!.yes, "yes"),
+        DialogOption(S.of(context)!.yes, "yes", onClick: () async {
+          mViewModel.setCancerVaccine(1);
+        }),
         DialogOption(S.of(context)!.no, "no", onClick: () async {
           mViewModel.setCancerVaccine(0);
         }),
@@ -185,6 +193,7 @@ class _WelcomeViewState extends State<WelcomeView> {
       );
 
       if (doses == "1") {
+        mViewModel.setCancerVaccine(1);
         await showCustomDialog(
             context: context,
             title: S.of(context)!.dose2Pending,
@@ -192,6 +201,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             icon: Images.pendingClock,
             showCloseIcon: true);
       } else {
+        mViewModel.setCancerVaccine(2);
         await showCustomDialog(
             context: context,
             title: S.of(context)!.veryGood,
@@ -200,6 +210,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             showCloseIcon: true);
       }
     } else {
+      mViewModel.setCancerVaccine(0);
       await showCustomDialog(
         context: context,
         title: S.of(context)!.uhoh,
@@ -1136,15 +1147,21 @@ class _WelcomeViewState extends State<WelcomeView> {
                     child: PrimaryButton(
                       label: S.of(context)!.next,
                       buttonColor: CommonColors.primaryColor,
-                      onPress: () {
+                      onPress: () async {
                         debugPrint("currentIndex: $currentIndex");
                         if (isValid()) {
                           if (currentIndex == 4 &&
                               gUserType == AppConstants.NEOWME) {
-                            mViewModel.callVaccinationUpdateApi();
+                            if (mViewModel.cancerVaccine == null &&
+                                mViewModel.tryPregnant == null &&
+                                mViewModel.papSmear == null &&
+                                mViewModel.hadPeriod == null &&
+                                mViewModel.postmenopausal == null) {
+                              await triggerAgeGroupDialogsIfNeeded(context);
+                            }
+                            await mViewModel.callVaccinationUpdateApi();
                           }
                           if (currentIndex == 3) {
-                            mViewModel.clearAllAlertInfo();
                             Future.delayed(const Duration(milliseconds: 3200),
                                 () {
                               pageController.nextPage(
@@ -1152,7 +1169,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                                   curve: Curves.easeIn);
                             });
                           } else {
-                            mViewModel.clearAllAlertInfo();
                             pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn);
