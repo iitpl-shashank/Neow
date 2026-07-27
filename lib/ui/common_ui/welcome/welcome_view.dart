@@ -90,16 +90,26 @@ class _WelcomeViewState extends State<WelcomeView> {
 
   Future<void> selectDate() async {
     DateTime today = DateTime.now();
-    DateTime minimumAllowedDate =
-        today.subtract(const Duration(days: 365 * 10)); // 10 years ago
+    DateTime maxAllowedDate =
+        DateTime(today.year - 7, today.month, today.day); // At least 7 years old
+
+    DateTime? initialPickedDate;
+    if (mDateController.text.isNotEmpty) {
+      try {
+        DateTime parsed = DateFormat("yyyy-MM-dd").parse(mDateController.text);
+        initialPickedDate = parsed.isAfter(maxAllowedDate) ? maxAllowedDate : parsed;
+      } catch (e) {
+        initialPickedDate = maxAllowedDate;
+      }
+    } else {
+      initialPickedDate = maxAllowedDate;
+    }
 
     DateTime? picked = await showDatePicker(
       context: mainNavKey.currentContext!,
-      initialDate: mDateController.text.isNotEmpty
-          ? DateFormat("yyyy-MM-dd").parse(mDateController.text)
-          : minimumAllowedDate,
+      initialDate: initialPickedDate,
       firstDate: DateTime(1900),
-      lastDate: minimumAllowedDate,
+      lastDate: maxAllowedDate,
     );
 
     if (picked != null) {
@@ -108,6 +118,14 @@ class _WelcomeViewState extends State<WelcomeView> {
           mDateController.text =
               CommonUtils.dateFormatyyyyMMDD(picked.toString());
           int age = calculateAge(mDateController.text);
+          if (age < 7) {
+            CommonUtils.showSnackBar(
+              "Age must be at least 7 years",
+              color: CommonColors.mRed,
+            );
+            mDateController.clear();
+            return;
+          }
           mViewModel.setAge(age);
           debugPrint("Age===>: $age");
           if (gUserType == AppConstants.NEOWME) {
@@ -1392,12 +1410,23 @@ class _WelcomeViewState extends State<WelcomeView> {
         color: CommonColors.mRed,
       );
       return false;
-    } else if (currentIndex == 4 && mDateController.text.trim().isEmpty) {
-      CommonUtils.showSnackBar(
-        S.of(context)!.plSelectYourBday,
-        color: CommonColors.mRed,
-      );
-      return false;
+    } else if (currentIndex == 4) {
+      if (mDateController.text.trim().isEmpty) {
+        CommonUtils.showSnackBar(
+          S.of(context)!.plSelectYourBday,
+          color: CommonColors.mRed,
+        );
+        return false;
+      }
+      int age = calculateAge(mDateController.text.trim());
+      if (age < 7) {
+        CommonUtils.showSnackBar(
+          "Age must be at least 7 years",
+          color: CommonColors.mRed,
+        );
+        return false;
+      }
+      return true;
     } else if (gUserType == AppConstants.BUDDY &&
         currentIndex == 5 &&
         mAapkeKonController.text.trim().isEmpty) {

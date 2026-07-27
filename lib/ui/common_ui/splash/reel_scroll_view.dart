@@ -138,7 +138,7 @@ class _ReelScrollViewState extends State<ReelScrollView>
     final double filmTopY = (size.height - filmH) / 2 - 20;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF080010),
+      backgroundColor: Colors.white,
       body: GestureDetector(
         // Any tap immediately stops auto-scroll and starts the 1-s countdown.
         onTap: _scheduleResumeAutoScroll,
@@ -178,11 +178,11 @@ class _ReelScrollViewState extends State<ReelScrollView>
               ),
             ),
 
-            // ── 4. Left / right darkness fade ────────────────────────────────
-            _EdgeFade(
-                top: filmTopY, height: filmH, isLeft: true, width: size.width * 0.2),
-            _EdgeFade(
-                top: filmTopY, height: filmH, isLeft: false, width: size.width * 0.2),
+            // // ── 4. Left / right darkness fade ────────────────────────────────
+            // _EdgeFade(
+            //     top: filmTopY, height: filmH, isLeft: true, width: size.width * 0.2),
+            // _EdgeFade(
+            //     top: filmTopY, height: filmH, isLeft: false, width: size.width * 0.2),
 
             // ── 5. Top header bar ─────────────────────────────────────────────
             _TopBar(topPad: topPad, onSkip: widget.onSkip),
@@ -219,11 +219,7 @@ class _Background extends StatelessWidget {
       width: size.width,
       height: size.height,
       decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment(0, 0.05),
-          radius: 1.1,
-          colors: [Color(0xFF170826), Color(0xFF080010)],
-        ),
+        color: Colors.white,
       ),
     );
   }
@@ -248,7 +244,7 @@ class _BottomGlow extends StatelessWidget {
             center: const Alignment(0, 1.0),
             radius: 0.75,
             colors: [
-              CommonColors.primaryColor.withOpacity(0.28),
+              CommonColors.primaryColor.withAlpha(31),
               Colors.transparent,
             ],
           ),
@@ -332,18 +328,18 @@ class _FilmBand extends StatelessWidget {
                             ? Border.all(
                                 color: CommonColors.primaryColor, width: 2.5)
                             : Border.all(
-                                color: Colors.white.withOpacity(0.07),
+                                color: CommonColors.primaryColor.withAlpha(31),
                                 width: 1),
                         boxShadow: isActive
                             ? [
                                 BoxShadow(
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.60),
+                                  color:
+                                      CommonColors.primaryColor.withAlpha(153),
                                   blurRadius: 22,
                                   spreadRadius: 1,
                                 ),
                                 BoxShadow(
-                                  color: const Color(0xFFBD5E9E).withOpacity(0.28),
+                                  color: const Color(0xFFBD5E9E).withAlpha(71),
                                   blurRadius: 34,
                                   spreadRadius: 5,
                                 ),
@@ -398,11 +394,10 @@ class _EdgeFade extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin:
-                  isLeft ? Alignment.centerLeft : Alignment.centerRight,
+              begin: isLeft ? Alignment.centerLeft : Alignment.centerRight,
               end: isLeft ? Alignment.centerRight : Alignment.centerLeft,
               colors: [
-                const Color(0xFF080010).withOpacity(0.88),
+                Colors.white.withAlpha(235),
                 Colors.transparent,
               ],
             ),
@@ -428,30 +423,23 @@ class _TopBar extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
-        padding: EdgeInsets.only(
-            top: topPad + 6, left: 20, right: 20, bottom: 14),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xCC080010), Colors.transparent],
-          ),
-        ),
+        padding:
+            EdgeInsets.only(top: topPad + 6, left: 20, right: 20, bottom: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Spacer to balance skip
+            // Spacer to balance layout
             const SizedBox(width: 64),
 
             // Center brand title
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'NeoW',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: CommonColors.primaryColor,
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                     fontFamily: 'Outfit',
@@ -464,10 +452,10 @@ class _TopBar extends StatelessWidget {
                     Icon(Icons.star_rounded,
                         color: CommonColors.primaryColor, size: 9),
                     const SizedBox(width: 5),
-                    const Text(
+                    Text(
                       'Your Wellness Journey',
                       style: TextStyle(
-                        color: Color(0xFFBBA0D0),
+                        color: CommonColors.primaryColor.withAlpha(179),
                         fontSize: 10.5,
                         fontFamily: 'Outfit',
                         letterSpacing: 0.8,
@@ -481,22 +469,24 @@ class _TopBar extends StatelessWidget {
               ],
             ),
 
-            // Skip button
+            // Skip button (Commented out)
+            const SizedBox(width: 64),
+            /*
             GestureDetector(
               onTap: onSkip,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.08),
+                  color: CommonColors.primaryColor.withAlpha(20),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Colors.white.withOpacity(0.18), width: 1),
+                      color: CommonColors.primaryColor.withAlpha(64), width: 1),
                 ),
-                child: const Text(
+                child: Text(
                   'Skip',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: CommonColors.primaryColor,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Outfit',
@@ -504,6 +494,7 @@ class _TopBar extends StatelessWidget {
                 ),
               ),
             ),
+            */
           ],
         ),
       ),
@@ -548,12 +539,12 @@ class _BottomControls extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.touch_app_rounded,
-                      color: Colors.white.withOpacity(0.45), size: 19),
+                      color: CommonColors.blackColor.withAlpha(128), size: 19),
                   const SizedBox(width: 7),
                   Text(
                     'Swipe to explore',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.45),
+                      color: CommonColors.blackColor.withAlpha(128),
                       fontSize: 12.5,
                       fontFamily: 'Outfit',
                       letterSpacing: 0.5,
@@ -584,7 +575,7 @@ class _BottomControls extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: currentIndex == i
                           ? CommonColors.primaryColor
-                          : Colors.white.withOpacity(0.30),
+                          : CommonColors.primaryColor.withAlpha(51),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -604,7 +595,7 @@ class _BottomControls extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: CommonColors.primaryColor.withOpacity(0.50),
+                      color: CommonColors.primaryColor.withAlpha(128),
                       blurRadius: 14,
                       offset: const Offset(0, 4),
                     ),
@@ -659,6 +650,7 @@ class _BottomControls extends StatelessWidget {
 class _FilmStripPainter extends CustomPainter {
   final double sprocketH;
   final double totalH;
+
   /// Current page position from PageController (e.g. 0.0, 1.5, 2.73)
   final double scrollOffset;
 
@@ -669,9 +661,9 @@ class _FilmStripPainter extends CustomPainter {
   });
 
   // Sprocket geometry constants
-  static const double _spacing = 26.0;   // gap between hole centres
-  static const double _holeW   = 13.0;
-  static const double _holeH   = 17.0;
+  static const double _spacing = 26.0; // gap between hole centres
+  static const double _holeW = 13.0;
+  static const double _holeH = 17.0;
   // How many pixels the strip moves per full page scroll.
   // 3 × spacing means the strip shifts 3 hole-widths per swipe.
   static const double _pxPerPage = _spacing * 3;
@@ -684,7 +676,7 @@ class _FilmStripPainter extends CustomPainter {
 
     // ── Strip backgrounds ─────────────────────────────────────────────────
     final stripPaint = Paint()
-      ..color = const Color(0xFF1B0A2D)
+      ..color = const Color(0xFFF3EBF9)
       ..style = PaintingStyle.fill;
 
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, sprocketH), stripPaint);
@@ -695,16 +687,14 @@ class _FilmStripPainter extends CustomPainter {
 
     // ── Separator lines (strip ↔ card area) ──────────────────────────────
     final edgePaint = Paint()
-      ..color = const Color(0xFF6E47A7).withOpacity(0.50)
+      ..color = CommonColors.primaryColor.withAlpha(77)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
 
     canvas.drawLine(
         Offset(0, sprocketH), Offset(size.width, sprocketH), edgePaint);
-    canvas.drawLine(
-        Offset(0, size.height - sprocketH),
-        Offset(size.width, size.height - sprocketH),
-        edgePaint);
+    canvas.drawLine(Offset(0, size.height - sprocketH),
+        Offset(size.width, size.height - sprocketH), edgePaint);
 
     // ── Compute horizontal shift (loops every _spacing px) ───────────────
     // As scrollOffset grows (user swipes left) the strip pulls left → shift < 0.
@@ -713,11 +703,11 @@ class _FilmStripPainter extends CustomPainter {
     final double startX = -rawShift;
 
     final holePaint = Paint()
-      ..color = const Color(0xFF06000D)
+      ..color = const Color(0xFFE8DBF2)
       ..style = PaintingStyle.fill;
 
     final holeBorderPaint = Paint()
-      ..color = const Color(0xFF3A1A5A)
+      ..color = const Color(0xFFD0B3E8)
       ..strokeWidth = 0.8
       ..style = PaintingStyle.stroke;
 
@@ -749,8 +739,8 @@ class _FilmStripPainter extends CustomPainter {
     const double labelSpacing = _spacing * 2; // one label every 2 holes
     final double labelShift = (scrollOffset * _pxPerPage) % labelSpacing;
     final labels = ['11A ▶', '12'];
-    const labelStyle = TextStyle(
-      color: Color(0xFF8A5CC4),
+    final labelStyle = TextStyle(
+      color: CommonColors.primaryColor,
       fontSize: 6.5,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.2,

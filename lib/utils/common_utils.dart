@@ -449,7 +449,7 @@ class CommonUtils {
             ),
           ),
           padding: const EdgeInsets.all(5),
-          backgroundColor: const Color.fromARGB(255, 247, 117, 108),
+          backgroundColor: CommonColors.primaryColor,
         ),
       );
     }
@@ -482,7 +482,7 @@ class CommonUtils {
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: CommonColors.mRed,
+      backgroundColor: CommonColors.primaryColor,
       textColor: CommonColors.mWhite,
       fontSize: 16.0,
     );
@@ -641,13 +641,13 @@ class CommonUtils {
   static Color getAlertColor(String color) {
     switch (color) {
       case 'yellow':
-        return Colors.yellow.withOpacity(0.2);
+        return Colors.yellow.withValues(alpha: 0.2);
       case 'red':
-        return Colors.red.withOpacity(0.2);
+        return Colors.red.withValues(alpha: 0.2);
       case 'green':
-        return Colors.green.withOpacity(0.2);
+        return Colors.green.withValues(alpha: 0.2);
       default:
-        return Colors.green.withOpacity(0.2);
+        return Colors.green.withValues(alpha: 0.2);
     }
   }
 

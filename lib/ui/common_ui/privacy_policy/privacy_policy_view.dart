@@ -182,9 +182,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                             ),
                         ],
                       ),
-
-                      kCommonSpaceV50,
-                      // kCommonSpaceV20,
+                      kCommonSpaceV20,
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: PrimaryButton(
