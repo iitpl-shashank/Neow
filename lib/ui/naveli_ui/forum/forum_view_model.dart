@@ -1,8 +1,10 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:naveli_2023/generated/i18n.dart';
 import 'package:naveli_2023/models/common_master.dart';
 import 'package:naveli_2023/services/api_url.dart';
+import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
+import 'package:naveli_2023/utils/local_images.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/forum_post_master.dart';
@@ -36,6 +38,52 @@ class ForumViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+  }
+
+  Future<void> refreshData() async {
+    try {
+      await getForumPostApi();
+    } catch (e) {
+      debugPrint("Error loading data: $e");
+    }
+  }
+
+  void handleScroll(ScrollController scrollController) {
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 200) {
+      if (hasMoreData && !isLoadingMore) {
+        getForumPostApi(showLoader: false, loadMore: true);
+      } else if (!hasShownEndMessage && !isLoadingMore) {
+        hasShownEndMessage = true;
+        CommonUtils.showSnackBar(
+          S.of(context)!.noMorePosts,
+          color: CommonColors.greyText,
+        );
+      }
+    }
+  }
+
+  void showInfoDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => CustomNotification(
+        imagePath: LocalImages.welcomeForum,
+        height: 173,
+        width: 293,
+        subtitleText: S.of(context)!.welcomeToNeowForum,
+        subtitleTextStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        prepareText: S.of(context)!.welcomeForumSubtitle,
+        prepareTextStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: CommonColors.greyText,
+        ),
+      ),
+    );
   }
 
   void setWelcomeDialogShown() {

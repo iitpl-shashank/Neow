@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naveli_2023/ui/naveli_ui/forum/forum_full_post/forum_full_post_view.dart';
-import 'package:naveli_2023/ui/naveli_ui/home/inapp_notificatons/custom_notification.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
@@ -37,7 +36,7 @@ class _ForumViewState extends State<ForumView>
         viewModel.getForumPostApi();
 
         _scrollController.addListener(() {
-          _onScroll(_scrollController, context);
+          viewModel.handleScroll(_scrollController);
         });
       }
     });
@@ -49,57 +48,11 @@ class _ForumViewState extends State<ForumView>
     super.dispose();
   }
 
-  Future<void> getData(BuildContext context) async {
-    try {
-      final viewModel = Provider.of<ForumViewModel>(context, listen: false);
-      await viewModel.getForumPostApi();
-    } catch (e) {
-      debugPrint("Error loading data: $e");
-    }
-  }
-
-  void _onScroll(ScrollController scrollController, BuildContext context) {
-    if (scrollController.position.pixels >=
-        scrollController.position.maxScrollExtent - 200) {
-      final viewModel = Provider.of<ForumViewModel>(context, listen: false);
-      if (viewModel.hasMoreData && !viewModel.isLoadingMore) {
-        viewModel.getForumPostApi(showLoader: false, loadMore: true);
-      } else if (!viewModel.hasShownEndMessage && !viewModel.isLoadingMore) {
-        viewModel.hasShownEndMessage = true;
-        CommonUtils.showSnackBar(
-          S.of(context)!.noMorePosts,
-          color: CommonColors.greyText,
-        );
-      }
-    }
-  }
-
-  showInfoDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => CustomNotification(
-        imagePath: LocalImages.welcomeForum,
-        height: 173,
-        width: 293,
-        subtitleText: S.of(context)!.welcomeToNeowForum,
-        subtitleTextStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-        prepareText: S.of(context)!.welcomeForumSubtitle,
-        prepareTextStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: CommonColors.greyText,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final viewModel = Provider.of<ForumViewModel>(context, listen: false);
+
     return ScaffoldBG(
       child: Scaffold(
         backgroundColor: CommonColors.mTransparent,
@@ -108,9 +61,7 @@ class _ForumViewState extends State<ForumView>
           automaticallyImplyLeading: false,
           actions: [
             GestureDetector(
-              onTap: () {
-                showInfoDialog(context);
-              },
+              onTap: () => viewModel.showInfoDialog(),
               child: SvgPicture.asset(
                 LocalSvgs.icInfo,
                 height: 20,
@@ -121,7 +72,8 @@ class _ForumViewState extends State<ForumView>
             const SizedBox(width: 16),
             GestureDetector(
               onTap: () {
-                push(const InterestView()).then((_) => getData(context));
+                push(const InterestView())
+                    .then((_) => viewModel.refreshData());
               },
               child: SvgPicture.asset(
                 LocalSvgs.icInterestEdit,
@@ -136,16 +88,13 @@ class _ForumViewState extends State<ForumView>
         body: Consumer<ForumViewModel>(
           builder: (context, viewModel, _) {
             if (viewModel.forumPostList.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [],
-                ),
+              return const Center(
+                child: SizedBox.shrink(),
               );
             }
 
             return RefreshIndicator(
-              onRefresh: () => getData(context),
+              onRefresh: () => viewModel.refreshData(),
               child: ListView.builder(
                 padding: const EdgeInsets.only(
                   bottom: 25,
