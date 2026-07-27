@@ -110,7 +110,6 @@ class _HomeViewState extends State<HomeView>
         await mViewModel.handleSecondBloc(dateString);
       }
 
-      print("diipppka1");
       // mViewModel.fetchData();
 
       mViewModel.updateSelectedDate(DateTime.now());
@@ -169,6 +168,7 @@ class _HomeViewState extends State<HomeView>
     }
   }
 
+///Custom dialgues on the home screen 
   void showCustomDayDialog(
     BuildContext context,
     String username,
@@ -218,10 +218,9 @@ class _HomeViewState extends State<HomeView>
           ),
         );
       } else if (periodMsg.contains("Period May Start Today") ||
-          periodMsg.contains("आज") ||
-          periodMsg.contains("Period Day 1") ||
-          periodMsg.contains("Period starts today")) {
-        // Case 3: Expected today - Saree Woman ("Has your period started?")
+          periodMsg.contains("Period starts today") ||
+          (periodMsg.contains("आज") && !mViewModel.isPeriodLog)) {
+        // Case 3A: Expected today (Pre-log) - Saree Woman ("Has your period started?")
         showDialog(
           context: context,
           builder: (context) => CustomNotification(
@@ -251,6 +250,26 @@ class _HomeViewState extends State<HomeView>
                   subtitleText: S.of(context)!.dontWorryWaitFewHours,
                 ),
               );
+            },
+          ),
+        );
+      } else if (periodMsg.contains("Period Day 1") ||
+          periodMsg.contains("पहला दिन") ||
+          (mViewModel.isPeriodLog && periodMsg.contains("Day 1"))) {
+        // Case 3B: Period Day 1 (Post-log) - Dedicated Day 1 Notification
+        final String? desc = mViewModel.dateWiseTextList.msg.description;
+        showDialog(
+          context: context,
+          builder: (context) => CustomNotification(
+            imagePath: LocalImages.heartFace,
+            imageText: periodMsg,
+            subtitleText: (desc != null && desc.isNotEmpty)
+                ? desc
+                : S.of(context)!.logPeriod,
+            purpleLabel: S.of(context)!.logYourSymptoms,
+            purpleOnPress: () {
+              Navigator.of(context).pop();
+              push(const LogYourSymptoms());
             },
           ),
         );
