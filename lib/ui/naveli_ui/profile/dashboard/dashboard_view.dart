@@ -233,9 +233,43 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   Future<void> processAfterBarDataUpdate() async {
-    // Function that processes after SleepBarData has been updated
     print('Processing data after SleepBarData update...');
-    // Add your logic here for further actions
+  }
+
+  int _getEffectiveUserAge(DashBoardViewModel vModel) {
+    if (vModel.userAge != null && vModel.userAge! > 0) {
+      return vModel.userAge!;
+    }
+    final parsed = int.tryParse(vModel.userAgeController.text);
+    if (parsed != null && parsed > 0) {
+      return parsed;
+    }
+    if (vModel.userPersonalInformation?.data?.age != null &&
+        vModel.userPersonalInformation!.data!.age! > 0) {
+      return vModel.userPersonalInformation!.data!.age!;
+    }
+    if (globalUserMaster?.age != null && globalUserMaster!.age! > 0) {
+      return globalUserMaster!.age!;
+    }
+    if (globalUserMaster?.birthdate != null &&
+        globalUserMaster!.birthdate!.isNotEmpty) {
+      try {
+        final dob = DateTime.parse(globalUserMaster!.birthdate!);
+        final now = DateTime.now();
+        int age = now.year - dob.year;
+        if (now.month < dob.month ||
+            (now.month == dob.month && now.day < dob.day)) {
+          age--;
+        }
+        if (age > 0) return age;
+      } catch (_) {}
+    }
+    return 0;
+  }
+
+  bool _isUserSingle() {
+    return selectedRelation == 1 ||
+        maritalStatusController.text.trim() == "Solo";
   }
 
   @override
@@ -1566,6 +1600,7 @@ class _DashboardViewState extends State<DashboardView> {
                         ],
                       ),
                     )),
+               
                 if (oth)
                   Container(
                     padding: const EdgeInsets.only(
@@ -1706,33 +1741,35 @@ class _DashboardViewState extends State<DashboardView> {
                               ],
                             );
                           }),
-                          kCommonSpaceV20,
-                          _text(S.of(context)!.doYouHaveKids, 14),
-                          Consumer<DashBoardViewModel>(
-                              builder: (context, vModel, child) {
-                            return Wrap(
-                              children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.haveKids,
-                                  (value) {
-                                    vModel.updateHaveKids(value!);
-                                  },
-                                ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.haveKids,
-                                  (value) {
-                                    vModel.updateHaveKids(value!);
-                                  },
-                                ),
-                                if (vModel.haveKids == 1) SizedBox(width: 20),
-                                if (vModel.haveKids == 1) NumberDropdown(),
-                              ],
-                            );
-                          }),
+                          if (!_isUserSingle()) ...[
+                            kCommonSpaceV20,
+                            _text(S.of(context)!.doYouHaveKids, 14),
+                            Consumer<DashBoardViewModel>(
+                                builder: (context, vModel, child) {
+                              return Wrap(
+                                children: [
+                                  _radioBtn(
+                                    S.of(context)!.yes,
+                                    1,
+                                    vModel.haveKids,
+                                    (value) {
+                                      vModel.updateHaveKids(value!);
+                                    },
+                                  ),
+                                  _radioBtn(
+                                    S.of(context)!.no,
+                                    0,
+                                    vModel.haveKids,
+                                    (value) {
+                                      vModel.updateHaveKids(value!);
+                                    },
+                                  ),
+                                  if (vModel.haveKids == 1) SizedBox(width: 20),
+                                  if (vModel.haveKids == 1) NumberDropdown(),
+                                ],
+                              );
+                            }),
+                          ],
                           kCommonSpaceV20,
                           _text(S.of(context)!.areYouPregnant, 14),
                           Consumer<DashBoardViewModel>(
@@ -1789,99 +1826,102 @@ class _DashboardViewState extends State<DashboardView> {
                           _text(S.of(context)!.areYouTryingToGetPregnant, 14),
                           Consumer<DashBoardViewModel>(
                               builder: (context, vModel, child) {
-                            return Row(
+                            final currentAge = _getEffectiveUserAge(vModel);
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.tryPregnant,
-                                  (value) {
-                                    vModel.updateTryPregnant(value!);
-                                  },
+                                Row(
+                                  children: [
+                                    _radioBtn(
+                                      S.of(context)!.yes,
+                                      1,
+                                      vModel.tryPregnant,
+                                      (value) {
+                                        vModel.updateTryPregnant(value!);
+                                      },
+                                    ),
+                                    _radioBtn(
+                                      S.of(context)!.no,
+                                      0,
+                                      vModel.tryPregnant,
+                                      (value) {
+                                        vModel.updateTryPregnant(value!);
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.tryPregnant,
-                                  (value) {
-                                    vModel.updateTryPregnant(value!);
-                                  },
-                                ),
-                              ],
-                            );
-                          }),
-                          kCommonSpaceV20,
-                          _text(S.of(context)!.tryingSince12MonthsOrMore, 14),
-                          Consumer<DashBoardViewModel>(
-                              builder: (context, vModel, child) {
-                            return Row(
-                              children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.willPregnant,
-                                  (value) {
-                                    vModel.updateWillPregnant(value!);
-                                  },
-                                ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.willPregnant,
-                                  (value) {
-                                    vModel.updateWillPregnant(value!);
-                                  },
-                                ),
-                              ],
-                            );
-                          }),
-                          kCommonSpaceV20,
-                          _text(S.of(context)!.ifYouAre21YearsOrMore, 14),
-                          Consumer<DashBoardViewModel>(
-                              builder: (context, vModel, child) {
-                            return Row(
-                              children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.papSmear,
-                                  (value) {
-                                    vModel.updatePapSmear(value!);
-                                  },
-                                ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.papSmear,
-                                  (value) {
-                                    vModel.updatePapSmear(value!);
-                                  },
-                                ),
-                              ],
-                            );
-                          }),
-                          kCommonSpaceV20,
-                          _text(S.of(context)!.ifYouAre50YearsOrMore, 14),
-                          Consumer<DashBoardViewModel>(
-                              builder: (context, vModel, child) {
-                            return Row(
-                              children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.hadPeriod,
-                                  (value) {
-                                    vModel.updateHadPeriod(value!);
-                                  },
-                                ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.hadPeriod,
-                                  (value) {
-                                    vModel.updateHadPeriod(value!);
-                                  },
-                                ),
+                                if (vModel.tryPregnant == 1) ...[
+                                  kCommonSpaceV20,
+                                  _text(S.of(context)!.tryingSince12MonthsOrMore, 14),
+                                  Row(
+                                    children: [
+                                      _radioBtn(
+                                        S.of(context)!.yes,
+                                        1,
+                                        vModel.willPregnant,
+                                        (value) {
+                                          vModel.updateWillPregnant(value!);
+                                        },
+                                      ),
+                                      _radioBtn(
+                                        S.of(context)!.no,
+                                        0,
+                                        vModel.willPregnant,
+                                        (value) {
+                                          vModel.updateWillPregnant(value!);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                if (currentAge == 0 || currentAge >= 21) ...[
+                                  kCommonSpaceV20,
+                                  _text(S.of(context)!.ifYouAre21YearsOrMore, 14),
+                                  Row(
+                                    children: [
+                                      _radioBtn(
+                                        S.of(context)!.yes,
+                                        1,
+                                        vModel.papSmear,
+                                        (value) {
+                                          vModel.updatePapSmear(value!);
+                                        },
+                                      ),
+                                      _radioBtn(
+                                        S.of(context)!.no,
+                                        0,
+                                        vModel.papSmear,
+                                        (value) {
+                                          vModel.updatePapSmear(value!);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                if (currentAge == 0 || currentAge >= 50) ...[
+                                  kCommonSpaceV20,
+                                  _text(S.of(context)!.ifYouAre50YearsOrMore, 14),
+                                  Row(
+                                    children: [
+                                      _radioBtn(
+                                        S.of(context)!.yes,
+                                        1,
+                                        vModel.hadPeriod,
+                                        (value) {
+                                          vModel.updateHadPeriod(value!);
+                                        },
+                                      ),
+                                      _radioBtn(
+                                        S.of(context)!.no,
+                                        0,
+                                        vModel.hadPeriod,
+                                        (value) {
+                                          vModel.updateHadPeriod(value!);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ],
                             );
                           }),
@@ -1987,32 +2027,41 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           // _displayBox(150,
                           //     'If you’re experiencing above symptoms mentioned above, do not worry these are menopausal symptoms due to estrogen deficiency, consult a gynaecologist to start HRT (Hormone Replacement Therapy) to relieve these symptoms.'),
-                          kCommonSpaceV20,
-                          _text(S.of(context)!.haveyouExpPostmenopausalSpotting,
-                              14),
                           Consumer<DashBoardViewModel>(
-                              builder: (context, vModel, child) {
-                            return Row(
-                              children: [
-                                _radioBtn(
-                                  S.of(context)!.yes,
-                                  1,
-                                  vModel.expPostmenopausal,
-                                  (value) {
-                                    vModel.updateExpPostmenopausal(value!);
-                                  },
-                                ),
-                                _radioBtn(
-                                  S.of(context)!.no,
-                                  0,
-                                  vModel.expPostmenopausal,
-                                  (value) {
-                                    vModel.updateExpPostmenopausal(value!);
-                                  },
-                                ),
-                              ],
-                            );
-                          }),
+                            builder: (context, vModel, child) {
+                              final currentAge = _getEffectiveUserAge(vModel);
+                              if (currentAge != 0 && currentAge < 50) {
+                                return const SizedBox.shrink();
+                              }
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  kCommonSpaceV20,
+                                  _text(S.of(context)!.haveyouExpPostmenopausalSpotting, 14),
+                                  Row(
+                                    children: [
+                                      _radioBtn(
+                                        S.of(context)!.yes,
+                                        1,
+                                        vModel.expPostmenopausal,
+                                        (value) {
+                                          vModel.updateExpPostmenopausal(value!);
+                                        },
+                                      ),
+                                      _radioBtn(
+                                        S.of(context)!.no,
+                                        0,
+                                        vModel.expPostmenopausal,
+                                        (value) {
+                                          vModel.updateExpPostmenopausal(value!);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                           // _displayBox(100,
                           //     'Possible causes can be estrogen deficiency, vaginal dryness, or cancer.Get an ultrasound and a Pap Smear now!'),
                           SizedBox(height: 20),
