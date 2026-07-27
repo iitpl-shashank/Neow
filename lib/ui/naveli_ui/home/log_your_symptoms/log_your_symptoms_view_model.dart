@@ -26,6 +26,7 @@ class LogYourSymptomsModel with ChangeNotifier {
   int? selectedCramps;
   int? selectedDays;
   int? selectedCollection;
+  List? selectedCollectionArray = [];
   int? selectedFrequency;
   int? selectedMood;
   int? selectedEnergy;
@@ -40,6 +41,7 @@ class LogYourSymptomsModel with ChangeNotifier {
 
   void updateLocation(int location) {
     selectedLocation = location;
+    selectedLocationArray ??= [];
 
     if (location == 6) {
       if (selectedLocationArray!.contains(6)) {
@@ -48,12 +50,11 @@ class LogYourSymptomsModel with ChangeNotifier {
         selectedLocationArray = [6];
       }
     } else {
-      if (!selectedLocationArray!.contains(6)) {
-        if (selectedLocationArray!.contains(location)) {
-          selectedLocationArray!.remove(location);
-        } else {
-          selectedLocationArray!.add(location);
-        }
+      selectedLocationArray!.remove(6);
+      if (selectedLocationArray!.contains(location)) {
+        selectedLocationArray!.remove(location);
+      } else {
+        selectedLocationArray!.add(location);
       }
     }
 
@@ -69,6 +70,14 @@ class LogYourSymptomsModel with ChangeNotifier {
 
   void updateCollection(int collection) {
     selectedCollection = collection;
+    selectedCollectionArray ??= [];
+
+    if (selectedCollectionArray!.contains(collection)) {
+      selectedCollectionArray!.remove(collection);
+    } else {
+      selectedCollectionArray!.add(collection);
+    }
+
     checkMoreThenThreeSelected();
     notifyListeners();
   }
@@ -140,7 +149,7 @@ class LogYourSymptomsModel with ChangeNotifier {
     selectedLocationArray = [];
     selectedCramps = null;
     selectedDays = null;
-    selectedCollection = null;
+    selectedCollectionArray = [];
     selectedFrequency = null;
     selectedMood = null;
     selectedEnergy = null;
@@ -183,7 +192,7 @@ class LogYourSymptomsModel with ChangeNotifier {
       debugPrint(
           "Days of Pain is 3-4 days (selectedDays == 4). Count increased to: $count");
     }
-    if (selectedCollection == 4) {
+    if (selectedCollectionArray?.contains(4) == true || selectedCollection == 4) {
       count += 1;
       debugPrint(
           "Collection Method is Cups (selectedCollection == 4). Count increased to: $count");
@@ -335,7 +344,14 @@ class LogYourSymptomsModel with ChangeNotifier {
 
       selectedCramps = log.cramps;
       selectedDays = log.days;
-      selectedCollection = log.collectionMethod;
+      if (log.collectionMethod is List) {
+        selectedCollectionArray = (log.collectionMethod as List).cast<int>().toList();
+      } else if (log.collectionMethod != null) {
+        selectedCollectionArray = [log.collectionMethod];
+      } else {
+        selectedCollectionArray = [];
+      }
+      selectedCollection = log.collectionMethod is int ? log.collectionMethod : null;
       selectedFrequency = log.frequencyOfChangeDay;
       selectedMood = log.mood;
       selectedEnergy = log.energy;
@@ -383,7 +399,7 @@ class LogYourSymptomsModel with ChangeNotifier {
       return;
     }
 
-    if (selectedCollection == null) {
+    if (selectedCollectionArray == null || selectedCollectionArray!.isEmpty) {
       _showSnackBar(context, S.of(context)!.pleaseSelectMethod);
       return;
     }
@@ -420,7 +436,7 @@ class LogYourSymptomsModel with ChangeNotifier {
       "location": selectedLocationArray,
       "cramps": selectedCramps,
       "days": selectedDays,
-      "collection_method": selectedCollection,
+      "collection_method": selectedCollectionArray,
       "frequency_of_change_day": selectedFrequency.toString(),
       "mood": selectedMood,
       "energy": selectedEnergy,

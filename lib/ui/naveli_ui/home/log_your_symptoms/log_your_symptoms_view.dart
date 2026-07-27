@@ -728,7 +728,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                         isUnderText: true,
                         imgHeight: 40,
                         imagePath: LocalImages.img_collection_4,
-                        isSelected: mViewModel.selectedCollection == 1,
+                        isSelected:
+                            mViewModel.selectedCollectionArray?.contains(1) ??
+                                false,
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
@@ -738,7 +740,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                         isUnderText: true,
                         imgHeight: 40,
                         imagePath: LocalImages.img_collection_1,
-                        isSelected: mViewModel.selectedCollection == 2,
+                        isSelected:
+                            mViewModel.selectedCollectionArray?.contains(2) ??
+                                false,
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
@@ -748,7 +752,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                         isUnderText: true,
                         imgHeight: 40,
                         imagePath: LocalImages.img_collection_2,
-                        isSelected: mViewModel.selectedCollection == 3,
+                        isSelected:
+                            mViewModel.selectedCollectionArray?.contains(3) ??
+                                false,
                       ),
                       CommonSymptomsWidget(
                         onTap: () {
@@ -758,7 +764,9 @@ class _LogYourSymptomsState extends State<LogYourSymptoms> {
                         isUnderText: true,
                         imgHeight: 40,
                         imagePath: LocalImages.img_collection_3,
-                        isSelected: mViewModel.selectedCollection == 4,
+                        isSelected:
+                            mViewModel.selectedCollectionArray?.contains(4) ??
+                                false,
                       ),
                     ],
                   ),

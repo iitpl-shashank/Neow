@@ -384,79 +384,58 @@ class _CompulsorySymptomsLogViewState extends State<CompulsorySymptomsLogView> {
                                 CommonSymptomsWidget(
                                   onTap: () {
                                     setState(() {
-                                      mViewModel.selectedCollection = 1;
+                                      mViewModel.updateCollection(1);
                                       mViewModel.checkFlow();
                                     });
-                                    if (mViewModel.count != 0) {
-                                      mViewModel.count -= 1;
-                                    }
-                                    // mViewModel.userSymptomsLogApi(
-                                    //     collectionMethod:
-                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Sanitary Pads",
                                   isUnderText: true,
                                   imagePath: LocalImages.img_collection_1,
-                                  isSelected:
-                                      mViewModel.selectedCollection == 1,
+                                  isSelected: mViewModel.selectedCollectionArray
+                                          ?.contains(1) ??
+                                      false,
                                 ),
                                 CommonSymptomsWidget(
                                   onTap: () {
                                     setState(() {
-                                      mViewModel.selectedCollection = 2;
+                                      mViewModel.updateCollection(2);
                                       mViewModel.checkFlow();
                                     });
-                                    if (mViewModel.count != 0) {
-                                      mViewModel.count -= 1;
-                                    }
-                                    // mViewModel.userSymptomsLogApi(
-                                    //     collectionMethod:
-                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Cloth",
                                   isUnderText: true,
                                   imagePath: LocalImages.img_collection_2,
-                                  isSelected:
-                                      mViewModel.selectedCollection == 2,
+                                  isSelected: mViewModel.selectedCollectionArray
+                                          ?.contains(2) ??
+                                      false,
                                 ),
                                 CommonSymptomsWidget(
                                   onTap: () {
                                     setState(() {
-                                      mViewModel.selectedCollection = 3;
+                                      mViewModel.updateCollection(3);
                                       mViewModel.checkFlow();
                                     });
-                                    if (mViewModel.count != 0) {
-                                      mViewModel.count -= 1;
-                                    }
-                                    // mViewModel.userSymptomsLogApi(
-                                    //     collectionMethod:
-                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Tampons",
                                   isUnderText: true,
                                   imagePath: LocalImages.img_collection_3,
-                                  isSelected:
-                                      mViewModel.selectedCollection == 3,
+                                  isSelected: mViewModel.selectedCollectionArray
+                                          ?.contains(3) ??
+                                      false,
                                 ),
                                 CommonSymptomsWidget(
                                   onTap: () {
                                     setState(() {
-                                      mViewModel.selectedCollection = 4;
+                                      mViewModel.updateCollection(4);
                                       mViewModel.checkFlow();
-
-                                      mViewModel.count += 1;
                                     });
-                                    // mViewModel.checkMoreThenThreeSelected();
-
-                                    // mViewModel.userSymptomsLogApi(
-                                    //     collectionMethod:
-                                    //         mViewModel.selectedCollection);
                                   },
                                   underText: "Cups",
                                   isUnderText: true,
                                   imagePath: LocalImages.img_collection_4,
-                                  isSelected:
-                                      mViewModel.selectedCollection == 4,
+                                  isSelected: mViewModel.selectedCollectionArray
+                                          ?.contains(4) ??
+                                      false,
                                 ),
                               ],
                             ),

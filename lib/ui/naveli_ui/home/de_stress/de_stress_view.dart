@@ -84,7 +84,9 @@ class _DeStressViewState extends State<DeStressView>
       _isInitializing = true;
       _isError = false;
     });
-    _vm.setInitializing(true);
+    _vm
+      ..setInitializing(true)
+      ..setVideoActive(true);
 
     // Clean up any stale controller first
     await _releaseController();
@@ -115,9 +117,7 @@ class _DeStressViewState extends State<DeStressView>
         _isInitialized = true;
         _isInitializing = false;
       });
-      _vm
-        ..setInitializing(false)
-        ..setVideoActive(true);
+      _vm.setInitializing(false);
     } catch (e) {
       log('[DeStress] Error initializing video: $e');
       await _releaseController();
@@ -184,20 +184,23 @@ class _DeStressViewState extends State<DeStressView>
         ..setVideoActive(false)
         ..setError(true);
     }
-    setState(() {}); // refresh buffering indicator
+    setState(() {}); // refresh buffering / playback indicator
   }
 
   // ------------------------------------------------------------------ //
   //  Helpers
   // ------------------------------------------------------------------ //
 
-  bool get _isBuffering =>
-      _isInitialized &&
-      _videoController != null &&
-      _videoController!.value.isBuffering;
+  bool get _isBuffering {
+    if (_videoController == null) return false;
+    final value = _videoController!.value;
+    return value.isBuffering ||
+        (value.isPlaying && !value.isInitialized) ||
+        (value.isPlaying && value.buffered.isEmpty);
+  }
 
   bool get _showLoadingOverlay =>
-      _isInitializing || (_isInitialized && _isBuffering);
+      _isInitializing || !_isInitialized || _isBuffering;
 
   // ------------------------------------------------------------------ //
   //  Build
