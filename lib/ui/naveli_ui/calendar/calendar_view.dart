@@ -115,20 +115,17 @@ class _CalendarViewState extends State<CalendarView> {
   }
 
   void onDayPressed(DateTime NewItem) {
-    // setState(() {
-    if (forParentUseDateList.contains(NewItem)) {
-      forParentUseDateList.remove(NewItem);
-      dateList.remove(NewItem);
-      dateListLatest.remove(NewItem);
-    } else {
-      forParentUseDateList.add(NewItem);
-      dateList.add(NewItem);
-      dateListLatest.add(NewItem);
-    }
-    //
-    // debugPrint("forParentUseDateList: $forParentUseDateList");
-    // debugPrint("dateList: $dateList");
-    // });
+    setState(() {
+      if (forParentUseDateList.contains(NewItem)) {
+        forParentUseDateList.remove(NewItem);
+        dateList.remove(NewItem);
+        dateListLatest.remove(NewItem);
+      } else {
+        forParentUseDateList.add(NewItem);
+        dateList.add(NewItem);
+        dateListLatest.add(NewItem);
+      }
+    });
   }
 
   int cycleLength = int.parse(globalUserMaster?.averageCycleLength ?? "28");
@@ -402,13 +399,19 @@ class _CalendarViewState extends State<CalendarView> {
                           onDayPressed: onDayPressed,
                         )
                       : selectedIndex == 2
-                          ? const YearCalendarView()
+                          ? YearCalendarView(
+                              dateList: dateList,
+                              onDayPressed: onDayPressed,
+                              isChecked: _isChecked,
+                            )
                           : Container()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (isLogEdit && selectedIndex == 1 && _isChecked)
+                  if (isLogEdit &&
+                      (selectedIndex == 1 || selectedIndex == 2) &&
+                      _isChecked)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -421,9 +424,11 @@ class _CalendarViewState extends State<CalendarView> {
                         S.of(context)!.cancel,
                       ),
                     ),
-                  if (isLogEdit && selectedIndex == 1 && _isChecked)
+                  if (isLogEdit &&
+                      (selectedIndex == 1 || selectedIndex == 2) &&
+                      _isChecked)
                     kCommonSpaceH15,
-                  if (isLogEdit && selectedIndex == 1)
+                  if (isLogEdit && (selectedIndex == 1 || selectedIndex == 2))
                     ElevatedButton(
                       onPressed: () {
                         if (_isChecked) {
