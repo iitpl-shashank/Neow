@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:naveli_2023/ui/common_ui/bottom_navbar/bottom_navbar_view.dart';
 import 'package:naveli_2023/utils/common_utils.dart';
+import 'package:just_audio/just_audio.dart';
 import '../../../../generated/i18n.dart';
 import '../../../../models/user_symptoms_master.dart';
 import '../../../../models/user_symptoms_score_master.dart';
@@ -17,6 +18,7 @@ class LogYourSymptomsModel with ChangeNotifier {
   final _services = Services();
   final PageController pageController = PageController(initialPage: 0);
   Log? userSymptomsData;
+  AudioPlayer? _audioPlayer;
   final now = DateTime.now();
   int? selectedStaining;
   int? selectedClotSize;
@@ -39,7 +41,19 @@ class LogYourSymptomsModel with ChangeNotifier {
   bool severeAlert = false;
   bool stainAlert = false;
 
+  void playTapSound() async {
+    _audioPlayer ??= AudioPlayer();
+    try {
+      await _audioPlayer!.setAsset('assets/audio/messege_send_sound.mp3');
+      await _audioPlayer!.seek(Duration.zero);
+      await _audioPlayer!.play();
+    } catch (e) {
+      debugPrint("Error playing tap sound: $e");
+    }
+  }
+
   void updateLocation(int location) {
+    playTapSound();
     selectedLocation = location;
     selectedLocationArray ??= [];
 
@@ -63,12 +77,14 @@ class LogYourSymptomsModel with ChangeNotifier {
   }
 
   void updateCramps(int cramp) {
+    playTapSound();
     selectedCramps = cramp;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateCollection(int collection) {
+    playTapSound();
     selectedCollection = collection;
     selectedCollectionArray ??= [];
 
@@ -83,47 +99,55 @@ class LogYourSymptomsModel with ChangeNotifier {
   }
 
   void updateAcne(int acne) {
+    playTapSound();
     selectedAcne = acne;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateMood(int mood) {
+    playTapSound();
     selectedMood = mood;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateEnergy(int energy) {
+    playTapSound();
     selectedEnergy = energy;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateStress(int stress) {
+    playTapSound();
     selectedStress = stress;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateFrequency(int frequency) {
+    playTapSound();
     selectedFrequency = frequency;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateDays(int days) {
+    playTapSound();
     selectedDays = days;
     checkMoreThenThreeSelected();
     notifyListeners();
   }
 
   void updateStaining(int staining) {
+    playTapSound();
     selectedStaining = staining;
     notifyListeners();
   }
 
   void updateClotSize(int clotSize) {
+    playTapSound();
     selectedClotSize = clotSize;
     if (selectedClotSize == 3) {
       showMeriZindagiKharabHai();
@@ -132,6 +156,7 @@ class LogYourSymptomsModel with ChangeNotifier {
   }
 
   void updateWorkingAbility(int workingAbility) {
+    playTapSound();
     selectedWorkingAbility = workingAbility;
     notifyListeners();
   }
@@ -683,5 +708,11 @@ class LogYourSymptomsModel with ChangeNotifier {
             ),
           );
         });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer?.dispose();
+    super.dispose();
   }
 }
