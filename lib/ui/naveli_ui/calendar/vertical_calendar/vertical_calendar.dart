@@ -366,95 +366,74 @@ class _MonthViewState extends State<_MonthView> {
             DateTime now = DateTime.now();
             // DateTime isStartDate = DateTime.now();
             // peroidCustomeList
+            bool _isSameDay(DateTime a, DateTime b) {
+              return a.year == b.year && a.month == b.month && a.day == b.day;
+            }
+
+            bool _containsDay(Iterable<DateTime> list, DateTime d) {
+              return list.any((item) => _isSameDay(item, d));
+            }
+
             if (peroidCustomeList.isEmpty) {
-              isSelected = mViewModel.nextCycleDates.contains(date);
-              isOvulation = mViewModel.ovulationDates.contains(date);
-              isFirtile = mViewModel.firtileDates.contains(date);
+              isSelected = _containsDay(mViewModel.nextCycleDates, date);
+              isOvulation = _containsDay(mViewModel.ovulationDates, date);
+              isFirtile = _containsDay(mViewModel.firtileDates, date);
             } else {
               List<DateTime> fertileDates = [];
               List<DateTime> ovulationDates = [];
               List<DateTime> loggedPeriodDates = [];
               List<DateTime> predictedPeriodDates = [];
 
-              peroidCustomeList.forEach((element) {
-                element.periodData.forEach((periodDates) {
-                  for (DateTime start =
-                          DateTime.parse(periodDates.periodStartDate);
-                      start.isSameDayOrBefore(
-                          DateTime.parse(periodDates.periodEndDate));
-                      start = start.add(Duration(days: 1))) {
-                    loggedPeriodDates.add(start);
-                  }
-                });
+              for (var element in peroidCustomeList) {
+                for (var periodDates in element.periodData) {
+                  try {
+                    DateTime start =
+                        DateTime.parse(periodDates.periodStartDate);
+                    DateTime end = DateTime.parse(periodDates.periodEndDate);
+                    for (DateTime s = start;
+                        s.isBefore(end) || _isSameDay(s, end);
+                        s = s.add(const Duration(days: 1))) {
+                      loggedPeriodDates.add(s);
+                    }
+                  } catch (_) {}
+                }
 
                 if (mViewModel.isPeriodLog) {
-                  element.predictions.forEach((predictions) {
-                    for (DateTime start =
-                            DateTime.parse(predictions.predictedStart);
-                        start.isSameDayOrBefore(
-                            DateTime.parse(predictions.predictedEnd));
-                        start = start.add(Duration(days: 1))) {
-                      predictedPeriodDates.add(start);
-                    }
-                    for (DateTime start =
-                            DateTime.parse(predictions.fertileWindowStart);
-                        start.isSameDayOrBefore(
-                            DateTime.parse(predictions.fertileWindowEnd));
-                        start = start.add(Duration(days: 1))) {
-                      fertileDates.add(start);
-                    }
+                  for (var predictions in element.predictions) {
+                    try {
+                      DateTime startP =
+                          DateTime.parse(predictions.predictedStart);
+                      DateTime endP = DateTime.parse(predictions.predictedEnd);
+                      for (DateTime s = startP;
+                          s.isBefore(endP) || _isSameDay(s, endP);
+                          s = s.add(const Duration(days: 1))) {
+                        predictedPeriodDates.add(s);
+                      }
 
-                    ovulationDates
-                        .add(DateTime.parse(predictions.ovulationDay));
-                  });
-                }
+                      DateTime startF =
+                          DateTime.parse(predictions.fertileWindowStart);
+                      DateTime endF =
+                          DateTime.parse(predictions.fertileWindowEnd);
+                      for (DateTime s = startF;
+                          s.isBefore(endF) || _isSameDay(s, endF);
+                          s = s.add(const Duration(days: 1))) {
+                        fertileDates.add(s);
+                      }
 
-                // element.predictions.forEach((predictions) {
-                //   for (DateTime start =
-                //           DateTime.parse(predictions.predictedStart);
-                //       start.isSameDayOrBefore(
-                //           DateTime.parse(predictions.predictedEnd));
-                //       start = start.add(Duration(days: 1))) {
-                //     predictedPeriodDates.add(start);
-                //   }
-                //   for (DateTime start =
-                //           DateTime.parse(predictions.fertileWindowStart);
-                //       start.isSameDayOrBefore(
-                //           DateTime.parse(predictions.fertileWindowEnd));
-                //       start = start.add(Duration(days: 1))) {
-                //     fertileDates.add(start);
-                //   }
-
-                //   ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-                // });
-              });
-
-// Checking if the given `date` falls in the calculated dates
-              if (loggedPeriodDates.contains(date)) {
-                isSelected = true;
-              }
-
-              if (predictedPeriodDates.contains(date)) {
-                isPredictedDate = true;
-              }
-
-              if (fertileDates.contains(date)) {
-                isFirtile = true;
-              }
-              // ovulationDates.removeAt(ovulationDates.length - 1);
-              // if (ovulationDates.contains(date)) {
-              //   if (date.year < date.year + 1) {
-              //     isOvulation = true;
-              //   }
-              // }
-              // Only process ovulation dates if we actually have predictions
-              if (mViewModel.isPeriodLog && ovulationDates.isNotEmpty) {
-                ovulationDates.removeAt(ovulationDates.length - 1);
-                if (ovulationDates.contains(date)) {
-                  if (date.year < date.year + 1) {
-                    isOvulation = true;
+                      if (predictions.ovulationDay.isNotEmpty) {
+                        ovulationDates
+                            .add(DateTime.parse(predictions.ovulationDay));
+                      }
+                    } catch (_) {}
                   }
                 }
+              }
+
+              isSelected = _containsDay(loggedPeriodDates, date);
+              if (mViewModel.isPeriodLog) {
+                isPredictedDate = _containsDay(predictedPeriodDates, date);
+                isFirtile = _containsDay(fertileDates, date);
+                isOvulation = _containsDay(ovulationDates, date);
               }
             }
 
@@ -589,34 +568,10 @@ class _MonthViewState extends State<_MonthView> {
                               // padding: EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? null
+                                    ? const Color(0xFFFF9E98)
                                     : isOvulation
-                                        ? null
-                                        : isFirtile
-                                            ? null
-                                            : Colors.transparent,
-                                gradient: isSelected
-                                    ? LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: [
-                                          Color(0xFFFF9D93),
-                                          Color(0xFFFFB5AE),
-                                        ],
-                                      )
-                                    : isOvulation
-                                        ? mViewModel.getGradientGreen()
-                                        : isPredictedDate
-                                            ? LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Color(0xFFFFFFFF),
-                                                  Color(0xFFFFFFFF),
-                                                ],
-                                              )
-                                            : null,
-                                // color: isSelected ? CommonColors.primaryColor : CommonColors.mTransparent,
+                                        ? const Color(0xFF2ECC71)
+                                        : Colors.transparent,
                                 shape: BoxShape.circle,
                               ),
                               child: DottedBorder(
@@ -626,8 +581,11 @@ class _MonthViewState extends State<_MonthView> {
                                         ? CommonColors.mRed
                                         : CommonColors.mTransparent,
                                 dashPattern: [4, 3],
-                                strokeWidth:
-                                    (isFirtile || isPredictedDate) ? 2 : 0,
+                                strokeWidth: (!isSelected &&
+                                        !isOvulation &&
+                                        (isFirtile || isPredictedDate))
+                                    ? 2
+                                    : 0,
                                 borderType: BorderType.Circle,
                                 child: Center(
                                   child: InkWell(

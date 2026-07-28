@@ -230,32 +230,24 @@ class _MonthViewState extends State<MonthView> {
       Color textColor = Colors.black;
       FontWeight textFontWeight = FontWeight.normal;
 
-      if (isHighlighted && !isFuturePredictedHighlighted) {
-        // Logged period: Circular Red Gradient (matches monthly view)
-        cellDecoration = BoxDecoration(
+      if (isHighlighted) {
+        // Logged period: Solid Salmon Pink Circle (matches reference design)
+        cellDecoration = const BoxDecoration(
           shape: BoxShape.circle,
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [
-              Color(0xFFFF9D93),
-              Color(0xFFFFB5AE),
-            ],
-          ),
+          color: Color(0xFFFF9E98),
         );
         textColor = Colors.white;
         textFontWeight = FontWeight.bold;
       } else if (isOvulation) {
-        // Ovulation: Circular Green Gradient (matches monthly view)
-        cellDecoration = BoxDecoration(
+        // Ovulation: Solid Green Circle (matches reference design)
+        cellDecoration = const BoxDecoration(
           shape: BoxShape.circle,
-          gradient: mViewModel.getGradientGreen(),
+          color: Color(0xFF2ECC71),
         );
         textColor = Colors.white;
         textFontWeight = FontWeight.bold;
       } else if (isSelectedDate) {
-        // Selected by tap: Circular Secondary Accent color (distinct from white/blue)
-        cellDecoration = BoxDecoration(
+        cellDecoration = const BoxDecoration(
           shape: BoxShape.circle,
           color: CommonColors.secondaryColor,
         );
@@ -266,12 +258,14 @@ class _MonthViewState extends State<MonthView> {
       Color borderColor = CommonColors.mTransparent;
       double strokeWidth = 0;
 
-      if (isFertile) {
-        borderColor = CommonColors.greenColor;
-        strokeWidth = 1.5;
-      } else if (isFuturePredictedHighlighted) {
-        borderColor = CommonColors.mRed;
-        strokeWidth = 1.5;
+      if (!isHighlighted) {
+        if (isFertile) {
+          borderColor = CommonColors.greenColor;
+          strokeWidth = 1.5;
+        } else if (isFuturePredictedHighlighted) {
+          borderColor = CommonColors.mRed;
+          strokeWidth = 1.5;
+        }
       }
 
       dayWidgets.add(

@@ -305,6 +305,7 @@ class _CalendarViewState extends State<CalendarView> {
             onTap: () {
               setState(() {
                 selectedIndex = 2;
+                _isChecked = false;
               });
             },
             child: Padding(
@@ -409,9 +410,7 @@ class _CalendarViewState extends State<CalendarView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (isLogEdit &&
-                      (selectedIndex == 1 || selectedIndex == 2) &&
-                      _isChecked)
+                  if (isLogEdit && selectedIndex == 1 && _isChecked)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -424,11 +423,9 @@ class _CalendarViewState extends State<CalendarView> {
                         S.of(context)!.cancel,
                       ),
                     ),
-                  if (isLogEdit &&
-                      (selectedIndex == 1 || selectedIndex == 2) &&
-                      _isChecked)
+                  if (isLogEdit && selectedIndex == 1 && _isChecked)
                     kCommonSpaceH15,
-                  if (isLogEdit && (selectedIndex == 1 || selectedIndex == 2))
+                  if (isLogEdit && selectedIndex == 1)
                     ElevatedButton(
                       onPressed: () {
                         if (_isChecked) {
