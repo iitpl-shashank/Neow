@@ -5,6 +5,8 @@ import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../generated/i18n.dart';
+import '../../../../utils/common_utils.dart';
+import '../../home/all_about_periods/all_about_periods_view.dart';
 import '../widgets/custom_image_loader.dart';
 import '../widgets/custom_option_multi_button.dart';
 import '../widgets/typing_indicator.dart';
@@ -26,15 +28,16 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
     _scrollListener = () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         try {
-          final maxScroll = _scrollController.position.maxScrollExtent;
           if (_scrollController.hasClients &&
-              viewModel.visibleIndexes.isNotEmpty &&
-              maxScroll > 0) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-            );
+              viewModel.visibleIndexes.isNotEmpty) {
+            final maxScroll = _scrollController.position.maxScrollExtent;
+            if (maxScroll > 0) {
+              _scrollController.animateTo(
+                maxScroll,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            }
           }
         } catch (e) {
           debugPrint('Scroll error: $e');
@@ -123,7 +126,7 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                               margin: const EdgeInsets.only(bottom: 0),
                               child: ListView.builder(
                                 controller: _scrollController,
-                                itemCount: viewModel.chatMessages.length +
+                                itemCount: viewModel.visibleIndexes.length +
                                     (viewModel.showTypingIndicator ? 1 : 0),
                                 itemBuilder: (context, index) {
                                   if (viewModel.showTypingIndicator &&
@@ -154,7 +157,22 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                               ),
                             ),
                           ),
-                          if (viewModel.isLastQuestionVisible)
+                          if (viewModel.isChatEnded)
+                            Container(
+                              color: CommonColors.mTransparent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Center(
+                                child: CustomOptionButton(
+                                  text: S.of(context)!.readMore,
+                                  onTap: () {
+                                    push(const AllAboutPeriodsView());
+                                  },
+                                ),
+                              ),
+                            )
+                          else if (viewModel.isLastQuestionVisible &&
+                              viewModel.lastQuestionOptions.isNotEmpty)
                             Container(
                               color: CommonColors.mTransparent,
                               padding: const EdgeInsets.symmetric(

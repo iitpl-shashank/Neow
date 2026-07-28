@@ -38,6 +38,13 @@ class AiChatBotViewModel with ChangeNotifier {
         visibleIndexes.last == (chatMessages.length) - 1;
   }
 
+  bool get isChatEnded {
+    return isLastQuestionVisible &&
+        !showTypingIndicator &&
+        !isLoading &&
+        lastQuestionOptions.isEmpty;
+  }
+
   List<Option> get lastQuestionOptions {
     if (chatMessages.isEmpty) {
       return [];
