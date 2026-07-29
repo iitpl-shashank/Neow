@@ -114,8 +114,6 @@ class _HomeViewState extends State<HomeView>
       }
 
       // mViewModel.fetchData();
-
-      mViewModel.updateSelectedDate(DateTime.now());
     });
   }
 
@@ -653,7 +651,7 @@ class _HomeViewState extends State<HomeView>
       _dialogShown = true;
     }
     mViewModel.isDateWiseTextLoader = true;
-    Future.delayed(const Duration(seconds: 11), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         setState(() {
           mViewModel.isDateWiseTextLoader = false;

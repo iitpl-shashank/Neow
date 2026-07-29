@@ -454,8 +454,6 @@ class HomeViewModel with ChangeNotifier {
   }
 
   String getCyclePhaseMessage({required HomeViewModel mViewModel}) {
-    getDateWiseText();
-    Future.delayed(Duration(seconds: 1));
     return mViewModel.dateWiseTextList.msg.description;
   }
 
@@ -634,10 +632,6 @@ class HomeViewModel with ChangeNotifier {
         parsedEndDate =
             DateFormat('yyyy-MM-dd').parse(targetPrediction.predictedEnd);
       }
-      notifyListeners();
-      getDateWiseText();
-
-      updateSelectedDate(DateTime.now());
       print("daaa =>${peroidCustomeList[0].predictions.length}");
       notifyListeners();
     }
@@ -701,7 +695,25 @@ class HomeViewModel with ChangeNotifier {
     }
   }
 
+  String? _lastFetchedDateStr;
+  DateTime? _lastFetchedTime;
+
   Future<void> getDateWiseText() async {
+    String currentDateStr =
+        DateFormat('yyyy-MM-dd').format(selectedDate).toString();
+    DateTime now = DateTime.now();
+
+    if (isDateWiseTextLoading ||
+        (_lastFetchedDateStr == currentDateStr &&
+            _lastFetchedTime != null &&
+            now.difference(_lastFetchedTime!).inMilliseconds < 1500)) {
+      log("Skipping duplicate getDateWiseText call for $currentDateStr");
+      return;
+    }
+
+    _lastFetchedDateStr = currentDateStr;
+    _lastFetchedTime = now;
+
     log("Inside getDateWiseText");
     isDateWiseTextLoading = true;
     notifyListeners();
