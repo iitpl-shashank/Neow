@@ -20,6 +20,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
+import '../../../utils/local_images.dart';
 import '../../../services/api_url.dart';
 
 class HomeViewModel with ChangeNotifier {
@@ -674,6 +675,32 @@ class HomeViewModel with ChangeNotifier {
 
   bool isDateWiseTextLoading = false;
   bool isDateWiseTextLoader = false;
+  String? activeLoadingGif;
+
+  String getLoadingAnimationAsset(String lang) {
+    bool isLoading = isDateWiseTextLoading || isDateWiseTextLoader;
+    if (isLoading) {
+      if (activeLoadingGif == null) {
+        String todayDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        String lastSyncDate = AppPreferences.instance.getLastVibeSyncDate();
+        if (lastSyncDate != todayDate) {
+          activeLoadingGif = lang == 'hi'
+              ? LocalImages.syncing_the_vibe_hi
+              : LocalImages.syncing_the_vibe;
+          AppPreferences.instance.setLastVibeSyncDate(todayDate);
+        } else {
+          activeLoadingGif = LocalImages.updating_predictions;
+        }
+      }
+      return activeLoadingGif!;
+    } else {
+      activeLoadingGif = null;
+      return lang == 'hi'
+          ? LocalImages.syncing_the_vibe_hi
+          : LocalImages.syncing_the_vibe;
+    }
+  }
+
   Future<void> getDateWiseText() async {
     log("Inside getDateWiseText");
     isDateWiseTextLoading = true;

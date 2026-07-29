@@ -65,7 +65,6 @@ class _HomeViewState extends State<HomeView>
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
   String? acceptedUniqueId;
   bool _dialogShown = false;
-  String? _activeLoadingGif;
   var bgColor = 0XFFFBF5F7;
   late Timer _timer;
 
@@ -537,6 +536,29 @@ class _HomeViewState extends State<HomeView>
     return await LottieComposition.fromBytes(bytes);
   }
 
+  Widget _buildLoadingWidget(HomeViewModel vModel, String lang) {
+    final assetPath = vModel.getLoadingAnimationAsset(lang);
+    final isLottie =
+        assetPath.endsWith('.lottie') || assetPath.endsWith('.json');
+
+    return Container(
+      child: isLottie
+          ? Lottie.asset(
+              assetPath,
+              decoder: _customLottieDecoder,
+              height: 200,
+              width: 200,
+              fit: BoxFit.contain,
+            )
+          : Image.asset(
+              assetPath,
+              height: 300,
+              width: 300,
+              fit: BoxFit.contain,
+            ),
+    );
+  }
+
   bool getLogSymtopmActive() {
     if (mViewModel.getCycleDayOrDaysToGo(mViewModel.selectedDate) ==
             "Period day" ||
@@ -867,30 +889,6 @@ class _HomeViewState extends State<HomeView>
                                 });
                               }
 
-                              final bool isLoading =
-                                  vModel.isDateWiseTextLoading ||
-                                      vModel.isDateWiseTextLoader;
-                              if (isLoading) {
-                                if (_activeLoadingGif == null) {
-                                  String todayDate = DateFormat('yyyy-MM-dd')
-                                      .format(DateTime.now());
-                                  String lastSyncDate = AppPreferences.instance
-                                      .getLastVibeSyncDate();
-                                  if (lastSyncDate != todayDate) {
-                                    _activeLoadingGif = lang == 'hi'
-                                        ? LocalImages.syncing_the_vibe_hi
-                                        : LocalImages.syncing_the_vibe;
-                                    AppPreferences.instance
-                                        .setLastVibeSyncDate(todayDate);
-                                  } else {
-                                    _activeLoadingGif =
-                                        LocalImages.updating_predictions;
-                                  }
-                                }
-                              } else {
-                                _activeLoadingGif = null;
-                              }
-
                               return Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -900,33 +898,9 @@ class _HomeViewState extends State<HomeView>
                                           MediaQuery.of(context).size.width,
                                           90.0)),
                                 ),
-                                child: isLoading
-                                    ? Container(
-                                        child: (_activeLoadingGif
-                                                        ?.endsWith('.lottie') ==
-                                                    true ||
-                                                _activeLoadingGif
-                                                        ?.endsWith('.json') ==
-                                                    true)
-                                            ? Lottie.asset(
-                                                _activeLoadingGif!,
-                                                decoder: _customLottieDecoder,
-                                                height: 200,
-                                                width: 200,
-                                                fit: BoxFit.contain,
-                                              )
-                                            : Image.asset(
-                                                _activeLoadingGif ??
-                                                    (lang == 'hi'
-                                                        ? LocalImages
-                                                            .syncing_the_vibe_hi
-                                                        : LocalImages
-                                                            .syncing_the_vibe),
-                                                height: 300,
-                                                width: 300,
-                                                fit: BoxFit.contain,
-                                              ),
-                                      )
+                                child: (vModel.isDateWiseTextLoading ||
+                                        vModel.isDateWiseTextLoader)
+                                    ? _buildLoadingWidget(vModel, lang)
                                     : Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
