@@ -17,6 +17,7 @@ class AppPreferences {
   final String keyUserDetails = "KEY_USER_DETAILS";
   final String keyIsFirstTime = "KEY_IS_FIRST_TIME";
   final String keyInterestFavourite = "keyInterestFavourite";
+  final String keyLastVibeSyncDate = "KEY_LAST_VIBE_SYNC_DATE";
 
   static final AppPreferences instance = AppPreferences.internal();
 
@@ -126,6 +127,16 @@ class AppPreferences {
   Future<String> getDeviceToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(keyDeviceToken) ?? "";
+  }
+
+  // Method to set last vibe sync date
+  Future<bool> setLastVibeSyncDate(String value) async {
+    return _pref!.setString(keyLastVibeSyncDate, value);
+  }
+
+  // Method to get last vibe sync date
+  String getLastVibeSyncDate() {
+    return _pref!.getString(keyLastVibeSyncDate) ?? "";
   }
 
   Future<bool> clear() {

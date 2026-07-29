@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:math';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:archive/archive.dart';
 
 // import 'package:widgets_easier/widgets_easier.dart';
 
@@ -62,6 +65,7 @@ class _HomeViewState extends State<HomeView>
   String dateString = globalUserMaster?.previousPeriodsBegin ?? '';
   String? acceptedUniqueId;
   bool _dialogShown = false;
+  String? _activeLoadingGif;
   var bgColor = 0XFFFBF5F7;
   late Timer _timer;
 
@@ -168,7 +172,7 @@ class _HomeViewState extends State<HomeView>
     }
   }
 
-///Custom dialgues on the home screen 
+  ///Custom dialgues on the home screen
   void showCustomDayDialog(
     BuildContext context,
     String username,
@@ -512,6 +516,27 @@ class _HomeViewState extends State<HomeView>
     );
   }
 
+  Future<LottieComposition?> _customLottieDecoder(List<int> bytes) async {
+    if (bytes.length > 4 && bytes[0] == 0x50 && bytes[1] == 0x4B) {
+      final archive = ZipDecoder().decodeBytes(bytes);
+      for (final file in archive) {
+        if (file.isFile &&
+            file.name.endsWith('.json') &&
+            !file.name.contains('manifest')) {
+          final content = file.content as List<int>;
+          return await LottieComposition.fromBytes(content);
+        }
+      }
+      for (final file in archive) {
+        if (file.isFile && file.name.endsWith('.json')) {
+          final content = file.content as List<int>;
+          return await LottieComposition.fromBytes(content);
+        }
+      }
+    }
+    return await LottieComposition.fromBytes(bytes);
+  }
+
   bool getLogSymtopmActive() {
     if (mViewModel.getCycleDayOrDaysToGo(mViewModel.selectedDate) ==
             "Period day" ||
@@ -842,6 +867,30 @@ class _HomeViewState extends State<HomeView>
                                 });
                               }
 
+                              final bool isLoading =
+                                  vModel.isDateWiseTextLoading ||
+                                      vModel.isDateWiseTextLoader;
+                              if (isLoading) {
+                                if (_activeLoadingGif == null) {
+                                  String todayDate = DateFormat('yyyy-MM-dd')
+                                      .format(DateTime.now());
+                                  String lastSyncDate = AppPreferences.instance
+                                      .getLastVibeSyncDate();
+                                  if (lastSyncDate != todayDate) {
+                                    _activeLoadingGif = lang == 'hi'
+                                        ? LocalImages.syncing_the_vibe_hi
+                                        : LocalImages.syncing_the_vibe;
+                                    AppPreferences.instance
+                                        .setLastVibeSyncDate(todayDate);
+                                  } else {
+                                    _activeLoadingGif =
+                                        LocalImages.updating_predictions;
+                                  }
+                                }
+                              } else {
+                                _activeLoadingGif = null;
+                              }
+
                               return Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -851,17 +900,32 @@ class _HomeViewState extends State<HomeView>
                                           MediaQuery.of(context).size.width,
                                           90.0)),
                                 ),
-                                child: (vModel.isDateWiseTextLoading ||
-                                        vModel.isDateWiseTextLoader)
+                                child: isLoading
                                     ? Container(
-                                        child: Image.asset(
-                                          lang == 'hi'
-                                              ? LocalImages.syncing_the_vibe_hi
-                                              : LocalImages.syncing_the_vibe,
-                                          height: 300,
-                                          width: 300,
-                                          fit: BoxFit.contain,
-                                        ),
+                                        child: (_activeLoadingGif
+                                                        ?.endsWith('.lottie') ==
+                                                    true ||
+                                                _activeLoadingGif
+                                                        ?.endsWith('.json') ==
+                                                    true)
+                                            ? Lottie.asset(
+                                                _activeLoadingGif!,
+                                                decoder: _customLottieDecoder,
+                                                height: 200,
+                                                width: 200,
+                                                fit: BoxFit.contain,
+                                              )
+                                            : Image.asset(
+                                                _activeLoadingGif ??
+                                                    (lang == 'hi'
+                                                        ? LocalImages
+                                                            .syncing_the_vibe_hi
+                                                        : LocalImages
+                                                            .syncing_the_vibe),
+                                                height: 300,
+                                                width: 300,
+                                                fit: BoxFit.contain,
+                                              ),
                                       )
                                     : Column(
                                         mainAxisAlignment:
@@ -983,7 +1047,6 @@ class _HomeViewState extends State<HomeView>
                               );
                             },
                           ),
-                        
                         ),
                       ],
                     ),

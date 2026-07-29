@@ -147,6 +147,7 @@ flutter:
     - assets/audio/
     - assets/video/
     - assets/svgs/
+    - assets/animations/
 
 
 

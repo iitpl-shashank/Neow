@@ -23,6 +23,7 @@ class LocalImages {
   static const String gif_star = 'assets/gif/gif_star.gif';
   static const String syncing_vibe = 'assets/gif/syncing_vibe.gif';
   static const String syncing_the_vibe = 'assets/gif/syncing_the_vibe.gif';
+  static const String updating_predictions = 'assets/animations/updating_predictions.lottie';
   static const String syncing_the_vibe_hi =
       'assets/gif/syncing_the_vibe_hi.gif';
   static const String gif_knock_door = 'assets/gif/gif_knock_door.gif';
