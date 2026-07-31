@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../../utils/local_images.dart';
@@ -32,6 +33,8 @@ class _ReelScrollViewState extends State<ReelScrollView>
   // Debounce timer — restarts auto-scroll after 1 s of user inactivity
   Timer? _resumeTimer;
   bool _userIsSwiping = false;
+
+  AudioPlayer? _swipeAudioPlayer;
 
   // Swipe-hint oscillation
   late AnimationController _hintController;
@@ -74,7 +77,18 @@ class _ReelScrollViewState extends State<ReelScrollView>
       CurvedAnimation(parent: _hintController, curve: Curves.easeInOut),
     );
 
+    _initAudioPlayer();
+
     _startAutoScroll();
+  }
+
+  Future<void> _initAudioPlayer() async {
+    try {
+      _swipeAudioPlayer = AudioPlayer();
+      await _swipeAudioPlayer?.setAsset('assets/audio/swoosh_sound.mp3');
+    } catch (e) {
+      debugPrint('Error loading swipe sound: $e');
+    }
   }
 
   void _startAutoScroll() {
@@ -113,12 +127,22 @@ class _ReelScrollViewState extends State<ReelScrollView>
     }
   }
 
+  void _playSwipeSound() {
+    try {
+      _swipeAudioPlayer?.seek(Duration.zero);
+      _swipeAudioPlayer?.play();
+    } catch (e) {
+      debugPrint('Error playing swipe sound: $e');
+    }
+  }
+
   @override
   void dispose() {
     _autoScrollTimer?.cancel();
     _resumeTimer?.cancel();
     _hintController.dispose();
     _pageController.dispose();
+    _swipeAudioPlayer?.dispose();
     super.dispose();
   }
 
@@ -174,7 +198,12 @@ class _ReelScrollViewState extends State<ReelScrollView>
                 pageOffset: _pageOffset,
                 currentIndex: _currentIndex,
                 images: _reelImages,
-                onPageChanged: (i) => setState(() => _currentIndex = i),
+                onPageChanged: (i) {
+                  if (_currentIndex != i) {
+                    _playSwipeSound();
+                    setState(() => _currentIndex = i);
+                  }
+                },
               ),
             ),
 

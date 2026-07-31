@@ -1,6 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:naveli_2023/services/api_url.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/de_stress/de_stress_info.dart';
 import 'package:naveli_2023/ui/naveli_ui/home/de_stress/de_stress_view_model.dart';
@@ -40,10 +43,15 @@ class _DeStressViewState extends State<DeStressView>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        _vm = context.read<DeStressViewModel>();
         _vm.reset(); // always start in stopped state
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _vm = context.read<DeStressViewModel>();
   }
 
   // Pause video when app goes to background
@@ -77,6 +85,28 @@ class _DeStressViewState extends State<DeStressView>
   //  Controller management
   // ------------------------------------------------------------------ //
 
+  Future<File?> _getCachedOrDownloadedVideoFile() async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final file = File('${tempDir.path}/destress_video_cache.mp4');
+      if (await file.exists() && (await file.length()) > 0) {
+        log('[DeStress] Using cached video file: ${file.path}');
+        return file;
+      }
+
+      log('[DeStress] Downloading video to cache: ${ApiUrl.DE_STRESS_VIDEO_URL}');
+      final response = await http.get(Uri.parse(ApiUrl.DE_STRESS_VIDEO_URL));
+      if (response.statusCode == 200 && response.bodyBytes.isNotEmpty) {
+        await file.writeAsBytes(response.bodyBytes);
+        log('[DeStress] Cached video saved successfully: ${file.path}');
+        return file;
+      }
+    } catch (e) {
+      log('[DeStress] Error caching video file: $e');
+    }
+    return null;
+  }
+
   Future<void> _initAndPlay() async {
     if (_isInitializing) return;
 
@@ -92,10 +122,23 @@ class _DeStressViewState extends State<DeStressView>
     await _releaseController();
 
     try {
-      final controller = VideoPlayerController.networkUrl(
-        Uri.parse(ApiUrl.DE_STRESS_VIDEO_URL),
-        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: false),
-      );
+      final cachedFile = await _getCachedOrDownloadedVideoFile();
+
+      if (!mounted) return;
+
+      final VideoPlayerController controller;
+      if (cachedFile != null && await cachedFile.exists()) {
+        controller = VideoPlayerController.file(
+          cachedFile,
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: false),
+        );
+      } else {
+        log('[DeStress] Fallback to network playback');
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(ApiUrl.DE_STRESS_VIDEO_URL),
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: false),
+        );
+      }
 
       _videoController = controller;
 
@@ -199,8 +242,9 @@ class _DeStressViewState extends State<DeStressView>
         (value.isPlaying && value.buffered.isEmpty);
   }
 
-  bool get _showLoadingOverlay =>
-      _isInitializing || !_isInitialized || _isBuffering;
+  bool _showLoadingOverlay(DeStressViewModel vModel) =>
+      vModel.isVideoActive &&
+      (_isInitializing || !_isInitialized || _isBuffering);
 
   // ------------------------------------------------------------------ //
   //  Build
@@ -288,7 +332,7 @@ class _DeStressViewState extends State<DeStressView>
             ),
 
           // Loading / buffering overlay
-          if (_showLoadingOverlay)
+          if (_showLoadingOverlay(vModel))
             Container(
               color: Colors.black.withValues(alpha: 0.35),
               child: const Center(
