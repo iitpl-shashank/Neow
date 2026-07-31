@@ -72,14 +72,18 @@ class Question {
   final int? id;
   final String? text;
   final int? isInformational;
+  final int? isMultiple;
   final List<Option>? options;
   dynamic userAnswer;
   final String? imagePath;
+
+  bool get isMultipleChoice => isMultiple == 1;
 
   Question({
     this.id,
     this.text,
     this.isInformational,
+    this.isMultiple,
     this.options,
     this.userAnswer,
     this.imagePath,
@@ -90,6 +94,7 @@ class Question {
       id: json['id'] as int?,
       text: json['text'] as String?,
       isInformational: json['is_informational'] as int?,
+      isMultiple: json['is_multiple'] as int?,
       options: (json['options'] as List<dynamic>?)
           ?.map((e) => Option.fromJson(e))
           .toList(),
@@ -103,6 +108,7 @@ class Question {
       'id': id,
       'text': text,
       'is_informational': isInformational,
+      'is_multiple': isMultiple,
       'options': options?.map((e) => e.toJson()).toList(),
       'user_answer': userAnswer,
       'image_path': imagePath,

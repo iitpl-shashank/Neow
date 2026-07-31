@@ -173,41 +173,67 @@ class _AiChatBotScreenState extends State<AiChatBotScreen> {
                             )
                           else if (viewModel.isLastQuestionVisible &&
                               viewModel.lastQuestionOptions.isNotEmpty)
-                            Container(
-                              color: CommonColors.mTransparent,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              child: viewModel.lastQuestionOptions.length == 1
-                                  ? SizedBox(
-                                      width: double.infinity,
-                                      child: CustomOptionButton(
-                                        text: viewModel.lastQuestionOptions
-                                                .first.text ??
-                                            '',
-                                        onTap: () => viewModel
-                                            .handleOptionSelection(viewModel
-                                                .lastQuestionOptions.first),
-                                      ),
-                                    )
-                                  : Wrap(
-                                      alignment: WrapAlignment.center,
-                                      spacing: 8,
-                                      runSpacing: 8,
-                                      children:
-                                          viewModel.lastQuestionOptions.map(
-                                        (option) {
-                                          print(
-                                              '------${option.text}: ${option.isSelected}------');
+                            Builder(builder: (context) {
+                              final lastQuestion = viewModel.chatMessages.last;
+                              final bool isMultiChoice =
+                                  lastQuestion.isMultipleChoice;
+
+                              return Container(
+                                color: CommonColors.mTransparent,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (!isMultiChoice &&
+                                        viewModel.lastQuestionOptions.length == 1)
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: CustomOptionButton(
+                                          text: viewModel.lastQuestionOptions
+                                                  .first.text ??
+                                              '',
+                                          onTap: () => viewModel
+                                              .handleOptionSelection(viewModel
+                                                  .lastQuestionOptions.first),
+                                        ),
+                                      )
+                                    else
+                                      Wrap(
+                                        alignment: WrapAlignment.center,
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: viewModel.lastQuestionOptions
+                                            .map((option) {
                                           return CustomOptionMultiButton(
                                             isSelected: option.isSelected,
                                             text: option.text ?? '',
-                                            onTap: () => viewModel
-                                                .handleOptionSelection(option),
+                                            onTap: () {
+                                              if (isMultiChoice) {
+                                                viewModel
+                                                    .toggleOptionSelection(option);
+                                              } else {
+                                                viewModel
+                                                    .handleOptionSelection(option);
+                                              }
+                                            },
                                           );
-                                        },
-                                      ).toList(),
-                                    ),
-                            ),
+                                        }).toList(),
+                                      ),
+                                    if (isMultiChoice &&
+                                        viewModel.lastQuestionOptions
+                                            .any((opt) => opt.isSelected)) ...[
+                                      const SizedBox(height: 12),
+                                      CustomOptionButton(
+                                        text: S.of(context)!.submit,
+                                        onTap: () =>
+                                            viewModel.handleMultiOptionSubmit(),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              );
+                            }),
                         ],
                       ),
       ),

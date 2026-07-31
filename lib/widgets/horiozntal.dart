@@ -1,4 +1,3 @@
-import 'package:date_picker_timeline/extra/color.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -96,6 +95,21 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
     if (widget.mViewModel.isPeriodLog) {
       for (var element in peroidCustomeList) {
+        if (element.periodData.isNotEmpty) {
+          for (var pData in element.periodData) {
+            try {
+              DateTime start = DateTime.parse(pData.periodStartDate);
+              DateTime end = DateTime.parse(pData.periodEndDate);
+              for (DateTime d = start;
+                  d.isSameDayOrBefore(end);
+                  d = d.add(const Duration(days: 1))) {
+                loggedPeriodDates.add(_normalize(d));
+              }
+            } catch (e) {
+              debugPrint("Error parsing logged period dates: $e");
+            }
+          }
+        }
         for (var predictions in element.predictions) {
           DateTime predStart = DateTime.parse(predictions.predictedStart);
           DateTime predEnd = DateTime.parse(predictions.predictedEnd);
@@ -182,8 +196,8 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                         child: DottedBorder(
                           color: isFirtile
                               ? Colors.green
-                              : isPredictedDate
-                                  ? Colors.red
+                              : (isPredictedDate && !PriodDates)
+                                  ? const Color(0xFFFF9D93)
                                   : Colors.transparent,
                           // Border color
                           strokeWidth: 2,

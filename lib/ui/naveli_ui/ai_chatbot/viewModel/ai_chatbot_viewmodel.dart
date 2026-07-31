@@ -53,6 +53,12 @@ class AiChatBotViewModel with ChangeNotifier {
     return lastQuestion.options ?? [];
   }
 
+  void toggleOptionSelection(Option option) {
+    _playChatSound();
+    option.isSelected = !option.isSelected;
+    notifyListeners();
+  }
+
   Future<void> handleOptionSelection(Option option) async {
     _playChatSound();
     for (var opt in lastQuestionOptions) {
@@ -85,9 +91,48 @@ class AiChatBotViewModel with ChangeNotifier {
     setShowTypingIndicator(false);
   }
 
+  Future<void> handleMultiOptionSubmit() async {
+    final selectedOptions =
+        lastQuestionOptions.where((opt) => opt.isSelected).toList();
+    if (selectedOptions.isEmpty) return;
+
+    _playChatSound();
+    setShowTypingIndicator(true);
+
+    List<String> answerIds =
+        selectedOptions.map((e) => e.id.toString()).toList();
+    int? questionId = chatBotData?.questions?.isNotEmpty == true
+        ? chatBotData?.questions?.last.id
+        : null;
+
+    Map<String, dynamic> myParams = {
+      'answers': [
+        {
+          ApiParams.chatbot_question_id: questionId,
+          ApiParams.chatbot_answer: answerIds,
+        }
+      ],
+      ApiParams.language: AppPreferences.instance.getLanguageCode(),
+    };
+
+    String combinedText =
+        selectedOptions.map((e) => e.text ?? '').join(', ');
+    addAnswerTextToLastQuestion(combinedText);
+
+    await fetchChatBotData(
+      myParams: myParams,
+      isStarting: false,
+    );
+    setShowTypingIndicator(false);
+  }
+
   void addAnswerToLastQuestion(Option answer) {
+    addAnswerTextToLastQuestion(answer.text ?? '');
+  }
+
+  void addAnswerTextToLastQuestion(String answerText) {
     if (_chatMessages.isNotEmpty) {
-      _chatMessages.last.userAnswer = answer.text;
+      _chatMessages.last.userAnswer = answerText;
       notifyListeners();
     }
   }
