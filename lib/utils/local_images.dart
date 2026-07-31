@@ -23,7 +23,8 @@ class LocalImages {
   static const String gif_star = 'assets/gif/gif_star.gif';
   static const String syncing_vibe = 'assets/gif/syncing_vibe.gif';
   static const String syncing_the_vibe = 'assets/gif/syncing_the_vibe.gif';
-  static const String updating_predictions = 'assets/animations/updating_predictions.lottie';
+  static const String updating_predictions =
+      'assets/animations/updating_predictions.lottie';
   static const String syncing_the_vibe_hi =
       'assets/gif/syncing_the_vibe_hi.gif';
   static const String gif_knock_door = 'assets/gif/gif_knock_door.gif';
@@ -39,6 +40,7 @@ class LocalImages {
   static const String img_game = 'assets/images/img_game.png';
   static const String img_about_period = 'assets/images/img_about_period.png';
   static const String img_myth = 'assets/images/img_myth.png';
+  static const String neow_logo = 'assets/images/neow_logo.png';
   static const String img_water_1 = 'assets/images/img_water_1.png';
   static const String img_water_2 = 'assets/images/img_water_2.png';
   static const String img_water_3 = 'assets/images/img_water_3.png';

@@ -432,42 +432,48 @@ class _TopBar extends StatelessWidget {
             // Spacer to balance layout
             const SizedBox(width: 64),
 
-            // Center brand title
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'NeoW',
-                  style: TextStyle(
-                    color: CommonColors.primaryColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Outfit',
-                    letterSpacing: 3,
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.star_rounded,
-                        color: CommonColors.primaryColor, size: 9),
-                    const SizedBox(width: 5),
-                    Text(
-                      'Your Wellness Journey',
-                      style: TextStyle(
-                        color: CommonColors.primaryColor.withAlpha(179),
-                        fontSize: 10.5,
-                        fontFamily: 'Outfit',
-                        letterSpacing: 0.8,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Icon(Icons.star_rounded,
-                        color: CommonColors.primaryColor, size: 9),
-                  ],
-                ),
-              ],
+            Image.asset(
+              LocalImages.neow_logo,
+              height: 110,
+              width: 110,
             ),
+
+            // Center brand title
+            // Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [
+            //     Text(
+            //       'NeoW',
+            //       style: TextStyle(
+            //         color: CommonColors.primaryColor,
+            //         fontSize: 22,
+            //         fontWeight: FontWeight.w900,
+            //         fontFamily: 'Outfit',
+            //         letterSpacing: 3,
+            //       ),
+            //     ),
+            //     Row(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         Icon(Icons.star_rounded,
+            //             color: CommonColors.primaryColor, size: 9),
+            //         const SizedBox(width: 5),
+            //         Text(
+            //           'Your Wellness Journey',
+            //           style: TextStyle(
+            //             color: CommonColors.primaryColor.withAlpha(179),
+            //             fontSize: 10.5,
+            //             fontFamily: 'Outfit',
+            //             letterSpacing: 0.8,
+            //           ),
+            //         ),
+            //         const SizedBox(width: 5),
+            //         Icon(Icons.star_rounded,
+            //             color: CommonColors.primaryColor, size: 9),
+            //       ],
+            //     ),
+            //   ],
+            // ),
 
             // Skip button (Commented out)
             const SizedBox(width: 64),
@@ -748,20 +754,20 @@ class _FilmStripPainter extends CustomPainter {
 
     double x = -labelShift;
     int idx = 0;
-    while (x <= size.width + labelSpacing) {
-      final tp = TextPainter(
-        text: TextSpan(text: labels[idx % labels.length], style: labelStyle),
-        textDirection: TextDirection.ltr,
-      )..layout();
+    // while (x <= size.width + labelSpacing) {
+    //   final tp = TextPainter(
+    //     text: TextSpan(text: labels[idx % labels.length], style: labelStyle),
+    //     textDirection: TextDirection.ltr,
+    //   )..layout();
 
-      // Top strip — just below the top edge
-      tp.paint(canvas, Offset(x + 2, 1.5));
-      // Bottom strip — just below the bottom separator
-      tp.paint(canvas, Offset(x + 2, size.height - sprocketH + 1.5));
+    //   // Top strip — just below the top edge
+    //   tp.paint(canvas, Offset(x + 2, 1.5));
+    //   // Bottom strip — just below the bottom separator
+    //   tp.paint(canvas, Offset(x + 2, size.height - sprocketH + 1.5));
 
-      x += labelSpacing;
-      idx++;
-    }
+    //   x += labelSpacing;
+    //   idx++;
+    // }
   }
 
   @override
