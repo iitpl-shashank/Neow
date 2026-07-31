@@ -145,18 +145,23 @@ class _WelcomeViewState extends State<WelcomeView> {
     mViewModel.setAge(age);
     if (gUserType == AppConstants.NEOWME) {
       print("Inside NEOWME age group check, age: $age");
-      if (age >= 9 && age <= 25) {
+      if (age >= 9 && age < 18) {
         await handle9To25Dialogs(context);
         singInViewModel.userRoleId = "2";
         gUserType = AppConstants.NEOWME;
-      } else if (age > 25 && age <= 45) {
+      } else if (age >= 18 && age < 40) {
+        if (age <= 25) {
+          await handle9To25Dialogs(context);
+        }
         await handle25To45Dialogs(context);
         singInViewModel.userRoleId = "2";
         gUserType = AppConstants.NEOWME;
-      } else if (age > 45 && age <= 50) {
+      } else if (age >= 40 && age <= 50) {
+        if (age <= 45) {
+          await handle25To45Dialogs(context);
+        }
         await handle45To50Dialogs(context);
-        singInViewModel.userRoleId = "2";
-        gUserType = AppConstants.NEOWME;
+        await handle50PlusDialogs(context);
       } else if (age > 50) {
         await handle50PlusDialogs(context);
       }

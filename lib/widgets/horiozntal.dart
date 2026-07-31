@@ -1,7 +1,9 @@
+import 'package:date_picker_timeline/extra/color.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:naveli_2023/ui/app/app_model.dart';
+import 'package:naveli_2023/utils/common_colors.dart';
 import 'package:naveli_2023/utils/date_utils.dart';
 import 'package:provider/provider.dart';
 import '../generated/i18n.dart';
@@ -37,7 +39,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
       // Set the initial month name based on the language
       todayIndex = dates.indexWhere((d) => d.isSameDay(DateTime.now()));
       if (todayIndex == -1) todayIndex = 0;
-      
+
       currentMonth = lang == 'hi'
           ? DateFormat.MMMM('hi_IN')
               .format(dates[todayIndex]) // Hindi month name
@@ -141,10 +143,12 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
               itemBuilder: (context, index) {
                 DateTime date = dates[index];
                 DateTime normalizedDate = _normalize(date);
-                bool isSelected = date.isSameDay(widget.mViewModel.selectedDate);
+                bool isSelected =
+                    date.isSameDay(widget.mViewModel.selectedDate);
 
                 bool PriodDates = loggedPeriodDates.contains(normalizedDate);
-                bool isPredictedDate = predictedPeriodDates.contains(normalizedDate);
+                bool isPredictedDate =
+                    predictedPeriodDates.contains(normalizedDate);
                 bool isFirtile = fertileDates.contains(normalizedDate);
                 bool isOvulation = ovulationDates.contains(normalizedDate);
 
@@ -198,7 +202,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: isSelected
-                                    ? Colors.grey
+                                    ? CommonColors.primaryColor
                                     : PriodDates
                                         ? const Color(0xFFFF9D93)
                                         : isOvulation
@@ -211,11 +215,10 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: isSelected ||
-                                            PriodDates ||
-                                            isOvulation
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color:
+                                        isSelected || PriodDates || isOvulation
+                                            ? Colors.white
+                                            : Colors.black,
                                   ),
                                 ),
                               ),

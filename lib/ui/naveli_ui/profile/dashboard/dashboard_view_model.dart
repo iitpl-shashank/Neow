@@ -672,6 +672,20 @@ class DashBoardViewModel with ChangeNotifier {
     updateUserAgeGroup(ageGroup);
   }
 
+  bool isPregnancyEligible({int? age}) {
+    int currentAge = age ??
+        int.tryParse(userAgeController.text) ??
+        (userPersonalInformation?.data?.age ?? 0);
+    return currentAge >= 18;
+  }
+
+  bool isMenopauseEligible({int? age}) {
+    int currentAge = age ??
+        int.tryParse(userAgeController.text) ??
+        (userPersonalInformation?.data?.age ?? 0);
+    return currentAge >= 40;
+  }
+
   late List<String> relationshipStatusList;
 
   void initializeRelationshipStatusList(BuildContext context) {
