@@ -91,13 +91,14 @@ class _WelcomeViewState extends State<WelcomeView> {
   Future<void> selectDate() async {
     DateTime today = DateTime.now();
     DateTime maxAllowedDate =
-        DateTime(today.year - 7, today.month, today.day); // At least 7 years old
+        DateTime(today.year - 7, 1, 1); // At least 7 years old
 
     DateTime? initialPickedDate;
     if (mDateController.text.isNotEmpty) {
       try {
         DateTime parsed = DateFormat("yyyy-MM-dd").parse(mDateController.text);
-        initialPickedDate = parsed.isAfter(maxAllowedDate) ? maxAllowedDate : parsed;
+        initialPickedDate =
+            parsed.isAfter(maxAllowedDate) ? maxAllowedDate : parsed;
       } catch (e) {
         initialPickedDate = maxAllowedDate;
       }

@@ -177,10 +177,10 @@ class WelcomeViewModel with ChangeNotifier {
       CommonUtils.hideProgressDialog();
 
       if (response != null) {
-        CommonUtils.showSnackBar(
-          "Vaccination details saved successfully!",
-          color: CommonColors.greenColor,
-        );
+        // CommonUtils.showSnackBar(
+        //   "Vaccination details saved successfully!",
+        //   color: CommonColors.greenColor,
+        // );
         log("API Response: ${response.toJson()}");
         clearAllAlertInfo();
       } else {

@@ -446,10 +446,10 @@ class DashBoardViewModel with ChangeNotifier {
       CommonUtils.hideProgressDialog();
 
       if (response != null) {
-        CommonUtils.showSnackBar(
-          S.of(context)!.vaccinationDetailsSavedSuccess,
-          color: CommonColors.greenColor,
-        );
+        // CommonUtils.showSnackBar(
+        //   S.of(context)!.vaccinationDetailsSavedSuccess,
+        //   color: CommonColors.greenColor,
+        // );
         getUserVaccinationInfo();
         log("API Response: ${response.toJson()}");
       } else {
@@ -892,8 +892,8 @@ class DashBoardViewModel with ChangeNotifier {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
-    DownloadSymptomReportMaster? master = await _services.api!.downloadSymptomReport(
-        params: params);
+    DownloadSymptomReportMaster? master =
+        await _services.api!.downloadSymptomReport(params: params);
 
     if (master == null) {
       CommonUtils.hideProgressDialog();
@@ -983,8 +983,8 @@ class DashBoardViewModel with ChangeNotifier {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.language_code: AppPreferences.instance.getLanguageCode(),
     };
-    DownloadSymptomReportMaster? master = await _services.api!.downloadVaccinationReport(
-        params: params);
+    DownloadSymptomReportMaster? master =
+        await _services.api!.downloadVaccinationReport(params: params);
 
     if (master == null) {
       CommonUtils.hideProgressDialog();
@@ -1069,4 +1069,3 @@ class DashBoardViewModel with ChangeNotifier {
     }
   }
 }
-
