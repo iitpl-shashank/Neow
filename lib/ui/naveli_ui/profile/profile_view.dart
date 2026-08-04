@@ -10,7 +10,6 @@ import 'package:naveli_2023/utils/local_images.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_utils.dart';
-import '../../../utils/global_variables.dart';
 import '../../../widgets/common_appbar.dart';
 import '../../../widgets/common_profile_menu.dart';
 import '../../../widgets/scaffold_bg.dart';
@@ -66,6 +65,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFFAEEFF),
                       text: S.of(context)!.myHealthReports,
                       text2: S.of(context)!.viewAndAccessAllYourReport,
+                      imagePath: LocalImages.imgAnalyticsReport,
                       isLast: false,
                       onTap: () {
                         push(const DashboardView());
@@ -75,6 +75,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFFFF1F1),
                       text: S.of(context)!.aboutUs,
                       text2: S.of(context)!.missionAndVision,
+                      imagePath: LocalImages.imgUserCredentials,
                       isLast: false,
                       onTap: () {
                         push(const AboutUs());
@@ -84,6 +85,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFEAF6FF),
                       text: S.of(context)!.reminders,
                       text2: S.of(context)!.timelyReminders,
+                      imagePath: LocalImages.imgNotificationAlert,
                       isLast: false,
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -99,6 +101,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFFFFBED),
                       text: S.of(context)!.help,
                       text2: S.of(context)!.findAnswersAndAssistance,
+                      imagePath: LocalImages.imgHeartInHands,
                       isLast: false,
                       onTap: () {
                         push(const HelpView());
@@ -108,6 +111,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFF8FFF0),
                       text: S.of(context)!.settings,
                       text2: S.of(context)!.controlYourAppSettings,
+                      imagePath: LocalImages.imgSettingsGears,
                       isLast: false,
                       onTap: () {
                         push(const SettingsView());
@@ -117,6 +121,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFF0EBFF),
                       text: S.of(context)!.rateUs,
                       text2: S.of(context)!.rateAndWriteReview,
+                      imagePath: LocalImages.imgRatingFeedback,
                       isLast: false,
                       onTap: () {
                         push(const RateAndReviewScreen());
@@ -126,6 +131,7 @@ class _ProfileViewState extends State<ProfileView>
                       color: Color(0xFFEAF6FF),
                       text: S.of(context)!.shareNeowApp,
                       text2: S.of(context)!.shareAppWithFriends,
+                      imagePath: LocalImages.imgShareApp,
                       isLast: true,
                       onTap: () {
                         if (Platform.isAndroid) {

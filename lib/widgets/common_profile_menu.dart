@@ -9,6 +9,9 @@ class CommonProfileMenu extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Color? color;
   final Color? underLineColor;
+  final String? imagePath;
+  final double? imageSize;
+
   const CommonProfileMenu(
       {super.key,
       required this.text,
@@ -16,7 +19,9 @@ class CommonProfileMenu extends StatelessWidget {
       required this.isLast,
       this.onTap,
       this.color,
-      this.underLineColor});
+      this.underLineColor,
+      this.imagePath,
+      this.imageSize});
 
   @override
   Widget build(BuildContext context) {
@@ -52,34 +57,50 @@ class CommonProfileMenu extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          text,
+                          style: TextStyle(
+                            color: CommonColors.blackColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          text2 ?? '',
+                          style: TextStyle(
+                            color: CommonColors.blackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        text,
-                        style: TextStyle(
-                          color: CommonColors.blackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      if (imagePath != null && imagePath!.isNotEmpty) ...[
+                        Image.asset(
+                          imagePath!,
+                          width: imageSize ?? 35,
+                          height: imageSize ?? 35,
+                          fit: BoxFit.contain,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        text2 ?? '',
-                        style: TextStyle(
-                          color: CommonColors.blackColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        const SizedBox(width: 8),
+                      ],
+                      Icon(
+                        Icons.chevron_right,
+                        color: CommonColors.blackArrow, //CommonColors.primaryColor,
+                        size: 25,
                       ),
                     ],
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: CommonColors.blackArrow, //CommonColors.primaryColor,
-                    size: 25,
                   ),
                 ],
               ),

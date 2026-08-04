@@ -510,6 +510,20 @@ class LocalImages {
   static const String chat = 'assets/icons/chat.png';
   static const String postBackground = 'assets/images/post_background.png';
   static const String postCardIcon = 'assets/icons/post_card_icon.png';
+
+  // Newly added asset images
+  static const String imgBrowserInfo = 'assets/images/img_browser_info.png';
+  static const String imgUserCredentials =
+      'assets/images/img_user_credentials.png';
+  static const String imgHeartInHands = 'assets/images/img_heart_in_hands.png';
+  static const String imgNotificationAlert =
+      'assets/images/img_notification_alert.png';
+  static const String imgAnalyticsReport =
+      'assets/images/img_analytics_report.png';
+  static const String imgSettingsGears = 'assets/images/img_settings_gears.png';
+  static const String imgRatingFeedback =
+      'assets/images/img_rating_feedback.png';
+  static const String imgShareApp = 'assets/images/img_share_app.png';
 }
 
 class LocalSvgs {

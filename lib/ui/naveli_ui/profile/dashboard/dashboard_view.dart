@@ -386,14 +386,10 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void assignGender() {
-    if (int.parse(globalUserMaster?.gender ?? '') == 1) {
-      genderController.text = "Male";
-    } else if (int.parse(globalUserMaster?.gender ?? '') == 2) {
+    if (int.parse(globalUserMaster?.gender ?? '') == 2) {
       genderController.text = "Female";
-    } else if (int.parse(globalUserMaster?.gender ?? '') == 3) {
-      genderController.text = "Transgender";
-    } else if (int.parse(globalUserMaster?.gender ?? '') == 4) {
-      genderController.text = globalUserMaster?.genderType ?? '';
+    } else {
+      genderController.text = "Other";
     }
     setState(() {});
   }

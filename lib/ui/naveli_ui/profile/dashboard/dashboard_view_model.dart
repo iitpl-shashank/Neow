@@ -318,8 +318,7 @@ class DashBoardViewModel with ChangeNotifier {
       userInfo = User.fromJson(responseData[0]);
 
       // Printing or using the parsed User object
-      print(
-          'User Info: ${userInfo.name}, ${userInfo.mobile}, ${userInfo.state}');
+      log("user info ${userInfo.toJson()}");
     } else {
       throw Exception('Failed to post data: ${response.statusCode}');
     }
