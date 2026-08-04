@@ -386,8 +386,14 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void assignGender() {
-    if (int.parse(globalUserMaster?.gender ?? '') == 2) {
+    int genderVal = int.tryParse(globalUserMaster?.gender ?? '') ?? 0;
+    if (genderVal == 1) {
+      genderController.text = "Male";
+    } else if (genderVal == 2) {
       genderController.text = "Female";
+    } else if (genderVal == 4) {
+      String customGender = globalUserMaster?.genderType ?? '';
+      genderController.text = customGender.isNotEmpty ? customGender : "Other";
     } else {
       genderController.text = "Other";
     }

@@ -613,21 +613,20 @@ class DashBoardViewModel with ChangeNotifier {
 
   String getUsergender() {
     String usergender = '';
-    if (int.parse(userPersonalInformation?.data?.gender ?? '') == 1) {
+    int genderVal =
+        int.tryParse(userPersonalInformation?.data?.gender ?? '') ?? 0;
+    if (genderVal == 1) {
       usergender = S.of(context)!.male;
-      log("32sfsdsf");
-    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 2) {
+    } else if (genderVal == 2) {
       usergender = S.of(context)!.female;
-        log("434433");
-    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 3) {
+    } else if (genderVal == 3) {
       usergender = S.of(context)!.other;
-        log("fdgfsd");
-    } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 4) {
-      usergender = globalUserMaster?.genderType ?? '';
-        log("dfgdfgdfnhn");
+    } else if (genderVal == 4) {
+      String customGender =
+          userPersonalInformation?.data?.genderType ?? globalUserMaster?.genderType ?? '';
+      usergender = customGender.isNotEmpty ? customGender : S.of(context)!.other;
     } else {
       usergender = S.of(context)!.other;
-        log("dfgdfgdf");
     }
     return usergender;
   }
