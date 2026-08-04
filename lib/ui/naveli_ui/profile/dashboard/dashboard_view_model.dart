@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -21,7 +20,6 @@ import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../services/api_url.dart';
 import '../../../../utils/constant.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -300,27 +298,18 @@ class DashBoardViewModel with ChangeNotifier {
   }
 
   Future<void> getUserInfo() async {
-    String accessToken = AppPreferences.instance.getAccessToken();
-    String numberString = "${globalUserMaster?.id}";
-    peroidCustomeList.clear();
-    final url =
-        Uri.parse("${ApiUrl.GET_USER_DETAILS_PHP}?user_id=$numberString");
-    final headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $accessToken"
-    };
-    final response =
-        await http.get(url, headers: headers).timeout(Duration(seconds: 30));
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      List<dynamic> responseData = jsonDecode(response.body);
-
-      // Since the response is an array, get the first element from the list and convert it to User object
-      userInfo = User.fromJson(responseData[0]);
-
-      // Printing or using the parsed User object
-      log("user info ${userInfo.toJson()}");
-    } else {
-      throw Exception('Failed to post data: ${response.statusCode}');
+    try {
+      peroidCustomeList.clear();
+      UserDetailMaster? master = await _services.api!.getUserDetails();
+      if (master != null && master.success == true && master.data != null) {
+        userPersonalInformation = master;
+        log("user info ${master.data?.toJson()}");
+      } else {
+        log("getUserInfo failed: ${master?.message}");
+      }
+    } catch (e, stack) {
+      log("Exception in getUserInfo: $e");
+      log(stack.toString());
     }
     notifyListeners();
   }
@@ -626,12 +615,19 @@ class DashBoardViewModel with ChangeNotifier {
     String usergender = '';
     if (int.parse(userPersonalInformation?.data?.gender ?? '') == 1) {
       usergender = S.of(context)!.male;
+      log("32sfsdsf");
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 2) {
       usergender = S.of(context)!.female;
+        log("434433");
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 3) {
-      usergender = S.of(context)!.transgender;
+      usergender = S.of(context)!.other;
+        log("fdgfsd");
     } else if (int.parse(userPersonalInformation?.data?.gender ?? '') == 4) {
       usergender = globalUserMaster?.genderType ?? '';
+        log("dfgdfgdfnhn");
+    } else {
+      usergender = S.of(context)!.other;
+        log("dfgdfgdf");
     }
     return usergender;
   }

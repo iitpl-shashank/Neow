@@ -112,36 +112,46 @@ class SleepViewModel with ChangeNotifier {
   }
 
   Future<List> fetchSleepData() async {
-    String numberString = "${globalUserMaster?.id}";
-    print(globalUserMaster?.height);
-    // CommonUtils.showProgressDialog();
+    try {
+      String numberString = "${globalUserMaster?.id}";
+      print(globalUserMaster?.height);
+      // CommonUtils.showProgressDialog();
 
-    final url = Uri.parse(
-        '${ApiUrl.SLEEP_HISTORY_PHP}?user_id=' +
-            numberString);
+      final url = Uri.parse(
+          '${ApiUrl.SLEEP_HISTORY_PHP}?user_id=' +
+              numberString);
 
-    // Create headers
+      final response = await http.get(
+        url,
+      );
 
-    // Send the request
-    final response = await http.get(
-      url,
-    );
-
-    // Handle the response
-
-    if (response.statusCode == 200) {
-      List<dynamic> responseBody = json.decode(response.body);
-      print(
-          'get fetchSleepData  successfully=====================================');
-      //  responseBody.map((item) => weightHistory.add MonthData.fromJson(item));
-      sleeptHistory = responseBody;
-      print(response.body);
+      if (response.statusCode == 200) {
+        dynamic responseBody = json.decode(response.body);
+        print(
+            'get fetchSleepData  successfully=====================================');
+        if (responseBody is List) {
+          sleeptHistory = responseBody;
+          print(response.body);
+          notifyListeners();
+          return responseBody.toList();
+        } else {
+          print('fetchSleepData: Received non-list json response: ${response.body}');
+          sleeptHistory = [];
+          notifyListeners();
+          return [];
+        }
+      } else {
+        print('Error fetchSleepData status code: ${response.statusCode}, body: ${response.body}');
+        sleeptHistory = [];
+        notifyListeners();
+        return [];
+      }
+    } catch (e, stack) {
+      print('Exception in fetchSleepData: $e');
+      print(stack);
+      sleeptHistory = [];
       notifyListeners();
-      return responseBody.toList();
-    } else {
-      print('Error=====================================');
-
-      throw Exception('Failed to load data');
+      return [];
     }
   }
 }

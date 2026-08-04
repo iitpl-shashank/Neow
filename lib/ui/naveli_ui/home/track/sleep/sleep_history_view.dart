@@ -29,15 +29,15 @@ class _SleeptHistoryViewState extends State<SleeptHistoryView> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       mViewModel.attachedContext(context);
       // CommonUtils.showProgressDialog();
-      mViewModel.fetchSleepData();
-
-      setState(() {
-        mViewModel.fetchSleepData() as List;
-        CommonUtils.hideProgressDialog();
-      });
+      await mViewModel.fetchSleepData();
+      if (mounted) {
+        setState(() {
+          CommonUtils.hideProgressDialog();
+        });
+      }
     });
   }
 
