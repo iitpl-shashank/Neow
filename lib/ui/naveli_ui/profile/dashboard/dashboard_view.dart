@@ -523,17 +523,18 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           CustomTextFieldContainer(
                             textColor: CommonColors.blackColor,
-                            color: Color(0xFFF5F5F5),
+                            color: const Color(0xFFF5F5F5),
                             labelText: S.of(context)!.name,
                             controller: vModel.userNameController,
                             border: true,
+                            showEditIcon: true,
                           ),
                           kCommonSpaceV5,
                           Row(
                             children: [
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  color: Color(0xFFF5F5F5),
+                                  color: const Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.gender,
                                   controller: TextEditingController(
                                       text: vModel.getUsergender()),
@@ -544,7 +545,7 @@ class _DashboardViewState extends State<DashboardView> {
                               kCommonSpaceH10,
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  color: Color(0xFFF5F5F5),
+                                  color: const Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.age,
                                   controller: TextEditingController(
                                       text:
@@ -560,12 +561,13 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  color: Color(0xFFF5F5F5),
+                                  color: const Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.state,
                                   controller: vModel.userStateController,
                                   isReadOnly: true,
                                   border: true,
                                   isDropDown: true,
+                                  showEditIcon: true,
                                   dropDownItems: vModel.allStateList
                                       .map((e) => e.name ?? "")
                                       .toList(),
@@ -583,12 +585,13 @@ class _DashboardViewState extends State<DashboardView> {
                               kCommonSpaceH10,
                               Expanded(
                                 child: CustomTextFieldContainer(
-                                  color: Color(0xFFF5F5F5),
+                                  color: const Color(0xFFF5F5F5),
                                   labelText: S.of(context)!.district,
                                   controller: vModel.userCityController,
                                   isReadOnly: true,
                                   border: true,
                                   isDropDown: true,
+                                  showEditIcon: true,
                                   dropDownItems: vModel.allCityList
                                       .map((e) => e.name ?? "")
                                       .toList(),
@@ -603,47 +606,39 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           kCommonSpaceV5,
                           CustomTextFieldContainer(
-                            color: Color(0xFFF5F5F5),
+                            color: const Color(0xFFF5F5F5),
                             labelText: S.of(context)!.phoneNumber,
                             controller: vModel.userMobileController,
-                            // TODO : phone number changable ?
                             isReadOnly: true,
                             textColor: CommonColors.blackColor,
                             border: false,
                           ),
                           kCommonSpaceV5,
-                          Container(
-                            height: 70,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: CommonColors.mGrey201,
-                                  width: 1,
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: CustomTextFieldContainer(
-                                    color: Color(0xFFF5F5F5),
-                                    labelText: S.of(context)!.email,
-                                    controller: vModel.userEmailController,
-                                    border: false,
-                                    textColor: CommonColors.blackColor,
-                                    isReadOnly: false,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          kCommonSpaceV10,
                           CustomTextFieldContainer(
-                            color: Color(0xFFF5F5F5),
+                            color: const Color(0xFFF5F5F5),
+                            labelText: S.of(context)!.email,
+                            controller: vModel.userEmailController,
+                            border: true,
+                            textColor: CommonColors.blackColor,
+                            isReadOnly: false,
+                            showEditIcon: true,
+                          ),
+                          kCommonSpaceV5,
+                          CustomTextFieldContainer(
+                            color: const Color(0xFFF5F5F5),
                             labelText: S.of(context)!.dateOfBirth,
                             controller: vModel.userBirthDateController,
                             isReadOnly: true,
-                            border: false,
+                            border: true,
+                            showEditIcon: true,
+                            suffixIcon: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Icon(
+                                Icons.calendar_today_outlined,
+                                size: 18,
+                                color: CommonColors.primaryColor,
+                              ),
+                            ),
                             onTap: () async {
                               DateTime initialDate;
                               try {
@@ -678,7 +673,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           kCommonSpaceV5,
                           CustomTextFieldContainer(
-                            color: Color(0xFFF5F5F5),
+                            color: const Color(0xFFF5F5F5),
                             labelText: S.of(context)!.ageGroup,
                             controller: vModel.userAgeGroupController,
                             isReadOnly: true,
@@ -686,12 +681,13 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                           kCommonSpaceV5,
                           CustomTextFieldContainer(
-                            color: Color(0xFFF5F5F5),
+                            color: const Color(0xFFF5F5F5),
                             labelText: S.of(context)!.relationshipStatus,
                             controller: vModel.userRelationController,
                             isReadOnly: true,
                             border: true,
                             isDropDown: true,
+                            showEditIcon: true,
                             dropDownItems:
                                 vModel.relationshipStatusList.toList(),
                             onItemSelected: (selectedState) {
@@ -704,20 +700,22 @@ class _DashboardViewState extends State<DashboardView> {
                           if (gUserType == AppConstants.BUDDY)
                             CustomTextFieldContainer(
                               textColor: CommonColors.blackColor,
-                              color: Color(0xFFF5F5F5),
+                              color: const Color(0xFFF5F5F5),
                               labelText: S.of(context)!.relationshipWithNeow,
                               controller: vModel.humApkeKonController,
                               border: true,
+                              showEditIcon: true,
                             ),
                           if (gUserType == AppConstants.CYCLE_EXPLORER)
                             kCommonSpaceV5,
                           if (gUserType == AppConstants.CYCLE_EXPLORER)
                             CustomTextFieldContainer(
                               textColor: CommonColors.blackColor,
-                              color: Color(0xFFF5F5F5),
+                              color: const Color(0xFFF5F5F5),
                               labelText: S.of(context)!.profession,
                               controller: vModel.userProfessionController,
                               border: true,
+                              showEditIcon: true,
                             ),
                           kCommonSpaceV5,
                           kCommonSpaceV20,

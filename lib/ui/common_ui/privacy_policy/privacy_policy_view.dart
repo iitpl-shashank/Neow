@@ -118,6 +118,10 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Checkbox(
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
                             activeColor: CommonColors.primaryColor,
                             value: isCheckedTermsOfService,
                             onChanged: (bool? newValue) {
@@ -126,6 +130,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                               });
                             },
                           ),
+                          kCommonSpaceH10,
                           Text(
                             S.of(context)!.iAgree,
                             style: getAppStyle(
@@ -143,10 +148,15 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                           ),
                         ],
                       ),
+                      kCommonSpaceV10,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Checkbox(
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
                             activeColor: CommonColors.primaryColor,
                             value: isCheckedPrivacyPolicy,
                             onChanged: (bool? newValue) {
@@ -155,6 +165,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
                               });
                             },
                           ),
+                          kCommonSpaceH10,
                           if (lang == "hi")
                             Expanded(
                               child: Text(

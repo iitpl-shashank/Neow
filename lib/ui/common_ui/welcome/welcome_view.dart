@@ -294,7 +294,7 @@ class _WelcomeViewState extends State<WelcomeView> {
         title: S.of(context)!.getUltrasound,
         description: S.of(context)!.possiblecause,
         options: [
-          DialogOption(S.of(context)!.getExamined, "check"),
+          DialogOption(S.of(context)!.okay, "check"),
         ],
         showPurpleButton: true,
         icon: Images.dangerSign,
