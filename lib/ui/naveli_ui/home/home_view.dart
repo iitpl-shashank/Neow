@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:math';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:archive/archive.dart';
 
@@ -97,7 +96,7 @@ class _HomeViewState extends State<HomeView>
       mViewHealthMixModel.getHealthMixLatestPosts();
 
       if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
-        await mViewModel.getPeriodInfoList();
+        await mViewModel.initDailyVibeAndData();
         if (gUserType == AppConstants.NEOWME)
           showCustomDayDialog(
             context,
@@ -535,26 +534,24 @@ class _HomeViewState extends State<HomeView>
   }
 
   Widget _buildLoadingWidget(HomeViewModel vModel, String lang) {
-    final assetPath = vModel.getLoadingAnimationAsset(lang);
-    final isLottie =
-        assetPath.endsWith('.lottie') || assetPath.endsWith('.json');
-
-    return Container(
-      child: isLottie
-          ? Lottie.asset(
-              assetPath,
-              decoder: _customLottieDecoder,
-              height: 200,
-              width: 200,
-              fit: BoxFit.contain,
-            )
-          : Image.asset(
-              assetPath,
-              height: 300,
-              width: 300,
-              fit: BoxFit.contain,
-            ),
-    );
+    if (vModel.loadingAnimationType == HomeLoadingAnimationType.dailyVibeGif) {
+      return Image.asset(
+        vModel.getDailyVibeGifAsset(lang),
+        height: 250,
+        width: 250,
+        fit: BoxFit.contain,
+      );
+    } else if (vModel.loadingAnimationType ==
+        HomeLoadingAnimationType.predictionLottie) {
+      return Lottie.asset(
+        vModel.getPredictionLottieAsset(),
+        decoder: _customLottieDecoder,
+        height: 200,
+        width: 200,
+        fit: BoxFit.contain,
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   bool getLogSymtopmActive() {
@@ -650,14 +647,6 @@ class _HomeViewState extends State<HomeView>
       }
       _dialogShown = true;
     }
-    mViewModel.isDateWiseTextLoader = true;
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        setState(() {
-          mViewModel.isDateWiseTextLoader = false;
-        });
-      }
-    });
   }
 
   @override
@@ -896,8 +885,8 @@ class _HomeViewState extends State<HomeView>
                                           MediaQuery.of(context).size.width,
                                           90.0)),
                                 ),
-                                child: (vModel.isDateWiseTextLoading ||
-                                        vModel.isDateWiseTextLoader)
+                                child: (vModel.loadingAnimationType !=
+                                        HomeLoadingAnimationType.none)
                                     ? _buildLoadingWidget(vModel, lang)
                                     : Column(
                                         mainAxisAlignment:

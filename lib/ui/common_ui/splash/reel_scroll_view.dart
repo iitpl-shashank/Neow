@@ -157,9 +157,9 @@ class _ReelScrollViewState extends State<ReelScrollView>
 
     // Film-strip geometry
     const double sprocketH = 30.0;
-    final double filmH = size.height * 0.50;
+    final double filmH = size.height * 0.60;
     final double cardH = filmH - sprocketH * 2;
-    final double filmTopY = (size.height - filmH) / 2 - 20;
+    final double filmTopY = (size.height - filmH) / 2 ;
 
     return Scaffold(
       backgroundColor: Colors.white,

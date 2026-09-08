@@ -23,7 +23,14 @@ import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 import '../../../services/api_url.dart';
 
+enum HomeLoadingAnimationType {
+  none,
+  dailyVibeGif,     // "Syncing the vibe" GIF (First load of the day)
+  predictionLottie, // "Updating predictions" Lottie (User interacts / changes date)
+}
+
 class HomeViewModel with ChangeNotifier {
+  HomeLoadingAnimationType loadingAnimationType = HomeLoadingAnimationType.none;
   bool startChatBot = false;
   bool showLogSymptomsAlert = false;
   DateTime? parsedDate;
@@ -462,7 +469,43 @@ class HomeViewModel with ChangeNotifier {
     DateTime modifiedDate = DateTime(date.year, date.month, date.day);
     selectedDate = modifiedDate;
     notifyListeners();
-    getDateWiseText();
+    fetchDateWiseTextWithLottie();
+  }
+
+  Future<void> fetchDateWiseTextWithLottie() async {
+    loadingAnimationType = HomeLoadingAnimationType.predictionLottie;
+    notifyListeners();
+    final startTime = DateTime.now();
+    await getDateWiseText(isUserInteraction: true);
+    final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+    if (elapsed < 600) {
+      await Future.delayed(Duration(milliseconds: 600 - elapsed));
+    }
+    loadingAnimationType = HomeLoadingAnimationType.none;
+    notifyListeners();
+  }
+
+  Future<void> initDailyVibeAndData() async {
+    String todayDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String lastSyncDate = AppPreferences.instance.getLastVibeSyncDate();
+    bool isNewDay = (lastSyncDate != todayDate);
+
+    if (isNewDay) {
+      loadingAnimationType = HomeLoadingAnimationType.dailyVibeGif;
+      notifyListeners();
+      AppPreferences.instance.setLastVibeSyncDate(todayDate);
+
+      final startTime = DateTime.now();
+      await getPeriodInfoList();
+      final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+      if (elapsed < 2500) {
+        await Future.delayed(Duration(milliseconds: 2500 - elapsed));
+      }
+      loadingAnimationType = HomeLoadingAnimationType.none;
+      notifyListeners();
+    } else {
+      await getPeriodInfoList();
+    }
   }
 
   String getWeekDay(DateTime dateTime) {
@@ -669,50 +712,34 @@ class HomeViewModel with ChangeNotifier {
 
   bool isDateWiseTextLoading = false;
   bool isDateWiseTextLoader = false;
-  String? activeLoadingGif;
 
-  String getLoadingAnimationAsset(String lang) {
-    bool isLoading = isDateWiseTextLoading || isDateWiseTextLoader;
-    if (isLoading) {
-      if (activeLoadingGif == null) {
-        String todayDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-        String lastSyncDate = AppPreferences.instance.getLastVibeSyncDate();
-        if (lastSyncDate != todayDate) {
-          activeLoadingGif = lang == 'hi'
-              ? LocalImages.syncing_the_vibe_hi
-              : LocalImages.syncing_the_vibe;
-          AppPreferences.instance.setLastVibeSyncDate(todayDate);
-        } else {
-          activeLoadingGif = LocalImages.updating_predictions;
-        }
-      }
-      return activeLoadingGif!;
-    } else {
-      activeLoadingGif = null;
-      return lang == 'hi'
-          ? LocalImages.syncing_the_vibe_hi
-          : LocalImages.syncing_the_vibe;
-    }
+  String getDailyVibeGifAsset(String lang) {
+    return lang == 'hi'
+        ? LocalImages.syncing_the_vibe_hi
+        : LocalImages.syncing_the_vibe;
   }
 
-  String? _lastFetchedDateStr;
-  DateTime? _lastFetchedTime;
+  String getPredictionLottieAsset() {
+    return LocalImages.updating_predictions;
+  }
 
-  Future<void> getDateWiseText() async {
+  String getLoadingAnimationAsset(String lang) {
+    if (loadingAnimationType == HomeLoadingAnimationType.dailyVibeGif) {
+      return getDailyVibeGifAsset(lang);
+    } else if (loadingAnimationType == HomeLoadingAnimationType.predictionLottie) {
+      return getPredictionLottieAsset();
+    }
+    return getDailyVibeGifAsset(lang);
+  }
+
+  Future<void> getDateWiseText({bool isUserInteraction = false}) async {
     String currentDateStr =
         DateFormat('yyyy-MM-dd').format(selectedDate).toString();
-    DateTime now = DateTime.now();
 
-    if (isDateWiseTextLoading ||
-        (_lastFetchedDateStr == currentDateStr &&
-            _lastFetchedTime != null &&
-            now.difference(_lastFetchedTime!).inMilliseconds < 1500)) {
+    if (isDateWiseTextLoading && !isUserInteraction) {
       log("Skipping duplicate getDateWiseText call for $currentDateStr");
       return;
     }
-
-    _lastFetchedDateStr = currentDateStr;
-    _lastFetchedTime = now;
 
     log("Inside getDateWiseText");
     isDateWiseTextLoading = true;
