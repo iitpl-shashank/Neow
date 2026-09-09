@@ -11,9 +11,9 @@ import '../utils/global_variables.dart';
 import 'dart:math';
 
 class HorizontalCalendar extends StatefulWidget {
-  HomeViewModel mViewModel;
+  final HomeViewModel mViewModel;
 
-  HorizontalCalendar({required this.mViewModel});
+  const HorizontalCalendar({super.key, required this.mViewModel});
 
   @override
   _HorizontalCalendarState createState() => _HorizontalCalendarState();
@@ -32,6 +32,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
     dates = _generateDates();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       // Access the context after the widget tree is built
       var lang = Provider.of<AppModel>(context, listen: false).locale;
 
@@ -45,12 +46,22 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
           : DateFormat.MMMM('en_US')
               .format(dates[todayIndex]); // English month name
 
-      // Scroll to the current date
-      _scrollController.jumpTo(0);
+      final double screenWidth = MediaQuery.of(context).size.width;
+      const double itemWidth = 46.0;
+      final double targetOffset =
+          (todayIndex * itemWidth) - (screenWidth / 2) + (itemWidth / 2);
 
-      // Add scroll listener to update the month dynamically
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(
+          targetOffset.clamp(0.0, _scrollController.position.maxScrollExtent),
+        );
+      }
+
+      // Add scroll listener to update the month dynamically (both backward and forward)
       _scrollController.addListener(() {
-        int visibleIndex = todayIndex + (_scrollController.offset / 35).floor();
+        if (!_scrollController.hasClients) return;
+        int visibleIndex =
+            ((_scrollController.offset + (screenWidth / 2)) / itemWidth).floor();
 
         if (visibleIndex >= 0 && visibleIndex < dates.length) {
           DateTime visibleDate = dates[visibleIndex];
@@ -71,7 +82,8 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
   List<DateTime> _generateDates() {
     DateTime now = DateTime.now();
-    DateTime startDate = DateTime(now.year, now.month, now.day); // Today
+    DateTime startDate =
+        DateTime(now.year - 1, now.month, 1); // 1 year back from current month
     DateTime endDate =
         DateTime(now.year + 2, 12, 31); // Dec 31st of 2 years later
 
