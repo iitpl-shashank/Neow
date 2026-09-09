@@ -159,7 +159,7 @@ class _ReelScrollViewState extends State<ReelScrollView>
     const double sprocketH = 30.0;
     final double filmH = size.height * 0.60;
     final double cardH = filmH - sprocketH * 2;
-    final double filmTopY = (size.height - filmH) / 2 ;
+    final double filmTopY = (size.height - filmH) / 2;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -462,9 +462,9 @@ class _TopBar extends StatelessWidget {
             const SizedBox(width: 64),
 
             Image.asset(
-              LocalImages.neow_logo,
-              height: 110,
-              width: 110,
+              LocalImages.neowLogoWithoutCircle,
+              height: 150,
+              width: 150,
             ),
 
             // Center brand title

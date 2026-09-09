@@ -524,6 +524,8 @@ class LocalImages {
   static const String imgRatingFeedback =
       'assets/images/img_rating_feedback.png';
   static const String imgShareApp = 'assets/images/img_share_app.png';
+  static const String neowLogoWithoutCircle =
+      'assets/images/neow_logo_without_circle.png';
 }
 
 class LocalSvgs {
