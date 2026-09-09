@@ -118,6 +118,9 @@ class _HomeViewState extends State<HomeView>
 
   void _startAutoSlide() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      if (gUserType == AppConstants.CYCLE_EXPLORER) {
+        return;
+      }
       if (mViewModel.currentPage < 1) {
         mViewModel.currentPage++;
       } else {
@@ -808,16 +811,17 @@ class _HomeViewState extends State<HomeView>
                       push(NotificationScreen());
                     },
                   ),
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_month,
-                    color: Colors.black,
+                if (gUserType != AppConstants.CYCLE_EXPLORER)
+                  IconButton(
+                    icon: Icon(
+                      Icons.calendar_month,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      isLogEdit = false;
+                      push(CalendarView());
+                    },
                   ),
-                  onPressed: () {
-                    isLogEdit = false;
-                    push(CalendarView());
-                  },
-                ),
               ],
               backgroundColor: Color(bgColor),
             ),
@@ -1033,238 +1037,205 @@ class _HomeViewState extends State<HomeView>
                               mViewModel.currentPage = value;
                             });
                           },
-                          itemCount: 2,
+                          itemCount: gUserType == AppConstants.CYCLE_EXPLORER
+                              ? 1
+                              : 2,
                           itemBuilder: (context, index) {
-                            return index == 0
-                                ? Padding(
+                            if (gUserType == AppConstants.CYCLE_EXPLORER ||
+                                index == 1) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12, right: 12, bottom: 20),
+                                child: Container(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12, bottom: 20),
-                                    child: Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10, top: 10),
-                                        height: 160,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: ShapeDecoration(
-                                          color: CommonColors.bglightPinkColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          shadows: const [
-                                            BoxShadow(
-                                              color: Color(0x3F000000),
-                                              blurRadius: 5,
-                                              offset: Offset(0, 2),
-                                              spreadRadius: 0,
-                                            )
-                                          ],
-                                        ),
-                                        child: Stack(children: [
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    S.of(context)!.letsTakeDive,
-                                                    style: TextStyle(
-                                                      fontWeight: lang == "hi"
-                                                          ? FontWeight.w500
-                                                          : FontWeight.bold,
-                                                      fontSize: 18,
+                                        left: 10, right: 10, top: 10),
+                                    height: 160,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0XFFFFEEEE),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x3F000000),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 2),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Stack(children: [
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                S.of(context)!.theNeowStory,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              kCommonSpaceV10,
+                                              Text(
+                                                S.of(context)!.leadingLadies1,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              kCommonSpaceV10,
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  push(
+                                                    HealthMixView(
+                                                      title: S
+                                                          .of(context)!
+                                                          .theNeowStory,
                                                     ),
+                                                  );
+                                                },
+                                                style: ButtonStyle(
+                                                  fixedSize:
+                                                      WidgetStateProperty.all<
+                                                          Size>(
+                                                    const Size(120.0, 25.0),
                                                   ),
-                                                  kCommonSpaceV10,
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      // TODO : Change here from old chatbot to new ai chatbot
-                                                      // push(
-                                                      //     const SymptomsBotView());
-                                                      // mViewModel.startChatBot
-                                                      //     ? push(
-                                                      //         AiChatBotScreen(),
-                                                      //       )
-                                                      //     : showCustomDayDialog(
-                                                      //         context,
-                                                      //         "username",
-                                                      //         6,
-                                                      //       );
-                                                      push(
-                                                        AiChatBotScreen(),
-                                                      );
-                                                    },
-                                                    style: ButtonStyle(
-                                                      padding:
-                                                          WidgetStateProperty
-                                                              .all<EdgeInsets>(
-                                                                  EdgeInsets
-                                                                      .zero),
-                                                      fixedSize:
-                                                          WidgetStateProperty
-                                                              .all<Size>(
-                                                        Size(90.0,
-                                                            25.0), // Button width and height
-                                                      ),
-                                                      backgroundColor:
-                                                          WidgetStateProperty
-                                                              .all<Color>(Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      242,
-                                                                      94,
-                                                                      180)),
-                                                      foregroundColor:
-                                                          WidgetStateProperty
-                                                              .all<Color>(
-                                                                  Colors.white),
-                                                    ),
-                                                    child: Text(
-                                                      S.of(context)!.chatNow,
-                                                      style: TextStyle(
+                                                  backgroundColor:
+                                                      WidgetStateProperty.all<
+                                                          Color>(
+                                                    const Color(0xFFD15151),
+                                                  ),
+                                                  foregroundColor:
+                                                      WidgetStateProperty.all<
+                                                          Color>(
+                                                    Colors.white,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                    S.of(context)!.tapHere,
+                                                    style: TextStyle(
                                                         fontWeight: lang == "hi"
                                                             ? FontWeight.w500
                                                             : FontWeight.bold,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ]),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: InkWell(
-                                              /* onTap: () {
-                                                      push(const ReminderView());
-                                                    }, */
-                                              child: Image.asset(
-                                                LocalImages.img_welcome_home,
-                                                fit: BoxFit.contain,
-                                                height: 150,
+                                                        fontSize: 12)),
                                               ),
-                                            ),
+                                            ]),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: InkWell(
+                                          child: Image.asset(
+                                            LocalImages.img_naveli_mike,
+                                            fit: BoxFit.contain,
+                                            height: 150,
                                           ),
-                                        ])),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, right: 12, bottom: 20),
-                                    child: Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10, top: 10),
-                                        height: 160,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: ShapeDecoration(
-                                          color: Color(0XFFFFEEEE),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          shadows: const [
-                                            BoxShadow(
-                                              color: Color(0x3F000000),
-                                              blurRadius: 5,
-                                              offset: Offset(0, 2),
-                                              spreadRadius: 0,
-                                            )
-                                          ],
                                         ),
-                                        child: Stack(children: [
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    S.of(context)!.theNeowStory,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                  kCommonSpaceV10,
-                                                  Text(
-                                                    S
-                                                        .of(context)!
-                                                        .leadingLadies1,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  kCommonSpaceV10,
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      //TODO : Replaced as per client request
-
-                                                      // push(PostList(
-                                                      //   position: 0,
-                                                      //   selectedTabIndex: 0,
-                                                      //   postTitle: "",
-                                                      // ));
-                                                      push(
-                                                        HealthMixView(
-                                                          title: S
-                                                              .of(context)!
-                                                              .theNeowStory,
-                                                        ),
-                                                      );
-                                                    },
-                                                    style: ButtonStyle(
-                                                      fixedSize:
-                                                          WidgetStateProperty
-                                                              .all<Size>(
-                                                        Size(120.0,
-                                                            25.0), // Button width and height
-                                                      ),
-                                                      backgroundColor:
-                                                          WidgetStateProperty
-                                                              .all<Color>(Color(
-                                                                  0xFFD15151)),
-                                                      foregroundColor:
-                                                          WidgetStateProperty
-                                                              .all<Color>(
-                                                                  Colors.white),
-                                                    ),
-                                                    child: Text(
-                                                        S.of(context)!.tapHere,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                lang == "hi"
-                                                                    ? FontWeight
-                                                                        .w500
-                                                                    : FontWeight
-                                                                        .bold,
-                                                            fontSize: 12)),
-                                                  ),
-                                                ]),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: InkWell(
-                                              /* onTap: () {
-                                                      push(const ReminderView());
-                                                    }, */
-                                              child: Image.asset(
-                                                LocalImages.img_naveli_mike,
-                                                fit: BoxFit.contain,
-                                                height: 150,
+                                      ),
+                                    ])),
+                              );
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12, right: 12, bottom: 20),
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 10),
+                                  height: 160,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: ShapeDecoration(
+                                    color: CommonColors.bglightPinkColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Stack(children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              S.of(context)!.letsTakeDive,
+                                              style: TextStyle(
+                                                fontWeight: lang == "hi"
+                                                    ? FontWeight.w500
+                                                    : FontWeight.bold,
+                                                fontSize: 18,
                                               ),
                                             ),
-                                          ),
-                                        ])),
-                                  );
+                                            kCommonSpaceV10,
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                push(
+                                                  AiChatBotScreen(),
+                                                );
+                                              },
+                                              style: ButtonStyle(
+                                                padding: WidgetStateProperty
+                                                    .all<EdgeInsets>(
+                                                        EdgeInsets.zero),
+                                                fixedSize: WidgetStateProperty
+                                                    .all<Size>(
+                                                  const Size(90.0, 25.0),
+                                                ),
+                                                backgroundColor:
+                                                    WidgetStateProperty.all<
+                                                        Color>(
+                                                  const Color.fromARGB(
+                                                      255, 242, 94, 180),
+                                                ),
+                                                foregroundColor:
+                                                    WidgetStateProperty.all<
+                                                        Color>(
+                                                  Colors.white,
+                                                ),
+                                              ),
+                                              child: Text(
+                                                S.of(context)!.chatNow,
+                                                style: TextStyle(
+                                                  fontWeight: lang == "hi"
+                                                      ? FontWeight.w500
+                                                      : FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: InkWell(
+                                        child: Image.asset(
+                                          LocalImages.img_welcome_home,
+                                          fit: BoxFit.contain,
+                                          height: 150,
+                                        ),
+                                      ),
+                                    ),
+                                  ])),
+                            );
                           },
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: buildIndicator(),
+                        if (gUserType != AppConstants.CYCLE_EXPLORER)
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: buildIndicator(),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
