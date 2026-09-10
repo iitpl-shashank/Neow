@@ -96,6 +96,7 @@ class _HomeViewState extends State<HomeView>
       mViewHealthMixModel.getHealthMixLatestPosts();
 
       if (gUserType == AppConstants.NEOWME || gUserType == AppConstants.BUDDY) {
+        await mViewModel.checkPeriodLog();
         await mViewModel.initDailyVibeAndData();
         if (gUserType == AppConstants.NEOWME)
           showCustomDayDialog(
@@ -194,6 +195,33 @@ class _HomeViewState extends State<HomeView>
         return;
       }
 
+      // ── Branch 1: User HAS confirmed/logged period (isPeriodLog == true) ──
+      if (mViewModel.isPeriodLog) {
+        if (periodMsg.contains("Period Day 1") ||
+            periodMsg.contains("पहला दिन") ||
+            periodMsg.contains("Day 1")) {
+          // Dedicated Day 1 Notification (Post-log) -> prompts to log symptoms
+          final String? desc = mViewModel.dateWiseTextList.msg.description;
+          showDialog(
+            context: context,
+            builder: (context) => CustomNotification(
+              imagePath: LocalImages.heartFace,
+              imageText: periodMsg,
+              subtitleText: (desc != null && desc.isNotEmpty)
+                  ? desc
+                  : S.of(context)!.logPeriod,
+              purpleLabel: S.of(context)!.logYourSymptoms,
+              purpleOnPress: () {
+                Navigator.of(context).pop();
+                push(const LogYourSymptoms());
+              },
+            ),
+          );
+        }
+        return;
+      }
+
+      // ── Branch 2: User has NOT confirmed/logged period (isPeriodLog == false) ──
       if (periodMsg.contains("Period in 2 days") ||
           periodMsg.contains("2 दिन")) {
         // Case 1: Expected in 2 days (Heart card)
@@ -222,8 +250,8 @@ class _HomeViewState extends State<HomeView>
         );
       } else if (periodMsg.contains("Period May Start Today") ||
           periodMsg.contains("Period starts today") ||
-          (periodMsg.contains("आज") && !mViewModel.isPeriodLog)) {
-        // Case 3A: Expected today (Pre-log) - Saree Woman ("Has your period started?")
+          periodMsg.contains("आज")) {
+        // Case 3: Expected today (Pre-log) - Saree Woman ("Has your period started?")
         showDialog(
           context: context,
           builder: (context) => CustomNotification(
@@ -235,12 +263,16 @@ class _HomeViewState extends State<HomeView>
             purpleLabel: S.of(context)!.yesLogSymptoms,
             purpleOnPress: () {
               Navigator.of(context).pop();
-              push(const LogYourSymptoms());
+              // User confirms period started -> navigates to LogYourSymptoms
+              push(const LogYourSymptoms()).then((_) async {
+                await mViewModel.checkPeriodLog();
+                await mViewModel.getDateWiseText(isUserInteraction: true);
+              });
             },
             whiteLabel: S.of(context)!.no,
             whiteOnPress: () {
               Navigator.of(context).pop();
-              // Show delayed warning dialog
+              // User selects No -> shows delayed reassurance dialog
               showDialog(
                 context: context,
                 builder: (context) => CustomNotification(
@@ -253,26 +285,6 @@ class _HomeViewState extends State<HomeView>
                   subtitleText: S.of(context)!.dontWorryWaitFewHours,
                 ),
               );
-            },
-          ),
-        );
-      } else if (periodMsg.contains("Period Day 1") ||
-          periodMsg.contains("पहला दिन") ||
-          (mViewModel.isPeriodLog && periodMsg.contains("Day 1"))) {
-        // Case 3B: Period Day 1 (Post-log) - Dedicated Day 1 Notification
-        final String? desc = mViewModel.dateWiseTextList.msg.description;
-        showDialog(
-          context: context,
-          builder: (context) => CustomNotification(
-            imagePath: LocalImages.heartFace,
-            imageText: periodMsg,
-            subtitleText: (desc != null && desc.isNotEmpty)
-                ? desc
-                : S.of(context)!.logPeriod,
-            purpleLabel: S.of(context)!.logYourSymptoms,
-            purpleOnPress: () {
-              Navigator.of(context).pop();
-              push(const LogYourSymptoms());
             },
           ),
         );
@@ -301,6 +313,7 @@ class _HomeViewState extends State<HomeView>
         );
       }
       return;
+
     }
 
     // Fallback: If day is passed explicitly, perform the original logic
