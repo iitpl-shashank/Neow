@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../../../utils/common_colors.dart';
 import '../../../utils/local_images.dart';
 
 // ──────────────────────────────────────────────────────────────────────────────
-// ReelScrollView — Cinematic film-strip style horizontal reel scroll
+// ReelScrollView — Cinematic 3D curved film-strip horizontal reel scroll
 // ──────────────────────────────────────────────────────────────────────────────
 
 class ReelScrollView extends StatefulWidget {
@@ -30,7 +29,6 @@ class _ReelScrollViewState extends State<ReelScrollView>
   int _currentIndex = 0;
   double _pageOffset = 0.0;
   Timer? _autoScrollTimer;
-  // Debounce timer — restarts auto-scroll after 1 s of user inactivity
   Timer? _resumeTimer;
   bool _userIsSwiping = false;
 
@@ -40,7 +38,7 @@ class _ReelScrollViewState extends State<ReelScrollView>
   late AnimationController _hintController;
   late Animation<double> _hintAnimation;
 
-  static const double _viewportFraction = 0.62;
+  static const double _viewportFraction = 0.64;
 
   final List<String> _reelImages = [
     LocalImages.reel_1,
@@ -78,7 +76,6 @@ class _ReelScrollViewState extends State<ReelScrollView>
     );
 
     _initAudioPlayer();
-
     _startAutoScroll();
   }
 
@@ -106,8 +103,6 @@ class _ReelScrollViewState extends State<ReelScrollView>
     });
   }
 
-  /// Cancels any pending resume and schedules a fresh 1-second countdown.
-  /// Call this on every user interaction (tap, drag start, drag end).
   void _scheduleResumeAutoScroll() {
     _autoScrollTimer?.cancel();
     _resumeTimer?.cancel();
@@ -155,16 +150,14 @@ class _ReelScrollViewState extends State<ReelScrollView>
     final double bottomPad = MediaQuery.of(context).padding.bottom;
     final bool isLastPage = _currentIndex == _reelImages.length - 1;
 
-    // Film-strip geometry
-    const double sprocketH = 30.0;
-    final double filmH = size.height * 0.60;
-    final double cardH = filmH - sprocketH * 2;
-    final double filmTopY = (size.height - filmH) / 2;
+    // Film-strip geometry constants - compact vertical spacing
+    const double sprocketH = 38.0;
+    final double filmH = size.height * 0.63;
+    final double filmTopY = topPad + 140;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFEADBFF),
       body: GestureDetector(
-        // Any tap immediately stops auto-scroll and starts the 1-s countdown.
         onTap: _scheduleResumeAutoScroll,
         onHorizontalDragStart: (_) {
           _userIsSwiping = true;
@@ -172,60 +165,63 @@ class _ReelScrollViewState extends State<ReelScrollView>
         },
         onHorizontalDragEnd: (_) {
           _userIsSwiping = false;
-          // Restart the 1-s countdown after the swipe ends.
           _scheduleResumeAutoScroll();
         },
-        child: Stack(
-          children: [
-            // ── 1. Deep-space background ────────────────────────────────────
-            _Background(size: size),
-
-            // ── 2. Bottom center radial glow ─────────────────────────────────
-            _BottomGlow(size: size),
-
-            // ── 3. Film strip band + PageView ────────────────────────────────
-            Positioned(
-              top: filmTopY,
-              left: 0,
-              right: 0,
-              height: filmH,
-              child: _FilmBand(
-                sprocketH: sprocketH,
-                filmH: filmH,
-                cardH: cardH,
-                size: size,
-                pageController: _pageController,
-                pageOffset: _pageOffset,
-                currentIndex: _currentIndex,
-                images: _reelImages,
-                onPageChanged: (i) {
-                  if (_currentIndex != i) {
-                    _playSwipeSound();
-                    setState(() => _currentIndex = i);
-                  }
-                },
+        child: Container(
+          width: size.width,
+          height: size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFEADBFF),
+                Color(0xFFE7DAF7),
+                Color(0xFFE1D0F5),
+              ],
+            ),
+          ),
+          child: Stack(
+            children: [
+              // ── 1. Film strip band + PageView (Centered neatly with reduced gap) ─
+              Positioned(
+                top: filmTopY,
+                left: 0,
+                right: 0,
+                height: filmH,
+                child: _FilmBand(
+                  sprocketH: sprocketH,
+                  filmH: filmH,
+                  size: size,
+                  pageController: _pageController,
+                  pageOffset: _pageOffset,
+                  currentIndex: _currentIndex,
+                  images: _reelImages,
+                  onPageChanged: (i) {
+                    if (_currentIndex != i) {
+                      _playSwipeSound();
+                      setState(() => _currentIndex = i);
+                    }
+                  },
+                ),
               ),
-            ),
 
-            // // ── 4. Left / right darkness fade ────────────────────────────────
-            // _EdgeFade(
-            //     top: filmTopY, height: filmH, isLeft: true, width: size.width * 0.2),
-            // _EdgeFade(
-            //     top: filmTopY, height: filmH, isLeft: false, width: size.width * 0.2),
+              // ── 2. Top header bar (Centered larger logo & subtitle) ─────────
+              _TopBar(
+                topPad: topPad,
+              ),
 
-            // ── 5. Top header bar ─────────────────────────────────────────────
-            _TopBar(topPad: topPad, onSkip: widget.onSkip),
-
-            // ── 6. Bottom controls ────────────────────────────────────────────
-            _BottomControls(
-              bottomPad: bottomPad,
-              currentIndex: _currentIndex,
-              total: _reelImages.length,
-              isLastPage: isLastPage,
-              hintAnimation: _hintAnimation,
-              onNext: _goToNext,
-            ),
-          ],
+              // ── 3. Bottom controls (Tighter spacing) ────────────────────────
+              _BottomControls(
+                bottomPad: bottomPad,
+                currentIndex: _currentIndex,
+                total: _reelImages.length,
+                isLastPage: isLastPage,
+                hintAnimation: _hintAnimation,
+                onNext: _goToNext,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -236,47 +232,67 @@ class _ReelScrollViewState extends State<ReelScrollView>
 // PRIVATE WIDGETS
 // ══════════════════════════════════════════════════════════════════════════════
 
-// ── Background ────────────────────────────────────────────────────────────────
+// ── Top Bar ───────────────────────────────────────────────────────────────────
 
-class _Background extends StatelessWidget {
-  final Size size;
-  const _Background({required this.size});
+class _TopBar extends StatelessWidget {
+  final double topPad;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size.width,
-      height: size.height,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-    );
-  }
-}
-
-// ── Bottom Glow ───────────────────────────────────────────────────────────────
-
-class _BottomGlow extends StatelessWidget {
-  final Size size;
-  const _BottomGlow({required this.size});
+  const _TopBar({
+    required this.topPad,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 0,
+      top: 0,
       left: 0,
       right: 0,
       child: Container(
-        height: size.height * 0.38,
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: const Alignment(0, 1.0),
-            radius: 0.75,
-            colors: [
-              CommonColors.primaryColor.withAlpha(31),
-              Colors.transparent,
-            ],
-          ),
+        padding: EdgeInsets.only(
+          top: topPad + 4,
+          left: 18,
+          right: 18,
+          bottom: 4,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Prominent Logo without circle
+            Image.asset(
+              LocalImages.neowLogoWithoutCircle,
+              height: 120,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 2),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(
+                  Icons.auto_awesome,
+                  color: Color(0xFF6B42A6),
+                  size: 11,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  'Your Wellness Journey begins',
+                  style: TextStyle(
+                    color: Color(0xFF533187),
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Outfit',
+                    letterSpacing: 0.3,
+                  ),
+                ),
+                SizedBox(width: 5),
+                Icon(
+                  Icons.auto_awesome,
+                  color: Color(0xFF6B42A6),
+                  size: 11,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -288,7 +304,6 @@ class _BottomGlow extends StatelessWidget {
 class _FilmBand extends StatelessWidget {
   final double sprocketH;
   final double filmH;
-  final double cardH;
   final Size size;
   final PageController pageController;
   final double pageOffset;
@@ -299,7 +314,6 @@ class _FilmBand extends StatelessWidget {
   const _FilmBand({
     required this.sprocketH,
     required this.filmH,
-    required this.cardH,
     required this.size,
     required this.pageController,
     required this.pageOffset,
@@ -310,73 +324,62 @@ class _FilmBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.identity()
-        ..setEntry(3, 2, 0.0007) // perspective depth
-        ..rotateX(-0.05), // very slight forward lean
-      child: Stack(
-        children: [
-          // Film strip background + sprocket holes (scrolls with pageOffset)
-          CustomPaint(
-            painter: _FilmStripPainter(
-              sprocketH: sprocketH,
-              totalH: filmH,
-              scrollOffset: pageOffset,
-            ),
-            size: Size(size.width, filmH),
-          ),
-
-          // PageView of images inside the center strip
-          Positioned(
-            top: sprocketH,
-            left: 0,
-            right: 0,
-            height: cardH,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // ── PageView of cards with 3D perspective depth ───────────────────────
+        Positioned.fill(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: sprocketH * 0.45),
             child: PageView.builder(
               controller: pageController,
               itemCount: images.length,
               onPageChanged: onPageChanged,
+              clipBehavior: Clip.none,
               itemBuilder: (context, index) {
-                final double delta = (pageOffset - index).abs();
-                final double scale = (1.0 - delta * 0.14).clamp(0.77, 1.0);
-                final double opacity = (1.0 - delta * 0.35).clamp(0.40, 1.0);
-                final bool isActive = index == currentIndex;
+                final double pageDiff = (pageOffset - index);
+                final double absDiff = pageDiff.abs();
 
-                return AnimatedScale(
-                  scale: scale,
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOut,
+                // 3D Perspective parameters
+                final double scale = (1.0 - absDiff * 0.08).clamp(0.86, 1.0);
+                final double opacity = (1.0 - absDiff * 0.20).clamp(0.65, 1.0);
+                // Subtle Y-axis rotation (turns side cards inward like a curved panorama)
+                final double rotationY = (-pageDiff * 0.12).clamp(-0.25, 0.25);
+
+                return Transform(
+                  alignment: pageDiff < 0
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.0014) // 3D depth perspective
+                    ..rotateY(rotationY)
+                    ..scaleByDouble(scale, scale, 1.0, 1.0),
                   child: Opacity(
                     opacity: opacity,
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: isActive
-                            ? Border.all(
-                                color: CommonColors.primaryColor, width: 2.5)
-                            : Border.all(
-                                color: CommonColors.primaryColor.withAlpha(31),
-                                width: 1),
-                        boxShadow: isActive
-                            ? [
-                                BoxShadow(
-                                  color:
-                                      CommonColors.primaryColor.withAlpha(153),
-                                  blurRadius: 22,
-                                  spreadRadius: 1,
-                                ),
-                                BoxShadow(
-                                  color: const Color(0xFFBD5E9E).withAlpha(71),
-                                  blurRadius: 34,
-                                  spreadRadius: 5,
-                                ),
-                              ]
-                            : const [],
+                        borderRadius: BorderRadius.circular(22),
+                        boxShadow: [
+                          // Multi-layered realistic 3D depth shadow
+                          BoxShadow(
+                            color: const Color(0xFF4E287D).withAlpha(55),
+                            blurRadius: 22,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 8),
+                          ),
+                          BoxShadow(
+                            color: const Color(0xFF8F6ECB).withAlpha(35),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(22),
                         child: Image.asset(
                           images[index],
                           fit: BoxFit.cover,
@@ -390,149 +393,24 @@ class _FilmBand extends StatelessWidget {
               },
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
+        ),
 
-// ── Edge Fade ─────────────────────────────────────────────────────────────────
-
-class _EdgeFade extends StatelessWidget {
-  final double top;
-  final double height;
-  final bool isLeft;
-  final double width;
-
-  const _EdgeFade({
-    required this.top,
-    required this.height,
-    required this.isLeft,
-    required this.width,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: top,
-      left: isLeft ? 0 : null,
-      right: isLeft ? null : 0,
-      width: width,
-      height: height,
-      child: IgnorePointer(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-              end: isLeft ? Alignment.centerRight : Alignment.centerLeft,
-              colors: [
-                Colors.white.withAlpha(235),
-                Colors.transparent,
-              ],
+        // ── 3D Arched Film Strip Painted Overlay ───────────────────────
+        Positioned.fill(
+          child: IgnorePointer(
+            child: CustomPaint(
+              painter: _CurvedFilmStripPainter(
+                sprocketH: sprocketH,
+                totalH: filmH,
+                scrollOffset: pageOffset,
+                viewportFraction: 0.64,
+                screenWidth: size.width,
+              ),
+              size: Size(size.width, filmH),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// ── Top Bar ───────────────────────────────────────────────────────────────────
-
-class _TopBar extends StatelessWidget {
-  final double topPad;
-  final VoidCallback onSkip;
-
-  const _TopBar({required this.topPad, required this.onSkip});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        padding:
-            EdgeInsets.only(top: topPad + 6, left: 20, right: 20, bottom: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Spacer to balance layout
-            const SizedBox(width: 64),
-
-            Image.asset(
-              LocalImages.neowLogoWithoutCircle,
-              height: 150,
-              width: 150,
-            ),
-
-            // Center brand title
-            // Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: [
-            //     Text(
-            //       'NeoW',
-            //       style: TextStyle(
-            //         color: CommonColors.primaryColor,
-            //         fontSize: 22,
-            //         fontWeight: FontWeight.w900,
-            //         fontFamily: 'Outfit',
-            //         letterSpacing: 3,
-            //       ),
-            //     ),
-            //     Row(
-            //       mainAxisSize: MainAxisSize.min,
-            //       children: [
-            //         Icon(Icons.star_rounded,
-            //             color: CommonColors.primaryColor, size: 9),
-            //         const SizedBox(width: 5),
-            //         Text(
-            //           'Your Wellness Journey',
-            //           style: TextStyle(
-            //             color: CommonColors.primaryColor.withAlpha(179),
-            //             fontSize: 10.5,
-            //             fontFamily: 'Outfit',
-            //             letterSpacing: 0.8,
-            //           ),
-            //         ),
-            //         const SizedBox(width: 5),
-            //         Icon(Icons.star_rounded,
-            //             color: CommonColors.primaryColor, size: 9),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-
-            // Skip button (Commented out)
-            const SizedBox(width: 64),
-            /*
-            GestureDetector(
-              onTap: onSkip,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-                decoration: BoxDecoration(
-                  color: CommonColors.primaryColor.withAlpha(20),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: CommonColors.primaryColor.withAlpha(64), width: 1),
-                ),
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: CommonColors.primaryColor,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Outfit',
-                  ),
-                ),
-              ),
-            ),
-            */
-          ],
-        ),
-      ),
+      ],
     );
   }
 }
@@ -559,7 +437,7 @@ class _BottomControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: bottomPad + 18,
+      bottom: bottomPad + 12,
       left: 24,
       right: 24,
       child: Column(
@@ -572,17 +450,21 @@ class _BottomControls extends StatelessWidget {
               offset: Offset(-hintAnimation.value, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.touch_app_rounded,
-                      color: CommonColors.blackColor.withAlpha(128), size: 19),
-                  const SizedBox(width: 7),
+                children: const [
+                  Icon(
+                    Icons.touch_app_rounded,
+                    color: Color(0xFF4A2B6F),
+                    size: 20,
+                  ),
+                  SizedBox(width: 7),
                   Text(
                     'Swipe to explore',
                     style: TextStyle(
-                      color: CommonColors.blackColor.withAlpha(128),
-                      fontSize: 12.5,
+                      color: Color(0xFF4A2B6F),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
                       fontFamily: 'Outfit',
-                      letterSpacing: 0.5,
+                      letterSpacing: 0.3,
                     ),
                   ),
                 ],
@@ -590,7 +472,7 @@ class _BottomControls extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
 
           // ── Dots + Next button ────────────────────────────────────────────
           Row(
@@ -604,35 +486,41 @@ class _BottomControls extends StatelessWidget {
                   (i) => AnimatedContainer(
                     duration: const Duration(milliseconds: 280),
                     curve: Curves.easeInOut,
-                    margin: const EdgeInsets.only(right: 5),
+                    margin: const EdgeInsets.only(right: 6),
                     height: 7,
-                    width: currentIndex == i ? 20 : 7,
+                    width: currentIndex == i ? 22 : 7,
                     decoration: BoxDecoration(
                       color: currentIndex == i
-                          ? CommonColors.primaryColor
-                          : CommonColors.primaryColor.withAlpha(51),
+                          ? const Color(0xFF6B42A6)
+                          : const Color(0xFFC7B3E5),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 ),
               ),
 
-              // Next / Get Started gradient button
+              // Next / Get Started 3D pill button
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
-                  gradient: LinearGradient(
-                    colors: isLastPage
-                        ? [const Color(0xFF7B3FA8), const Color(0xFFBD5E9E)]
-                        : [CommonColors.primaryColor, const Color(0xFF9B5FCA)],
+                  gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF7A4DBE),
+                      Color(0xFF62369C),
+                    ],
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: CommonColors.primaryColor.withAlpha(128),
-                      blurRadius: 14,
-                      offset: const Offset(0, 4),
+                      color: const Color(0xFF62369C).withAlpha(100),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withAlpha(70),
+                      blurRadius: 4,
+                      offset: const Offset(0, -1),
                     ),
                   ],
                 ),
@@ -643,7 +531,9 @@ class _BottomControls extends StatelessWidget {
                     borderRadius: BorderRadius.circular(28),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 12),
+                        horizontal: 24,
+                        vertical: 11,
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -651,7 +541,7 @@ class _BottomControls extends StatelessWidget {
                             isLastPage ? 'Get Started' : 'Next',
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Outfit',
                             ),
@@ -662,7 +552,7 @@ class _BottomControls extends StatelessWidget {
                                 ? Icons.rocket_launch_rounded
                                 : Icons.arrow_forward_rounded,
                             color: Colors.white,
-                            size: 17,
+                            size: 18,
                           ),
                         ],
                       ),
@@ -679,128 +569,280 @@ class _BottomControls extends StatelessWidget {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// FILM STRIP PAINTER — draws top & bottom sprocket strips with holes + numbers
+// 3D REALISTIC CURVED FILM STRIP PAINTER
 // ══════════════════════════════════════════════════════════════════════════════
 
-class _FilmStripPainter extends CustomPainter {
+class _CurvedFilmStripPainter extends CustomPainter {
   final double sprocketH;
   final double totalH;
-
-  /// Current page position from PageController (e.g. 0.0, 1.5, 2.73)
   final double scrollOffset;
+  final double viewportFraction;
+  final double screenWidth;
 
-  const _FilmStripPainter({
+  const _CurvedFilmStripPainter({
     required this.sprocketH,
     required this.totalH,
     required this.scrollOffset,
+    required this.viewportFraction,
+    required this.screenWidth,
   });
 
-  // Sprocket geometry constants
-  static const double _spacing = 26.0; // gap between hole centres
-  static const double _holeW = 13.0;
-  static const double _holeH = 17.0;
-  // How many pixels the strip moves per full page scroll.
-  // 3 × spacing means the strip shifts 3 hole-widths per swipe.
+  // Sprocket geometry
+  static const double _spacing = 26.0;
+  static const double _holeW = 12.0;
+  static const double _holeH = 14.0;
   static const double _pxPerPage = _spacing * 3;
+  static const double _archDrop = 12.0; // 3D curve arch depth
+
+  /// Calculates parabolic arch offset for a given X coordinate
+  double _getArchDisplacement(double x, double width) {
+    final double u = (x - width / 2) / (width / 2);
+    final double c = (1.0 - u * u).clamp(0.0, 1.0);
+    return _archDrop * c;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    // ── Clip to bounds so holes outside the strip are not visible ─────────
-    canvas.save();
-    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    final double w = size.width;
+    final double h = size.height;
 
-    // ── Strip backgrounds ─────────────────────────────────────────────────
-    final stripPaint = Paint()
-      ..color = const Color(0xFFF3EBF9)
+    const double topMargin = 4.0;
+    const double btmMargin = 4.0;
+
+    // ── 1. Ambient Drop Shadow underneath the entire film reel ───────────
+    final bottomShadowPath = Path();
+    bottomShadowPath.moveTo(0, h - btmMargin - _archDrop);
+    bottomShadowPath.quadraticBezierTo(
+        w / 2, h - btmMargin, w, h - btmMargin - _archDrop);
+    bottomShadowPath.lineTo(w, h - btmMargin - _archDrop + 6);
+    bottomShadowPath.quadraticBezierTo(
+        w / 2, h - btmMargin + 6, 0, h - btmMargin - _archDrop + 6);
+    bottomShadowPath.close();
+
+    final ambientShadowPaint = Paint()
+      ..color = const Color(0xFF5E3992).withAlpha(45)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
+    canvas.drawPath(bottomShadowPath, ambientShadowPaint);
+
+    // ── 2. Top Arched Rail Path ──────────────────────────────────────────
+    final Path topPath = Path();
+    topPath.moveTo(0, topMargin + _archDrop);
+    topPath.quadraticBezierTo(w / 2, topMargin, w, topMargin + _archDrop);
+    topPath.lineTo(w, topMargin + _archDrop + sprocketH);
+    topPath.quadraticBezierTo(
+        w / 2, topMargin + sprocketH, 0, topMargin + _archDrop + sprocketH);
+    topPath.close();
+
+    // ── 3. Bottom Arched Rail Path ───────────────────────────────────────
+    final Path bottomPath = Path();
+    bottomPath.moveTo(0, h - btmMargin - _archDrop - sprocketH);
+    bottomPath.quadraticBezierTo(w / 2, h - btmMargin - sprocketH, w,
+        h - btmMargin - _archDrop - sprocketH);
+    bottomPath.lineTo(w, h - btmMargin - _archDrop);
+    bottomPath.quadraticBezierTo(
+        w / 2, h - btmMargin, 0, h - btmMargin - _archDrop);
+    bottomPath.close();
+
+    // ── 4. 3D Gradient Shading for Rails ─────────────────────────────────
+    final topGradientPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFA684DF), // Top highlight
+          Color(0xFF936ECF), // Mid body
+          Color(0xFF875EC4), // Lower shadow crease
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, sprocketH + _archDrop + topMargin))
       ..style = PaintingStyle.fill;
 
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, sprocketH), stripPaint);
-    canvas.drawRect(
-      Rect.fromLTWH(0, size.height - sprocketH, size.width, sprocketH),
-      stripPaint,
-    );
+    final btmGradientPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF875EC4), // Upper shadow crease
+          Color(0xFF936ECF), // Mid body
+          Color(0xFFA684DF), // Bottom highlight rim
+        ],
+      ).createShader(Rect.fromLTWH(0, h - sprocketH - _archDrop - btmMargin, w,
+          sprocketH + _archDrop + btmMargin))
+      ..style = PaintingStyle.fill;
 
-    // ── Separator lines (strip ↔ card area) ──────────────────────────────
-    final edgePaint = Paint()
-      ..color = CommonColors.primaryColor.withAlpha(77)
+    canvas.drawPath(topPath, topGradientPaint);
+    canvas.drawPath(bottomPath, btmGradientPaint);
+
+    // ── 5. 3D Edge Bevels & Highlights ───────────────────────────────────
+    // Top outer highlight rim
+    final topHighlightPaint = Paint()
+      ..color = Colors.white.withAlpha(120)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
+    final topHighlightPath = Path()
+      ..moveTo(0, topMargin + _archDrop)
+      ..quadraticBezierTo(w / 2, topMargin, w, topMargin + _archDrop);
+    canvas.drawPath(topHighlightPath, topHighlightPaint);
 
-    canvas.drawLine(
-        Offset(0, sprocketH), Offset(size.width, sprocketH), edgePaint);
-    canvas.drawLine(Offset(0, size.height - sprocketH),
-        Offset(size.width, size.height - sprocketH), edgePaint);
+    // Top inner crease shadow
+    final topInnerShadowPaint = Paint()
+      ..color = const Color(0xFF4F277D).withAlpha(110)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    final topInnerPath = Path()
+      ..moveTo(0, topMargin + _archDrop + sprocketH)
+      ..quadraticBezierTo(
+          w / 2, topMargin + sprocketH, w, topMargin + _archDrop + sprocketH);
+    canvas.drawPath(topInnerPath, topInnerShadowPaint);
 
-    // ── Compute horizontal shift (loops every _spacing px) ───────────────
-    // As scrollOffset grows (user swipes left) the strip pulls left → shift < 0.
+    // Bottom inner crease shadow
+    final btmInnerShadowPaint = Paint()
+      ..color = const Color(0xFF4F277D).withAlpha(110)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    final btmInnerPath = Path()
+      ..moveTo(0, h - btmMargin - _archDrop - sprocketH)
+      ..quadraticBezierTo(w / 2, h - btmMargin - sprocketH, w,
+          h - btmMargin - _archDrop - sprocketH);
+    canvas.drawPath(btmInnerPath, btmInnerShadowPaint);
+
+    // Bottom outer highlight rim
+    final btmHighlightPaint = Paint()
+      ..color = Colors.white.withAlpha(90)
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+    final btmHighlightPath = Path()
+      ..moveTo(0, h - btmMargin - _archDrop)
+      ..quadraticBezierTo(w / 2, h - btmMargin, w, h - btmMargin - _archDrop);
+    canvas.drawPath(btmHighlightPath, btmHighlightPaint);
+
+    // ── 6. Realistic 3D Punched Sprocket Holes (with inner shadow & bevel) ─
     final double rawShift = (scrollOffset * _pxPerPage) % _spacing;
-    // Start drawing just before the left edge so no gap appears
     final double startX = -rawShift;
 
-    final holePaint = Paint()
-      ..color = const Color(0xFFE8DBF2)
+    final holeBgPaint = Paint()
+      ..color = const Color(0xFFEADBFF)
       ..style = PaintingStyle.fill;
 
-    final holeBorderPaint = Paint()
-      ..color = const Color(0xFFD0B3E8)
+    final holeTopShadowPaint = Paint()
+      ..color = const Color(0xFF4C257C).withAlpha(150)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    final holeBtmHighlightPaint = Paint()
+      ..color = Colors.white.withAlpha(190)
       ..strokeWidth = 0.8
       ..style = PaintingStyle.stroke;
 
-    final double topCY = sprocketH / 2;
-    final double btmCY = size.height - sprocketH / 2;
+    final holeBorderPaint = Paint()
+      ..color = const Color(0xFF7E5BBF).withAlpha(100)
+      ..strokeWidth = 0.8
+      ..style = PaintingStyle.stroke;
 
-    // ── Sprocket holes (scrolling) ────────────────────────────────────────
     double x = startX;
-    while (x <= size.width + _spacing) {
-      for (final double cy in [topCY, btmCY]) {
-        final hole = RRect.fromRectAndRadius(
-          Rect.fromCenter(center: Offset(x, cy), width: _holeW, height: _holeH),
-          const Radius.circular(2.5),
-        );
-        canvas.drawRRect(hole, holePaint);
-        canvas.drawRRect(hole, holeBorderPaint);
-      }
+    while (x <= w + _spacing) {
+      final double arch = _getArchDisplacement(x, w);
+
+      // ── Top rail 3D hole ──
+      final double topHoleCY = topMargin + (_archDrop - arch) + (sprocketH / 2);
+      final topHoleRect = Rect.fromCenter(
+        center: Offset(x, topHoleCY),
+        width: _holeW,
+        height: _holeH,
+      );
+      final topHoleRRect =
+          RRect.fromRectAndRadius(topHoleRect, const Radius.circular(3.5));
+
+      // Hole background fill
+      canvas.drawRRect(topHoleRRect, holeBgPaint);
+      canvas.drawRRect(topHoleRRect, holeBorderPaint);
+
+      // Top inner shadow (embossed cut)
+      canvas.drawLine(
+        Offset(topHoleRect.left + 2, topHoleRect.top + 0.5),
+        Offset(topHoleRect.right - 2, topHoleRect.top + 0.5),
+        holeTopShadowPaint,
+      );
+      // Bottom rim light
+      canvas.drawLine(
+        Offset(topHoleRect.left + 2, topHoleRect.bottom - 0.5),
+        Offset(topHoleRect.right - 2, topHoleRect.bottom - 0.5),
+        holeBtmHighlightPaint,
+      );
+
+      // ── Bottom rail 3D hole ──
+      final double btmHoleCY =
+          h - btmMargin - (_archDrop - arch) - (sprocketH / 2);
+      final btmHoleRect = Rect.fromCenter(
+        center: Offset(x, btmHoleCY),
+        width: _holeW,
+        height: _holeH,
+      );
+      final btmHoleRRect =
+          RRect.fromRectAndRadius(btmHoleRect, const Radius.circular(3.5));
+
+      // Hole background fill
+      canvas.drawRRect(btmHoleRRect, holeBgPaint);
+      canvas.drawRRect(btmHoleRRect, holeBorderPaint);
+
+      // Top inner shadow
+      canvas.drawLine(
+        Offset(btmHoleRect.left + 2, btmHoleRect.top + 0.5),
+        Offset(btmHoleRect.right - 2, btmHoleRect.top + 0.5),
+        holeTopShadowPaint,
+      );
+      // Bottom rim light
+      canvas.drawLine(
+        Offset(btmHoleRect.left + 2, btmHoleRect.bottom - 0.5),
+        Offset(btmHoleRect.right - 2, btmHoleRect.bottom - 0.5),
+        holeBtmHighlightPaint,
+      );
+
       x += _spacing;
     }
 
-    // ── Film frame labels (scrolling, one label per 2 holes) ─────────────
-    _drawFrameLabels(canvas, size, rawShift);
+    // ── 7. 3D Rounded Vertical Frame Columns Between Cards ───────────────
+    final double cardWidth = w * viewportFraction;
+    final double cardSpacing = cardWidth;
+    final double centerOffset = w / 2;
 
-    canvas.restore();
-  }
+    for (int i = -2; i <= 12; i++) {
+      final double dividerCenterX =
+          centerOffset + (i - scrollOffset) * cardSpacing - cardSpacing / 2;
+      if (dividerCenterX >= -40 && dividerCenterX <= w + 40) {
+        final double arch = _getArchDisplacement(dividerCenterX, w);
+        final double topY = topMargin + (_archDrop - arch) + sprocketH - 2;
+        final double btmY = h - btmMargin - (_archDrop - arch) - sprocketH + 2;
 
-  void _drawFrameLabels(Canvas canvas, Size size, double rawShift) {
-    // Labels repeat every labelSpacing pixels
-    const double labelSpacing = _spacing * 2; // one label every 2 holes
-    final double labelShift = (scrollOffset * _pxPerPage) % labelSpacing;
-    final labels = ['11A ▶', '12'];
-    final labelStyle = TextStyle(
-      color: CommonColors.primaryColor,
-      fontSize: 6.5,
-      fontWeight: FontWeight.w700,
-      letterSpacing: 0.2,
-    );
+        if (btmY > topY) {
+          final dividerRect = Rect.fromCenter(
+            center: Offset(dividerCenterX, (topY + btmY) / 2),
+            width: 10,
+            height: btmY - topY,
+          );
+          final dividerRRect =
+              RRect.fromRectAndRadius(dividerRect, const Radius.circular(3));
 
-    double x = -labelShift;
-    int idx = 0;
-    // while (x <= size.width + labelSpacing) {
-    //   final tp = TextPainter(
-    //     text: TextSpan(text: labels[idx % labels.length], style: labelStyle),
-    //     textDirection: TextDirection.ltr,
-    //   )..layout();
+          // 3D pillar gradient
+          final pillarPaint = Paint()
+            ..shader = const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color(0xFFA684DF), // left highlight
+                Color(0xFF936ECF), // center body
+                Color(0xFF7E5BBF), // right shadow
+              ],
+            ).createShader(dividerRect)
+            ..style = PaintingStyle.fill;
 
-    //   // Top strip — just below the top edge
-    //   tp.paint(canvas, Offset(x + 2, 1.5));
-    //   // Bottom strip — just below the bottom separator
-    //   tp.paint(canvas, Offset(x + 2, size.height - sprocketH + 1.5));
-
-    //   x += labelSpacing;
-    //   idx++;
-    // }
+          canvas.drawRRect(dividerRRect, pillarPaint);
+        }
+      }
+    }
   }
 
   @override
-  bool shouldRepaint(covariant _FilmStripPainter old) =>
+  bool shouldRepaint(covariant _CurvedFilmStripPainter old) =>
       old.scrollOffset != scrollOffset ||
       old.sprocketH != sprocketH ||
       old.totalH != totalH;
