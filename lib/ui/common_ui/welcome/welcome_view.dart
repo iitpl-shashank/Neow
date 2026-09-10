@@ -21,6 +21,8 @@ import '../../../utils/local_images.dart';
 import '../../../widgets/common_gender_select_box.dart';
 import '../../../widgets/common_relation_select_box.dart';
 import '../../../widgets/common_text_field.dart';
+import '../../../widgets/ios_wheel_date_picker.dart';
+import '../../../utils/gear_sound_service.dart';
 import '../../../widgets/primary_button.dart';
 import '../../../widgets/scaffold_bg.dart';
 import '../../app/app_model.dart';
@@ -84,14 +86,20 @@ class _WelcomeViewState extends State<WelcomeView> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    GearSoundService().dispose();
+    super.dispose();
+  }
+
   void navigateNextPage() {
     if (currentIndex == 0) {}
   }
 
   Future<void> selectDate() async {
     DateTime today = DateTime.now();
-    DateTime maxAllowedDate =
-        DateTime(today.year - 7, 1, 1); // At least 7 years old
+    DateTime maxAllowedDate = DateTime(
+        today.year - 7, today.month, today.day); // At least 7 years old
 
     DateTime? initialPickedDate;
     if (mDateController.text.isNotEmpty) {
@@ -103,14 +111,15 @@ class _WelcomeViewState extends State<WelcomeView> {
         initialPickedDate = maxAllowedDate;
       }
     } else {
-      initialPickedDate = maxAllowedDate;
+      initialPickedDate = DateTime(today.year - 18, today.month, today.day);
     }
 
-    DateTime? picked = await showDatePicker(
-      context: mainNavKey.currentContext!,
+    DateTime? picked = await showIosWheelDatePickerModal(
+      context: context,
       initialDate: initialPickedDate,
-      firstDate: DateTime(1900),
-      lastDate: maxAllowedDate,
+      minDate: DateTime(1900, 1, 1),
+      maxDate: maxAllowedDate,
+      title: S.of(context)!.selectDate,
     );
 
     if (picked != null) {
@@ -118,6 +127,7 @@ class _WelcomeViewState extends State<WelcomeView> {
         setState(() {
           mDateController.text =
               CommonUtils.dateFormatyyyyMMDD(picked.toString());
+          zodiac = Zodiac().getZodiac(mDateController.text);
         });
         int age = calculateAge(mDateController.text);
         if (age < 7) {
@@ -134,8 +144,6 @@ class _WelcomeViewState extends State<WelcomeView> {
       });
     } else {
       print("Date selection canceled");
-      singInViewModel.userRoleId = "2";
-      gUserType = AppConstants.NEOWME;
     }
   }
 

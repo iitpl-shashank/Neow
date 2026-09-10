@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:naveli_2023/utils/global_function.dart';
 import 'package:naveli_2023/widgets/primary_button.dart';
 import 'package:naveli_2023/widgets/scaffold_bg.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/common_text_field.dart';
+import '../../../widgets/ios_wheel_date_picker.dart';
 import '../../../generated/i18n.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
@@ -616,19 +617,36 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                           ),
                         ),
 
-                        kCommonSpaceV50,
-
-                        LabelTextField(
+                        kCommonSpaceV30,
+                        // Interactive iOS Style Date Selection Card
+                        InkWell(
                           onTap: () async {
                             DateTime now = DateTime.now();
                             DateTime firstSelectableDate =
-                                DateTime(now.year, now.month - 3, 1);
+                                DateTime(now.year - 1, 1, 1);
+                            if (calculateAge(
+                                    widget.welcomeData['birthdate']) >=
+                                55) {
+                              firstSelectableDate =
+                                  DateTime(now.year - 60, 1, 1);
+                            }
 
-                            DateTime? picked = await showDatePicker(
+                            DateTime? initialPicked;
+                            if (mDateController.text.isNotEmpty) {
+                              try {
+                                initialPicked = DateFormat("yyyy-MM-dd")
+                                    .parse(mDateController.text);
+                              } catch (_) {}
+                            }
+                            initialPicked ??= now;
+
+                            DateTime? picked =
+                                await showIosWheelDatePickerModal(
                               context: context,
-                              initialDate: now,
-                              firstDate: firstSelectableDate,
-                              lastDate: now,
+                              initialDate: initialPicked,
+                              minDate: firstSelectableDate,
+                              maxDate: now,
+                              title: S.of(context)!.lastPeriodDay,
                             );
 
                             if (picked != null) {
@@ -636,53 +654,90 @@ class _CycleInfoViewState extends State<CycleInfoView> {
                                 mDateController.text =
                                     CommonUtils.dateFormatyyyyMMDD(
                                         picked.toString());
-                                print(mDateController.text);
                                 selectedPreviousPeriodDate =
                                     mDateController.text;
                               });
-                            } else {
-                              print("No date selected");
                             }
                           },
-                          hintText: S.of(context)!.selectDate,
-                          controller: mDateController,
-                          readOnly: true,
-                        ),
-
-                        Visibility(
-                          visible:
-                              calculateAge(widget.welcomeData['birthdate']) >=
-                                      55 &&
-                                  isPeriodsOnAfter55,
-                          child: LabelTextField(
-                            onTap: () async {
-                              DateTime? picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now()
-                                      .subtract(const Duration(days: 365 * 60)),
-                                  lastDate: DateTime.now());
-                              if (picked != null) {
-                                setState(() {
-                                  mDateController.text =
-                                      CommonUtils.dateFormatyyyyMMDD(
-                                          picked.toString());
-                                  print(mDateController.text.toString());
-                                  selectedPreviousPeriodDate =
-                                      mDateController.text.toString();
-                                  /* zodiac = Zodiac().getZodiac(
-                                              mDateController.text.toString()); */
-                                });
-                              } else {
-                                print(picked);
-                              }
-                            },
-                            hintText: S.of(context)!.selectDate,
-                            controller: mDateController,
-                            readOnly: true,
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 16),
+                            decoration: BoxDecoration(
+                              color: CommonColors.mWhite,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color:
+                                    CommonColors.primaryColor.withAlpha(50),
+                                width: 1.5,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      CommonColors.primaryColor.withAlpha(15),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: CommonColors.primaryLite
+                                        .withAlpha(100),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.calendar_month_rounded,
+                                    color: CommonColors.primaryColor,
+                                    size: 24,
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        S.of(context)!.selectDate,
+                                        style: const TextStyle(
+                                          fontFamily: 'Outfit',
+                                          fontSize: 13,
+                                          color: CommonColors.greyText,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        mDateController.text.isNotEmpty
+                                            ? DateFormat('dd MMMM yyyy').format(
+                                                DateFormat("yyyy-MM-dd").parse(
+                                                    mDateController.text))
+                                            : S.of(context)!.selectDate,
+                                        style: const TextStyle(
+                                          fontFamily: 'Outfit',
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          color: CommonColors.blackColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: CommonColors.primaryColor,
+                                  size: 24,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        kCommonSpaceV50,
+                        kCommonSpaceV30,
 
                         Spacer(),
                         PrimaryButton(
