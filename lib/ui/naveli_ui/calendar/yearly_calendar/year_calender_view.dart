@@ -179,30 +179,28 @@ class _MonthViewState extends State<MonthView> {
           } catch (_) {}
         }
 
-        if (mViewModel.isPeriodLog) {
-          for (var predictions in element.predictions) {
-            try {
-              DateTime startP = DateTime.parse(predictions.predictedStart);
-              DateTime endP = DateTime.parse(predictions.predictedEnd);
-              for (DateTime s = startP;
-                  s.isBefore(endP) || _isSameDay(s, endP);
-                  s = s.add(const Duration(days: 1))) {
-                predictedPeriodDates.add(s);
-              }
+        for (var predictions in element.predictions) {
+          try {
+            DateTime startP = DateTime.parse(predictions.predictedStart);
+            DateTime endP = DateTime.parse(predictions.predictedEnd);
+            for (DateTime s = startP;
+                s.isBefore(endP) || _isSameDay(s, endP);
+                s = s.add(const Duration(days: 1))) {
+              predictedPeriodDates.add(s);
+            }
 
-              DateTime startF = DateTime.parse(predictions.fertileWindowStart);
-              DateTime endF = DateTime.parse(predictions.fertileWindowEnd);
-              for (DateTime s = startF;
-                  s.isBefore(endF) || _isSameDay(s, endF);
-                  s = s.add(const Duration(days: 1))) {
-                fertileDates.add(s);
-              }
+            DateTime startF = DateTime.parse(predictions.fertileWindowStart);
+            DateTime endF = DateTime.parse(predictions.fertileWindowEnd);
+            for (DateTime s = startF;
+                s.isBefore(endF) || _isSameDay(s, endF);
+                s = s.add(const Duration(days: 1))) {
+              fertileDates.add(s);
+            }
 
-              if (predictions.ovulationDay.isNotEmpty) {
-                ovulationDates.add(DateTime.parse(predictions.ovulationDay));
-              }
-            } catch (_) {}
-          }
+            if (predictions.ovulationDay.isNotEmpty) {
+              ovulationDates.add(DateTime.parse(predictions.ovulationDay));
+            }
+          } catch (_) {}
         }
       }
     }

@@ -105,24 +105,24 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
     final Set<DateTime> ovulationDates = {};
     final Set<DateTime> loggedPeriodDates = {};
 
-    if (widget.mViewModel.isPeriodLog) {
-      for (var element in peroidCustomeList) {
-        if (element.periodData.isNotEmpty) {
-          for (var pData in element.periodData) {
-            try {
-              DateTime start = DateTime.parse(pData.periodStartDate);
-              DateTime end = DateTime.parse(pData.periodEndDate);
-              for (DateTime d = start;
-                  d.isSameDayOrBefore(end);
-                  d = d.add(const Duration(days: 1))) {
-                loggedPeriodDates.add(_normalize(d));
-              }
-            } catch (e) {
-              debugPrint("Error parsing logged period dates: $e");
+    for (var element in peroidCustomeList) {
+      if (element.periodData.isNotEmpty) {
+        for (var pData in element.periodData) {
+          try {
+            DateTime start = DateTime.parse(pData.periodStartDate);
+            DateTime end = DateTime.parse(pData.periodEndDate);
+            for (DateTime d = start;
+                d.isSameDayOrBefore(end);
+                d = d.add(const Duration(days: 1))) {
+              loggedPeriodDates.add(_normalize(d));
             }
+          } catch (e) {
+            debugPrint("Error parsing logged period dates: $e");
           }
         }
-        for (var predictions in element.predictions) {
+      }
+      for (var predictions in element.predictions) {
+        try {
           DateTime predStart = DateTime.parse(predictions.predictedStart);
           DateTime predEnd = DateTime.parse(predictions.predictedEnd);
           for (DateTime start = predStart;
@@ -139,8 +139,12 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
             fertileDates.add(_normalize(start));
           }
 
-          DateTime ovulationDay = DateTime.parse(predictions.ovulationDay);
-          ovulationDates.add(_normalize(ovulationDay));
+          if (predictions.ovulationDay.isNotEmpty) {
+            DateTime ovulationDay = DateTime.parse(predictions.ovulationDay);
+            ovulationDates.add(_normalize(ovulationDay));
+          }
+        } catch (e) {
+          debugPrint("Error parsing predictions: $e");
         }
       }
     }

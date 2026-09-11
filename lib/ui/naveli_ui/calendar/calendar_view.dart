@@ -71,24 +71,44 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-
-    for (var dateRange in peroidCustomeList) {
-      DateTime start = DateTime.parse(dateRange.periodData[0].periodStartDate);
-      DateTime end = DateTime.parse(dateRange.periodData[0].periodEndDate);
-      debugPrint("data of cal==> $start");
-      debugPrint("data of cal==> $end");
-      for (DateTime i = start;
-          i.isBefore(end) || i.isAtSameMomentAs(end);
-          i = i.add(Duration(days: 1))) {
-        setState(() {
-          if (forParentUseDateList.contains(i)) {
-            forParentUseDateList.remove(i);
-            dateList.remove(i);
-          } else {
-            forParentUseDateList.add(i);
-            dateList.add(i);
+    _populateDateLists();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (peroidCustomeList.isEmpty) {
+        Provider.of<HomeViewModel>(context, listen: false)
+            .getPeriodInfoList()
+            .then((_) {
+          if (mounted) {
+            setState(() {
+              _populateDateLists();
+            });
           }
         });
+      }
+    });
+  }
+
+  void _populateDateLists() {
+    forParentUseDateList.clear();
+    dateList.clear();
+    for (var dateRange in peroidCustomeList) {
+      if (dateRange.periodData.isNotEmpty) {
+        for (var pData in dateRange.periodData) {
+          try {
+            DateTime start = DateTime.parse(pData.periodStartDate);
+            DateTime end = DateTime.parse(pData.periodEndDate);
+            debugPrint("data of cal==> $start to $end");
+            for (DateTime i = start;
+                i.isBefore(end) || i.isAtSameMomentAs(end);
+                i = i.add(const Duration(days: 1))) {
+              if (!forParentUseDateList.contains(i)) {
+                forParentUseDateList.add(i);
+                dateList.add(i);
+              }
+            }
+          } catch (e) {
+            debugPrint("Error parsing dateRange in calendar: $e");
+          }
+        }
       }
     }
   }
@@ -103,9 +123,12 @@ class _CalendarViewState extends State<CalendarView> {
               mViewModel.checkPeriodLog();
               mViewModel.getDateWiseText();
             }
-            setState(() {
-              _isChecked = false;
-            });
+            if (mounted) {
+              setState(() {
+                _populateDateLists();
+                _isChecked = false;
+              });
+            }
           });
         });
       } else {

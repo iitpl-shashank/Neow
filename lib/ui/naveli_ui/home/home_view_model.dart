@@ -84,13 +84,11 @@ class HomeViewModel with ChangeNotifier {
       } else {
         print("Failed to fetch period log data.");
         isPeriodLog = false;
-        peroidCustomeList.clear();
         notifyListeners();
       }
     } catch (e) {
       log("Exception in checkPeriodLog: $e");
       isPeriodLog = false;
-
       notifyListeners();
     }
   }
@@ -570,12 +568,10 @@ class HomeViewModel with ChangeNotifier {
   }
 
   Future<void> getPeriodInfoList() async {
-    peroidCustomeList = [];
     log("getPeriodInfo data master ====>before");
     await checkPeriodLog();
     log("getPeriodInfo data master ====>after");
     PeriodInfoListResponse? master = await _services.api!.getPeriodInfoList();
-    ;
     log("getPeriodInfo master ====>${master?.toJson()}");
     if (master == null) {
       startChatBot = false;
@@ -595,87 +591,78 @@ class HomeViewModel with ChangeNotifier {
       int currentMonth = today.month;
       log("currentMonth ====> $currentMonth");
       var data = PeriodObj.fromJson(master.data.toJson());
-      //TODO : Log fixed here
-      // if (isPeriodLog) {
       peroidCustomeList.add(data);
-      // }
 
-      // Find the prediction matching the current month and year of 'today'
-      PredictionData targetPrediction = data.predictions.first;
-      for (var prediction in data.predictions) {
-        final start = DateTime.tryParse(prediction.predictedStart);
-        if (start != null && start.month == today.month && start.year == today.year) {
-          targetPrediction = prediction;
-          break;
-        }
-      }
-      
-      // Fallback: If no match for month and year, try matching just the month
-      if (DateTime.tryParse(targetPrediction.predictedStart)?.month != today.month) {
+      if (data.predictions.isNotEmpty) {
+        // Find the prediction matching the current month and year of 'today'
+        PredictionData targetPrediction = data.predictions.first;
         for (var prediction in data.predictions) {
           final start = DateTime.tryParse(prediction.predictedStart);
-          if (start != null && start.month == today.month) {
+          if (start != null && start.month == today.month && start.year == today.year) {
             targetPrediction = prediction;
             break;
           }
         }
+        
+        // Fallback: If no match for month and year, try matching just the month
+        if (DateTime.tryParse(targetPrediction.predictedStart)?.month != today.month) {
+          for (var prediction in data.predictions) {
+            final start = DateTime.tryParse(prediction.predictedStart);
+            if (start != null && start.month == today.month) {
+              targetPrediction = prediction;
+              break;
+            }
+          }
+        }
+
+        log("True check in check ====> $currentMonth");
+        periodStartdateTime = DateTime.tryParse(targetPrediction.predictedStart);
+        periodEnddateTime = DateTime.tryParse(targetPrediction.predictedEnd);
+        if (targetPrediction.ovulationDay.isNotEmpty) {
+          ovulationDateTime = DateTime.tryParse(targetPrediction.ovulationDay);
+        }
+        fertileStartDateTime = DateTime.tryParse(targetPrediction.fertileWindowStart);
+        fertileEndDateTime = DateTime.tryParse(targetPrediction.fertileWindowEnd);
+
+        if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
+            isWithinNoTime(periodStartdateTime, periodEnddateTime, today)) {
+          startChatBot = false;
+        } else {
+          startChatBot = true;
+        }
+
+        log("True check out check ====> $currentMonth");
+        if (currentMonth == int.tryParse(targetPrediction.month)) {
+          log("True check in check ====> $currentMonth");
+          String predictedDate = targetPrediction.predictedStart;
+          log("predictedDate ====> $predictedDate");
+          if (predictedDate.isNotEmpty) {
+            try {
+              parsedDate = DateFormat('yyyy-MM-dd').parse(predictedDate);
+            } catch (_) {}
+          }
+          if (targetPrediction.predictedEnd.isNotEmpty) {
+            try {
+              parsedEndDate =
+                  DateFormat('yyyy-MM-dd').parse(targetPrediction.predictedEnd);
+            } catch (_) {}
+          }
+        }
       }
 
-      log("True check in check ====> $currentMonth");
-      periodStartdateTime =
-          DateTime.parse(targetPrediction.predictedStart);
-      periodEnddateTime = DateTime.parse(targetPrediction.predictedEnd);
-      ovulationDateTime = DateTime.parse(targetPrediction.ovulationDay);
-      fertileStartDateTime =
-          DateTime.parse(targetPrediction.fertileWindowStart);
-      fertileEndDateTime =
-          DateTime.parse(targetPrediction.fertileWindowEnd);
-
-      periodStartLogDateTime =
-          DateTime.parse(data.periodData.first.periodStartDate);
-      periodEndLogDateTime =
-          DateTime.parse(data.periodData.first.periodEndDate);
+      if (data.periodData.isNotEmpty) {
+        try {
+          periodStartLogDateTime =
+              DateTime.tryParse(data.periodData.first.periodStartDate);
+          periodEndLogDateTime =
+              DateTime.tryParse(data.periodData.first.periodEndDate);
+        } catch (_) {}
+      }
 
       log("periodStartLogDateTime ====> $periodStartLogDateTime");
       log("periodEndLogDateTime ====> $periodEndLogDateTime");
       log("predicted start ====> $periodStartdateTime");
       log("predicted end ====> $periodEnddateTime");
-
-      // /// Commenting this 
-      // if ((isWithin(periodStartdateTime, periodEnddateTime, today) ||
-      //         isWithinNoTime(periodStartdateTime, periodEnddateTime, today) ||
-      //         isWithin(fertileStartDateTime, fertileEndDateTime, today) ||
-      //         isWithinNoTime(fertileStartDateTime, fertileEndDateTime, today) ||
-      //         today.isAtSameMomentAs(ovulationDateTime ?? oldDateTime)) &&
-      //     (isSameDate(periodStartdateTime, periodStartLogDateTime))) {
-      //   
-      //   startChatBot = true;
-      //   notifyListeners();
-      // } 
-      // 
-      // else {
-      //   startChatBot = false;
-      //   notifyListeners();
-      // }
-
-      if (isWithin(periodStartdateTime, periodEnddateTime, today) ||
-          isWithinNoTime(periodStartdateTime, periodEnddateTime, today)) {
-        startChatBot = false;
-      } else {
-        startChatBot = true;
-      }
-      notifyListeners();
-
-      log("True check out check ====> $currentMonth");
-      if (currentMonth == int.tryParse(targetPrediction.month)) {
-        log("True check in check ====> $currentMonth");
-        String predictedDate = targetPrediction.predictedStart;
-        log("predictedDate ====> $predictedDate");
-        parsedDate = DateFormat('yyyy-MM-dd').parse(predictedDate);
-        parsedEndDate =
-            DateFormat('yyyy-MM-dd').parse(targetPrediction.predictedEnd);
-      }
-      print("daaa =>${peroidCustomeList[0].predictions.length}");
       notifyListeners();
     }
     notifyListeners();
